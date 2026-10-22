@@ -100,6 +100,10 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION_ECHO = register("effects.tfgexplosionecho");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_IMPACT = register("effects.biogunimpact");
 
+	// Radiation (M4)
+	public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER_LOW = register("effects.geiger.low");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER_HIGH = register("effects.geiger.high");
+
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);
 	}

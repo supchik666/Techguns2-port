@@ -1,8 +1,14 @@
 package techguns;
 
+import java.util.List;
+
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.UseAnim;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import techguns.items.RadConsumable;
 
 /**
  * Plain items, flattened from the 1.12 shared meta-item (techguns:itemshared).
@@ -166,4 +172,11 @@ public class TGItems {
 	public static final DeferredItem<Item> UPGRADE_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_protection_3", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> UPGRADE_PROJECTILE_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_projectile_protection_3", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> UPGRADE_BLAST_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_blast_protection_3", new Item.Properties().stacksTo(1));
+
+	// Radiation (M4)
+	public static final DeferredItem<RadConsumable> RAD_AWAY = ITEMS.register("radaway", () -> new RadConsumable(UseAnim.BOW, INFUSION_BAG,
+			() -> List.of(new MobEffectInstance(TGRadiation.RAD_REGENERATION, 400, 14, false, false))));
+	public static final DeferredItem<RadConsumable> RAD_PILLS = ITEMS.register("radpills", () -> new RadConsumable(UseAnim.EAT, () -> Items.GLASS_BOTTLE,
+			() -> List.of(new MobEffectInstance(TGRadiation.RAD_REGENERATION, 500, 1, false, false),
+					new MobEffectInstance(TGRadiation.RAD_RESISTANCE, 3600, 2, false, false))));
 }

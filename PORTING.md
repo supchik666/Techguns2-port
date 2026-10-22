@@ -107,6 +107,15 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - **Deferred:** radiation (nuke, biogun; M4), bioblob blocks, explosion, bloom and light config (M8), the layered TFG/biogun muzzle flashes with fades.
 - Since then: glowing model parts and scope lenses bloom (`LegacyGl` glowing render types, `GunRenderer.setScopeLenses`). Light pulses: `client/LightPulses` raises block light around muzzle flashes and explosions (mixins into `LevelRenderer.getLightColor` and entity light), and `client/render/LightTint` adds their color as a screen pass over the depth buffer. Only bullet guns and explosions light up; the flamethrower and minigun hold one steady light. Projectiles fly twice as fast with the same range (`GenericProjectile.SPEED_FACTOR`; beams and thrown grenades excluded), and the spawn packet carries the exact velocity so fast shots stay straight. `runClient` also loads JEI and some sound mods (`clientMods` in `build.gradle`).
 
+**M4 radiation done:**
+- `TGRadiation` (1.12 `TGRadiationSystem`): the player's radiation level is the `techguns:radiation` attachment (saved, kept through death less 200, synced to its own player). Effects `radiation`, `radregeneration`, `radresistance` with the 1.12 icons drawn from `tgplayerinventory.png`; four potions with the 1.12 brewing mixes. Poisoning at 500/750/1000 as in 1.12, lethal damage is `techguns:radiation_poisoning` (bypasses armor); the radiation effect hurts mobs with `techguns:radiation`.
+- `TGAttributes.RADIATION_RESISTANCE` (`techguns:radiation_resistance`) on every living entity; the radresistance effect adds to it.
+- Radioactive items are the `techguns:radiation` item data map (`data/techguns/data_maps/item/radiation.json`, 1.12 numbers, uranium tags included); carrying one gives the effect every 3 s, the tooltip shows its strength.
+- Sources: the nuke leaves a `RadiationEntity` zone for 60 s (server only); the NDR beam gives radiation V for 2 s. The biogun never irradiated in 1.12. The zone falloff runs from full at the inner radius to the outer strength at the edge; 1.12 had it backwards, fixed on purpose.
+- RadAway and Anti-RAD Pills (`RadConsumable`); in 1.12 they come from the chem lab, so their recipes come with M5.
+- HUD: "N RAD" and "+[n RAD/s]" at the right edge (`client/RadiationHud`).
+- **Deferred:** the 1.12 config switch (off by default there, WIP), the radiation resistance of armor and the gas mask (attribute modifiers, from the armor and extra slot work), the TG damage type mapping of the two damage types, the radiation line in the TG inventory GUI, the reaction chamber as a source (M5), mutants' radiation immunity (M6).
+
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.
 - Keep `TGDamageSource` as a `DamageSource` subclass, add data-driven `DamageType`s; armor penetration in `LivingIncomingDamageEvent`.

@@ -84,6 +84,19 @@ BEWLR_ITEMS = [
     "nucleardeathray", "gaussrifle", "sonicshotgun", "flamethrower",
     "rocketlauncher", "grenadelauncher", "guidedmissilelauncher", "grimreaper", "tfg", "biogun", "stielgranate", "fraggrenade",
 ]
+# 1.12 lang keys that 1.21 looks up under another name
+LANG_RENAMES = {
+    "techguns.radiation": "effect.techguns.radiation", "techguns.radresistance": "effect.techguns.radresistance",
+    "techguns.radregeneration": "effect.techguns.radregeneration",
+    "attribute.name.techguns.radiationResistance": "attribute.name.techguns.radiation_resistance",
+}
+# en_us keys 1.12 didn't have, for what the port adds
+EXTRA_LANG = {
+    "death.attack.techguns.radiation": "%s died of radiation",
+    "death.attack.techguns.radiation.player": "%s died of radiation whilst fighting %s",
+    "death.attack.techguns.radiation_poisoning": "%s died of radiation poisoning",
+    "death.attack.techguns.radiation_poisoning.player": "%s died of radiation poisoning whilst fighting %s",
+}
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
 # 1.12 vanilla (id, meta) -> 1.21 ingredient, for the few with metadata used in recipes
@@ -251,7 +264,11 @@ def convert_lang():
                     key = "block." + row["new_id"].replace(":", ".")
             elif m := re.fullmatch(r"tile\.techguns\.(.+)\.name", key):
                 key = "block.techguns." + m[1]
-            out[key] = value
+            elif re.fullmatch(r"(potion|splash_potion|lingering_potion|tipped_arrow)\.effect\..+", key):
+                key = "item.minecraft." + key
+            out[LANG_RENAMES.get(key, key)] = value
+        if src.stem.lower() == "en_us":
+            out |= EXTRA_LANG
         write_json(ASSETS / "lang" / (src.stem.lower() + ".json"), out)
 
 

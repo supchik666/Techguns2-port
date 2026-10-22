@@ -1,0 +1,12 @@
+{
+  "values": {
+    "techguns:enricheduranium": {"amount": 3},
+    "techguns:yellowcake": {"amount": 1},
+    "techguns:antigravcore": {"amount": 4},
+    "techguns:plasmagenerator": {"amount": 4},
+    "techguns:tacticalnukewarhead": {"amount": 1},
+    "techguns:rocket_nuke": {"amount": 1},
+    "#c:ores/uranium": {"amount": 1},
+    "#c:ingots/uranium": {"amount": 1}
+  }
+}

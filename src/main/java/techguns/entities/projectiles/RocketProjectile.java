@@ -12,6 +12,7 @@ import techguns.TGEffects;
 import techguns.TGEntities;
 import techguns.TGSounds;
 import techguns.damagesystem.TGExplosion;
+import techguns.entities.special.RadiationEntity;
 
 /**
  * Rocket launcher rocket: explodes on impact, radii and minimum damage from damageDropStart/End and damageMin (as in
@@ -80,7 +81,7 @@ public class RocketProjectile extends GenericProjectile {
 			explosion.knockback = 3.0f;
 			explosion.doExplosion(false);
 			server.playSound(null, getX(), getY(), getZ(), TGSounds.NUKE_EXPLOSION.get(), SoundSource.BLOCKS, 4.0f, 1.0f);
-			// ponytail: no radiation until M4
+			server.addFreshEntity(new RadiationEntity(server, position(), 20 * 60, damageDropStart, 9, damageDropEnd, 2));
 		} else {
 			TGEffects.sendFX(server, "RocketExplosion", getX(), getY(), getZ(), 1.0f, 50);
 			new TGExplosion(server, getOwner(), this, getX(), getY(), getZ(), damage, damageMin, damageDropStart, damageDropEnd,

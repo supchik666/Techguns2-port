@@ -17,7 +17,7 @@ import techguns.TGSounds;
 
 /**
  * Bio gun blob: poisons what it hits, splashes on blocks, dies in water. {@code level} is the ammo the charge used (1-3),
- * which sizes the blob. ponytail: no bio blob blocks on impact until the block exists, no radiation until M4.
+ * which sizes the blob. ponytail: no bio blob blocks on impact until the block exists.
  */
 public class BioGunProjectile extends GenericProjectile {
 	public int level;
