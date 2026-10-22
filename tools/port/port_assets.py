@@ -73,6 +73,8 @@ ORE_BLOCKS = {"ore_tin": ("tin", "stone"), "ore_lead": ("lead", "iron"),
 SHOVEL_BLOCKS = {"bugnest_sand", "sandbags"}
 HAND_BLOCKS = {"slimyladder"}  # plus all camo nets
 CLIMBABLE = {"slimyladder"}  # plus kind "ladder"
+# Guns drawn by a Java renderer (GunRenderer): item -> particle texture; their item model only hands off to it
+BEWLR_ITEMS = {"pistol": "pistolmagazine"}
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
 # 1.12 vanilla (id, meta) -> 1.21 ingredient, for the few with metadata used in recipes
@@ -132,6 +134,11 @@ def copy_textures_and_models():
                 dst.write_text(fix_paths(src.read_text(encoding="utf-8")), encoding="utf-8")
             else:
                 shutil.copy2(src, dst)
+    shutil.copytree(LEGACY / "sounds", ASSETS / "sounds")
+    shutil.copy2(LEGACY / "sounds.json", ASSETS / "sounds.json")  # 1.12's extra "category" key is ignored
+    for name, particle in BEWLR_ITEMS.items():
+        write_json(ASSETS / "models/item" / (name + ".json"),
+                   {"parent": "minecraft:builtin/entity", "textures": {"particle": "techguns:item/" + particle}})
     for name in CUTOUT_MODELS:
         path = ASSETS / "models/block" / (name + ".json")
         write_json(path, json.loads(path.read_text()) | {"render_type": "minecraft:cutout"})

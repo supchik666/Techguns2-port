@@ -16,7 +16,7 @@ Requires JDK 21 (the system default `java` may be a different version; set `JAVA
 - `./gradlew build` — compile and build the jar into `build/libs/`
 - `./gradlew runClient` / `./gradlew runServer` — dev runs in `run/` (`run/eula.txt` must say `eula=true` for the server)
 - `python3 tools/port/port_assets.py` — regenerates all of `src/generated/resources/` from `legacy/` (see below). Don't run `./gradlew runData`; nothing uses Java datagen and it writes to the same folder.
-- `./gradlew runGameTestServer` — runs NeoForge GameTests for the `techguns` namespace (crashes if none are registered)
+- `./gradlew runGameTestServer` — runs the GameTests in `techguns.gametest`; `data/techguns/structure/empty.nbt` is their air template
 
 ## Resources pipeline
 
@@ -26,6 +26,7 @@ Requires JDK 21 (the system default `java` may be a different version; set `JAVA
 - Porting a new metadata block: add rows to the CSV, register the block in `TGBlocks` with the same id, rerun the script.
 - Recipes are converted for everything and gated by `neoforge:item_exists`, so they activate when their items get registered. The script prints the recipe types it skips.
 - Item ids keep their 1.12 names (`plateiron`, `ingotsteel`).
+- Sounds and `sounds.json` are copied as-is. Items drawn by a Java renderer go in `BEWLR_ITEMS`, which gives them a `builtin/entity` item model.
 
 ## Legacy architecture (what you're porting from)
 

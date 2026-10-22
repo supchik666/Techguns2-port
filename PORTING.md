@@ -10,7 +10,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 
 - [x] M0. Project setup
 - [x] M1. Registration and data
-- [ ] M2. One gun working end to end
+- [x] M2. One gun working end to end
 - [ ] M3. Remaining guns and their models
 - [ ] M4. Player data, armor and damage
 - [ ] M5. Machines and GUIs
@@ -54,7 +54,7 @@ Decisions:
   - 51 recipes use custom types (`ammo_change_crafting`, `miningtool_upgrade`, `copy_nbt`, `ammo_sum_recipe`) or NBT results, and need `RecipeSerializer`s.
 - Tag names for things without a NeoForge convention are guesses: `c:plates/*`, `c:wires/*`, `c:circuits/*`, `c:rubbers`, `c:fibers/carbon`, `c:ingots/obsidian_steel`.
 
-### M2. One gun end to end (pistol)
+### M2. One gun end to end (pistol) ✅
 Validates the architecture; everything after is repetition.
 - Gun and magazine NBT (ammo count, ammo variant, camo, upgrades) → Data Components with codecs.
 - `GenericGun`, `ProjectileSelector`, `AmmoTypes` and one projectile entity with its renderer.
@@ -62,6 +62,18 @@ Validates the architecture; everything after is repetition.
 - Drop the ASM coremod. Render guns through `IClientItemExtensions` with a `BlockEntityWithoutLevelRenderer`; `ItemDisplayContext` replaces `TransformType`.
 
 If this can't reproduce the gun animations, find out here, not after 35 guns.
+
+**Done:**
+- Ammo count is the `techguns:ammo` component (absent = full clip); fire cooldown per hand is an unsaved attachment.
+- Firing runs on both sides like 1.12: the client predicts ammo, sound and recoil; the server spawns the bullet and sends the animation to players tracking the shooter. Two payloads for now (`gun_action`, `gun_animation`); the other 1.12 packets come with their features.
+- `GunRenderer` (a BEWLR) ports RenderItemBase/RenderGunBase: per-context transforms, recoil and reload animations, additive muzzle flash in first and third person. Models extend `ModelMultipart`, a thin port of the Techne box format.
+- Gun crosshair, ammo HUD, force-reload key (R), bullet tracer renderer, block impact sounds and particles.
+- `techguns:bullet` damage type, tagged to skip the hurt cooldown and knockback, as 1.12 did.
+- `./gradlew runGameTestServer` runs `GunTests` (shoot, hit, reload).
+- **Deferred:**
+  - M3: other guns, ammo variants (incendiary/explosive) and `ProjectileSelector`, TGFX impact particles, zoom and scopes, the magazine/rocket renderers (the 13 missing textures from M1).
+  - M4: armor penetration and the TG damage system.
+  - M6: NPCs using guns. Later: off-hand firing, gun item particles.
 
 ### M3. Remaining guns and models
 - Gun definitions in `TGuns` are mostly data; cheap once M2 works.
