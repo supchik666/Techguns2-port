@@ -66,7 +66,7 @@ public class TGPackets {
 				if (payload.reload()) {
 					ShooterValues.reloaded(shooter, payload.hand(), gun.getReloadtime());
 				} else {
-					ShooterValues.fired(shooter, payload.hand(), gun.getRecoiltime(), gun.getMuzzleFlashtime());
+					ShooterValues.fired(shooter, payload.hand(), gun);
 				}
 			}
 		});

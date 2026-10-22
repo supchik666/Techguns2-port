@@ -6,7 +6,6 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -131,7 +130,7 @@ public class ItemModelRenderer extends BlockEntityWithoutLevelRenderer {
 		pose.scale(scale, scale, scale);
 		baseRotation.apply(pose, context);
 		pose.translate(translateBase[0], translateBase[1], translateBase[2]);
-		LegacyGl.begin(pose, buffers.getBuffer(RenderType.entityCutout(getTexture(stack))), light, overlay);
+		LegacyGl.begin(pose, buffers, getTexture(stack), light, overlay);
 		for (int i = 0; i < parts; i++) {
 			model.render(null, 0, 0, 0, 0, 0, SCALE, ammo, reloadProgress, context, i, fireProgress, chargeProgress);
 		}

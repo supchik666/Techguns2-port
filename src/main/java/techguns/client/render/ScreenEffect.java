@@ -16,14 +16,28 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import techguns.Techguns;
 
-/** Animated sprite sheet drawn as an unlit quad, additive or alpha blended (1.12 ScreenEffect). */
-public record ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY) {
+/** Animated sprite sheet drawn as an unlit quad, additive or alpha blended, tinted by ARGB {@code color} (1.12 ScreenEffect). */
+public record ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY, int color) {
 	public static final ScreenEffect muzzleFlash_gun = additive("muzzleflashnew_2_add_2", 4, 4, 11);
 	public static final ScreenEffect muzzleFlash_rifle = additive("muzzleflashnew_add", 4, 4, 12);
 	public static final ScreenEffect muzzleFlash_minigun = additive("muzzleflash_minigun", 2, 2, 4);
 	public static final ScreenEffect muzzleFlash_blue = new ScreenEffect(fx("bluemuzzleflash"), 4, 4, 8, true, true, true);
 	public static final ScreenEffect sniperScope = new ScreenEffect(fx("testscope"), 1, 1, 1, false, false, false);
 	public static final ScreenEffect techScope = new ScreenEffect(fx("techscope"), 1, 1, 1, false, false, true);
+	public static final ScreenEffect muzzleFlashLaser = additive("laserflare02", 4, 4, 7);
+	public static final ScreenEffect muzzleFlashFireball_alpha = new ScreenEffect(fx("fireball_4x4_alpha"), 4, 4, 16, false, false, false);
+	public static final ScreenEffect muzzleFlashAlienBlaster = additive("alienflare", 4, 4, 14);
+	public static final ScreenEffect muzzleFlashLightning = additive("teslaflare01", 4, 4, 14);
+	public static final ScreenEffect FlamethrowerMuzzleFlame = new ScreenEffect(fx("flamethrower2"), 4, 4, 16, true, false, true);
+	public static final ScreenEffect FlamethrowerMuzzleFlash = new ScreenEffect(fx("flamethrower"), 4, 4, 16, true, false, true);
+	public static final ScreenEffect muzzleFlashSonic = additive("sonicwave4x4", 4, 4, 16);
+	public static final ScreenEffect muzzleFlashNukeBeam = additive("nukebeamflare", 4, 4, 16);
+	/** 1.12 color (0.15686, 1.0, 0.549). */
+	public static final ScreenEffect muzzleFlashMibGun = new ScreenEffect(fx("alienflare"), 4, 4, 14, true, false, false, 0xFF28FF8C);
+
+	public ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY) {
+		this(texture, cols, rows, numSprites, additive, flipX, flipY, -1);
+	}
 
 	private static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(texture -> unlit("techguns_additive", texture,
 			RenderStateShard.LIGHTNING_TRANSPARENCY));
@@ -33,6 +47,11 @@ public record ScreenEffect(ResourceLocation texture, int cols, int rows, int num
 	/** Unlit, additively blended: for glowing sprites. */
 	public static RenderType additive(ResourceLocation texture) {
 		return ADDITIVE.apply(texture);
+	}
+
+	/** Unlit, alpha blended. */
+	public static RenderType alpha(ResourceLocation texture) {
+		return ALPHA.apply(texture);
 	}
 
 	private static ResourceLocation fx(String name) {
@@ -88,8 +107,8 @@ public record ScreenEffect(ResourceLocation texture, int cols, int rows, int num
 		}
 	}
 
-	private static void vertex(PoseStack.Pose pose, VertexConsumer consumer, float x, float y, float z, float u, float v) {
-		consumer.addVertex(pose, x, y, z).setColor(-1).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY)
+	private void vertex(PoseStack.Pose pose, VertexConsumer consumer, float x, float y, float z, float u, float v) {
+		consumer.addVertex(pose, x, y, z).setColor(color).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY)
 				.setLight(LightTexture.FULL_BRIGHT).setNormal(pose, 0, 1, 0);
 	}
 }

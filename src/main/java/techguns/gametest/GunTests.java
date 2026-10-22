@@ -77,6 +77,27 @@ public class GunTests {
 		});
 	}
 
+	/** The gauss rifle needs a slug and an energy cell per reload, and hands back the empty cell. */
+	@GameTest(template = "empty")
+	public static void gaussRifleReloadUsesSlugAndCell(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		ItemStack stack = new ItemStack(TGuns.GAUSSRIFLE.get());
+		stack.set(TGComponents.AMMO, 0);
+		player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+		player.getInventory().add(new ItemStack(TGItems.GAUSSRIFLE_SLUGS.get(), 2));
+		GenericGun gun = TGuns.GAUSSRIFLE.get();
+
+		gun.tryForcedReload(stack, helper.getLevel(), player, InteractionHand.MAIN_HAND);
+		helper.assertTrue(gun.getAmmo(stack) == 0, "reloaded without an energy cell");
+		player.getInventory().add(new ItemStack(TGItems.ENERGY_CELL.get()));
+		gun.tryForcedReload(stack, helper.getLevel(), player, InteractionHand.MAIN_HAND);
+		helper.assertTrue(gun.getAmmo(stack) == gun.getClipsize(), "didn't reload");
+		helper.assertTrue(player.getInventory().countItem(TGItems.GAUSSRIFLE_SLUGS.get()) == 1, "should use one slug");
+		helper.assertTrue(player.getInventory().countItem(TGItems.ENERGY_CELL.get()) == 0, "cell not used");
+		helper.assertTrue(player.getInventory().countItem(TGItems.ENERGY_CELL_EMPTY.get()) == 1, "no empty cell back");
+		helper.succeed();
+	}
+
 	/** Gun + incendiary shells in the crafting grid gives the gun switched to incendiary, with one shell loaded. */
 	@GameTest(template = "empty")
 	public static void ammoChangeRecipeSetsVariant(GameTestHelper helper) {

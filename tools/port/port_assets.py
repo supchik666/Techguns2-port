@@ -80,6 +80,8 @@ BEWLR_ITEMS = [
     "assaultriflemagazine", "assaultriflemagazineempty", "assaultriflemagazine_incendiary", "lmgmagazine",
     "lmgmagazineempty", "lmgmagazine_incendiary", "as50magazine", "as50magazineempty", "as50magazine_incendiary",
     "as50magazine_explosive", "rocket", "rocket_nuke", "rocket_high_velocity",
+    "lasergun", "laserpistol", "teslagun", "alienblaster", "mibgun", "netherblaster", "blasterrifle", "scatterbeamrifle",
+    "nucleardeathray", "gaussrifle", "sonicshotgun", "flamethrower",
 ]
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
@@ -142,6 +144,7 @@ def copy_textures_and_models():
                 shutil.copy2(src, dst)
     shutil.copytree(LEGACY / "sounds", ASSETS / "sounds")
     shutil.copy2(LEGACY / "sounds.json", ASSETS / "sounds.json")  # 1.12's extra "category" key is ignored
+    shutil.copytree(LEGACY / "particles", ASSETS / "particles")  # TGFX definitions, read by client.particle.TGFX
     for name in BEWLR_ITEMS:
         write_json(ASSETS / "models/item" / (name + ".json"),
                    {"parent": "minecraft:builtin/entity", "textures": {"particle": "techguns:item/plateiron"}})

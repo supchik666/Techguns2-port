@@ -19,7 +19,7 @@ import techguns.items.guns.GenericGun;
 /**
  * A gun: recoil, reload and muzzle flash on top of {@link ItemModelRenderer}, and the scope overlay when zoomed
  * (1.12 RenderGunBase).
- * ponytail: charge animation and idle FX come with the charge guns.
+ * ponytail: charge animation comes with the charge guns.
  */
 public class GunRenderer extends ItemModelRenderer {
 	private GunAnimation recoilAnim = GunAnimation.genericRecoil;
@@ -33,7 +33,7 @@ public class GunRenderer extends ItemModelRenderer {
 	private GunAnimation reloadAnim3p = GunAnimation.genericReload;
 	private float[] reloadParams3p = {0f, 40.0f};
 
-	private ScreenEffect muzzleFX;
+	private ScreenEffect muzzleFX, idleFX;
 	private float muzzleFX_x_r, muzzleFX_x_l, muzzleFX_y, muzzleFX_z, muzzleFX_scale = 1.0f;
 	private float muzzleFX_3p_y, muzzleFX_3p_z, muzzleFX_3p_scale = 0.5f;
 	private float jitterX, jitterY, jitterScale;
@@ -76,6 +76,12 @@ public class GunRenderer extends ItemModelRenderer {
 		muzzleFX_y = y;
 		muzzleFX_z = z;
 		muzzleFX_scale = scale;
+		return this;
+	}
+
+	/** Looping effect at the muzzle while not firing or reloading (the flamethrower pilot flame, 1.12 RenderGunFlamethrower). */
+	public GunRenderer setIdleFx(ScreenEffect fx) {
+		idleFX = fx;
 		return this;
 	}
 
@@ -203,6 +209,13 @@ public class GunRenderer extends ItemModelRenderer {
 						muzzleFX_scale + jitterScale * time.jitterScale, false);
 			} else {
 				muzzleFX.render(pose, buffers, muzzleProgress, 0, muzzleFX_3p_y, muzzleFX_3p_z, muzzleFX_scale * muzzleFX_3p_scale, true);
+			}
+		} else if (idleFX != null && reloadProgress <= 0 && entity != null && !entity.isUnderWater()) {
+			float p = (entity.level().getGameTime() % 30) / 30.0f;
+			if (firstPerson) {
+				idleFX.render(pose, buffers, p, leftHand ? muzzleFX_x_l : muzzleFX_x_r, muzzleFX_y, muzzleFX_z, muzzleFX_scale * 0.5f, false);
+			} else {
+				idleFX.render(pose, buffers, p, 0, muzzleFX_3p_y, muzzleFX_3p_z, muzzleFX_scale * 0.5f * muzzleFX_3p_scale, true);
 			}
 		}
 		pose.popPose();

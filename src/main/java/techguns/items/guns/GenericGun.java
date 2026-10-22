@@ -47,6 +47,11 @@ public class GenericGun extends Item {
 		HORIZONTAL_TWO_PART_E, HORIZONTAL_SMALL, QUAD_NO_CORNERS
 	}
 
+	/** How the tooltip shows range: drop start, end and max range, or just the range (beams). */
+	public enum RangeTooltipType {
+		DROP, NO_DROP
+	}
+
 	final AmmoType ammoType;
 	final boolean semiAuto;
 	final int minFiretime;
@@ -82,6 +87,14 @@ public class GenericGun extends Item {
 	GunHandType handType = GunHandType.TWO_HANDED;
 	Crosshair crosshair = Crosshair.GUN_DYNAMIC;
 	List<ResourceLocation> textures = List.of();
+	ProjectileFactory projectile = GenericProjectile::new;
+	/** Looping guns play this instead of the fire sound when they haven't fired for {@code maxLoopDelay} ticks. */
+	Supplier<SoundEvent> firesoundStart;
+	int maxLoopDelay;
+	/** Rapid-fire guns let the recoil animation or muzzle flash finish instead of restarting it every shot. */
+	boolean checkRecoil;
+	boolean checkMuzzleFlash;
+	RangeTooltipType rangeTooltipType = RangeTooltipType.DROP;
 
 	public GenericGun(AmmoType ammoType, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage,
 			Supplier<SoundEvent> fireSound, Supplier<SoundEvent> reloadSound, int ttl, float accuracy) {
@@ -170,6 +183,37 @@ public class GenericGun extends Item {
 		return this;
 	}
 
+	/** The projectile class; the ammo variant's {@link GenericProjectile.Kind} is passed to it. */
+	public GenericGun setProjectile(ProjectileFactory projectile) {
+		this.projectile = projectile;
+		return this;
+	}
+
+	public GenericGun setFiresoundStart(Supplier<SoundEvent> sound) {
+		this.firesoundStart = sound;
+		return this;
+	}
+
+	public GenericGun setMaxLoopDelay(int ticks) {
+		this.maxLoopDelay = ticks;
+		return this;
+	}
+
+	public GenericGun setCheckRecoil() {
+		this.checkRecoil = true;
+		return this;
+	}
+
+	public GenericGun setCheckMuzzleFlash() {
+		this.checkMuzzleFlash = true;
+		return this;
+	}
+
+	public GenericGun setRangeTooltipType(RangeTooltipType type) {
+		this.rangeTooltipType = type;
+		return this;
+	}
+
 	public GenericGun setCrossHair(Crosshair crosshair) {
 		this.crosshair = crosshair;
 		return this;
@@ -246,6 +290,14 @@ public class GenericGun extends Item {
 		return muzzleFlashtime;
 	}
 
+	public boolean isCheckRecoil() {
+		return checkRecoil;
+	}
+
+	public boolean isCheckMuzzleFlash() {
+		return checkMuzzleFlash;
+	}
+
 	public int getReloadtime() {
 		return reloadtime;
 	}
@@ -273,10 +325,13 @@ public class GenericGun extends Item {
 			reload(stack, level, player, hand, 0);
 			return;
 		}
+		// ponytail: 1.12 counted a loop sound delay down per tick; ticks since the last shot (from the fire delay) do the same
+		long sinceLastShot = level.getGameTime() - player.getData(TGComponents.NEXT_FIRE)[hand.ordinal()] + minFiretime;
+		boolean loopStart = maxLoopDelay > 0 && sinceLastShot >= maxLoopDelay;
 		setFireDelay(player, hand, minFiretime);
 		if (!player.getAbilities().instabuild) stack.set(TGComponents.AMMO, ammo - 1);
 		if (level.isClientSide) {
-			ShooterValues.fired(player, hand, recoiltime, muzzleFlashtime);
+			ShooterValues.fired(player, hand, this);
 		} else {
 			PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, false));
 			float bonus = 1.0f;
@@ -296,15 +351,19 @@ public class GenericGun extends Item {
 				}
 			}
 		}
-		level.playSound(player, player, fireSound.get(), SoundSource.PLAYERS, 4.0f, 1.0f);
+		level.playSound(player, player, (loopStart ? firesoundStart : fireSound).get(), SoundSource.PLAYERS, 4.0f, 1.0f);
 		if (rechamberSound != null) level.playSound(player, player, rechamberSound.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
 	}
 
-	private void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side) {
-		GenericProjectile projectile = new GenericProjectile(level, player, kind, damage, speed, getScaledTTL(), spread,
+	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side) {
+		level.addFreshEntity(createProjectile(level, player, kind, spread, offset, side));
+	}
+
+	protected GenericProjectile createProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side) {
+		GenericProjectile bullet = projectile.create(level, player, kind, damage, speed, getScaledTTL(), spread,
 				damageDropStart, damageDropEnd, damageMin, side, gravity);
-		if (offset > 0) projectile.shiftForward(offset / speed);
-		level.addFreshEntity(projectile);
+		if (offset > 0) bullet.shiftForward(offset / speed);
+		return bullet;
 	}
 
 	/** The reload key: reloads even if not empty. A magazine hands back the rounds left in it; loose rounds are topped up. */
@@ -315,7 +374,13 @@ public class GenericGun extends Item {
 
 	private void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
 		AmmoType.Variant variant = getAmmoVariant(stack);
+		Item extra = ammoType.extraAmmo() == null ? null : ammoType.extraAmmo().get();
+		if (extra != null && !player.getInventory().contains(new ItemStack(extra))) return;
 		if (!consume(player, variant.ammo().get())) return;
+		if (extra != null) {
+			consume(player, extra);
+			give(player, new ItemStack(ammoType.extraEmpty().get()));
+		}
 		int newAmmo;
 		if (ammoCount > 1) {
 			int loaded = 1;
@@ -325,7 +390,7 @@ public class GenericGun extends Item {
 			if (ammoType.emptyMag() != null) {
 				give(player, new ItemStack(ammoType.emptyMag().get()));
 				int bulletsBack = oldAmmo > 0 ? (int) (oldAmmo / ammoType.getShotsPerBullet(clipsize, oldAmmo)) : 0;
-				if (bulletsBack > 0) give(player, new ItemStack(variant.bullet().get(), bulletsBack));
+				if (bulletsBack > 0 && variant.bullet() != null) give(player, new ItemStack(variant.bullet().get(), bulletsBack));
 			}
 			newAmmo = clipsize; // loose rounds left in the gun are lost, as in 1.12
 		}
@@ -382,7 +447,8 @@ public class GenericGun extends Item {
 		tooltip.add(stat("ammo", ammoCount > 1 ? Component.literal(ammoCount + "x ").append(ammo) : ammo));
 		tooltip.add(stat("damage", damage + (damageMin < damage ? "-" + damageMin : "") + (shotgun ? " (x" + (bulletcount + 1) + ")" : "")));
 		if (Screen.hasShiftDown()) {
-			tooltip.add(stat("range", String.format("%.1f,%.1f,%d", damageDropStart, damageDropEnd, ttl)));
+			tooltip.add(stat("range", rangeTooltipType == RangeTooltipType.NO_DROP ? String.format("%.1f", damageDropStart)
+					: String.format("%.1f,%.1f,%d", damageDropStart, damageDropEnd, ttl)));
 			tooltip.add(stat("velocity", String.format("%.1f", speed)));
 			tooltip.add(stat("spread", accuracy));
 			tooltip.add(stat("clipsize", clipsize));

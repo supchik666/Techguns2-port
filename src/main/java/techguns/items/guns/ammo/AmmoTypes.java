@@ -31,4 +31,12 @@ public class AmmoTypes {
 	public static final AmmoType AS50_MAGAZINE = new AmmoType(TGItems.AS50_MAGAZINE, TGItems.AS50_MAGAZINE_EMPTY, TGItems.SNIPER_ROUNDS, 2, BULLET)
 			.variant(INCENDIARY, TGItems.AS50_MAGAZINE_INCENDIARY, TGItems.SNIPER_ROUNDS_INCENDIARY, INCENDIARY_BULLET)
 			.variant(EXPLOSIVE, TGItems.AS50_MAGAZINE_EXPLOSIVE, TGItems.SNIPER_ROUNDS_EXPLOSIVE, EXPLOSIVE_BULLET);
+
+	// Energy and fuel: the empty comes back, nothing else; the gun's projectile class does the rest.
+	public static final AmmoType ENERGY_CELL = new AmmoType(TGItems.ENERGY_CELL, TGItems.ENERGY_CELL_EMPTY, null, 0, BULLET);
+	public static final AmmoType REDSTONE_BATTERY = new AmmoType(TGItems.REDSTONE_BATTERY, TGItems.REDSTONE_BATTERY_EMPTY, null, 0, BULLET);
+	public static final AmmoType NUCLEAR_POWER_CELL = new AmmoType(TGItems.NUCLEAR_POWERCELL, TGItems.NUCLEAR_POWERCELL_EMPTY, null, 0, BULLET);
+	public static final AmmoType FUEL_TANK = new AmmoType(TGItems.FUEL_TANK, TGItems.FUEL_TANK_EMPTY, null, 0, BULLET);
+	public static final AmmoType NETHER_CHARGE = new AmmoType(TGItems.NETHER_CHARGE, BULLET);
+	public static final AmmoType AMMO_GAUSS_RIFLE = new AmmoType(TGItems.GAUSSRIFLE_SLUGS, BULLET).extra(TGItems.ENERGY_CELL, TGItems.ENERGY_CELL_EMPTY);
 }

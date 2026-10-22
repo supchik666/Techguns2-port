@@ -7,6 +7,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Axis;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
@@ -41,6 +42,7 @@ import techguns.TGItems;
 import techguns.TGEntities;
 import techguns.TGuns;
 import techguns.Techguns;
+import techguns.client.models.ModelObj;
 import techguns.client.models.guns.*;
 import techguns.client.models.items.ModelARMagazine;
 import techguns.client.models.items.ModelAS50Mag;
@@ -272,6 +274,113 @@ public class TGClient {
 				.setRecoilAnim(GunAnimation.genericRecoil, 0.025f, 12.0f)
 				.setMuzzleFlashJitter(0.01f, 0.01f, 5.0f, 0.05f)
 				.setMuzzleFXPos3P(0.07f, -0.26f)), TGuns.PISTOL.get());
+
+		// Energy guns (M3.2)
+		event.registerItem(gun(() -> new GunRenderer(new ModelFlamethrower(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0, -0.2f, ItemModelRenderer.SCALE-0.1f)
+				.setGUIScale(0.45f)
+				.setMuzzleFx(ScreenEffect.FlamethrowerMuzzleFlash, 0, 0.16f, -0.9f, 0.45f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0f, 0f}, {0f, 0f, -0.08f}, {0.05f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.1f, -0.63f)
+				.setRecoilAnim(GunAnimation.swayRecoil, 0.025f, 2.5f)
+				.setIdleFx(ScreenEffect.FlamethrowerMuzzleFlame)), TGuns.FLAMETHROWER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelTeslaGun(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0.25f, -0.2f, ItemModelRenderer.SCALE-0.09f)
+				.setGUIScale(0.45f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashLightning, 0, 0.26f, -0.67f, 0.5f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.15f, 0.04f}, {0f, 0.05f, -0.08f}, {0.03f, 0.01f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.12f, -0.65f)
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f)), TGuns.TESLAGUN.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelNetherBlaster(), 1)
+				.setBaseTranslation(0f, -0.2f, ItemModelRenderer.SCALE-0.09f)
+				.setGUIScale(0.60f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashFireball_alpha, 0, 0.29f, -0.33f, 0.5f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.15f, 0.04f}, {0f, -0.16f, -0.24f}, {-0.10f, 0.01f, 0f}, {0f, 0f, -0.11f}, {0.16f, -0.07f, -0.16f}})
+				.setMuzzleFXPos3P(-0.06f, -0.45f)), TGuns.NETHERBLASTER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelLasergun(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0.25f, -0.2f, ItemModelRenderer.SCALE*0.5f-0.10f)
+				.setBaseScale(1.1f)
+				.setGUIScale(0.40f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0, 0.30f, -1.06f, 0.5f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.15f, 0.04f}, {0f, 0.02f, 0.01f}, {0.13f, 0.01f, 0f}, {0f, 0f, 0.15f}, {-0.18f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.11f, -0.83f)
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f)), TGuns.LASERGUN.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelAlienBlaster(), 1)
+				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.3f, -0.2f)
+				.setBaseScale(0.75f)
+				.setGUIScale(0.75f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashAlienBlaster, 0f, 0.28f, -0.52f, 0.55f, 0f)
+				.setTransformTranslations(new float[][]{{0, 0.06f, -0.02f}, {0.0f, -0.07f, -0.01f}, {0.02f, -0.08f, 0}, {0.02f, -0.08f, 0}, {-0.04f, -0.09f, 0f}})
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.025f, 10.0f)
+				.setMuzzleFXPos3P(0.07f, -0.36f)
+				.setReloadAnim(GunAnimation.breechReload, -0.15f, 55.0f)
+				.setReloadAnim3p(GunAnimation.breechReload, 0f, 55.0f)), TGuns.ALIENBLASTER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelBlasterRifle(), 1)
+				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.1f, 0)
+				.setBaseScale(0.9f)
+				.setGUIScale(0.45f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0, 0.24f, -0.93f, 0.75f, 0)
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f)
+				.setTransformTranslations(new float[][]{{0f, 0.11f, -0.20f}, {0f, 0.0f, -0.04f}, {0f, 0f, 0.03f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.09f, -0.57f)
+				.setScope(ScreenEffect.sniperScope)
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f)), TGuns.BLASTERRIFLE.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelSonicShotgun(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0, -0.2f, ItemModelRenderer.SCALE*0.5f-0.10f)
+				.setBaseScale(1.0f)
+				.setGUIScale(0.35f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashSonic, 0, 0.28f, -0.98f, 0.5f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.10f, 0.04f}, {0f, -0.01f, -0.03f}, {0.08f, 0.0f, 0f}, {0f, 0.05f, 0.15f}, {-0.18f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.11f, -0.81f)), TGuns.SONICSHOTGUN.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelLasergun2(), 1)
+				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.1f, 0.1f)
+				.setGUIScale(0.35f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0, 0.22f, -1.09f, 0.75f, 0)
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f)
+				.setTransformTranslations(new float[][]{{0f, 0.04f, -0.05f}, {0f, 0.01f, -0.1f}, {0f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.14f, -0.82f)), TGuns.SCATTERBEAMRIFLE.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelNDR(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(1f, -0.2f, ItemModelRenderer.SCALE*1.5f-0.09f)
+				.setBaseScale(1.2f)
+				.setGUIScale(0.40f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashNukeBeam, 0, 0.19f, -0.91f, 0.65f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.02f, 0.09f}, {-0.01f, 0.04f, 0.3f}, {0.11f, -0.08f, 0f}, {0f, 0f, 0.15f}, {-0.23f, -0.08f, -0.05f}})
+				.setMuzzleFXPos3P(0.11f, -0.83f)
+				.setRecoilAnim(GunAnimation.swayRecoil, 0.025f, 0.75f)), TGuns.NUCLEARDEATHRAY.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelMibGun(), 1)
+				.setBaseTranslation(0f, -0.56f, -0.02f)
+				.setBaseScale(1.2f)
+				.setGUIScale(0.75f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashMibGun, 0f, 0.26f, -0.42f, 0.55f, 0f)
+				.setTransformTranslations(new float[][]{{0, 0.10f, -0.02f}, {0.0f, -0.04f, -0.01f}, {0.02f, -0.08f, 0}, {0.02f, -0.08f, 0}, {-0.04f, -0.09f, 0f}})
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.025f, 10.0f)
+				.setMuzzleFXPos3P(0.06f, -0.31f)
+				.setReloadAnim(GunAnimation.breechReload, -0.15f, 55.0f)
+				.setReloadAnim3p(GunAnimation.breechReload, 0f, 55.0f)), TGuns.MIBGUN.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelObj(Techguns.id("models/item/gaussrifle.obj")), 1)
+				.setBaseRotation((pose, context) -> pose.mulPose(Axis.YP.rotationDegrees(-90f))) // 1.12 RenderGunBaseObj
+				.setBaseTranslation(0.6f, 0f, ItemModelRenderer.SCALE*0.5f-0.09f)
+				.setBaseScale(0.9f)
+				.setGUIScale(0.25f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashSonic, 0, 0.21f, -1.56f, 1.0f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.12f, -0.1f}, {0f, 0.05f, -0.17f}, {0.f, 0.06f, 0.06f}, {0f, 0f, 0.f}, {0f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.09f, -1.26f)
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.25f, 7.5f)
+				.setScope(ScreenEffect.techScope, 2.125f)
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.15f, 1.0f)), TGuns.GAUSSRIFLE.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelLaserPistol(), 1)
+				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.3f, -0.4f)
+				.setBaseScale(1.2f)
+				.setGUIScale(0.7f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0.03f, 0.2f, -0.5f, 0.55f, -0.03f)
+				.setTransformTranslations(new float[][]{{0, 0.09f, -0.02f}, {0.0f, -0.03f, 0.0f}, {0.02f, -0.08f, 0}, {0.02f, -0.08f, 0}, {0, 0, 0f}})
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.0125f, 6.0f)
+				.setMuzzleFXPos3P(0.07f, -0.26f)), TGuns.LASERPISTOL.get());
 	}
 
 	private static void registerAmmoRenderers(RegisterClientExtensionsEvent event) {

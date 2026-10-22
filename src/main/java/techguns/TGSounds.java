@@ -55,6 +55,32 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> BULLET_IMPACT_METAL = register("guns.impact.metal");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BULLET_IMPACT_DIRT = register("guns.impact.dirt");
 
+	// Energy guns (M3.2)
+	public static final DeferredHolder<SoundEvent, SoundEvent> FLAMETHROWER_FIRE = register("guns.flamethrowerfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> FLAMETHROWER_RELOAD = register("guns.flamethrowerreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> FLAMETHROWER_START = register("guns.flamethrowerstart");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TESLA_FIRE = register("guns.teslafire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TESLA_RELOAD = register("guns.teslareload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> LASERGUN_FIRE = register("guns.lasergunfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> LASERGUN_RELOAD = register("guns.lasergunreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBLASTER_FIRE = register("guns.alienblasterfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBLASTER_RELOAD = register("guns.alienblasterreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> NETHERBLASTER_FIRE = register("guns.cyberdemonblasterfire");
+	/** Not in sounds.json, silent as in 1.12. */
+	public static final DeferredHolder<SoundEvent, SoundEvent> NETHERBLASTER_RELOAD = register("guns.cyberdemonblasterreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> BLASTER_RIFLE_FIRE = register("guns.blasterriflefire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> SONIC_SHOTGUN_FIRE = register("guns.sonicshotgunfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> SONIC_SHOTGUN_RELOAD = register("guns.sonicshotgunreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> BEAMGUN_START = register("guns.beamgunstart");
+	public static final DeferredHolder<SoundEvent, SoundEvent> BEAMGUN_FIRE = register("guns.beamgunfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> MIBGUN_FIRE = register("guns.mibblasterfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> MIBGUN_RELOAD = register("guns.mibblasterreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GAUSS_RIFLE_FIRE = register("guns.gaussriflefire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GAUSS_RIFLE_RELOAD = register("guns.gaussriflereload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GAUSS_RIFLE_RECHAMBER = register("guns.gaussriflerechamber");
+	public static final DeferredHolder<SoundEvent, SoundEvent> LASER_PISTOL_FIRE = register("guns.laserpistolfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> LASER_PISTOL_RELOAD = register("guns.laserpistolreload");
+
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);
 	}

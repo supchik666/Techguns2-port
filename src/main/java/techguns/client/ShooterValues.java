@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import techguns.items.guns.GenericGun;
 
 /**
  * Client-side animation timers per shooter and hand (the 1.12 AttackTime). Wall-clock ms, so animations run smoothly
@@ -24,12 +25,16 @@ public class ShooterValues {
 		return TIMES.computeIfAbsent(entity, e -> new AttackTime[] {new AttackTime(), new AttackTime()})[hand.ordinal()];
 	}
 
-	public static void fired(Entity entity, InteractionHand hand, int recoilTicks, int muzzleFlashTicks) {
+	/** Restarts recoil and muzzle flash, unless the gun lets a running one finish (1.12 only checked the local first-person player). */
+	public static void fired(Entity entity, InteractionHand hand, GenericGun gun) {
 		AttackTime time = get(entity, hand);
 		long now = System.currentTimeMillis();
-		time.recoilTotal = recoilTicks * 50;
-		time.recoilEnd = now + time.recoilTotal;
-		time.muzzleFlashTotal = muzzleFlashTicks * 50;
+		if (!gun.isCheckRecoil() || now >= time.recoilEnd) {
+			time.recoilTotal = gun.getRecoiltime() * 50;
+			time.recoilEnd = now + time.recoilTotal;
+		}
+		if (gun.isCheckMuzzleFlash() && now < time.muzzleFlashEnd) return;
+		time.muzzleFlashTotal = gun.getMuzzleFlashtime() * 50;
 		time.muzzleFlashEnd = now + time.muzzleFlashTotal;
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 		time.jitterX = 1.0f - random.nextFloat() * 2.0f;

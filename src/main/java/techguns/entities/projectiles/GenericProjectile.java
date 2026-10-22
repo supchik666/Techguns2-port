@@ -1,6 +1,6 @@
 package techguns.entities.projectiles;
 
-import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -26,6 +26,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.event.EventHooks;
+import techguns.TGEffects;
 import techguns.TGEntities;
 import techguns.TGSounds;
 import techguns.Techguns;
@@ -33,8 +34,7 @@ import techguns.Techguns;
 /**
  * A bullet; its {@link Kind} stands in for the 1.12 subclasses (incendiary, explosive, stone, advanced). Hits are only
  * applied on the server; the client copy just flies for the tracer, so gravity and kind go in the spawn packet.
- * ponytail: armor penetration, block damage and the TG damage system (fire/explosion damage types) come with M4;
- * TGFX impact particles with M3.2.
+ * ponytail: armor penetration, block damage and the TG damage system (fire/explosion damage types) come with M4.
  */
 public class GenericProjectile extends Projectile implements IEntityWithComplexSpawn {
 	public static final ResourceKey<DamageType> BULLET = ResourceKey.create(Registries.DAMAGE_TYPE, Techguns.id("bullet"));
@@ -51,15 +51,19 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 
 	/** Side offset of the muzzle from the eyes, by the hand the gun is in; CENTER for scoped shots. */
 	public static final float LEFT = 0.16f, RIGHT = -0.16f, CENTER = 0f;
+	/** Players this close see block impacts (1.12 bulletTrackRange). */
+	private static final double IMPACT_FX_RANGE = 128;
 
-	private float damage;
-	private float damageMin;
-	private float damageDropStart;
-	private float damageDropEnd;
-	private int ticksToLive;
-	private Vec3 start = Vec3.ZERO;
-	private Kind kind = Kind.BULLET;
-	private double gravity;
+	protected float damage;
+	protected float damageMin;
+	protected float damageDropStart;
+	protected float damageDropEnd;
+	protected int ticksToLive;
+	protected Vec3 start = Vec3.ZERO;
+	protected Kind kind = Kind.BULLET;
+	protected double gravity;
+	/** {@link #LEFT}/{@link #RIGHT}/{@link #CENTER}, sent to clients for muzzle effects. */
+	protected float side;
 
 	public GenericProjectile(EntityType<? extends GenericProjectile> type, Level level) {
 		super(type, level);
@@ -68,10 +72,18 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	/** Fired from the shooter's eyes, {@code side} to the side, with up to ±spread*40 degrees of random spread. */
 	public GenericProjectile(Level level, LivingEntity shooter, Kind kind, float damage, float speed, int ticksToLive, float spread,
 			float damageDropStart, float damageDropEnd, float damageMin, float side, double gravity) {
-		this(TGEntities.GENERIC_PROJECTILE.get(), level);
+		this(TGEntities.GENERIC_PROJECTILE.get(), level, shooter, kind, damage, speed, ticksToLive, spread, damageDropStart, damageDropEnd,
+				damageMin, side, gravity);
+	}
+
+	/** For subclasses: their own entity type, the rest as above (matches {@link techguns.items.guns.ProjectileFactory}). */
+	protected GenericProjectile(EntityType<? extends GenericProjectile> type, Level level, LivingEntity shooter, Kind kind, float damage,
+			float speed, int ticksToLive, float spread, float damageDropStart, float damageDropEnd, float damageMin, float side, double gravity) {
+		this(type, level);
 		setOwner(shooter);
 		this.kind = kind;
 		this.gravity = gravity;
+		this.side = side;
 		this.damage = damage * kind.damageMultiplier;
 		this.damageMin = damageMin * kind.damageMultiplier;
 		this.damageDropStart = damageDropStart;
@@ -90,6 +102,11 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		return kind;
 	}
 
+	/** Client: plays {@code name} at the shooter's muzzle, 1.12 PacketSpawnParticleOnEntity offsets (x for the left hand). */
+	protected void muzzleFX(String name, float x, float y, float z) {
+		if (getOwner() != null) TGEffects.createFXOnEntity(getOwner(), name, new Vec3(Math.signum(side) * x, y, z), true);
+	}
+
 	/** 1.12 shiftForward: start {@code factor} ticks of flight further along. */
 	public void shiftForward(float factor) {
 		setPos(position().add(getDeltaMovement().scale(factor)));
@@ -99,12 +116,15 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
 		buffer.writeEnum(kind);
 		buffer.writeDouble(gravity);
+		buffer.writeFloat(side);
 	}
 
 	@Override
 	public void readSpawnData(RegistryFriendlyByteBuf buffer) {
 		kind = buffer.readEnum(Kind.class);
 		gravity = buffer.readDouble();
+		side = buffer.readFloat();
+		if (kind == Kind.INCENDIARY_SHELL) TGEffects.createFXOnEntity(this, "IncendiaryShotgunTrail");
 	}
 
 	@Override
@@ -134,10 +154,6 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 			drag = 0.85f;
 		}
 		setDeltaMovement(motion.scale(drag).subtract(0, gravity, 0));
-		if (kind == Kind.INCENDIARY_SHELL && level().isClientSide && !isInWater()) {
-			level().addParticle(ParticleTypes.FLAME, getX() - motion.x * 0.25, getY() - motion.y * 0.25, getZ() - motion.z * 0.25,
-					motion.x * 0.05, motion.y * 0.05, motion.z * 0.05);
-		}
 		if (!level().isClientSide && --ticksToLive <= 0) discard();
 	}
 
@@ -173,20 +189,43 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 			explode(pos);
 			return;
 		}
-		server.playSound(null, pos.x, pos.y, pos.z, impactSound(state.getSoundType(server, result.getBlockPos(), this)), SoundSource.AMBIENT, 1.0f, 1.0f);
-		server.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, state), pos.x, pos.y, pos.z, 6, 0.05, 0.05, 0.05, 0.1);
+		// the 1.12 PacketGunImpactFX: a TGFX impact by block material, facing out of the hit side
+		Direction side = result.getDirection();
+		float pitch = side == Direction.UP ? -90 : side == Direction.DOWN ? 90 : 0;
+		float yaw = side.getAxis().isHorizontal() ? side.toYRot() : 0;
+		String material = kind == Kind.INCENDIARY_SHELL ? "Dirt" : impactMaterial(state.getSoundType(server, result.getBlockPos(), this));
+		server.playSound(null, pos.x, pos.y, pos.z, impactSound(material), SoundSource.AMBIENT, 1.0f, 1.0f);
+		if (kind == Kind.INCENDIARY_BULLET || kind == Kind.INCENDIARY_SHELL) {
+			TGEffects.sendFX(server, "Impact_IncendiaryBullet", pos.x, pos.y, pos.z, pitch, yaw, 1.0f, IMPACT_FX_RANGE);
+		}
+		if (kind != Kind.INCENDIARY_SHELL) {
+			String fx = "Impact_Bullet" + material + (kind == Kind.ADVANCED ? "_Blue" : "");
+			TGEffects.sendFX(server, fx, pos.x, pos.y, pos.z, pitch, yaw, 1.0f, IMPACT_FX_RANGE);
+		}
 	}
 
-	private static SoundEvent impactSound(SoundType sound) {
-		if (sound == SoundType.STONE) return TGSounds.BULLET_IMPACT_STONE.get();
-		if (sound == SoundType.WOOD || sound == SoundType.LADDER) return TGSounds.BULLET_IMPACT_WOOD.get();
-		if (sound == SoundType.GLASS) return TGSounds.BULLET_IMPACT_GLASS.get();
-		if (sound == SoundType.METAL || sound == SoundType.ANVIL) return TGSounds.BULLET_IMPACT_METAL.get();
-		return TGSounds.BULLET_IMPACT_DIRT.get();
+	/** Names the TGFX impact and picks the sound, by block sound as in 1.12 (GROUND there is GRAVEL now). */
+	private static String impactMaterial(SoundType sound) {
+		if (sound == SoundType.STONE) return "Rock";
+		if (sound == SoundType.WOOD || sound == SoundType.LADDER) return "Wood";
+		if (sound == SoundType.GLASS) return "Glass";
+		if (sound == SoundType.METAL || sound == SoundType.ANVIL) return "Metal";
+		if (sound == SoundType.GRAVEL || sound == SoundType.SAND) return "Dirt";
+		return "Default";
+	}
+
+	private static SoundEvent impactSound(String material) {
+		return switch (material) {
+			case "Rock" -> TGSounds.BULLET_IMPACT_STONE.get();
+			case "Wood" -> TGSounds.BULLET_IMPACT_WOOD.get();
+			case "Glass" -> TGSounds.BULLET_IMPACT_GLASS.get();
+			case "Metal" -> TGSounds.BULLET_IMPACT_METAL.get();
+			default -> TGSounds.BULLET_IMPACT_DIRT.get();
+		};
 	}
 
 	/** Falls linearly from damage to damageMin between damageDropStart and damageDropEnd blocks from the muzzle. */
-	private float getDamage() {
+	protected float getDamage() {
 		double distance = position().distanceTo(start);
 		if (distance <= damageDropStart) return damage;
 		if (distance >= damageDropEnd) return damageMin;

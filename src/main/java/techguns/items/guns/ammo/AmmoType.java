@@ -18,12 +18,16 @@ public class AmmoType {
 	public static final String INCENDIARY = "incendiary";
 	public static final String EXPLOSIVE = "explosive";
 
+	/** {@code bullet} is null for ammo that isn't crafted from bullets (energy cells, tanks). */
 	public record Variant(Supplier<? extends Item> ammo, Supplier<? extends Item> bullet, GenericProjectile.Kind kind) {}
 
 	private final Map<String, Variant> variants = new LinkedHashMap<>();
 	/** Null for loose rounds, which go in one at a time. */
 	private final Supplier<? extends Item> emptyMag;
 	private final int bulletsPerMag;
+	/** A second item every reload also uses up, and the empty it hands back (the gauss rifle's energy cell). */
+	private Supplier<? extends Item> extraAmmo;
+	private Supplier<? extends Item> extraEmpty;
 
 	public AmmoType(Supplier<? extends Item> ammo, Supplier<? extends Item> emptyMag, Supplier<? extends Item> bullet, int bulletsPerMag,
 			GenericProjectile.Kind kind) {
@@ -44,6 +48,20 @@ public class AmmoType {
 
 	public AmmoType variant(String key, Supplier<? extends Item> ammo, GenericProjectile.Kind kind) {
 		return variant(key, ammo, ammo, kind);
+	}
+
+	public AmmoType extra(Supplier<? extends Item> ammo, Supplier<? extends Item> empty) {
+		extraAmmo = ammo;
+		extraEmpty = empty;
+		return this;
+	}
+
+	public Supplier<? extends Item> extraAmmo() {
+		return extraAmmo;
+	}
+
+	public Supplier<? extends Item> extraEmpty() {
+		return extraEmpty;
 	}
 
 	/** Unknown keys fall back to the default variant, as in 1.12. */

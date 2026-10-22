@@ -13,7 +13,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 - [x] M2. One gun working end to end
 - [ ] M3. Remaining guns and their models
   - [x] M3.1 Bullet guns (20), ammo variants, zoom and scopes, crosshairs, magazine/rocket renderers
-  - [ ] M3.2 Energy guns and TGFX particles
+  - [x] M3.2 Energy guns and TGFX particles
   - [ ] M3.3 Explosives, charge guns, grenades
   - [ ] M3.4 Melee and mining tools
 - [ ] M4. Player data, armor and damage
@@ -93,6 +93,12 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Right-click zoom with FOV, sniper/tech scope overlays, the 1.12 crosshair styles.
 - GameTests for the shotgun and the ammo change recipe.
 - **Deferred:** AI stats and turret offsets (M6), muzzle lights, the M4 Infiltrator silencer, penetration (stored, used in M4), minigun spin-up, camo change recipe, `miningtool_upgrade`/`copy_nbt`/`ammo_sum_recipe` recipes.
+
+**M3.2 done:**
+- TGFX (`client/particle/`) reads `assets/techguns/particles/*.txt` on resource reload and draws after vanilla particles. `TGEffects` is the common entry point: `createFX`/`createFXOnEntity` on the client, `sendFX` from the server (`techguns:spawn_fx`). Bullet impacts use the 1.12 per-material impact effects.
+- 12 energy guns (laser gun and pistol, tesla, alien blaster, netherblaster, blaster rifle, scatterbeam, sonic shotgun, NDR, deatomizer, gauss rifle, flamethrower), picked per gun with `GenericGun.setProjectile`. Beams (laser, tesla, NDR) are hitscan `AbstractBeamProjectile`s; tesla chains. Gauss rifle reload takes a slug plus an energy cell (`AmmoType.extra`). The gauss rifle is an OBJ model drawn by `ModelObj`.
+- Looping fire sounds (flamethrower, NDR), the flamethrower pilot flame.
+- **Deferred:** light pulses (no dynamic lights), TGFX death effects (M6), radiation from the NDR (M4), fire projectiles igniting blocks (M4 block damage config), armor penetration (M4). The gauss rifle HUD shows only slugs.
 
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.
