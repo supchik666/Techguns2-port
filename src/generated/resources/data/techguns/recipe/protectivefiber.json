@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:heavycloth"
+    },
+    {
+      "item": "techguns:rubberbar"
+    },
+    {
+      "item": "techguns:platelead"
+    }
+  ],
+  "result": {
+    "id": "techguns:protectivefiber",
+    "count": 3
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:platelead"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:protectivefiber"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rubberbar"
+    }
+  ]
+}

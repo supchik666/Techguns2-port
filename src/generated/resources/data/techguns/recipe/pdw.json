@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "brs",
+    " m "
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:carbonbarrel"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "m": {
+      "item": "techguns:advancedmagazine"
+    }
+  },
+  "result": {
+    "id": "techguns:pdw"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advancedmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pdw"
+    }
+  ]
+}

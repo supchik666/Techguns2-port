@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bsp",
+    " fp",
+    "  m"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/titanium"
+    },
+    "b": {
+      "item": "techguns:laserbarrel"
+    },
+    "s": {
+      "item": "techguns:sonicemitter"
+    },
+    "f": {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    "m": {
+      "item": "techguns:energycell"
+    }
+  },
+  "result": {
+    "id": "techguns:mibgun"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:laserbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mibgun"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sonicemitter"
+    }
+  ]
+}

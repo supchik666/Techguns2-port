@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+	"textures": {
+		"particle": "techguns:block/interiormarker_side",
+		"north": "techguns:block/interiormarker_front",
+		"south": "techguns:block/interiormarker_side",
+		"east": "techguns:block/interiormarker_side",
+		"west": "techguns:block/interiormarker_side",
+		"up": "techguns:block/interiormarker_side",
+		"down": "techguns:block/interiormarker_side"
+	}
+}

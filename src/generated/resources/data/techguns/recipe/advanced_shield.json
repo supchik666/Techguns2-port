@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "igi",
+    "isi",
+    "iii"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:shield"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "i": {
+      "tag": "c:plates/carbon"
+    }
+  },
+  "result": {
+    "id": "techguns:advanced_shield"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advanced_shield"
+    }
+  ]
+}

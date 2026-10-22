@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    "c c",
+    "l l"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "l": {
+      "tag": "c:plates/titanium"
+    }
+  },
+  "result": {
+    "id": "techguns:t3_miner_leggings"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t3_miner_leggings"
+    }
+  ]
+}

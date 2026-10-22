@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ww",
+    " w"
+  ],
+  "key": {
+    "w": {
+      "tag": "minecraft:logs"
+    }
+  },
+  "result": {
+    "id": "techguns:woodstock"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:woodstock"
+    }
+  ]
+}

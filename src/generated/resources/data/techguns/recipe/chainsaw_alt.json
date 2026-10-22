@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ccp",
+    "mmr",
+    "ccf"
+  ],
+  "key": {
+    "p": {
+      "item": "techguns:plasticsheet"
+    },
+    "r": {
+      "item": "techguns:ironreceiver"
+    },
+    "c": {
+      "item": "techguns:mechanicalpartsiron"
+    },
+    "f": {
+      "item": "techguns:fueltankempty"
+    },
+    "m": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:chainsaw"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:chainsaw"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fueltankempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsiron"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

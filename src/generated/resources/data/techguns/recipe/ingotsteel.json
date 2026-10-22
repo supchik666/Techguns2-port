@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    },
+    {
+      "tag": "c:nuggets/steel"
+    }
+  ],
+  "result": {
+    "id": "techguns:ingotsteel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotsteel"
+    }
+  ]
+}

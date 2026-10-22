@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "lcl",
+    "eae",
+    "lcl"
+  ],
+  "key": {
+    "a": {
+      "item": "techguns:antigravcore"
+    },
+    "c": {
+      "item": "techguns:coil"
+    },
+    "e": {
+      "item": "techguns:enricheduranium"
+    },
+    "l": {
+      "tag": "c:plates/lead"
+    }
+  },
+  "result": {
+    "id": "techguns:plasmagenerator"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:antigravcore"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:coil"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:enricheduranium"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasmagenerator"
+    }
+  ]
+}

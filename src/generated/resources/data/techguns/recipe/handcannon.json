@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bfs"
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:stonebarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:handcannon"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:handcannon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stonebarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:woodstock"
+    }
+  ]
+}

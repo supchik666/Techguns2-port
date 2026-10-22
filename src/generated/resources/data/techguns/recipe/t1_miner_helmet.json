@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iyi",
+    "c c"
+  ],
+  "key": {
+    "c": {
+      "item": "techguns:heavycloth"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    },
+    "y": {
+      "tag": "c:dyes/yellow"
+    }
+  },
+  "result": {
+    "id": "techguns:t1_miner_helmet"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t1_miner_helmet"
+    }
+  ]
+}

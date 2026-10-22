@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    " mn",
+    "  n"
+  ],
+  "key": {
+    "i": {
+      "tag": "c:ingots/steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    "n": {
+      "tag": "c:nuggets/steel"
+    }
+  },
+  "result": {
+    "id": "techguns:steelreceiver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelreceiver"
+    }
+  ]
+}

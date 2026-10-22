@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " pi",
+    "bri",
+    " m "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "r": {
+      "item": "techguns:steelreceiver"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "i": {
+      "tag": "c:nuggets/iron"
+    },
+    "m": {
+      "item": "techguns:smgmagazine"
+    }
+  },
+  "result": {
+    "id": "techguns:mac10"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mac10"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelreceiver"
+    }
+  ]
+}

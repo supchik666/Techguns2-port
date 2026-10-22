@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ipi",
+    "ipi",
+    "ipi"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:oredrill",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrill"
+    }
+  ]
+}

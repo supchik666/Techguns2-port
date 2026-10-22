@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:item_door3x3"
+    }
+  ],
+  "result": {
+    "id": "techguns:item_door3x3"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:item_door3x3"
+    }
+  ]
+}

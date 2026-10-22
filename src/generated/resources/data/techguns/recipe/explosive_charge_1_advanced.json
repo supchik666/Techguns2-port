@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rtr",
+    "tct",
+    "rtr"
+  ],
+  "key": {
+    "r": {
+      "tag": "c:plates/plastic"
+    },
+    "c": {
+      "tag": "c:circuits/basic"
+    },
+    "t": {
+      "item": "techguns:tgx"
+    }
+  },
+  "result": {
+    "id": "techguns:explosive_charge",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:explosive_charge"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tgx"
+    }
+  ]
+}

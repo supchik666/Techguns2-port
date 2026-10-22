@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ili",
+    "cec",
+    "iri"
+  ],
+  "key": {
+    "r": {
+      "tag": "c:dusts/redstone"
+    },
+    "c": {
+      "tag": "c:ingots/copper"
+    },
+    "e": {
+      "item": "techguns:electricengine"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    },
+    "l": {
+      "tag": "c:ingots/lead"
+    }
+  },
+  "result": {
+    "id": "techguns:basicmachine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:basicmachine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:electricengine"
+    }
+  ]
+}

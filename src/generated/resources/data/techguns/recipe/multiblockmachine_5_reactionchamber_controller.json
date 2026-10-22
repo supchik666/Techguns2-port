@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " g ",
+    "crc",
+    " g "
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:multiblockmachine"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "techguns:multiblockmachine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:multiblockmachine"
+    }
+  ]
+}

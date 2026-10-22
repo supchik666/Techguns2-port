@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    " pp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "i": {
+      "tag": "c:plates/carbon"
+    }
+  },
+  "result": {
+    "id": "techguns:carbonstock"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonstock"
+    }
+  ]
+}

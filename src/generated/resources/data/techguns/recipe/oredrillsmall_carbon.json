@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "sss",
+    " s "
+  ],
+  "key": {
+    "s": {
+      "tag": "c:plates/carbon"
+    }
+  },
+  "result": {
+    "id": "techguns:oredrillsmall_carbon"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrillsmall_carbon"
+    }
+  ]
+}

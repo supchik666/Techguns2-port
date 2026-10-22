@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "f f",
+    "f f"
+  ],
+  "key": {
+    "f": {
+      "item": "techguns:protectivefiber"
+    }
+  },
+  "result": {
+    "id": "techguns:hazmat_boots"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:hazmat_boots"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:protectivefiber"
+    }
+  ]
+}

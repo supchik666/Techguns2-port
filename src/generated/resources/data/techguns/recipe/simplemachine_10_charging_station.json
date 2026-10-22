@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sgs",
+    "cbc",
+    "sgs"
+  ],
+  "key": {
+    "b": {
+      "tag": "c:circuits/basic"
+    },
+    "s": {
+      "tag": "c:plates/steel"
+    },
+    "c": {
+      "item": "techguns:coil"
+    },
+    "g": {
+      "tag": "c:wires/gold"
+    }
+  },
+  "result": {
+    "id": "techguns:simplemachine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:coil"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:simplemachine"
+    }
+  ]
+}

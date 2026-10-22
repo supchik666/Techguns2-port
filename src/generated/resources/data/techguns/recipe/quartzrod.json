@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "q  ",
+    " q ",
+    "  q"
+  ],
+  "key": {
+    "q": {
+      "tag": "c:gems/quartz"
+    }
+  },
+  "result": {
+    "id": "techguns:quartzrod"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:quartzrod"
+    }
+  ]
+}

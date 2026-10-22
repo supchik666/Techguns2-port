@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cpc",
+    "pgp"
+  ],
+  "key": {
+    "p": {
+      "item": "techguns:powerplating"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    }
+  },
+  "result": {
+    "id": "techguns:t3_power_helmet"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:powerplating"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t3_power_helmet"
+    }
+  ]
+}

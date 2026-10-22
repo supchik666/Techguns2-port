@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cpc",
+    "bns",
+    "cpc"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/obsidian_steel"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "c": {
+      "item": "techguns:cyberneticparts"
+    },
+    "s": {
+      "item": "techguns:pumpmechanism"
+    },
+    "n": {
+      "item": "techguns:nethercharge"
+    }
+  },
+  "result": {
+    "id": "techguns:netherblaster"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:cyberneticparts"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:netherblaster"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nethercharge"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pumpmechanism"
+    }
+  ]
+}

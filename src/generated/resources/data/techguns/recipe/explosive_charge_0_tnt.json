@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rtr",
+    "tct",
+    "rtr"
+  ],
+  "key": {
+    "r": {
+      "tag": "c:rubbers"
+    },
+    "c": {
+      "tag": "c:circuits/basic"
+    },
+    "t": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "id": "techguns:explosive_charge",
+    "count": 8
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:explosive_charge"
+    }
+  ]
+}

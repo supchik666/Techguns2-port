@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " gd",
+    "brs",
+    " m "
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "d": {
+      "tag": "c:dusts/redstone"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "m": {
+      "item": "techguns:smgmagazine"
+    }
+  },
+  "result": {
+    "id": "techguns:vector"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:vector"
+    }
+  ]
+}

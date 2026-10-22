@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    " mi",
+    "  i"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "i": {
+      "tag": "c:ingots/obsidian_steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  },
+  "result": {
+    "id": "techguns:carbonreceiver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  ]
+}

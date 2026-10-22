@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:rifleroundsstack"
+    }
+  ],
+  "result": {
+    "id": "techguns:riflerounds",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rifleroundsstack"
+    }
+  ]
+}

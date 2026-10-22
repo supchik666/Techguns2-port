@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plateiron"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techguns:plateiron"
+  },
+  "result": {
+    "id": "minecraft:iron_ingot"
+  },
+  "experience": 0,
+  "cookingtime": 200
+}

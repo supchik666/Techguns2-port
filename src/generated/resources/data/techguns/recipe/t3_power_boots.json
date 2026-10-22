@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "e e",
+    "p p"
+  ],
+  "key": {
+    "p": {
+      "item": "techguns:powerplating"
+    },
+    "e": {
+      "item": "techguns:electricengine"
+    }
+  },
+  "result": {
+    "id": "techguns:t3_power_boots"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:electricengine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:powerplating"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t3_power_boots"
+    }
+  ]
+}

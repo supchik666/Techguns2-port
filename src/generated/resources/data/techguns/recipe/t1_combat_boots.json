@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "c c",
+    "i i"
+  ],
+  "key": {
+    "c": {
+      "item": "techguns:heavycloth"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:t1_combat_boots"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t1_combat_boots"
+    }
+  ]
+}

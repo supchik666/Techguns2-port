@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    "   ",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "tag": "c:plates/carbon"
+    }
+  },
+  "result": {
+    "id": "techguns:carbonbarrel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonbarrel"
+    }
+  ]
+}

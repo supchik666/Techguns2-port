@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "clc",
+    "cgc",
+    "ccc"
+  ],
+  "key": {
+    "c": {
+      "tag": "c:nuggets/copper"
+    },
+    "g": {
+      "item": "minecraft:gunpowder"
+    },
+    "l": {
+      "tag": "c:ingots/lead"
+    }
+  },
+  "result": {
+    "id": "techguns:pistolrounds",
+    "count": 8
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds"
+    }
+  ]
+}

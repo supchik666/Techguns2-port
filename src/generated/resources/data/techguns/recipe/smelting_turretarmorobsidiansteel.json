@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:turretarmorobsidiansteel"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techguns:turretarmorobsidiansteel"
+  },
+  "result": {
+    "id": "techguns:ingotobsidiansteel",
+    "count": 5
+  },
+  "experience": 0,
+  "cookingtime": 200
+}

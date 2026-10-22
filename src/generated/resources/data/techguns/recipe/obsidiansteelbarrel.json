@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ooo",
+    "   ",
+    "ooo"
+  ],
+  "key": {
+    "o": {
+      "item": "techguns:ingotobsidiansteel"
+    }
+  },
+  "result": {
+    "id": "techguns:obsidiansteelbarrel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    }
+  ]
+}

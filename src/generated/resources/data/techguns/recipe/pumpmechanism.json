@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "nnn",
+    "gpg",
+    "nnn"
+  ],
+  "key": {
+    "p": {
+      "item": "minecraft:piston"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "n": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:pumpmechanism"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pumpmechanism"
+    }
+  ]
+}

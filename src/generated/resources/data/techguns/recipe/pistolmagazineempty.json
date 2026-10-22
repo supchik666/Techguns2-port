@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i i",
+    "imi",
+    "igi"
+  ],
+  "key": {
+    "g": {
+      "tag": "c:ingots/iron"
+    },
+    "i": {
+      "tag": "c:nuggets/iron"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsiron"
+    }
+  },
+  "result": {
+    "id": "techguns:pistolmagazineempty",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsiron"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolmagazineempty"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pp",
+    "pp",
+    "pp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:item_bunkerdoor",
+    "count": 2
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:item_bunkerdoor"
+    }
+  ]
+}

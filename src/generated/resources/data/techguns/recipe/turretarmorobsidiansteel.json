@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    " p ",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:turretarmorobsidiansteel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:turretarmorobsidiansteel"
+    }
+  ]
+}

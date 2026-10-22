@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " gd",
+    "crs",
+    " e "
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "c": {
+      "item": "techguns:coil"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "d": {
+      "tag": "c:dusts/redstone"
+    },
+    "e": {
+      "item": "techguns:energycell"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    }
+  },
+  "result": {
+    "id": "techguns:teslagun"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:coil"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:teslagun"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "p p",
+    "lcl",
+    "lpl"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/lead"
+    },
+    "c": {
+      "item": "techguns:t2_combat_chestplate"
+    },
+    "l": {
+      "item": "techguns:treatedleather"
+    }
+  },
+  "result": {
+    "id": "techguns:t2_riot_chestplate"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_combat_chestplate"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_riot_chestplate"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:treatedleather"
+    }
+  ]
+}

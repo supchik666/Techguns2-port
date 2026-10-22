@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "pmp",
+    "sss"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    }
+  },
+  "result": {
+    "id": "techguns:minigundrumempty",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigundrumempty"
+    }
+  ]
+}

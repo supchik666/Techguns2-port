@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s s",
+    "sss",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "techguns:steamarmorplate"
+    }
+  },
+  "result": {
+    "id": "techguns:steam_chestplate"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steam_chestplate"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steamarmorplate"
+    }
+  ]
+}

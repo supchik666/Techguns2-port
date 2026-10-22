@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    " mi",
+    "  i"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/obsidian_steel"
+    },
+    "i": {
+      "tag": "c:ingots/obsidian_steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  },
+  "result": {
+    "id": "techguns:obsidiansteelreceiver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelreceiver"
+    }
+  ]
+}

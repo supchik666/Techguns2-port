@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:pistolmagazineempty"
+    },
+    {
+      "item": "techguns:pistolrounds_incendiary"
+    },
+    {
+      "item": "techguns:pistolrounds_incendiary"
+    },
+    {
+      "item": "techguns:pistolrounds_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:pistolmagazine_incendiary"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolmagazine_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolmagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds_incendiary"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pip",
+    "igi",
+    "pip"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/obsidian_steel"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    },
+    "i": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result": {
+    "id": "techguns:upgrade_blast_protection_2"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:upgrade_blast_protection_2"
+    }
+  ]
+}

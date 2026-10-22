@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:stairs_concrete"
+    }
+  ],
+  "result": {
+    "id": "techguns:concrete_grey_dark"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:concrete_grey_dark"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stairs_concrete"
+    }
+  ]
+}

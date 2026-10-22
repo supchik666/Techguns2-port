@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " g ",
+    "gbg",
+    " g "
+  ],
+  "key": {
+    "b": {
+      "tag": "c:slime_balls"
+    },
+    "g": {
+      "tag": "c:dyes/green"
+    }
+  },
+  "result": {
+    "id": "techguns:biomass",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biomass"
+    }
+  ]
+}

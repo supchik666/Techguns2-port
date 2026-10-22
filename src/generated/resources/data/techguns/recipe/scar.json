@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gpd",
+    "brs",
+    " m "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "r": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "m": {
+      "item": "techguns:assaultriflemagazine"
+    }
+  },
+  "result": {
+    "id": "techguns:scar"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:scar"
+    }
+  ]
+}

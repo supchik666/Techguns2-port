@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:rifleroundsstack_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:riflerounds_incendiary",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rifleroundsstack_incendiary"
+    }
+  ]
+}

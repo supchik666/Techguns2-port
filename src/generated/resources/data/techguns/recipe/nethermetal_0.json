@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "nsn",
+    "sis",
+    "nsn"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:stones"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    },
+    "n": {
+      "tag": "c:netherracks"
+    }
+  },
+  "result": {
+    "id": "techguns:nethermetal_panel",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nethermetal_panel"
+    }
+  ]
+}

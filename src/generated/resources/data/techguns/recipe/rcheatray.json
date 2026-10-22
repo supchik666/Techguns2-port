@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cwc",
+    "plp",
+    "plp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/steel"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "w": {
+      "tag": "c:wires/gold"
+    },
+    "l": {
+      "item": "minecraft:redstone_lamp"
+    }
+  },
+  "result": {
+    "id": "techguns:rcheatray"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rcheatray"
+    }
+  ]
+}

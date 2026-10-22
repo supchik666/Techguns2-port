@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bfw",
+    "bf "
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:ironbarrel"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "w": {
+      "item": "techguns:woodstock"
+    }
+  },
+  "result": {
+    "id": "techguns:sawedoff"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sawedoff"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:woodstock"
+    }
+  ]
+}

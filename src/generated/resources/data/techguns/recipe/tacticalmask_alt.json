@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ogn",
+    "cpc",
+    "pep"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "c": {
+      "tag": "c:circuits/basic"
+    },
+    "e": {
+      "item": "techguns:energycell"
+    },
+    "g": {
+      "item": "techguns:gasmask"
+    },
+    "n": {
+      "item": "techguns:nightvisiongoggles"
+    },
+    "o": {
+      "item": "techguns:oxygenmask"
+    }
+  },
+  "result": {
+    "id": "techguns:tacticalmask"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gasmask"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nightvisiongoggles"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oxygenmask"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tacticalmask"
+    }
+  ]
+}

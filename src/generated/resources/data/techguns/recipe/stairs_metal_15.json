@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b  ",
+    "bb ",
+    "bbb"
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:steelframe_dark"
+    }
+  },
+  "result": {
+    "id": "techguns:stairs_metal_carbon",
+    "count": 6
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stairs_metal_carbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelframe_dark"
+    }
+  ]
+}

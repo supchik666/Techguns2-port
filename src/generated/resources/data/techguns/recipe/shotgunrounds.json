@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "lll",
+    "cgc",
+    "ccc"
+  ],
+  "key": {
+    "c": {
+      "tag": "c:nuggets/copper"
+    },
+    "g": {
+      "item": "minecraft:gunpowder"
+    },
+    "l": {
+      "tag": "c:nuggets/lead"
+    }
+  },
+  "result": {
+    "id": "techguns:shotgunrounds",
+    "count": 5
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shotgunrounds"
+    }
+  ]
+}

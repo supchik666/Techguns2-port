@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:as50magazineempty"
+    },
+    {
+      "item": "techguns:sniperrounds_incendiary"
+    },
+    {
+      "item": "techguns:sniperrounds_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:as50magazine_incendiary"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:as50magazine_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:as50magazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds_incendiary"
+    }
+  ]
+}

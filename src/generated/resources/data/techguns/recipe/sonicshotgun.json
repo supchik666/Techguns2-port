@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " p ",
+    "ers",
+    " c "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/titanium"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "c": {
+      "item": "techguns:energycell"
+    },
+    "e": {
+      "item": "techguns:sonicemitter"
+    }
+  },
+  "result": {
+    "id": "techguns:sonicshotgun"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sonicemitter"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sonicshotgun"
+    }
+  ]
+}

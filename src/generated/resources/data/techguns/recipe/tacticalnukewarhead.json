@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pcp",
+    "tut",
+    "pcp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/lead"
+    },
+    "c": {
+      "tag": "c:circuits/basic"
+    },
+    "t": {
+      "item": "techguns:tgx"
+    },
+    "u": {
+      "tag": "c:ingots/enriched_uranium"
+    }
+  },
+  "result": {
+    "id": "techguns:tacticalnukewarhead",
+    "count": 2
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tacticalnukewarhead"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tgx"
+    }
+  ]
+}

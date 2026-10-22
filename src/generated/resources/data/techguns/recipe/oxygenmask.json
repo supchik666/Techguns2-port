@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " p ",
+    "rpr"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "r": {
+      "tag": "c:rubbers"
+    }
+  },
+  "result": {
+    "id": "techguns:oxygenmask"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oxygenmask"
+    }
+  ]
+}

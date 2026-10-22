@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "techguns:blocks/nethermetal_grate1",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "techguns:nethermetal_grate1"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

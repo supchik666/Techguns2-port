@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "fff",
+    "ggl",
+    "fff"
+  ],
+  "key": {
+    "f": [
+      {
+        "tag": "c:ingots/electrum"
+      },
+      {
+        "tag": "c:ingots/gold"
+      }
+    ],
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "l": {
+      "item": "techguns:laserfocus"
+    }
+  },
+  "result": {
+    "id": "techguns:laserbarrel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:laserbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:laserfocus"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n n",
+    "pbp",
+    "c c"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    },
+    "b": {
+      "item": "techguns:gliderbackpack"
+    },
+    "c": {
+      "item": "techguns:compressedairtank"
+    },
+    "n": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:jumppack"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:compressedairtank"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gliderbackpack"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:jumppack"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotlead"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ore_lead"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techguns:ore_lead"
+  },
+  "result": {
+    "id": "techguns:ingotlead"
+  },
+  "experience": 1.0,
+  "cookingtime": 200
+}

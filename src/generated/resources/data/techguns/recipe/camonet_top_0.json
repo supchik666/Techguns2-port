@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wdw",
+    "dsd",
+    "wdw"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:strings"
+    },
+    "d": {
+      "tag": "minecraft:dirt"
+    },
+    "w": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "result": {
+    "id": "techguns:camonet_top",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:camonet_top"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:redstone_battery_empty"
+    },
+    {
+      "tag": "c:dusts/redstone"
+    }
+  ],
+  "result": {
+    "id": "techguns:redstone_battery"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:redstone_battery"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:redstone_battery_empty"
+    }
+  ]
+}

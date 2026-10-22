@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    " i ",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:ladder_metal",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ladder_metal"
+    }
+  ]
+}

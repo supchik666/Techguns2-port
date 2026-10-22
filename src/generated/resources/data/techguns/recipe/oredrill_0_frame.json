@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pbp",
+    "bpb",
+    "pbp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    },
+    "b": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "id": "techguns:oredrill",
+    "count": 8
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrill"
+    }
+  ]
+}

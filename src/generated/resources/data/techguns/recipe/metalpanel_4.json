@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:stairs_metal"
+    }
+  ],
+  "result": {
+    "id": "techguns:panel_large_border"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:panel_large_border"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stairs_metal"
+    }
+  ]
+}

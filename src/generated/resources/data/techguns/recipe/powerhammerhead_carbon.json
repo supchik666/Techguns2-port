@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "p  ",
+    "pii",
+    "p  "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "i": {
+      "tag": "c:ingots/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:powerhammerhead_carbon"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:powerhammerhead_carbon"
+    }
+  ]
+}

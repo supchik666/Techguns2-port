@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "psp",
+    "sss"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    },
+    "s": {
+      "tag": "c:stones"
+    }
+  },
+  "result": {
+    "id": "techguns:container_red",
+    "count": 32
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:container_red"
+    }
+  ]
+}

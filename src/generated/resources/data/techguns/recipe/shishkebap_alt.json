@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "p ",
+    "pm",
+    "sf"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/obsidian_steel"
+    },
+    "s": {
+      "tag": "c:plates/plastic"
+    },
+    "f": {
+      "item": "techguns:fueltankempty"
+    },
+    "m": {
+      "item": "techguns:pumpmechanism"
+    }
+  },
+  "result": {
+    "id": "techguns:shishkebap"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fueltankempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pumpmechanism"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shishkebap"
+    }
+  ]
+}

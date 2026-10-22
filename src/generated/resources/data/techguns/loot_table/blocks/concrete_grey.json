@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "techguns:blocks/concrete_grey",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "techguns:concrete_grey"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

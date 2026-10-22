@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "hih",
+    "i i",
+    "h h"
+  ],
+  "key": {
+    "h": {
+      "tag": "c:rubbers"
+    },
+    "i": {
+      "tag": "c:ingots/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:t2_commando_leggings"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_commando_leggings"
+    }
+  ]
+}

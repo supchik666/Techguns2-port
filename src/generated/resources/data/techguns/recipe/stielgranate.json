@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " it",
+    " wi",
+    "i  "
+  ],
+  "key": {
+    "t": {
+      "item": "minecraft:tnt"
+    },
+    "w": {
+      "tag": "minecraft:planks"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:stielgranate",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stielgranate"
+    }
+  ]
+}

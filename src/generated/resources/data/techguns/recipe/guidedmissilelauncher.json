@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " gc",
+    "rbb",
+    " f "
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:rocket"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "f": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "techguns:guidedmissilelauncher"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:guidedmissilelauncher"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket"
+    }
+  ]
+}

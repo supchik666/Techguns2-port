@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " cc",
+    "c c"
+  ],
+  "key": {
+    "c": {
+      "item": "techguns:heavycloth"
+    }
+  },
+  "result": {
+    "id": "techguns:t2_beret"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_beret"
+    }
+  ]
+}

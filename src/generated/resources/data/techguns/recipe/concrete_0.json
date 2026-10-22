@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ccc",
+    "cbc",
+    "ccc"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:iron_bars"
+    },
+    "c": {
+      "tag": "c:concretes"
+    }
+  },
+  "result": {
+    "id": "techguns:concrete_brown",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:concrete_brown"
+    }
+  ]
+}

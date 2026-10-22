@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i i",
+    "i i",
+    "imi"
+  ],
+  "key": {
+    "i": {
+      "tag": "c:ingots/obsidian_steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    }
+  },
+  "result": {
+    "id": "techguns:advancedmagazineempty",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advancedmagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    }
+  ]
+}

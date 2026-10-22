@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "techguns:blocks/nethermetal_plate_black",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "techguns:nethermetal_plate_black"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

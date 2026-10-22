@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "fgf",
+    "g g",
+    "fgf"
+  ],
+  "key": {
+    "f": {
+      "item": "techguns:multiblockmachine"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "techguns:multiblockmachine",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:multiblockmachine"
+    }
+  ]
+}

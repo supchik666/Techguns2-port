@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "h h",
+    "hih",
+    "iii"
+  ],
+  "key": {
+    "h": {
+      "tag": "c:rubbers"
+    },
+    "i": {
+      "tag": "c:ingots/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:t2_commando_chestplate"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_commando_chestplate"
+    }
+  ]
+}

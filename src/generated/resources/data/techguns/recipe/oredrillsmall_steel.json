@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sps",
+    "sps",
+    " s "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/steel"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "techguns:oredrillsmall_steel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrillsmall_steel"
+    }
+  ]
+}

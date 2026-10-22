@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "d d",
+    " d "
+  ],
+  "key": {
+    "d": {
+      "item": "techguns:oredrillmedium_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:oredrilllarge_steel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrilllarge_steel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrillmedium_steel"
+    }
+  ]
+}

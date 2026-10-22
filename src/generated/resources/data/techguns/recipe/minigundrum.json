@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:minigundrumempty"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    }
+  ],
+  "result": {
+    "id": "techguns:minigundrum"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigundrum"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigundrumempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rifleroundsstack"
+    }
+  ]
+}

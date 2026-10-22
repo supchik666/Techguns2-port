@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:lmgmagazineempty"
+    },
+    {
+      "item": "techguns:rifleroundsstack_incendiary"
+    },
+    {
+      "item": "techguns:rifleroundsstack_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:lmgmagazine_incendiary"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lmgmagazine_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lmgmagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rifleroundsstack_incendiary"
+    }
+  ]
+}

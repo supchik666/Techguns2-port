@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plateobsidiansteel"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techguns:plateobsidiansteel"
+  },
+  "result": {
+    "id": "techguns:ingotobsidiansteel"
+  },
+  "experience": 0,
+  "cookingtime": 200
+}

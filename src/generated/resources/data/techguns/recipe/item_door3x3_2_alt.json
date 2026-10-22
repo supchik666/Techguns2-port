@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    "ppp",
+    "sps"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/tin"
+    },
+    "s": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "id": "techguns:item_door3x3",
+    "count": 2
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:item_door3x3"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:stairs_concrete_light"
+    }
+  ],
+  "result": {
+    "id": "techguns:concrete_brown_light"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:concrete_brown_light"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stairs_concrete_light"
+    }
+  ]
+}

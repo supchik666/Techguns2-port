@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    " p ",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    }
+  },
+  "result": {
+    "id": "techguns:turretarmorcarbon"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:turretarmorcarbon"
+    }
+  ]
+}

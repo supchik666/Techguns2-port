@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "nwn",
+    "nrn",
+    "nrn"
+  ],
+  "key": {
+    "r": {
+      "tag": "c:dusts/redstone"
+    },
+    "w": {
+      "tag": "c:wires/copper"
+    },
+    "n": {
+      "tag": "c:nuggets/copper"
+    }
+  },
+  "result": {
+    "id": "techguns:redstone_battery",
+    "count": 2
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:redstone_battery"
+    }
+  ]
+}

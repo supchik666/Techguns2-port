@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pcg",
+    "bms",
+    " e "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "b": {
+      "item": "techguns:laserbarrel"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "e": {
+      "item": "techguns:energycell"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "m": {
+      "item": "techguns:carbonreceiver"
+    }
+  },
+  "result": {
+    "id": "techguns:blasterrifle"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:blasterrifle"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:laserbarrel"
+    }
+  ]
+}

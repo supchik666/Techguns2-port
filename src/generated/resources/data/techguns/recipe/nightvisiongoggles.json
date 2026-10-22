@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rhr",
+    "cec",
+    "gsg"
+  ],
+  "key": {
+    "r": {
+      "tag": "c:rubbers"
+    },
+    "c": {
+      "tag": "c:circuits/basic"
+    },
+    "s": {
+      "tag": "c:ingots/iron"
+    },
+    "e": {
+      "item": "techguns:redstone_battery"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "h": {
+      "item": "techguns:heavycloth"
+    }
+  },
+  "result": {
+    "id": "techguns:nightvisiongoggles"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nightvisiongoggles"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:redstone_battery"
+    }
+  ]
+}

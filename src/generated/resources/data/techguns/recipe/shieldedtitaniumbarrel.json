@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "tct",
+    "lbl",
+    "tct"
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:carbonbarrel"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "t": {
+      "tag": "c:plates/titanium"
+    },
+    "l": {
+      "tag": "c:plates/lead"
+    }
+  },
+  "result": {
+    "id": "techguns:shieldedtitaniumbarrel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shieldedtitaniumbarrel"
+    }
+  ]
+}

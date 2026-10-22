@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "igi",
+    "isi",
+    "igi"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:shield"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "i": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "techguns:riot_shield"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riot_shield"
+    }
+  ]
+}

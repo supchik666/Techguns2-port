@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bsp",
+    " fp",
+    "  m"
+  ],
+  "key": {
+    "p": {
+      "item": "techguns:plasticsheet"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "tag": "c:plates/steel"
+    },
+    "f": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    "m": {
+      "item": "techguns:pistolmagazine"
+    }
+  },
+  "result": {
+    "id": "techguns:pistol"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistol"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

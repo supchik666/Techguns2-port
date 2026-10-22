@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:advancedmagazineempty"
+    },
+    {
+      "item": "techguns:advancedrounds"
+    },
+    {
+      "item": "techguns:advancedrounds"
+    },
+    {
+      "item": "techguns:advancedrounds"
+    }
+  ],
+  "result": {
+    "id": "techguns:advancedmagazine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advancedmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advancedmagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advancedrounds"
+    }
+  ]
+}

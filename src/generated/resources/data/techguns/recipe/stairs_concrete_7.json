@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b  ",
+    "bb ",
+    "bbb"
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:concrete_grey_dark"
+    }
+  },
+  "result": {
+    "id": "techguns:stairs_concrete",
+    "count": 6
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:concrete_grey_dark"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stairs_concrete"
+    }
+  ]
+}

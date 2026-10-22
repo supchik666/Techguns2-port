@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "tet",
+    "cac",
+    "mbm"
+  ],
+  "key": {
+    "a": {
+      "item": "techguns:antigravcore"
+    },
+    "b": {
+      "item": "techguns:gliderbackpack"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "t": {
+      "tag": "c:plates/titanium"
+    },
+    "e": {
+      "item": "techguns:nuclearpowercell"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  },
+  "result": {
+    "id": "techguns:antigravpack"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:antigravcore"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:antigravpack"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gliderbackpack"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuclearpowercell"
+    }
+  ]
+}

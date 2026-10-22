@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bfs",
+    " m "
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:ironbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "techguns:ironreceiver"
+    },
+    "m": {
+      "item": "techguns:smgmagazine"
+    }
+  },
+  "result": {
+    "id": "techguns:thompson"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:thompson"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:woodstock"
+    }
+  ]
+}

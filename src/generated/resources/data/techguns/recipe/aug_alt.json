@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gpg",
+    "bfs",
+    "i m"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/steel"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "techguns:steelreceiver"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "i": {
+      "tag": "c:plates/plastic"
+    },
+    "m": {
+      "item": "techguns:assaultriflemagazineempty"
+    }
+  },
+  "result": {
+    "id": "techguns:aug"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:aug"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelreceiver"
+    }
+  ]
+}

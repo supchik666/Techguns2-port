@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "   ",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:stones"
+    }
+  },
+  "result": {
+    "id": "techguns:stonebarrel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stonebarrel"
+    }
+  ]
+}

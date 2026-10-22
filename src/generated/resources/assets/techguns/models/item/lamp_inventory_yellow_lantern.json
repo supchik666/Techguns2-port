@@ -1,0 +1,7 @@
+{
+    "parent": "techguns:block/lantern_inventory_base",
+    "textures": {
+        "top": "techguns:block/lantern01_top",
+		"side": "techguns:block/lantern01_side"
+    }
+}

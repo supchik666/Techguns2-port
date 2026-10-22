@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "hhh",
+    "shs",
+    "hhh"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/iron"
+    },
+    "h": {
+      "item": "techguns:heavycloth"
+    }
+  },
+  "result": {
+    "id": "techguns:gliderbackpack"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gliderbackpack"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    }
+  ]
+}

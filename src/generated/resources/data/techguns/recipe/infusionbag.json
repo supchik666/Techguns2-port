@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pp",
+    "pp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    }
+  },
+  "result": {
+    "id": "techguns:infusionbag",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:infusionbag"
+    }
+  ]
+}

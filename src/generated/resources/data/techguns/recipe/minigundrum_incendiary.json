@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:minigundrumempty"
+    },
+    {
+      "item": "techguns:rifleroundsstack_incendiary"
+    },
+    {
+      "item": "techguns:rifleroundsstack_incendiary"
+    },
+    {
+      "item": "techguns:rifleroundsstack_incendiary"
+    },
+    {
+      "item": "techguns:rifleroundsstack_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:minigundrum_incendiary"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigundrum_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigundrumempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rifleroundsstack_incendiary"
+    }
+  ]
+}

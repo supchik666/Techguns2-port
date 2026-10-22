@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "nnn",
+    "gsg",
+    "nnn"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:dusts/glowstone"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "n": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:neontubes2",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:neontubes2"
+    }
+  ]
+}

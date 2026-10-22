@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "lhl",
+    "p p",
+    "l l"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/lead"
+    },
+    "h": {
+      "item": "techguns:t2_combat_leggings"
+    },
+    "l": {
+      "item": "techguns:treatedleather"
+    }
+  },
+  "result": {
+    "id": "techguns:t2_riot_leggings"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_combat_leggings"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_riot_leggings"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:treatedleather"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "l l",
+    "p p"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "l": {
+      "tag": "c:plates/titanium"
+    }
+  },
+  "result": {
+    "id": "techguns:t3_miner_boots"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t3_miner_boots"
+    }
+  ]
+}

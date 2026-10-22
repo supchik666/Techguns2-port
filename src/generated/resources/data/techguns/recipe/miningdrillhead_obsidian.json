@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " dd",
+    "ddd",
+    " dd"
+  ],
+  "key": {
+    "d": {
+      "tag": "c:plates/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:miningdrillhead_obsidian"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:miningdrillhead_obsidian"
+    }
+  ]
+}

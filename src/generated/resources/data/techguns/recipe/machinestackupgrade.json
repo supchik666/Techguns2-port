@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pgp",
+    "ncn",
+    "pnp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    },
+    "c": {
+      "item": "minecraft:chest"
+    },
+    "g": {
+      "tag": "c:dyes/green"
+    },
+    "n": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "result": {
+    "id": "techguns:machinestackupgrade"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:machinestackupgrade"
+    }
+  ]
+}

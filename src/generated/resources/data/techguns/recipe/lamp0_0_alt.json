@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:lamp0"
+    }
+  ],
+  "result": {
+    "id": "techguns:lamp0"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lamp0"
+    }
+  ]
+}

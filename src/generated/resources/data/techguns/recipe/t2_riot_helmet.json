@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "php",
+    "l l"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/lead"
+    },
+    "h": {
+      "item": "techguns:t2_combat_helmet"
+    },
+    "l": {
+      "item": "techguns:treatedleather"
+    }
+  },
+  "result": {
+    "id": "techguns:t2_riot_helmet"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_combat_helmet"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_riot_helmet"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:treatedleather"
+    }
+  ]
+}

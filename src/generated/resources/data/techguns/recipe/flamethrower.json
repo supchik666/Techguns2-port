@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "prs",
+    "fm "
+  ],
+  "key": {
+    "p": {
+      "item": "techguns:pumpmechanism"
+    },
+    "r": {
+      "item": "techguns:ironreceiver"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "m": {
+      "item": "techguns:fueltank"
+    }
+  },
+  "result": {
+    "id": "techguns:flamethrower"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:flamethrower"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fueltank"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pumpmechanism"
+    }
+  ]
+}

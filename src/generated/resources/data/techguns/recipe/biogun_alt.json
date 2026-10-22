@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "frs",
+    " m "
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:steelreceiver"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "techguns:pumpmechanism"
+    },
+    "m": {
+      "item": "techguns:biotankempty"
+    }
+  },
+  "result": {
+    "id": "techguns:biogun"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biogun"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biotankempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pumpmechanism"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelreceiver"
+    }
+  ]
+}

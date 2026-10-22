@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ttt",
+    " rc",
+    "  t"
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "t": {
+      "tag": "c:plates/titanium"
+    }
+  },
+  "result": {
+    "id": "techguns:titaniumreceiver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:titaniumreceiver"
+    }
+  ]
+}

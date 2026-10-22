@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " np",
+    " p ",
+    "p  "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/steel"
+    },
+    "n": {
+      "tag": "c:nuggets/steel"
+    }
+  },
+  "result": {
+    "id": "techguns:crowbar"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:crowbar"
+    }
+  ]
+}

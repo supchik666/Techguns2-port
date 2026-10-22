@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "imi",
+    "mem",
+    "iri"
+  ],
+  "key": {
+    "r": {
+      "tag": "c:dusts/redstone"
+    },
+    "e": {
+      "item": "techguns:electricengine"
+    },
+    "i": {
+      "tag": "c:plates/iron"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsiron"
+    }
+  },
+  "result": {
+    "id": "techguns:simplemachine2"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:electricengine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsiron"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:simplemachine2"
+    }
+  ]
+}

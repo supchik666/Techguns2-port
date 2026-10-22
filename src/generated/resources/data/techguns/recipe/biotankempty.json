@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "sgs",
+    "sgs"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:nuggets/steel"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "techguns:biotankempty"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biotankempty"
+    }
+  ]
+}

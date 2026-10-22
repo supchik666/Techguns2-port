@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rawplastic"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techguns:rawplastic"
+  },
+  "result": {
+    "id": "techguns:plasticsheet"
+  },
+  "experience": 0,
+  "cookingtime": 200
+}

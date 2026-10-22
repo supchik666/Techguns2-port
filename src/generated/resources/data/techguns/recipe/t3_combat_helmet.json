@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    "f f"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "f": {
+      "tag": "c:fibers/carbon"
+    }
+  },
+  "result": {
+    "id": "techguns:t3_combat_helmet"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t3_combat_helmet"
+    }
+  ]
+}

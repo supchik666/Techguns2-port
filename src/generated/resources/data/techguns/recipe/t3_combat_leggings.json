@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pfp",
+    "p p",
+    "f f"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "f": {
+      "tag": "c:fibers/carbon"
+    }
+  },
+  "result": {
+    "id": "techguns:t3_combat_leggings"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t3_combat_leggings"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    },
+    {
+      "tag": "c:nuggets/lead"
+    }
+  ],
+  "result": {
+    "id": "techguns:ingotlead"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotlead"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ppp",
+    " p ",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:turretarmoriron"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:turretarmoriron"
+    }
+  ]
+}

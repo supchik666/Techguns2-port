@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:rocket"
+    },
+    {
+      "item": "techguns:tacticalnukewarhead"
+    }
+  ],
+  "result": {
+    "id": "techguns:rocket_nuke"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket_nuke"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tacticalnukewarhead"
+    }
+  ]
+}

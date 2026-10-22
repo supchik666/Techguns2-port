@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:cobblestones"
+    },
+    {
+      "tag": "c:cobblestones"
+    },
+    {
+      "tag": "c:cobblestones"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    }
+  ],
+  "result": {
+    "id": "techguns:stonebullets",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stonebullets"
+    }
+  ]
+}

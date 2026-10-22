@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pcp",
+    "lgl"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "l": {
+      "tag": "c:plates/titanium"
+    }
+  },
+  "result": {
+    "id": "techguns:t3_miner_helmet"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t3_miner_helmet"
+    }
+  ]
+}

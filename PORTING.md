@@ -33,12 +33,26 @@ Each milestone ends with the game launching and something testable in game.
 ### M0. Project setup ✅
 Fresh NeoForge MDK (ModDevGradle, Java 21, Parchment, Gradle wrapper), `neoforge.mods.toml`, mod id `techguns`, CI workflow. An empty mod loads on a dev server.
 
-### M1. Registration and data
-- Replace the `ITGInitializer` classes with `DeferredRegister` for items, blocks, block entities, entities, menus, sounds, effects, data components and the creative tab.
-- Write a flattening table `(old id, meta) → new id` for the shared item and the 21 meta blocks. M7 reuses it for structure conversion.
-- Use datagen for item/block models, blockstates, lang JSON, recipes, loot tables and tags. Ore dictionary → `c:` tags.
-- Custom recipe factories (`legacy/.../recipes/`) → `RecipeSerializer`s.
-- Rename texture folders to 1.13+ names (`item/`, `block/`).
+### M1. Registration and data (in progress)
+Done:
+- [x] `DeferredRegister` for items and blocks, creative tab (`Techguns`, `TGItems`, `TGBlocks`).
+- [x] All 155 shared-item variants as plain items (legacy stack sizes kept).
+- [x] 43 simple blocks: ores, metal panels, nether metal, concrete, neon lights, bug nest blocks, ladders, stairs.
+- [x] `tools/port/flattening.csv`: `(legacy id, meta) → new id`, verified against the 109 recipe files that embed metadata in their names.
+- [x] `tools/port/port_assets.py` regenerates `src/generated/resources/`: textures (folders renamed to `item/`, `block/`), models (paths rewritten), blockstates, lang JSON, tags, block loot tables, recipes.
+- [x] 321 of 372 recipes converted. Each is gated by `neoforge:item_exists` conditions, so it switches on once its items are registered (142 active now).
+
+Remaining:
+- [ ] Decorative blocks with custom shapes: lamps, camo nets, sandbags, slimy ladder.
+- [ ] Remaining meta blocks (machines, doors, spawner, crate, explosive charges, bioblob, ore clusters, ore drill) arrive with their milestones; add their rows to `flattening.csv` then.
+
+Decisions:
+- **Ids keep their 1.12 names** (`plateiron`, `ingotsteel`), so textures, models and lang keys line up without a rename table. Flattened blocks are named after their variant (`container_red`, `nethermetal_grate1`).
+- **Copper uses vanilla** (`minecraft:copper_ingot`, `minecraft:copper_ore`). The 1.12 config toggles for optional ingots are gone; recipes use `c:` tags so other mods' metals still work.
+- **Deferred to M2/M3:**
+  - 13 magazines and rockets have no flat texture (they were 3D-rendered in 1.12), so they show as missing textures until their renderers exist.
+  - 51 recipes use custom types (`ammo_change_crafting`, `miningtool_upgrade`, `copy_nbt`, `ammo_sum_recipe`) or NBT results, and need `RecipeSerializer`s.
+- Tag names for things without a NeoForge convention are guesses: `c:plates/*`, `c:wires/*`, `c:circuits/*`, `c:rubbers`, `c:fibers/carbon`, `c:ingots/obsidian_steel`.
 
 ### M2. One gun end to end (pistol)
 Validates the architecture; everything after is repetition.

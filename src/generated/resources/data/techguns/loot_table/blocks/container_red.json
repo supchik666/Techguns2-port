@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "techguns:blocks/container_red",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "techguns:container_red"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

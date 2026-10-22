@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sms",
+    "pcp",
+    "ses"
+  ],
+  "key": {
+    "p": {
+      "item": "techguns:cyberneticparts"
+    },
+    "s": {
+      "tag": "c:plates/steel"
+    },
+    "c": {
+      "item": "techguns:basicmachine"
+    },
+    "e": {
+      "tag": "c:circuits/elite"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  },
+  "result": {
+    "id": "techguns:multiblockmachine",
+    "count": 9
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:basicmachine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:cyberneticparts"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:multiblockmachine"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:stairs_metal_carbon"
+    }
+  ],
+  "result": {
+    "id": "techguns:steelframe_dark"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stairs_metal_carbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelframe_dark"
+    }
+  ]
+}

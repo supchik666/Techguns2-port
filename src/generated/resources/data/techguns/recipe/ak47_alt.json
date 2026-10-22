@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bfs",
+    "wm "
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "techguns:ironreceiver"
+    },
+    "w": {
+      "tag": "minecraft:logs"
+    },
+    "m": {
+      "item": "techguns:assaultriflemagazineempty"
+    }
+  },
+  "result": {
+    "id": "techguns:ak47"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ak47"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:woodstock"
+    }
+  ]
+}

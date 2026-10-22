@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pww",
+    "bbc",
+    "pww"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/titanium"
+    },
+    "b": {
+      "item": "techguns:carbonbarrel"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "w": {
+      "tag": "c:wires/gold"
+    }
+  },
+  "result": {
+    "id": "techguns:gaussbarrel"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gaussbarrel"
+    }
+  ]
+}

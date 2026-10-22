@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gi ",
+    "bfs"
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "techguns:ironreceiver"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "i": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:boltaction"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:boltaction"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:woodstock"
+    }
+  ]
+}

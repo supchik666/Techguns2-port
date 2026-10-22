@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mrs",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/steel"
+    },
+    "r": {
+      "item": "techguns:steelreceiver"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "m": {
+      "item": "techguns:obsidiansteelbarrel"
+    }
+  },
+  "result": {
+    "id": "techguns:grenadelauncher"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:grenadelauncher"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelreceiver"
+    }
+  ]
+}

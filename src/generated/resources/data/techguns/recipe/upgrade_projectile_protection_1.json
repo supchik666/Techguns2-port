@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pip",
+    "igi",
+    "pip"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/steel"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    },
+    "i": {
+      "item": "techguns:steamarmorplate"
+    }
+  },
+  "result": {
+    "id": "techguns:upgrade_projectile_protection_1"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steamarmorplate"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:upgrade_projectile_protection_1"
+    }
+  ]
+}

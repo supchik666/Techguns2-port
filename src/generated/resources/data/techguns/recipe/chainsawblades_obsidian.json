@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " pm",
+    "m  ",
+    " pm"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    }
+  },
+  "result": {
+    "id": "techguns:chainsawblades_obsidian"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:chainsawblades_obsidian"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    }
+  ]
+}

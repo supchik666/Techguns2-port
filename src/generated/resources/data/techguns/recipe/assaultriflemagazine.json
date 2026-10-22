@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:assaultriflemagazineempty"
+    },
+    {
+      "item": "techguns:riflerounds"
+    },
+    {
+      "item": "techguns:riflerounds"
+    },
+    {
+      "item": "techguns:riflerounds"
+    }
+  ],
+  "result": {
+    "id": "techguns:assaultriflemagazine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds"
+    }
+  ]
+}

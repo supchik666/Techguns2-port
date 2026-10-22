@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "obo",
+    "scr",
+    "ssp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "b": {
+      "item": "techguns:laserbarrel"
+    },
+    "r": {
+      "item": "techguns:redstone_battery"
+    },
+    "s": {
+      "tag": "c:nuggets/steel"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "o": {
+      "tag": "c:plates/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:laserpistol"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:laserbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:laserpistol"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:redstone_battery"
+    }
+  ]
+}

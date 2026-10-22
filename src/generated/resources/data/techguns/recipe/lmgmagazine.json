@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "bmb",
+    "bbb"
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:riflerounds"
+    },
+    "m": {
+      "item": "techguns:lmgmagazineempty"
+    }
+  },
+  "result": {
+    "id": "techguns:lmgmagazine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lmgmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lmgmagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds"
+    }
+  ]
+}

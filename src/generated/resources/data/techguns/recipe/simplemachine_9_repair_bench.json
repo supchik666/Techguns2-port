@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pmp",
+    "ici",
+    "iii"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    },
+    "c": {
+      "tag": "c:player_workstations/crafting_tables"
+    },
+    "i": {
+      "tag": "c:nuggets/iron"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsiron"
+    }
+  },
+  "result": {
+    "id": "techguns:simplemachine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsiron"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:simplemachine"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "item": "techguns:riflerounds_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:rifleroundsstack_incendiary"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rifleroundsstack_incendiary"
+    }
+  ]
+}

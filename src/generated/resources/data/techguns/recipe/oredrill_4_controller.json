@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pcp",
+    "cec",
+    "pcp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/iron"
+    },
+    "c": {
+      "tag": "c:circuits/basic"
+    },
+    "e": {
+      "item": "techguns:electricengine"
+    }
+  },
+  "result": {
+    "id": "techguns:oredrill"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:electricengine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrill"
+    }
+  ]
+}

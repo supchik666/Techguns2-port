@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dpd",
+    "bbf",
+    " mt"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/obsidian_steel"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "t": {
+      "item": "techguns:plasticstock"
+    },
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "f": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "m": {
+      "item": "techguns:as50magazineempty"
+    }
+  },
+  "result": {
+    "id": "techguns:as50"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:as50"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:as50magazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    }
+  ]
+}

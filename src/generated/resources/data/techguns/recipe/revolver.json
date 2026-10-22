@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bmf",
+    " s "
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:ironbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsiron"
+    }
+  },
+  "result": {
+    "id": "techguns:revolver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsiron"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:revolver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:woodstock"
+    }
+  ]
+}

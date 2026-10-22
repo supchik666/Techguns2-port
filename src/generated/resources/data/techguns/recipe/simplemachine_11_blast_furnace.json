@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iri",
+    "ifi",
+    "sbs"
+  ],
+  "key": {
+    "b": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "r": {
+      "tag": "c:dusts/redstone"
+    },
+    "s": {
+      "item": "minecraft:stone_bricks"
+    },
+    "f": {
+      "item": "minecraft:furnace"
+    },
+    "i": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:simplemachine"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:simplemachine"
+    }
+  ]
+}

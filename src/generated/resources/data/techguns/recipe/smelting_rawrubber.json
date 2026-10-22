@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rawrubber"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rubberbar"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techguns:rawrubber"
+  },
+  "result": {
+    "id": "techguns:rubberbar"
+  },
+  "experience": 0,
+  "cookingtime": 200
+}

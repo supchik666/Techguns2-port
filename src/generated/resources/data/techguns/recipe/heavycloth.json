@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " w ",
+    "wlw",
+    " w "
+  ],
+  "key": {
+    "w": {
+      "item": "minecraft:white_wool"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "id": "techguns:heavycloth",
+    "count": 3
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    }
+  ]
+}

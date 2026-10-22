@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " if",
+    "iti",
+    " i "
+  ],
+  "key": {
+    "t": {
+      "item": "minecraft:tnt"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "i": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "techguns:fraggrenade",
+    "count": 16
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fraggrenade"
+    }
+  ]
+}

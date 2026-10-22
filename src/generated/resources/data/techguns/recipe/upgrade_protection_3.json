@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "pip",
+    "igi",
+    "pip"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/carbon"
+    },
+    "g": {
+      "tag": "c:gems/diamond"
+    },
+    "i": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:upgrade_protection_3"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:upgrade_protection_3"
+    }
+  ]
+}

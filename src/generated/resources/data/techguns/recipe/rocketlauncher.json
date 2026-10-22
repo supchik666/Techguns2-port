@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rbb",
+    " f "
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:rocket"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "f": {
+      "item": "techguns:steelreceiver"
+    }
+  },
+  "result": {
+    "id": "techguns:rocketlauncher"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocketlauncher"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steelreceiver"
+    }
+  ]
+}

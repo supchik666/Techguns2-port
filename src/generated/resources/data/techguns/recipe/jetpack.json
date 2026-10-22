@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "f f",
+    "pgp",
+    "rmr"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/obsidian_steel"
+    },
+    "r": {
+      "item": "techguns:rocket"
+    },
+    "f": {
+      "item": "techguns:fueltank"
+    },
+    "g": {
+      "item": "techguns:glider"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    }
+  },
+  "result": {
+    "id": "techguns:jetpack"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fueltank"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:glider"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:jetpack"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket"
+    }
+  ]
+}

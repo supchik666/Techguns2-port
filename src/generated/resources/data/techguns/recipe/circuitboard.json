@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cgc",
+    "rir",
+    "cgc"
+  ],
+  "key": {
+    "r": {
+      "tag": "c:dusts/redstone"
+    },
+    "c": {
+      "tag": "c:wires/copper"
+    },
+    "g": {
+      "tag": "c:dyes/green"
+    },
+    "i": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:circuitboard",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:circuitboard"
+    }
+  ]
+}

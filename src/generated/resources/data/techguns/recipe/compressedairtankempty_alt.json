@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "plp",
+    "p p",
+    "ppp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/tin"
+    },
+    "l": {
+      "item": "minecraft:lever"
+    }
+  },
+  "result": {
+    "id": "techguns:compressedairtankempty",
+    "count": 7
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:compressedairtankempty"
+    }
+  ]
+}

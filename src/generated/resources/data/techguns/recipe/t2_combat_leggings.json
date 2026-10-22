@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ihi",
+    "i i",
+    "h h"
+  ],
+  "key": {
+    "h": {
+      "item": "techguns:heavycloth"
+    },
+    "i": {
+      "tag": "c:ingots/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:t2_combat_leggings"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:t2_combat_leggings"
+    }
+  ]
+}

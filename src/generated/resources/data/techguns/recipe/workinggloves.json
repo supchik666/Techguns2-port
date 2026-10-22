@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " h",
+    "hh"
+  ],
+  "key": {
+    "h": {
+      "item": "techguns:heavycloth"
+    }
+  },
+  "result": {
+    "id": "techguns:workinggloves"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:heavycloth"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:workinggloves"
+    }
+  ]
+}

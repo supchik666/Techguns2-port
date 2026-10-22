@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dpc",
+    "brs",
+    " m "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/titanium"
+    },
+    "b": {
+      "item": "techguns:carbonbarrel"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "m": {
+      "item": "techguns:advancedmagazine"
+    }
+  },
+  "result": {
+    "id": "techguns:pulserifle"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advancedmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pulserifle"
+    }
+  ]
+}

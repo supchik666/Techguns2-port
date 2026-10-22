@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "p p",
+    "aia",
+    "p p"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/plastic"
+    },
+    "a": {
+      "item": "techguns:compressedairtank"
+    },
+    "i": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "id": "techguns:scubatanks"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:compressedairtank"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:scubatanks"
+    }
+  ]
+}

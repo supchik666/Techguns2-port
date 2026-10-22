@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " m ",
+    "spr",
+    " mc"
+  ],
+  "key": {
+    "p": {
+      "item": "minecraft:piston"
+    },
+    "r": {
+      "item": "techguns:ironreceiver"
+    },
+    "s": {
+      "tag": "c:plates/iron"
+    },
+    "c": {
+      "item": "techguns:compressedairtankempty"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsiron"
+    }
+  },
+  "result": {
+    "id": "techguns:powerhammer"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:compressedairtankempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ironreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsiron"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:powerhammer"
+    }
+  ]
+}

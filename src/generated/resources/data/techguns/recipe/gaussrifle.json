@@ -1,0 +1,63 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dpc",
+    "brs",
+    " ae"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/titanium"
+    },
+    "a": {
+      "item": "techguns:gaussrifleslugs"
+    },
+    "b": {
+      "item": "techguns:gaussbarrel"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "c": {
+      "tag": "c:circuits/elite"
+    },
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "e": {
+      "item": "techguns:energycell"
+    }
+  },
+  "result": {
+    "id": "techguns:gaussrifle"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonstock"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gaussbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gaussrifle"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gaussrifleslugs"
+    }
+  ]
+}

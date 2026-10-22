@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "beb",
+    "bbb"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:iron_bars"
+    },
+    "e": {
+      "item": "techguns:electricengine"
+    }
+  },
+  "result": {
+    "id": "techguns:oredrill",
+    "count": 4
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:electricengine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oredrill"
+    }
+  ]
+}

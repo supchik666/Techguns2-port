@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "t  ",
+    "bpr",
+    "tn "
+  ],
+  "key": {
+    "p": {
+      "item": "techguns:plasmagenerator"
+    },
+    "b": {
+      "item": "techguns:shieldedtitaniumbarrel"
+    },
+    "r": {
+      "item": "techguns:titaniumreceiver"
+    },
+    "t": {
+      "tag": "c:plates/titanium"
+    },
+    "n": {
+      "item": "techguns:nuclearpowercelldepleted"
+    }
+  },
+  "result": {
+    "id": "techguns:tfg"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuclearpowercelldepleted"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasmagenerator"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shieldedtitaniumbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tfg"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:titaniumreceiver"
+    }
+  ]
+}

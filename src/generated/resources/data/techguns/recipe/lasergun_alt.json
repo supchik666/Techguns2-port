@@ -1,0 +1,60 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " gd",
+    "brs",
+    " em"
+  ],
+  "key": {
+    "b": {
+      "item": "techguns:laserbarrel"
+    },
+    "r": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "d": {
+      "tag": "c:dusts/redstone"
+    },
+    "e": {
+      "item": "techguns:energycellempty"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  },
+  "result": {
+    "id": "techguns:lasergun"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycellempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:laserbarrel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lasergun"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticstock"
+    }
+  ]
+}

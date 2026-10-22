@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:rubbers"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:sands"
+    }
+  ],
+  "result": {
+    "id": "techguns:sandbags",
+    "count": 8
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sandbags"
+    }
+  ]
+}
