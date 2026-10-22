@@ -9,7 +9,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 ## Status
 
 - [x] M0. Project setup
-- [ ] M1. Registration and data
+- [x] M1. Registration and data
 - [ ] M2. One gun working end to end
 - [ ] M3. Remaining guns and their models
 - [ ] M4. Player data, armor and damage
@@ -33,18 +33,18 @@ Each milestone ends with the game launching and something testable in game.
 ### M0. Project setup ✅
 Fresh NeoForge MDK (ModDevGradle, Java 21, Parchment, Gradle wrapper), `neoforge.mods.toml`, mod id `techguns`, CI workflow. An empty mod loads on a dev server.
 
-### M1. Registration and data (in progress)
+### M1. Registration and data ✅
 Done:
 - [x] `DeferredRegister` for items and blocks, creative tab (`Techguns`, `TGItems`, `TGBlocks`).
 - [x] All 155 shared-item variants as plain items (legacy stack sizes kept).
 - [x] 43 simple blocks: ores, metal panels, nether metal, concrete, neon lights, bug nest blocks, ladders, stairs.
+- [x] 12 shaped blocks in `techguns.blocks`: lamps, wall lanterns, camo nets and camo net tops (3 camos each), sandbags, slimy ladder. Forge v1 blockstates are converted to vanilla multipart, with one child model per camo.
 - [x] `tools/port/flattening.csv`: `(legacy id, meta) → new id`, verified against the 109 recipe files that embed metadata in their names.
 - [x] `tools/port/port_assets.py` regenerates `src/generated/resources/`: textures (folders renamed to `item/`, `block/`), models (paths rewritten), blockstates, lang JSON, tags, block loot tables, recipes.
-- [x] 321 of 372 recipes converted. Each is gated by `neoforge:item_exists` conditions, so it switches on once its items are registered (142 active now).
+- [x] 321 of 372 recipes converted. Each is gated by `neoforge:item_exists` conditions, so it switches on once its items are registered (151 active now).
 
-Remaining:
-- [ ] Decorative blocks with custom shapes: lamps, camo nets, sandbags, slimy ladder.
-- [ ] Remaining meta blocks (machines, doors, spawner, crate, explosive charges, bioblob, ore clusters, ore drill) arrive with their milestones; add their rows to `flattening.csv` then.
+Left for later milestones:
+- The other meta blocks (machines, doors, spawner, crate, explosive charges, bioblob, ore clusters, ore drill). Add their rows to `flattening.csv` when they're ported. Door models use 1.12 vanilla parents (`block/door_bottom` etc.), which were renamed in 1.21.
 
 Decisions:
 - **Ids keep their 1.12 names** (`plateiron`, `ingotsteel`), so textures, models and lang keys line up without a rename table. Flattened blocks are named after their variant (`container_red`, `nethermetal_grate1`).

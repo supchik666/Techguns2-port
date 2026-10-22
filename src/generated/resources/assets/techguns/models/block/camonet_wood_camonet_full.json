@@ -1,0 +1,9 @@
+{
+  "parent": "techguns:block/camonet_full",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "block/oak_planks",
+    "1": "techguns:block/camonet",
+    "particle": "techguns:block/camonet"
+  }
+}

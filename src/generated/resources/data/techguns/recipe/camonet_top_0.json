@@ -17,13 +17,13 @@
     }
   },
   "result": {
-    "id": "techguns:camonet_top",
+    "id": "techguns:camonet_top_wood",
     "count": 16
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:camonet_top"
+      "item": "techguns:camonet_top_wood"
     }
   ]
 }

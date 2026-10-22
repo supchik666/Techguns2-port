@@ -1,0 +1,9 @@
+{
+  "parent": "techguns:block/camonet_inventory",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "block/spruce_planks",
+    "1": "techguns:block/camonet_snow",
+    "particle": "techguns:block/camonet_snow"
+  }
+}

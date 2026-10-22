@@ -24,7 +24,7 @@ DATA = OUT / "data"
 ROWS = list(csv.DictReader(open(Path(__file__).with_name("flattening.csv"))))
 BY_LEGACY = {(r["legacy_id"], int(r["meta"])): r for r in ROWS}
 LEGACY_META_IDS = {r["legacy_id"] for r in ROWS}
-BLOCKS = [r for r in ROWS if r["kind"] in ("cube", "stairs", "ladder")]
+BLOCKS = [r for r in ROWS if r["kind"] in ("cube", "stairs", "ladder", "lamp", "camonet", "copy")]
 ITEMS = [r for r in ROWS if r["kind"] == "item"]
 
 # 1.12 ore dictionary name -> 1.21 tag
@@ -70,7 +70,11 @@ ITEM_ORE_DICT = {
 }
 ORE_BLOCKS = {"ore_tin": ("tin", "stone"), "ore_lead": ("lead", "iron"),
               "ore_titanium": ("titanium", "diamond"), "ore_uranium": ("uranium", "iron")}
-SHOVEL_BLOCKS = {"bugnest_sand"}
+SHOVEL_BLOCKS = {"bugnest_sand", "sandbags"}
+HAND_BLOCKS = {"slimyladder"}  # plus all camo nets
+CLIMBABLE = {"slimyladder"}  # plus kind "ladder"
+# Models whose 1.12 block had getBlockLayer() == CUTOUT
+CUTOUT_MODELS = ["ladder_base", "slimyladder"]
 # 1.12 vanilla (id, meta) -> 1.21 ingredient, for the few with metadata used in recipes
 VANILLA = {
     ("minecraft:coal", 0): {"item": "minecraft:coal"},
@@ -108,6 +112,7 @@ def fix_paths(text):
     text = re.sub(r'"(techguns|minecraft):items/', r'"\1:item/', text)
     text = re.sub(r'"(techguns|minecraft):blocks/', r'"\1:block/', text)
     text = re.sub(r'"(blocks|items)/', lambda m: '"' + m[1][:-1] + '/', text)
+    text = re.sub(r'"((?:minecraft:)?block/)planks_(\w+)"', r'"\1\2_planks"', text)
     return re.sub(r'"(parent|model)"(\s*:\s*)"techguns:([^"/]+)"', r'"\1"\2"techguns:block/\3"', text)
 
 
@@ -127,15 +132,68 @@ def copy_textures_and_models():
                 dst.write_text(fix_paths(src.read_text(encoding="utf-8")), encoding="utf-8")
             else:
                 shutil.copy2(src, dst)
-    ladder = ASSETS / "models/block/ladder_base.json"
-    model = json.loads(ladder.read_text())
-    model["render_type"] = "minecraft:cutout"
-    write_json(ladder, model)
+    for name in CUTOUT_MODELS:
+        path = ASSETS / "models/block" / (name + ".json")
+        write_json(path, json.loads(path.read_text()) | {"render_type": "minecraft:cutout"})
+
+
+def rotate_y(y):
+    return {"y": y % 360} if y % 360 else {}
+
+
+def forge_to_multipart(legacy, new_name, prop, value):
+    """Forge v1 blockstate (per-type textures + per-connection submodels) -> vanilla multipart.
+    Each (type, submodel) pair becomes a child model carrying that type's textures."""
+    textures = legacy["variants"][prop][value]["textures"]
+    parts = []
+    for conn, variant in legacy["variants"]["connection"].items():
+        subs = variant["submodel"]
+        for sub in ([{"model": subs}] if isinstance(subs, str) else subs.values()):
+            base = short(sub["model"]).removeprefix("block/")
+            child = f"block/{new_name}_{base}"
+            write_json(ASSETS / "models" / (child + ".json"),
+                       {"parent": "techguns:block/" + base, "render_type": "minecraft:cutout", "textures": textures})
+            apply = {"model": "techguns:" + child} | rotate_y(sub.get("y", 0))
+            if sub.get("uvlock"):
+                apply["uvlock"] = True
+            parts.append({"when": {"connection": conn}, "apply": apply})
+    return {"multipart": parts}
+
+
+def filter_multipart(legacy, prop, value):
+    parts = []
+    for part in legacy["multipart"]:
+        when = dict(part.get("when", {}))
+        if when.pop(prop, value) == value:
+            parts.append(({"when": when} if when else {}) | {"apply": part["apply"]})
+    return {"multipart": parts}
 
 
 def write_blockstates():
     for r in BLOCKS:
-        legacy = json.loads(fix_paths((LEGACY / "blockstates" / (short(r["legacy_id"]) + ".json")).read_text()))
+        legacy_name, name = short(r["legacy_id"]), short(r["new_id"])
+        legacy = json.loads(fix_paths((LEGACY / "blockstates" / (legacy_name + ".json")).read_text()))
+        prop, _, value = r["legacy_variant"].partition("=")
+        item_model = None
+        if r["kind"] == "copy":
+            state = legacy
+            inventory = LEGACY / "models/item" / (legacy_name + "_inventory.json")
+            if inventory.exists():
+                item_model = {"parent": f"techguns:item/{legacy_name}_inventory"}
+            else:
+                item_model = {"parent": legacy["variants"][next(iter(legacy["variants"]))]["model"]}
+        elif r["kind"] == "lamp":
+            state = filter_multipart(legacy, prop, value)
+            item_model = {"parent": f"techguns:item/lamp_inventory_{value}"}
+        elif r["kind"] == "camonet":
+            state = forge_to_multipart(legacy, name, prop, value)
+            inventory = json.loads(fix_paths((LEGACY / "blockstates" / (legacy_name + "_inventory.json")).read_text()))
+            item_model = {"parent": inventory["defaults"]["model"], "render_type": "minecraft:cutout",
+                          "textures": inventory["variants"][prop][value]["textures"]}
+        if item_model:
+            write_json(ASSETS / "blockstates" / (name + ".json"), state)
+            write_json(ASSETS / "models/item" / (name + ".json"), item_model)
+            continue
         variants = {}
         for key, model in legacy["variants"].items():
             props = key.split(",")
@@ -289,7 +347,10 @@ def write_tags_and_loot():
         item_tags[ORE_TAGS[ore]].append(ns(item))
     for r in BLOCKS:
         rid, name = r["new_id"], short(r["new_id"])
-        block_tags["minecraft:mineable/shovel" if name in SHOVEL_BLOCKS else "minecraft:mineable/pickaxe"].append(rid)
+        if name in SHOVEL_BLOCKS:
+            block_tags["minecraft:mineable/shovel"].append(rid)
+        elif name not in HAND_BLOCKS and r["kind"] != "camonet":
+            block_tags["minecraft:mineable/pickaxe"].append(rid)
         if name in ORE_BLOCKS:
             metal, tier = ORE_BLOCKS[name]
             for tags in (block_tags, item_tags):
@@ -298,7 +359,7 @@ def write_tags_and_loot():
         if r["kind"] == "stairs":
             block_tags["minecraft:stairs"].append(rid)
             item_tags["minecraft:stairs"].append(rid)
-        if r["kind"] == "ladder":
+        if r["kind"] == "ladder" or name in CLIMBABLE:
             block_tags["minecraft:climbable"].append(rid)
         write_json(DATA / "techguns/loot_table/blocks" / (name + ".json"), {
             "type": "minecraft:block", "random_sequence": "techguns:blocks/" + name,

@@ -1,0 +1,7 @@
+{
+  "parent": "techguns:block/camonet_top_side",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "techguns:block/camonet"
+  }
+}

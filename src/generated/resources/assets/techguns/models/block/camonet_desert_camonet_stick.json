@@ -1,0 +1,9 @@
+{
+  "parent": "techguns:block/camonet_stick",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "block/acacia_planks",
+    "1": "techguns:block/camonet_desert",
+    "particle": "techguns:block/camonet_desert"
+  }
+}

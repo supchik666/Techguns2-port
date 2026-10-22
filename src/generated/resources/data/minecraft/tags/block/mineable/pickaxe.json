@@ -41,6 +41,10 @@
     "techguns:stairs_metal",
     "techguns:stairs_metal_carbon",
     "techguns:stairs_concrete",
-    "techguns:stairs_concrete_light"
+    "techguns:stairs_concrete_light",
+    "techguns:lamp_yellow",
+    "techguns:lamp_white",
+    "techguns:lantern_yellow",
+    "techguns:lantern_white"
   ]
 }

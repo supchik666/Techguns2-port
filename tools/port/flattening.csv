@@ -199,3 +199,15 @@ techguns:stairs_metal,7,techguns:stairs_metal,stairs,type2=false
 techguns:stairs_metal,15,techguns:stairs_metal_carbon,stairs,type2=true
 techguns:stairs_concrete,7,techguns:stairs_concrete,stairs,type2=false
 techguns:stairs_concrete,15,techguns:stairs_concrete_light,stairs,type2=true
+techguns:lamp0,0,techguns:lamp_yellow,lamp,lamp_type=yellow
+techguns:lamp0,6,techguns:lamp_white,lamp,lamp_type=white
+techguns:lamp0,12,techguns:lantern_yellow,lamp,lamp_type=yellow_lantern
+techguns:lamp0,13,techguns:lantern_white,lamp,lamp_type=white_lantern
+techguns:camonet,0,techguns:camonet_wood,camonet,type=wood
+techguns:camonet,1,techguns:camonet_desert,camonet,type=desert
+techguns:camonet,2,techguns:camonet_snow,camonet,type=snow
+techguns:camonet_top,0,techguns:camonet_top_wood,camonet,type=wood
+techguns:camonet_top,1,techguns:camonet_top_desert,camonet,type=desert
+techguns:camonet_top,2,techguns:camonet_top_snow,camonet,type=snow
+techguns:sandbags,0,techguns:sandbags,copy,
+techguns:slimyladder,2,techguns:slimyladder,copy,

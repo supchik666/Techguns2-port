@@ -22,7 +22,7 @@ Requires JDK 21 (the system default `java` may be a different version; set `JAVA
 
 `src/generated/resources/` is script output, committed so the build doesn't need Python. Never edit it by hand; change `tools/port/port_assets.py` or `tools/port/flattening.csv` and rerun. Hand-written resources go in `src/main/resources/`.
 
-- `flattening.csv` maps each 1.12 `(id, metadata)` to a 1.21 id. `kind` drives generation: `item`, `cube`/`stairs`/`ladder` (blockstate, item model, loot table, tags), `vanilla` (mapped to a minecraft id). `legacy_variant` is the property filter (e.g. `type=metal`) used to cut that block's variants out of the legacy blockstate.
+- `flattening.csv` maps each 1.12 `(id, metadata)` to a 1.21 id. `kind` drives generation: `item`; block kinds `cube`/`stairs`/`ladder` (filter a variants blockstate), `lamp` (filter a multipart blockstate), `camonet` (Forge v1 blockstate → multipart) and `copy` (blockstate used as-is), which all get an item model, loot table and tags; `vanilla` (mapped to a minecraft id). `legacy_variant` is the property filter (e.g. `type=metal`) used to cut that block's variants out of the legacy blockstate.
 - Porting a new metadata block: add rows to the CSV, register the block in `TGBlocks` with the same id, rerun the script.
 - Recipes are converted for everything and gated by `neoforge:item_exists`, so they activate when their items get registered. The script prints the recipe types it skips.
 - Item ids keep their 1.12 names (`plateiron`, `ingotsteel`).

@@ -3,13 +3,19 @@ package techguns;
 import java.util.function.Function;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import techguns.blocks.CamoNetBlock;
+import techguns.blocks.LampBlock;
+import techguns.blocks.SandbagsBlock;
+import techguns.blocks.WallLanternBlock;
 
 /**
  * Simple blocks, flattened from the 1.12 meta blocks. Ids match tools/port/flattening.csv.
@@ -77,6 +83,25 @@ public class TGBlocks {
 	public static final DeferredBlock<StairBlock> STAIRS_CONCRETE = stairs("stairs_concrete", CONCRETE_GREY_DARK, concrete().strength(6.0f));
 	public static final DeferredBlock<StairBlock> STAIRS_CONCRETE_LIGHT = stairs("stairs_concrete_light", CONCRETE_BROWN_LIGHT, concrete().strength(6.0f));
 
+	//Lamps
+	public static final DeferredBlock<LampBlock> LAMP_YELLOW = withItem("lamp_yellow", LampBlock::new, lamp());
+	public static final DeferredBlock<LampBlock> LAMP_WHITE = withItem("lamp_white", LampBlock::new, lamp());
+	public static final DeferredBlock<WallLanternBlock> LANTERN_YELLOW = withItem("lantern_yellow", WallLanternBlock::new, lamp());
+	public static final DeferredBlock<WallLanternBlock> LANTERN_WHITE = withItem("lantern_white", WallLanternBlock::new, lamp());
+
+	//Camo nets
+	public static final DeferredBlock<CamoNetBlock> CAMONET_WOOD = camonet("camonet_wood", false);
+	public static final DeferredBlock<CamoNetBlock> CAMONET_DESERT = camonet("camonet_desert", false);
+	public static final DeferredBlock<CamoNetBlock> CAMONET_SNOW = camonet("camonet_snow", false);
+	public static final DeferredBlock<CamoNetBlock> CAMONET_TOP_WOOD = camonet("camonet_top_wood", true);
+	public static final DeferredBlock<CamoNetBlock> CAMONET_TOP_DESERT = camonet("camonet_top_desert", true);
+	public static final DeferredBlock<CamoNetBlock> CAMONET_TOP_SNOW = camonet("camonet_top_snow", true);
+
+	public static final DeferredBlock<SandbagsBlock> SANDBAGS = withItem("sandbags", SandbagsBlock::new,
+			Properties.of().mapColor(MapColor.COLOR_BROWN).strength(3.0f, 15.0f).sound(SoundType.WOOL));
+	public static final DeferredBlock<LadderBlock> SLIMYLADDER = withItem("slimyladder", LadderBlock::new,
+			Properties.ofFullCopy(Blocks.LADDER).sound(SoundType.SLIME_BLOCK));
+
 	private static Properties ore(float hardness) {
 		return Properties.of().mapColor(MapColor.STONE).strength(hardness, 3.0f).requiresCorrectToolForDrops();
 	}
@@ -91,6 +116,14 @@ public class TGBlocks {
 
 	private static Properties neon() {
 		return Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(4.0f).sound(SoundType.GLASS).lightLevel(s -> 15);
+	}
+
+	private static Properties lamp() {
+		return neon().noOcclusion().pushReaction(PushReaction.DESTROY);
+	}
+
+	private static DeferredBlock<CamoNetBlock> camonet(String name, boolean top) {
+		return withItem(name, p -> new CamoNetBlock(top, p), Properties.of().mapColor(MapColor.COLOR_GREEN).sound(SoundType.WOOL).noOcclusion());
 	}
 
 	private static DeferredBlock<Block> block(String name, Properties props) {

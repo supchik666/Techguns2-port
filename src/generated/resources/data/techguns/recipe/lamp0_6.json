@@ -2,16 +2,20 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "techguns:lamp0"
+      "item": "techguns:lamp_yellow"
     }
   ],
   "result": {
-    "id": "techguns:lamp0"
+    "id": "techguns:lamp_white"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:lamp0"
+      "item": "techguns:lamp_white"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lamp_yellow"
     }
   ]
 }
