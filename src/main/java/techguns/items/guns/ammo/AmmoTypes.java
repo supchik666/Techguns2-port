@@ -4,6 +4,7 @@ import static techguns.entities.projectiles.GenericProjectile.Kind.*;
 import static techguns.items.guns.ammo.AmmoType.*;
 
 import techguns.TGItems;
+import techguns.entities.projectiles.GenericProjectile;
 
 /** As in 1.12 AmmoTypes, with each variant's projectile from the 1.12 TGuns projectile selectors. */
 public class AmmoTypes {
@@ -38,5 +39,14 @@ public class AmmoTypes {
 	public static final AmmoType NUCLEAR_POWER_CELL = new AmmoType(TGItems.NUCLEAR_POWERCELL, TGItems.NUCLEAR_POWERCELL_EMPTY, null, 0, BULLET);
 	public static final AmmoType FUEL_TANK = new AmmoType(TGItems.FUEL_TANK, TGItems.FUEL_TANK_EMPTY, null, 0, BULLET);
 	public static final AmmoType NETHER_CHARGE = new AmmoType(TGItems.NETHER_CHARGE, BULLET);
+	public static final AmmoType BIO_TANK = new AmmoType(TGItems.BIO_TANK, TGItems.BIO_TANK_EMPTY, null, 0, BULLET);
+
+	// Explosives: the gun's projectile class does the explosion; variants only change its kind.
+	public static final AmmoType ROCKETS = new AmmoType(TGItems.ROCKET, BULLET)
+			.variant(AmmoType.NUKE, TGItems.ROCKET_NUKE, GenericProjectile.Kind.NUKE)
+			.variant(AmmoType.HIGH_VELOCITY, TGItems.ROCKET_HIGH_VELOCITY, GenericProjectile.Kind.HIGH_VELOCITY);
+	public static final AmmoType ROCKETS_NO_NUKES = new AmmoType(TGItems.ROCKET, BULLET)
+			.variant(AmmoType.HIGH_VELOCITY, TGItems.ROCKET_HIGH_VELOCITY, GenericProjectile.Kind.HIGH_VELOCITY);
+	public static final AmmoType GRENADES_40MM = new AmmoType(TGItems.GRENADE_40MM, BULLET);
 	public static final AmmoType AMMO_GAUSS_RIFLE = new AmmoType(TGItems.GAUSSRIFLE_SLUGS, BULLET).extra(TGItems.ENERGY_CELL, TGItems.ENERGY_CELL_EMPTY);
 }

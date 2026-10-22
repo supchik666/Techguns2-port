@@ -40,7 +40,9 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	public static final ResourceKey<DamageType> BULLET = ResourceKey.create(Registries.DAMAGE_TYPE, Techguns.id("bullet"));
 
 	public enum Kind {
-		BULLET(1.0f), INCENDIARY_BULLET(1.1f), INCENDIARY_SHELL(1.1f), EXPLOSIVE_BULLET(1.15f), STONE(1.0f), ADVANCED(1.0f);
+		BULLET(1.0f), INCENDIARY_BULLET(1.1f), INCENDIARY_SHELL(1.1f), EXPLOSIVE_BULLET(1.15f), STONE(1.0f), ADVANCED(1.0f),
+		/** Rocket and missile variants. */
+		NUKE(1.0f), HIGH_VELOCITY(1.0f);
 
 		public final float damageMultiplier;
 
@@ -51,6 +53,8 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 
 	/** Side offset of the muzzle from the eyes, by the hand the gun is in; CENTER for scoped shots. */
 	public static final float LEFT = 0.16f, RIGHT = -0.16f, CENTER = 0f;
+	/** Shots fly this many times faster than in 1.12, living as much shorter so ranges stay the same. */
+	public static final float SPEED_FACTOR = 2.0f;
 	/** Players this close see block impacts (1.12 bulletTrackRange). */
 	private static final double IMPACT_FX_RANGE = 128;
 
@@ -88,7 +92,9 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		this.damageMin = damageMin * kind.damageMultiplier;
 		this.damageDropStart = damageDropStart;
 		this.damageDropEnd = damageDropEnd;
-		this.ticksToLive = ticksToLive;
+		float factor = speedFactor();
+		speed *= factor;
+		this.ticksToLive = (int) Math.ceil(ticksToLive / factor);
 
 		float yaw = shooter.getYHeadRot() + (float) (spread - 2 * Math.random() * spread) * 40.0f;
 		float pitch = shooter.getXRot() + (float) (spread - 2 * Math.random() * spread) * 40.0f;
@@ -96,6 +102,11 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		Vec3 direction = Vec3.directionFromRotation(pitch, yaw);
 		shoot(direction.x, direction.y, direction.z, speed, 1.0f);
 		start = position();
+	}
+
+	/** {@link #SPEED_FACTOR}; 1 where speed means something else (beam range) or for thrown things. Called from the constructor. */
+	protected float speedFactor() {
+		return SPEED_FACTOR;
 	}
 
 	public Kind getKind() {
@@ -117,6 +128,10 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		buffer.writeEnum(kind);
 		buffer.writeDouble(gravity);
 		buffer.writeFloat(side);
+		Vec3 motion = getDeltaMovement();
+		buffer.writeDouble(motion.x);
+		buffer.writeDouble(motion.y);
+		buffer.writeDouble(motion.z);
 	}
 
 	@Override
@@ -124,7 +139,17 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		kind = buffer.readEnum(Kind.class);
 		gravity = buffer.readDouble();
 		side = buffer.readFloat();
+		setDeltaMovement(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
 		if (kind == Kind.INCENDIARY_SHELL) TGEffects.createFXOnEntity(this, "IncendiaryShotgunTrail");
+	}
+
+	/**
+	 * Velocity packets cap each axis at 3.9 blocks/tick, which bends fast shots, and vanilla re-aims the projectile along
+	 * them. The spawn data has the exact velocity; later packets only apply when uncapped, and never turn it.
+	 */
+	@Override
+	public void lerpMotion(double x, double y, double z) {
+		if (Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(z))) < 3.9) setDeltaMovement(x, y, z);
 	}
 
 	@Override

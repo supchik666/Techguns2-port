@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -47,9 +48,9 @@ public class GenericGun extends Item {
 		HORIZONTAL_TWO_PART_E, HORIZONTAL_SMALL, QUAD_NO_CORNERS
 	}
 
-	/** How the tooltip shows range: drop start, end and max range, or just the range (beams). */
+	/** How the tooltip shows range: drop start, end and max range, just the range (beams), or the blast radius (explosives). */
 	public enum RangeTooltipType {
-		DROP, NO_DROP
+		DROP, NO_DROP, RADIUS
 	}
 
 	final AmmoType ammoType;
@@ -69,6 +70,8 @@ public class GenericGun extends Item {
 	float damageMin;
 	int recoiltime = 5;
 	int muzzleFlashtime = 5;
+	/** Color of the muzzle flash light; null for none. */
+	float[] muzzleLight = {1f, 0.9f, 0.2f};
 	/** Rounds loaded per reload for guns fed loose shells; 1 means a full clip from one magazine. */
 	int ammoCount = 1;
 	float zoomMult = 1.0f;
@@ -133,6 +136,17 @@ public class GenericGun extends Item {
 
 	public GenericGun setMuzzleFlashTime(int time) {
 		this.muzzleFlashtime = time;
+		return this;
+	}
+
+	public GenericGun setMuzzleLight(float r, float g, float b) {
+		muzzleLight = new float[] {r, g, b};
+		return this;
+	}
+
+	/** No muzzle flash light: energy guns, whose light was too much. */
+	public GenericGun setNoMuzzleLight() {
+		muzzleLight = null;
 		return this;
 	}
 
@@ -290,6 +304,10 @@ public class GenericGun extends Item {
 		return muzzleFlashtime;
 	}
 
+	public float[] getMuzzleLight() {
+		return muzzleLight;
+	}
+
 	public boolean isCheckRecoil() {
 		return checkRecoil;
 	}
@@ -302,7 +320,7 @@ public class GenericGun extends Item {
 		return reloadtime;
 	}
 
-	private int getScaledTTL() {
+	int getScaledTTL() {
 		return (int) Math.ceil(ttl / speed);
 	}
 
@@ -310,7 +328,7 @@ public class GenericGun extends Item {
 		return player.level().getGameTime() >= player.getData(TGComponents.NEXT_FIRE)[hand.ordinal()];
 	}
 
-	private static void setFireDelay(Player player, InteractionHand hand, int ticks) {
+	static void setFireDelay(Player player, InteractionHand hand, int ticks) {
 		player.getData(TGComponents.NEXT_FIRE)[hand.ordinal()] = player.level().getGameTime() + ticks;
 	}
 
@@ -319,6 +337,11 @@ public class GenericGun extends Item {
 	 * it tightens the spread and may fire from the eyes.
 	 */
 	public void shootGunPrimary(ItemStack stack, Level level, Player player, InteractionHand hand, boolean zooming) {
+		shootGunPrimary(stack, level, player, hand, zooming, null);
+	}
+
+	/** As above; {@code target} is the guided missile launcher's lock-on target, null for other guns. */
+	public void shootGunPrimary(ItemStack stack, Level level, Player player, InteractionHand hand, boolean zooming, Entity target) {
 		if (!isReady(player, hand)) return;
 		int ammo = getAmmo(stack);
 		if (ammo <= 0) {
@@ -343,11 +366,11 @@ public class GenericGun extends Item {
 				if (fireCenteredZoomed) side = GenericProjectile.CENTER;
 			}
 			GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
-			spawnProjectile(level, player, kind, accuracy * bonus, forwardOffset, side);
+			spawnProjectile(level, player, kind, accuracy * bonus, forwardOffset, side, target);
 			if (shotgun) {
 				float offset = burst ? speed / bulletcount : 0;
 				for (int i = 0; i < bulletcount; i++) {
-					spawnProjectile(level, player, kind, spread * bonus, forwardOffset + offset * (i + 1.0f), side);
+					spawnProjectile(level, player, kind, spread * bonus, forwardOffset + offset * (i + 1.0f), side, target);
 				}
 			}
 		}
@@ -355,7 +378,7 @@ public class GenericGun extends Item {
 		if (rechamberSound != null) level.playSound(player, player, rechamberSound.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
 	}
 
-	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side) {
+	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side, Entity target) {
 		level.addFreshEntity(createProjectile(level, player, kind, spread, offset, side));
 	}
 
@@ -372,7 +395,7 @@ public class GenericGun extends Item {
 		if (isReady(player, hand) && ammo < clipsize) reload(stack, level, player, hand, ammo);
 	}
 
-	private void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
+	void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
 		AmmoType.Variant variant = getAmmoVariant(stack);
 		Item extra = ammoType.extraAmmo() == null ? null : ammoType.extraAmmo().get();
 		if (extra != null && !player.getInventory().contains(new ItemStack(extra))) return;
@@ -447,8 +470,11 @@ public class GenericGun extends Item {
 		tooltip.add(stat("ammo", ammoCount > 1 ? Component.literal(ammoCount + "x ").append(ammo) : ammo));
 		tooltip.add(stat("damage", damage + (damageMin < damage ? "-" + damageMin : "") + (shotgun ? " (x" + (bulletcount + 1) + ")" : "")));
 		if (Screen.hasShiftDown()) {
-			tooltip.add(stat("range", rangeTooltipType == RangeTooltipType.NO_DROP ? String.format("%.1f", damageDropStart)
-					: String.format("%.1f,%.1f,%d", damageDropStart, damageDropEnd, ttl)));
+			tooltip.add(switch (rangeTooltipType) {
+				case DROP -> stat("range", String.format("%.1f,%.1f,%d", damageDropStart, damageDropEnd, ttl));
+				case NO_DROP -> stat("range", String.format("%.1f", damageDropStart));
+				case RADIUS -> stat("radius", String.format("%.1f-%.1f", damageDropStart, damageDropEnd));
+			});
 			tooltip.add(stat("velocity", String.format("%.1f", speed)));
 			tooltip.add(stat("spread", accuracy));
 			tooltip.add(stat("clipsize", clipsize));
@@ -460,7 +486,7 @@ public class GenericGun extends Item {
 		}
 	}
 
-	private static Component stat(String key, Object value) {
+	static Component stat(String key, Object value) {
 		MutableComponent line = Component.translatable("techguns.gun.tooltip." + key).append(": ");
 		return line.append(value instanceof Component c ? c : Component.literal(String.valueOf(value))).withStyle(ChatFormatting.GRAY);
 	}

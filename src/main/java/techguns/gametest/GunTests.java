@@ -21,6 +21,7 @@ import techguns.TGEntities;
 import techguns.TGItems;
 import techguns.TGuns;
 import techguns.Techguns;
+import techguns.entities.projectiles.GenericProjectile;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.ammo.AmmoType;
 
@@ -108,6 +109,43 @@ public class GunTests {
 				.value().assemble(input, helper.getLevel().registryAccess());
 		helper.assertTrue(AmmoType.INCENDIARY.equals(out.get(TGComponents.AMMO_VARIANT)), "variant not set");
 		helper.assertTrue(out.get(TGComponents.AMMO) == 1, "should load one shell");
+		helper.succeed();
+	}
+
+	/** An empty rocket launcher set to high-velocity reloads from a high-velocity rocket, not a plain one. */
+	@GameTest(template = "empty")
+	public static void rocketLauncherReloadsItsVariant(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		ItemStack stack = new ItemStack(TGuns.ROCKETLAUNCHER.get());
+		stack.set(TGComponents.AMMO, 0);
+		stack.set(TGComponents.AMMO_VARIANT, AmmoType.HIGH_VELOCITY);
+		player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+		player.getInventory().add(new ItemStack(TGItems.ROCKET.get()));
+		player.getInventory().add(new ItemStack(TGItems.ROCKET_HIGH_VELOCITY.get()));
+		GenericGun gun = TGuns.ROCKETLAUNCHER.get();
+
+		gun.shootGunPrimary(stack, helper.getLevel(), player, InteractionHand.MAIN_HAND, false);
+		helper.assertTrue(gun.getAmmo(stack) == 1, "didn't reload");
+		helper.assertTrue(player.getInventory().countItem(TGItems.ROCKET_HIGH_VELOCITY.get()) == 0, "HV rocket not used");
+		helper.assertTrue(player.getInventory().countItem(TGItems.ROCKET.get()) == 1, "plain rocket used");
+		helper.assertTrue(gun.getAmmoVariant(stack).kind() == GenericProjectile.Kind.HIGH_VELOCITY, "wrong projectile kind");
+		helper.succeed();
+	}
+
+	/** Releasing the TFG at half charge uses half the full-charge ammo and fires one projectile. */
+	@GameTest(template = "empty")
+	public static void tfgChargeUsesAmmoByCharge(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		Vec3 pos = helper.absoluteVec(new Vec3(1.5, 1, 0.5));
+		player.moveTo(pos.x, pos.y, pos.z, 0, 0);
+		ItemStack stack = new ItemStack(TGuns.TFG.get());
+		stack.set(TGComponents.AMMO, 20);
+		player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+		GenericGun gun = TGuns.TFG.get();
+
+		gun.releaseUsing(stack, helper.getLevel(), player, gun.getUseDuration(stack, player) - 30); // 30 of 60 ticks
+		helper.assertTrue(gun.getAmmo(stack) == 15, "half charge should use 5 of 10");
+		helper.assertTrue(helper.getLevel().getEntitiesOfClass(GenericProjectile.class, player.getBoundingBox().inflate(5)).size() == 1, "expected one shot");
 		helper.succeed();
 	}
 }

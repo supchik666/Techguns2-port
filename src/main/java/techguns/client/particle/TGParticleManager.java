@@ -1,5 +1,7 @@
 package techguns.client.particle;
 
+import java.util.function.Predicate;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +22,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import techguns.TGEffects;
+import techguns.client.LightPulses;
 import techguns.Techguns;
 
 /**
@@ -51,14 +54,16 @@ public final class TGParticleManager implements TGEffects.Handler {
 			system.scale = scale;
 			add(system);
 		}
+		LightPulses.fx(name, new Vec3(x, y, z), scale);
 	}
 
 	@Override
-	public void createFXOnEntity(Entity entity, String name, float scale, Vec3 offset, boolean attachToHead) {
+	public void createFXOnEntity(Entity entity, String name, float scale, Vec3 offset, boolean attachToHead, Predicate<Entity> condition) {
 		for (TGParticleSystem system : TGFX.create(name, type -> new TGParticleSystem(type, entity))) {
 			system.scale = scale;
 			system.entityOffset = offset;
 			system.attachToHead = attachToHead;
+			system.condition = condition;
 			add(system);
 		}
 	}

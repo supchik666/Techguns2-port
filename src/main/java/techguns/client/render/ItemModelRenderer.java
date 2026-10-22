@@ -108,6 +108,11 @@ public class ItemModelRenderer extends BlockEntityWithoutLevelRenderer {
 		return texture;
 	}
 
+	/** The texture for one model part; the rocket launcher's loaded rocket shows the ammo variant. */
+	protected ResourceLocation getTexture(ItemStack stack, int part) {
+		return getTexture(stack);
+	}
+
 	@Override
 	public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
 		pose.pushPose();
@@ -130,8 +135,8 @@ public class ItemModelRenderer extends BlockEntityWithoutLevelRenderer {
 		pose.scale(scale, scale, scale);
 		baseRotation.apply(pose, context);
 		pose.translate(translateBase[0], translateBase[1], translateBase[2]);
-		LegacyGl.begin(pose, buffers, getTexture(stack), light, overlay);
 		for (int i = 0; i < parts; i++) {
+			LegacyGl.begin(pose, buffers, getTexture(stack, i), light, overlay);
 			model.render(null, 0, 0, 0, 0, 0, SCALE, ammo, reloadProgress, context, i, fireProgress, chargeProgress);
 		}
 	}

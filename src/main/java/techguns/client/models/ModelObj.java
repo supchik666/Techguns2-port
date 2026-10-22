@@ -16,23 +16,30 @@ import net.minecraft.world.item.ItemDisplayContext;
 import org.joml.Vector3f;
 
 /**
- * A Wavefront OBJ drawn with the 1.12 model signature (1.12 ModelBaseBaked around Forge's OBJ loader, with "flip-v").
+ * A Wavefront OBJ drawn with the 1.12 model signature (1.12 ModelBaseBaked around Forge's OBJ loader, "flip-v" by default).
  * Reads only v/vt/f; triangles become quads with a repeated corner. Loaded on first render.
  * ponytail: one texture, face normals, no groups; switch to NeoForge's OBJ loader if a model needs more.
  */
 public class ModelObj extends ModelMultipart {
 	private final ResourceLocation location;
+	private final boolean flipV;
 	/** Per vertex: x, y, z, u, v, nx, ny, nz; four vertices per quad. */
 	private float[] quads;
 
 	public ModelObj(ResourceLocation location) {
+		this(location, true);
+	}
+
+	/** {@code flipV}: the 1.12 blockstate's "flip-v" custom data. */
+	public ModelObj(ResourceLocation location, boolean flipV) {
 		this.location = location;
+		this.flipV = flipV;
 	}
 
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch,
 			float scale, int ammoLeft, float reloadProgress, ItemDisplayContext transformType, int part, float fireProgress, float chargeProgress) {
-		if (quads == null) quads = load(location);
+		if (quads == null) quads = load(location, flipV);
 		PoseStack.Pose last = LegacyGl.pose.last();
 		for (int i = 0; i < quads.length; i += 8) {
 			LegacyGl.consumer.addVertex(last, quads[i], quads[i + 1], quads[i + 2]).setColor(-1).setUv(quads[i + 3], quads[i + 4])
@@ -40,7 +47,7 @@ public class ModelObj extends ModelMultipart {
 		}
 	}
 
-	static float[] load(ResourceLocation location) {
+	static float[] load(ResourceLocation location, boolean flipV) {
 		List<float[]> pos = new ArrayList<>(), uv = new ArrayList<>();
 		List<Float> out = new ArrayList<>();
 		try (BufferedReader reader = Minecraft.getInstance().getResourceManager().openAsReader(location)) {
@@ -48,7 +55,7 @@ public class ModelObj extends ModelMultipart {
 				String[] t = line.trim().split("\\s+");
 				switch (t[0]) {
 					case "v" -> pos.add(new float[] {Float.parseFloat(t[1]), Float.parseFloat(t[2]), Float.parseFloat(t[3])});
-					case "vt" -> uv.add(new float[] {Float.parseFloat(t[1]), 1.0f - Float.parseFloat(t[2])});
+					case "vt" -> uv.add(new float[] {Float.parseFloat(t[1]), flipV ? 1.0f - Float.parseFloat(t[2]) : Float.parseFloat(t[2])});
 					case "f" -> {
 						int[][] corners = new int[4][];
 						for (int c = 0; c < 4; c++) {

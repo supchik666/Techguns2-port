@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.function.Function;
 
 import net.minecraft.resources.ResourceLocation;
@@ -72,7 +74,27 @@ public final class TGFX {
 				Techguns.LOGGER.warn("TGFX {}: no attached effect '{}'", name, type.attachedSystem);
 			if (manager.getResource(type.texture).isEmpty()) Techguns.LOGGER.warn("TGFX {}: no texture {}", name, type.texture);
 		});
+		Set<String> inExplosions = new HashSet<>();
+		LISTS.forEach((name, list) -> {
+			if (name.contains("explosion")) inExplosions.addAll(list);
+		});
+		SYSTEMS.forEach((name, type) -> type.bloom = bloom(type, inExplosions.contains(name) || name.contains("explosion") || name.contains("nuke"))
+				* (name.startsWith("TFG") ? TFG_BLOOM : 1));
 		Techguns.LOGGER.debug("Loaded {} TGFX systems and {} lists", SYSTEMS.size(), LISTS.size());
+	}
+
+	/**
+	 * Glow strength of a system: additive ones glow like a muzzle flash, explosions (systems named so or in an explosion
+	 * list) much more; alpha blended fire glows a little, smoke and debris not at all. ponytail: a heuristic on names and
+	 * textures; a Bloom key in the .txt files would be exact.
+	 */
+	/** The TFG's charge ball, trail and blast are huge; they glow less so they don't wash out the screen. */
+	private static final float TFG_BLOOM = 0.5f;
+
+	static float bloom(TGParticleSystemType type, boolean explosion) {
+		if (type.renderType == RenderMode.ADDITIVE || type.renderType == RenderMode.NO_Z_TEST) return explosion ? 2.5f : 1;
+		String texture = type.texture.getPath();
+		return texture.contains("fire") || texture.contains("flame") ? explosion ? 1.5f : 0.5f : 0;
 	}
 
 	private static boolean exists(String name) {

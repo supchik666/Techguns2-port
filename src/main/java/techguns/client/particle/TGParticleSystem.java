@@ -1,6 +1,7 @@
 package techguns.client.particle;
 
 import java.util.Random;
+import java.util.function.Predicate;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -13,8 +14,9 @@ public class TGParticleSystem {
 	static final Random RAND = new Random();
 
 	final TGParticleSystemType type;
-	/** Followed while alive. */
+	/** Followed while {@link #condition} holds. */
 	final Entity entity;
+	Predicate<Entity> condition = Entity::isAlive;
 	/** Followed while alive (AttachedSystem). */
 	final TGParticle parent;
 	/** On an entity: offset in its rotated frame, from its eyes if attachToHead. */
@@ -66,7 +68,7 @@ public class TGParticleSystem {
 		prevPitch = pitch;
 		prevYaw = yaw;
 		if (entity != null) {
-			if (!entity.isAlive()) {
+			if (!condition.test(entity)) {
 				dead = true;
 				return;
 			}

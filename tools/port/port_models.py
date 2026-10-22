@@ -13,6 +13,17 @@ DST = ROOT / "src/main/java/techguns/client/models"
 
 # Applied in order: imports first, then the bare names they bring in.
 REPLACE = [
+    # ModelGuidedMissileLauncher: the lock-on lamp reads the launcher's client lock state instead of TGExtendedPlayer.
+    ("import net.minecraft.entity.player.EntityPlayer;\nimport techguns.capabilities.TGExtendedPlayer;\nimport techguns.client.models.ModelMultipart;\n"
+     "import techguns.client.render.TGRenderHelper;\nimport techguns.items.guns.GenericGun;\n",
+     "import techguns.client.models.ModelMultipart;\nimport techguns.client.render.TGRenderHelper;\nimport techguns.items.guns.GuidedMissileLauncher;\n"),
+    ("\t\t\tif (entityIn != null && entityIn instanceof EntityPlayer) {\n\t\t\t\tEntityPlayer player = (EntityPlayer) entityIn;\n"
+     "\t\t\t\tTGExtendedPlayer tge = TGExtendedPlayer.get(player);\n"
+     "\t\t\t\tif (tge != null && player.getActiveItemStack() != null && player.getActiveItemStack().getItem() instanceof GenericGun) {\n"
+     "\t\t\t\t\tGenericGun gun = (GenericGun)player.getActiveItemStack().getItem();\n"
+     "\t\t\t\t\tif (tge.lockOnTicks >= gun.getLockOnTicks()) {\n\t\t\t\t\t\tlocked = true;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n",
+     "\t\t\tlocked = entityIn instanceof net.minecraft.world.entity.player.Player player\n"
+     "\t\t\t\t\t&& player.getUseItem().getItem() instanceof GuidedMissileLauncher gun && gun.isLockedOn();\n"),
     ("import net.minecraft.client.model.ModelRenderer;", "import techguns.client.models.ModelRenderer;"),
     ("import net.minecraft.client.renderer.GlStateManager;", "import techguns.client.models.LegacyGl;"),
     ("import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;", "import net.minecraft.world.item.ItemDisplayContext;"),

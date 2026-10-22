@@ -151,8 +151,8 @@ public class TGParticle {
 
 	RenderType renderType() {
 		// ponytail: SOLID/ALPHA_SHADED draw as ALPHA and NO_Z_TEST as ADDITIVE with depth test; no effect in use needs more
-		return type.renderType == RenderMode.ADDITIVE || type.renderType == RenderMode.NO_Z_TEST ? ScreenEffect.additive(type.texture)
-				: ScreenEffect.alpha(type.texture);
+		return type.renderType == RenderMode.ADDITIVE || type.renderType == RenderMode.NO_Z_TEST ? ScreenEffect.additive(type.texture, type.bloom)
+				: ScreenEffect.alpha(type.texture, type.bloom);
 	}
 
 	void render(MultiBufferSource buffers, Camera camera, float partialTick) {

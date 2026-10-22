@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -20,7 +21,7 @@ public class SonicShotgun extends GenericGun {
 
 	/** All 16 blasts share one hit set, so an entity is hit once per shot; the center one draws the shockwave. */
 	@Override
-	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side) {
+	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side, Entity target) {
 		SonicShotgunProjectile main = (SonicShotgunProjectile) createProjectile(level, player, kind, 0f, offset, side);
 		main.mainProjectile = true;
 		level.addFreshEntity(main);

@@ -1,6 +1,6 @@
 package techguns.client.render;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,8 +16,14 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import techguns.Techguns;
 
-/** Animated sprite sheet drawn as an unlit quad, additive or alpha blended, tinted by ARGB {@code color} (1.12 ScreenEffect). */
-public record ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY, int color) {
+/**
+ * Animated sprite sheet drawn as an unlit quad, additive or alpha blended, tinted by ARGB {@code color} (1.12 ScreenEffect).
+ * Additive ones glow with {@link Bloom} {@code bloom} strong; alpha ones (scopes) don't glow.
+ */
+public record ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY, int color,
+		float bloom) {
+	/** Bloom of muzzle flashes and energy shots. */
+	public static final float SHOT_BLOOM = 2.0f;
 	public static final ScreenEffect muzzleFlash_gun = additive("muzzleflashnew_2_add_2", 4, 4, 11);
 	public static final ScreenEffect muzzleFlash_rifle = additive("muzzleflashnew_add", 4, 4, 12);
 	public static final ScreenEffect muzzleFlash_minigun = additive("muzzleflash_minigun", 2, 2, 4);
@@ -34,24 +40,44 @@ public record ScreenEffect(ResourceLocation texture, int cols, int rows, int num
 	public static final ScreenEffect muzzleFlashNukeBeam = additive("nukebeamflare", 4, 4, 16);
 	/** 1.12 color (0.15686, 1.0, 0.549). */
 	public static final ScreenEffect muzzleFlashMibGun = new ScreenEffect(fx("alienflare"), 4, 4, 14, true, false, false, 0xFF28FF8C);
+	/** ponytail: 1.12 layered a green glow and flash over this with fades; just the main flare until ScreenEffect can stack. */
+	public static final ScreenEffect muzzleFlashTFG = new ScreenEffect(fx("tfg_flare"), 4, 4, 16, true, false, false, -1, 1.0f);
+	/** 1.12 color (0.5, 1.0, 0.25); its smooth fade is skipped. */
+	/** The glint on scope lenses (GunRenderer.setScopeLenses). */
+	public static final ScreenEffect scopeLens = new ScreenEffect(fx("glow"), 1, 1, 1, true, false, false, 0xFF6E7378, 0.4f);
+	public static final ScreenEffect muzzleGreenFlare = new ScreenEffect(fx("lensflare1"), 1, 1, 1, true, false, false, 0xFF80FF40);
 
 	public ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY) {
 		this(texture, cols, rows, numSprites, additive, flipX, flipY, -1);
 	}
 
-	private static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(texture -> unlit("techguns_additive", texture,
-			RenderStateShard.LIGHTNING_TRANSPARENCY));
-	private static final Function<ResourceLocation, RenderType> ALPHA = Util.memoize(texture -> unlit("techguns_alpha", texture,
-			RenderStateShard.TRANSLUCENT_TRANSPARENCY));
-
-	/** Unlit, additively blended: for glowing sprites. */
-	public static RenderType additive(ResourceLocation texture) {
-		return ADDITIVE.apply(texture);
+	public ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY, int color) {
+		this(texture, cols, rows, numSprites, additive, flipX, flipY, color, SHOT_BLOOM);
 	}
 
-	/** Unlit, alpha blended. */
+	private static final BiFunction<ResourceLocation, Float, RenderType> ADDITIVE = Util.memoize((texture, bloom) -> Bloom.wrap(
+			unlit("techguns_additive", texture, RenderStateShard.LIGHTNING_TRANSPARENCY), bloom));
+	private static final BiFunction<ResourceLocation, Float, RenderType> ALPHA = Util.memoize((texture, bloom) -> Bloom.wrap(
+			unlit("techguns_alpha", texture, RenderStateShard.TRANSLUCENT_TRANSPARENCY), bloom));
+
+	/** Unlit, additively blended, with {@link Bloom}: for glowing sprites. */
+	public static RenderType additive(ResourceLocation texture) {
+		return additive(texture, SHOT_BLOOM);
+	}
+
+	/** As {@link #additive(ResourceLocation)}, glowing {@code bloom} strong ({@link #SHOT_BLOOM} for shots, explosions more). */
+	public static RenderType additive(ResourceLocation texture, float bloom) {
+		return ADDITIVE.apply(texture, bloom);
+	}
+
+	/** Unlit, alpha blended, no bloom. */
 	public static RenderType alpha(ResourceLocation texture) {
-		return ALPHA.apply(texture);
+		return alpha(texture, 0);
+	}
+
+	/** As {@link #alpha(ResourceLocation)}, glowing {@code bloom} times as strongly as a muzzle flash (for fire). */
+	public static RenderType alpha(ResourceLocation texture, float bloom) {
+		return ALPHA.apply(texture, bloom);
 	}
 
 	private static ResourceLocation fx(String name) {
@@ -89,7 +115,7 @@ public record ScreenEffect(ResourceLocation texture, int cols, int rows, int num
 			v2 = t;
 		}
 		float f = scale / 2.0f;
-		VertexConsumer consumer = buffers.getBuffer((additive ? ADDITIVE : ALPHA).apply(texture));
+		VertexConsumer consumer = buffers.getBuffer(additive ? additive(texture, bloom) : alpha(texture));
 		PoseStack.Pose last = pose.last();
 		vertex(last, consumer, x - f, y + f, z, u1, v2);
 		vertex(last, consumer, x - f, y - f, z, u1, v1);

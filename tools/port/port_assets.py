@@ -82,6 +82,7 @@ BEWLR_ITEMS = [
     "as50magazine_explosive", "rocket", "rocket_nuke", "rocket_high_velocity",
     "lasergun", "laserpistol", "teslagun", "alienblaster", "mibgun", "netherblaster", "blasterrifle", "scatterbeamrifle",
     "nucleardeathray", "gaussrifle", "sonicshotgun", "flamethrower",
+    "rocketlauncher", "grenadelauncher", "guidedmissilelauncher", "grimreaper", "tfg", "biogun", "stielgranate", "fraggrenade",
 ]
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]

@@ -38,6 +38,9 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredItem;
+import net.minecraft.Util;
+import net.minecraft.world.entity.Entity;
+import techguns.TGComponents;
 import techguns.TGItems;
 import techguns.TGEntities;
 import techguns.TGuns;
@@ -50,11 +53,14 @@ import techguns.client.models.items.ModelLmgMag;
 import techguns.client.models.projectiles.ModelRocket;
 import techguns.client.render.GenericProjectileRenderer;
 import techguns.client.render.GunAnimation;
+import techguns.client.render.GrenadeRenderer;
 import techguns.client.render.GunRenderer;
 import techguns.client.render.ItemModelRenderer;
 import techguns.client.render.ScreenEffect;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGun.Crosshair;
+import techguns.items.guns.GuidedMissileLauncher;
+import techguns.items.guns.ammo.AmmoType;
 import techguns.network.TGPackets.GunAction;
 
 /** Client setup and per-frame hooks: gun input and zoom, held-item rendering, crosshairs and ammo HUD. */
@@ -62,6 +68,7 @@ import techguns.network.TGPackets.GunAction;
 public class TGClient {
 	static final KeyMapping FORCE_RELOAD = new KeyMapping("techguns.key.forceReload", GLFW.GLFW_KEY_R, "techguns.key.categories.techguns");
 	private static final ResourceLocation CROSSHAIRS = Techguns.id("textures/gui/tg_crosshairs.png");
+	private static final ResourceLocation LOCK_ON = Techguns.id("textures/gui/crosshairs.png");
 
 	/** The living entity currently being rendered, so the gun renderer knows who holds it in third person. */
 	public static LivingEntity renderedEntity;
@@ -154,7 +161,8 @@ public class TGClient {
 				.setScope(ScreenEffect.sniperScope)
 				.setTransformTranslations(new float[][]{{0f, -0.02f, -0.09f}, {0f, -0.04f, -0.11f}, {0.1f, -0.08f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.025f}})
 				.setMuzzleFXPos3P(0.12f, -1.13f)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.20f, 2.0f)), TGuns.BOLTACTION.get());
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.20f, 2.0f)
+				.setScopeLenses(true, 0f, 1.2f, 6.1f, -4.5f, 0.5f, -7.1f, -4.5f, 0.5f)), TGuns.BOLTACTION.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelM4(), 1)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.1f, 0)
 				.setGUIScale(0.35f)
@@ -170,7 +178,8 @@ public class TGClient {
 				.setTransformTranslations(new float[][]{{0f, 0f, -0.05f}, {0f, 0.01f, -0.1f}, {0f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
 				.setMuzzleFXPos3P(0.14f, -1.15f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f)), TGuns.M4_INFILTRATOR.get());
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f)
+				.setScopeLenses(false, 45f, 1.4f, -0.5f, -10.17f, -6.1f, -0.5f, -9.88f, 7.1f)), TGuns.M4_INFILTRATOR.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelCombatShotgun(), 2)
 				.setBaseRotation(ItemModelRenderer.GUN90)
 				.setBaseTranslation(0, -0.2f, ItemModelRenderer.SCALE-0.1f)
@@ -216,7 +225,8 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.17f, -1.29f)
 				.setScope(ScreenEffect.sniperScope)
 				.setRecoilAnim(GunAnimation.genericRecoil, 0.25f, 5.0f)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.2f, 2.0f)), TGuns.AS50.get());
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.2f, 2.0f)
+				.setScopeLenses(false, 45f, 1.8f, -0.5f, -15.46f, -18.1f, -0.5f, -15.42f, 13.1f)), TGuns.AS50.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelVector(), 1)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.57f, -0.2f)
 				.setBaseScale(1.1f)
@@ -235,7 +245,8 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.14f, -1.04f)
 				.setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 2.0f)), TGuns.SCAR.get());
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 2.0f)
+				.setScopeLenses(false, 45f, 1.1f, -0.5f, -10.2f, -3.1f, -0.5f, -10.2f, 11.1f)), TGuns.SCAR.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelAUG(), 2)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.1f, 0.1f)
 				.setGUIScale(0.35f)
@@ -245,7 +256,8 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.12f, -0.87f)
 				.setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.075f, 1.0f)), TGuns.AUG.get());
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.075f, 1.0f)
+				.setScopeLenses(false, 45f, 1.0f, -0.5f, -9.59f, -8.1f, -0.5f, -9.38f, 11.1f)), TGuns.AUG.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelPDW(), 1)
 				.setBaseRotation(ItemModelRenderer.GUN90)
 				.setBaseTranslation(0, -0.2f, ItemModelRenderer.SCALE*1.5f-0.1f)
@@ -264,7 +276,8 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.1f, -0.50f)
 				.setScope(ScreenEffect.techScope, 2.125f)
 				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.10f, 1.5f)
-				.setRecoilAnim(GunAnimation.pulseRifleRecoil, 0.25f, 10.0f)), TGuns.PULSERIFLE.get());
+				.setRecoilAnim(GunAnimation.pulseRifleRecoil, 0.25f, 10.0f)
+				.setScopeLenses(true, 0f, 1.0f, 4.6f, -3.5f, 0f, -5.1f, -3.5f, 0f)), TGuns.PULSERIFLE.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelPistol(), 2)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.3f, -0.4f)
 				.setBaseScale(1.2f)
@@ -327,7 +340,8 @@ public class TGClient {
 				.setTransformTranslations(new float[][]{{0f, 0.11f, -0.20f}, {0f, 0.0f, -0.04f}, {0f, 0f, 0.03f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
 				.setMuzzleFXPos3P(0.09f, -0.57f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f)), TGuns.BLASTERRIFLE.get());
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f)
+				.setScopeLenses(false, 0f, 1.0f, -0.5f, -7.0f, 0.9f, -0.5f, -8.0f, 16.1f)), TGuns.BLASTERRIFLE.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelSonicShotgun(), 1)
 				.setBaseRotation(ItemModelRenderer.GUN90)
 				.setBaseTranslation(0, -0.2f, ItemModelRenderer.SCALE*0.5f-0.10f)
@@ -372,7 +386,8 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.09f, -1.26f)
 				.setRecoilAnim(GunAnimation.genericRecoil, 0.25f, 7.5f)
 				.setScope(ScreenEffect.techScope, 2.125f)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.15f, 1.0f)), TGuns.GAUSSRIFLE.get());
+				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.15f, 1.0f)
+				.setScopeLenses(true, 0f, 1.2f, -14.6f, 6.5f, 1f, 0.6f, 6.5f, 1f)), TGuns.GAUSSRIFLE.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelLaserPistol(), 1)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.3f, -0.4f)
 				.setBaseScale(1.2f)
@@ -381,6 +396,82 @@ public class TGClient {
 				.setTransformTranslations(new float[][]{{0, 0.09f, -0.02f}, {0.0f, -0.03f, 0.0f}, {0.02f, -0.08f, 0}, {0.02f, -0.08f, 0}, {0, 0, 0f}})
 				.setRecoilAnim(GunAnimation.genericRecoil, 0.0125f, 6.0f)
 				.setMuzzleFXPos3P(0.07f, -0.26f)), TGuns.LASERPISTOL.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelBiogun(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0.35f, -0.2f, ItemModelRenderer.SCALE-0.1f)
+				.setGUIScale(0.45f)
+				.setMuzzleFx(ScreenEffect.muzzleGreenFlare, 0, 0.23f, -0.51f, 0.55f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.16f, 0.05f}, {0f, 0.07f, -0.05f}, {0f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.1f, -0.51f)
+				.setChargeTranslationAmount(0.05f)), TGuns.BIOGUN.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelRocketLauncher(), 2) {
+					// 1.12 RenderRocketLauncher: part 1 is the loaded rocket, textured by ammo variant.
+					@Override
+					protected ResourceLocation getTexture(ItemStack stack, int part) {
+						if (part == 0) return getTexture(stack);
+						String variant = stack.getOrDefault(TGComponents.AMMO_VARIANT, AmmoType.DEFAULT);
+						return Techguns.id(switch (variant) {
+							case AmmoType.NUKE -> "textures/guns/rocket_nuke.png";
+							case AmmoType.HIGH_VELOCITY -> "textures/guns/rocket_hv.png";
+							default -> "textures/guns/rocket.png";
+						});
+					}
+				}
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(-0.4f, -0.2f, -ItemModelRenderer.SCALE*0.5f)
+				.setGUIScale(0.45f)
+				.setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.39f, -0.6f, 0.87f, 0)
+				.setTransformTranslations(new float[][]{{-0.13f, 0.3f, 0.32f}, {0, 0.02f, 0.07f}, {-0.06f, 0.0f, 0.0f}, {0.0f, 0.0f, 0}, {0, 0, 0f}})
+				.setMuzzleFXPos3P(0.09f, -0.26f)), TGuns.ROCKETLAUNCHER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelGrimReaper(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0.3f, -0.2f, ItemModelRenderer.SCALE*0.5f)
+				.setGUIScale(0.3f)
+				.setChargeTranslationAmount(0.025f)
+				.setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.39f, -0.61f, 0.75f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.25f, 0.18f}, {0, 0.13f, 0.1f}, {-0.02f, 0.01f, 0.0f}, {0.0f, 0.1f, 0}, {0, 0, 0f}})
+				.setMuzzleFXPos3P(0.24f, -0.56f)
+				.setBaseScale(1.25f)
+				.setFirstPersonScale(0.4f)
+				.setGroundAndFrameScale(0.35f)), TGuns.GRIMREAPER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelGrenadeLauncher(), 1)
+				.setBaseRotation((pose, context) -> pose.mulPose(Axis.YP.rotationDegrees(90f))) // 1.12 RenderGunBaseObj
+				.setBaseTranslation(0f, 0f, 0f)
+				.setBaseScale(0.125f)
+				.setGUIScale(0.45f)
+				.setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.22f, -0.63f, 0.5f, 0)
+				.setTransformTranslations(new float[][]{{0f, 0.19f, -0.09f}, {0f, 0.06f, -0.20f}, {-0.05f, 0.08f, 0f}, {0f, 0.05f, -0.09f}, {0.11f, 0.01f, -0.05f}})
+				.setMuzzleFXPos3P(0.07f, -0.61f)), TGuns.GRENADELAUNCHER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelGuidedMissileLauncher(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(-0.4f, -0.2f, ItemModelRenderer.SCALE*0.5f)
+				.setGUIScale(0.35f)
+				.setChargeTranslationAmount(0)
+				.setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.39f, -0.6f, 0.87f, 0)
+				.setTransformTranslations(new float[][]{{-0.13f, 0.3f, 0.62f}, {0, 0.09f, 0.28f}, {0.0f, 0.03f, 0.0f}, {0.0f, 0.0f, 0}, {0, 0, -0.04f}})
+				.setMuzzleFXPos3P(0.09f, -0.26f)), TGuns.GUIDEDMISSILELAUNCHER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelTFG(), 1)
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(-0.46f, -0.38f, ItemModelRenderer.SCALE-0.125f)
+				.setBaseScale(1.20f)
+				.setGUIScale(0.30f)
+				.setMuzzleFx(ScreenEffect.muzzleFlashTFG, 0.0f, 0.18f, -0.87f, 0.9f, 0)
+				.setTransformTranslations(new float[][]{{0f, -0.03f, 0.16f}, {0f, -0.09f, -0.26f}, {0.04f, -0.04f, 0f}, {0f, 0f, 0f}, {-0.07f, 0f, -0.05f}})
+				.setMuzzleFXPos3P(0.09f, -1.14f)
+				.setChargeTranslationAmount(0.05f)
+				.setFirstPersonScale(0.45f)), TGuns.TFG.get());
+		event.registerItem(gun(() -> new GrenadeRenderer(new ModelStielgranate(), Techguns.id("textures/guns/stielgranate.png"), 180f)
+				.setBaseScale(1f)
+				.setGUIScale(0.8f)
+				.setBaseTranslation(-ItemModelRenderer.SCALE*0.5f, 0.48f, -ItemModelRenderer.SCALE)
+				.setTransformTranslations(new float[][]{{0f, -0.06f, 0f}, {0f, -0.15f, 0.06f}, {-0.05f, -0.49f, 0f}, {0f, -0.15f, 0f}, {0f, 0f, -0.05f}})),
+				TGuns.STIELGRANATE.get());
+		event.registerItem(gun(() -> new GrenadeRenderer(new ModelFragGrenade(true), Techguns.id("textures/guns/frag_grenade_texture.png"), 90f)
+				.setBaseScale(1.25f)
+				.setGUIScale(1.35f)
+				.setBaseTranslation(-0.02f, 0.65f, -ItemModelRenderer.SCALE+0.02f)
+				.setTransformTranslations(new float[][]{{0f, -0.06f, 0f}, {0f, -0.11f, -0.01f}, {-0.05f, -0.49f, 0f}, {0f, 0.f, 0f}, {0f, 0f, -0.05f}})),
+				TGuns.FRAGGRENADE.get());
 	}
 
 	private static void registerAmmoRenderers(RegisterClientExtensionsEvent event) {
@@ -446,6 +537,27 @@ public class TGClient {
 		return gun.canZoom() && playerZoom == gun.getZoomMult();
 	}
 
+	/** 1.12 TGGuiEvents lock-on reticle: four corners close in as the lock builds, then a blinking frame. */
+	private static void renderLockOn(GuiGraphics g, Minecraft mc, GuidedMissileLauncher launcher) {
+		float progress = launcher.lockProgress();
+		int x = g.guiWidth() / 2;
+		int y = g.guiHeight() / 2;
+		int offset = (int) Math.max(0.0f, (1.0f - progress) * 16.0f) + 5;
+		g.blit(LOCK_ON, x - offset - 3, y - offset - 3, 0, 0, 7, 7);
+		g.blit(LOCK_ON, x + offset - 3, y - offset - 3, 7, 0, 7, 7);
+		g.blit(LOCK_ON, x - offset - 3, y + offset - 3, 14, 0, 7, 7);
+		g.blit(LOCK_ON, x + offset - 3, y + offset - 3, 21, 0, 7, 7);
+		g.blit(LOCK_ON, x, y, 0, 0, 1, 1);
+		String name = GuidedMissileLauncher.lockTarget().getName().getString();
+		if (progress < 1.0f) {
+			g.drawString(mc.font, "Locking... : " + name, x + 2, y + 10, 0xFFFFFFFF, false);
+		} else {
+			g.blit(LOCK_ON, x - 6, y - 6, 28, 0, 13, 13);
+			if (Util.getMillis() / 250 % 2 == 0) g.blit(LOCK_ON, x - 9, y - 9, 41, 0, 19, 19);
+			g.drawString(mc.font, "Locked On: " + name, x + 2, y + 10, 0xFFFF0000, false);
+		}
+	}
+
 	private static boolean isReloading(LocalPlayer player) {
 		ShooterValues.AttackTime time = ShooterValues.get(player, InteractionHand.MAIN_HAND);
 		return ShooterValues.progress(time.reloadEnd, time.reloadTotal) > 0;
@@ -487,12 +599,18 @@ public class TGClient {
 		}
 		ItemStack stack = player.getMainHandItem();
 		if (!isZooming(gun) || isReloading(player)) playerZoom = 1.0f;
+		// Vanilla swallows attack clicks while an item is in use; the guided missile launcher fires while locking on.
+		if (player.isUsingItem() && mc.screen == null && mc.options.keyAttack.isDown() && !attackHeld) {
+			firePressed = true;
+			attackHeld = true;
+		}
 		boolean holding = !gun.isSemiAuto() && mc.screen == null && mc.options.keyAttack.isDown();
 		if ((firePressed || holding) && GenericGun.isReady(player, InteractionHand.MAIN_HAND)) {
 			firePressed = false;
 			boolean zooming = isZooming(gun);
-			PacketDistributor.sendToServer(new GunAction(InteractionHand.MAIN_HAND, false, zooming));
-			gun.shootGunPrimary(stack, player.level(), player, InteractionHand.MAIN_HAND, zooming);
+			Entity target = gun instanceof GuidedMissileLauncher launcher ? launcher.lockedTarget() : null;
+			PacketDistributor.sendToServer(new GunAction(InteractionHand.MAIN_HAND, false, zooming, target == null ? -1 : target.getId()));
+			gun.shootGunPrimary(stack, player.level(), player, InteractionHand.MAIN_HAND, zooming, target);
 		}
 		while (FORCE_RELOAD.consumeClick()) {
 			PacketDistributor.sendToServer(new GunAction(InteractionHand.MAIN_HAND, true, false));
@@ -521,6 +639,11 @@ public class TGClient {
 		ItemStack stack = mc.player.getMainHandItem();
 		if (isZooming(gun) && IClientItemExtensions.of(stack).getCustomRenderer() instanceof GunRenderer r && r.hasScopeTexture()) {
 			event.setCanceled(true);
+			return;
+		}
+		if (gun instanceof GuidedMissileLauncher launcher && GuidedMissileLauncher.lockTarget() != null && launcher.lockProgress() > 0) {
+			event.setCanceled(true);
+			renderLockOn(event.getGuiGraphics(), mc, launcher);
 			return;
 		}
 		Crosshair crosshair = gun.getCrosshair();

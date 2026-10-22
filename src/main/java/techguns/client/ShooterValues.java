@@ -17,6 +17,8 @@ public class ShooterValues {
 		public long recoilEnd, reloadEnd, muzzleFlashEnd;
 		public int recoilTotal, reloadTotal, muzzleFlashTotal;
 		public float jitterX, jitterY, jitterScale;
+		/** How charged the last shot was; a charge gun's recoil eases back from it. */
+		public float recoilCharge;
 	}
 
 	private static final Map<Entity, AttackTime[]> TIMES = new WeakHashMap<>();
@@ -32,6 +34,13 @@ public class ShooterValues {
 		if (!gun.isCheckRecoil() || now >= time.recoilEnd) {
 			time.recoilTotal = gun.getRecoiltime() * 50;
 			time.recoilEnd = now + time.recoilTotal;
+			time.recoilCharge = 0.0f;
+		}
+		float[] light = gun.getMuzzleLight();
+		if (light != null) {
+			// a gun that lets its flash run (flamethrower, minigun) holds one light instead of blinking with each flash
+			if (gun.isCheckMuzzleFlash()) LightPulses.steadyMuzzleFlash(entity, light);
+			else LightPulses.muzzleFlash(entity, light);
 		}
 		if (gun.isCheckMuzzleFlash() && now < time.muzzleFlashEnd) return;
 		time.muzzleFlashTotal = gun.getMuzzleFlashtime() * 50;

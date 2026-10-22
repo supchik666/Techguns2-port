@@ -1,5 +1,7 @@
 package techguns;
 
+import java.util.function.Predicate;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -27,9 +29,10 @@ public final class TGEffects {
 
 		/**
 		 * Follows {@code entity} while it's alive (trails). {@code offset} is in the entity's rotated frame; with
-		 * {@code attachToHead} it's from a living entity's eyes and turns with its head (muzzle and charge effects).
+		 * {@code attachToHead} it's from a living entity's eyes and turns with its head (muzzle and charge effects). Ends when
+		 * {@code condition} turns false (1.12 EntityCondition).
 		 */
-		void createFXOnEntity(Entity entity, String name, float scale, Vec3 offset, boolean attachToHead);
+		void createFXOnEntity(Entity entity, String name, float scale, Vec3 offset, boolean attachToHead, Predicate<Entity> condition);
 	}
 
 	public static Handler client = new Handler() {
@@ -37,7 +40,7 @@ public final class TGEffects {
 		public void createFX(Level level, String name, double x, double y, double z, double mx, double my, double mz, float pitch, float yaw, float scale) {}
 
 		@Override
-		public void createFXOnEntity(Entity entity, String name, float scale, Vec3 offset, boolean attachToHead) {}
+		public void createFXOnEntity(Entity entity, String name, float scale, Vec3 offset, boolean attachToHead, Predicate<Entity> condition) {}
 	};
 
 	private TGEffects() {}
@@ -56,12 +59,17 @@ public final class TGEffects {
 	}
 
 	public static void createFXOnEntity(Entity entity, String name, float scale) {
-		if (entity.level().isClientSide) client.createFXOnEntity(entity, name, scale, Vec3.ZERO, false);
+		if (entity.level().isClientSide) client.createFXOnEntity(entity, name, scale, Vec3.ZERO, false, Entity::isAlive);
 	}
 
 	/** 1.12 createFXOnEntityWithOffset, see {@link Handler#createFXOnEntity}. */
 	public static void createFXOnEntity(Entity entity, String name, Vec3 offset, boolean attachToHead) {
-		if (entity.level().isClientSide) client.createFXOnEntity(entity, name, 1.0f, offset, attachToHead);
+		createFXOnEntity(entity, name, offset, attachToHead, Entity::isAlive);
+	}
+
+	/** As above, ending when {@code condition} turns false (e.g. the entity stops charging). */
+	public static void createFXOnEntity(Entity entity, String name, Vec3 offset, boolean attachToHead, Predicate<Entity> condition) {
+		if (entity.level().isClientSide) client.createFXOnEntity(entity, name, 1.0f, offset, attachToHead, condition);
 	}
 
 	/** Server side: plays effect {@code name} at x/y/z for players within {@code range} blocks. */

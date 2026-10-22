@@ -15,11 +15,11 @@ import techguns.client.ShooterValues;
 import techguns.client.TGClient;
 import techguns.client.models.ModelMultipart;
 import techguns.items.guns.GenericGun;
+import techguns.items.guns.GenericGunCharge;
 
 /**
  * A gun: recoil, reload and muzzle flash on top of {@link ItemModelRenderer}, and the scope overlay when zoomed
- * (1.12 RenderGunBase).
- * ponytail: charge animation comes with the charge guns.
+ * (1.12 RenderGunBase). A charge gun pulls back while charging and eases forward again through the recoil.
  */
 public class GunRenderer extends ItemModelRenderer {
 	private GunAnimation recoilAnim = GunAnimation.genericRecoil;
@@ -39,6 +39,12 @@ public class GunRenderer extends ItemModelRenderer {
 	private float jitterX, jitterY, jitterScale;
 	private ScreenEffect scope;
 	private float scopescale = 3.0f;
+	private float chargeTranslation = 0.25f;
+	/** Scope lens centers (x, y, z triples in model pixels) and radius; they glow. */
+	private float[] lenses = {};
+	private float lensRadius;
+	private boolean lensesAlongX;
+	private float lensRoll;
 
 	public GunRenderer(ModelMultipart model, int parts) {
 		super(model, parts, null);
@@ -110,6 +116,24 @@ public class GunRenderer extends ItemModelRenderer {
 		return this;
 	}
 
+	/**
+	 * Glowing scope lenses: {@code radius}, then the x, y, z of each lens center in model pixels (an OBJ's units * 16).
+	 * {@code alongX} for models whose barrel runs along x instead of z; {@code roll} turns the glint around the barrel
+	 * axis, in degrees (45 for scope tubes turned on their edge).
+	 */
+	public GunRenderer setScopeLenses(boolean alongX, float roll, float radius, float... lenses) {
+		lensesAlongX = alongX;
+		lensRoll = roll;
+		lensRadius = radius;
+		this.lenses = lenses;
+		return this;
+	}
+
+	public GunRenderer setChargeTranslationAmount(float value) {
+		chargeTranslation = value;
+		return this;
+	}
+
 	public boolean hasScopeTexture() {
 		return scope != null;
 	}
@@ -151,6 +175,20 @@ public class GunRenderer extends ItemModelRenderer {
 	}
 
 	@Override
+	protected void renderModel(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay,
+			int ammo, float reloadProgress, float fireProgress, float chargeProgress) {
+		super.renderModel(stack, context, pose, buffers, light, overlay, ammo, reloadProgress, fireProgress, chargeProgress);
+		for (int i = 0; i < lenses.length; i += 3) {
+			pose.pushPose();
+			pose.translate(lenses[i] * SCALE, lenses[i + 1] * SCALE, lenses[i + 2] * SCALE);
+			if (lensesAlongX) pose.mulPose(Axis.YP.rotationDegrees(90f));
+			pose.mulPose(Axis.ZP.rotationDegrees(lensRoll));
+			ScreenEffect.scopeLens.render(pose, buffers, 0, 0, 0, 0, lensRadius * 2 * SCALE, false);
+			pose.popPose();
+		}
+	}
+
+	@Override
 	public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
 		GenericGun gun = (GenericGun) stack.getItem();
 		boolean firstPerson = context.firstPerson();
@@ -158,14 +196,19 @@ public class GunRenderer extends ItemModelRenderer {
 		boolean leftHand = context == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || context == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
 		LivingEntity entity = firstPerson ? Minecraft.getInstance().player : thirdPerson ? TGClient.renderedEntity : null;
 
-		float fireProgress = 0, reloadProgress = 0, muzzleProgress = 0;
+		float fireProgress = 0, reloadProgress = 0, muzzleProgress = 0, chargeProgress = 0;
 		boolean offhand = false;
 		ShooterValues.AttackTime time = null;
 		if (entity != null) {
 			offhand = leftHand == (entity.getMainArm() == HumanoidArm.RIGHT);
 			time = ShooterValues.get(entity, offhand ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-			reloadProgress = ShooterValues.progress(time.reloadEnd, time.reloadTotal);
-			if (reloadProgress == 0) fireProgress = ShooterValues.progress(time.recoilEnd, time.recoilTotal);
+			if (gun instanceof GenericGunCharge charge && !offhand && entity.isUsingItem()) {
+				chargeProgress = Math.min(entity.getTicksUsingItem() / charge.getFullChargeTime(), 1.0f);
+			} else {
+				reloadProgress = ShooterValues.progress(time.reloadEnd, time.reloadTotal);
+				if (reloadProgress == 0) fireProgress = ShooterValues.progress(time.recoilEnd, time.recoilTotal);
+				if (fireProgress > 0 && gun instanceof GenericGunCharge) chargeProgress = (1.0f - fireProgress) * time.recoilCharge;
+			}
 			muzzleProgress = ShooterValues.progress(time.muzzleFlashEnd, time.muzzleFlashTotal);
 		}
 
@@ -180,6 +223,7 @@ public class GunRenderer extends ItemModelRenderer {
 		pose.pushPose();
 		applyTranslation(pose, context);
 		if (firstPerson) {
+			if (chargeProgress > 0) pose.translate(0, 0, chargeTranslation * chargeProgress);
 			if (fireProgress > 0) {
 				recoilAnim.play(pose, fireProgress, leftHand, recoilParams);
 			} else if (reloadProgress > 0) {
@@ -199,7 +243,7 @@ public class GunRenderer extends ItemModelRenderer {
 		} else if (context == ItemDisplayContext.FIXED) {
 			pose.mulPose(Axis.YP.rotationDegrees(-90.0f));
 		}
-		renderModel(stack, context, pose, buffers, light, overlay, gun.getAmmo(stack), reloadProgress, fireProgress, 0);
+		renderModel(stack, context, pose, buffers, light, overlay, gun.getAmmo(stack), reloadProgress, fireProgress, chargeProgress);
 		pose.popPose();
 
 		if (muzzleProgress > 0 && muzzleFX != null) {

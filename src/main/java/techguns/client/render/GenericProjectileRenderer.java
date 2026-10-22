@@ -19,6 +19,8 @@ import techguns.entities.projectiles.GenericProjectile;
 public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile> {
 	private static final ResourceLocation TEXTURE = Techguns.id("textures/entity/bullet1.png");
 	private static final ResourceLocation ADVANCED = Techguns.id("textures/entity/bullet_blue.png");
+	/** Tracers glow half as much as a muzzle flash. */
+	private static final RenderType TRACER = Bloom.wrap(RenderType.entityTranslucentEmissive(TEXTURE), ScreenEffect.SHOT_BLOOM / 2);
 	private static final ResourceLocation STONE = Techguns.id("textures/entity/handgunbullet.png");
 
 	public GenericProjectileRenderer(EntityRendererProvider.Context context) {
@@ -48,7 +50,7 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 		pose.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot())));
 		pose.mulPose(Axis.XP.rotationDegrees(45.0f));
 		pose.scale(0.0125f, 0.0125f, 0.0125f);
-		VertexConsumer consumer = buffers.getBuffer(advanced ? ScreenEffect.additive(ADVANCED) : RenderType.entityTranslucentEmissive(TEXTURE));
+		VertexConsumer consumer = buffers.getBuffer(advanced ? ScreenEffect.additive(ADVANCED) : TRACER);
 		for (int i = 0; i < 4; i++) {
 			pose.mulPose(Axis.XP.rotationDegrees(90.0f));
 			PoseStack.Pose last = pose.last();

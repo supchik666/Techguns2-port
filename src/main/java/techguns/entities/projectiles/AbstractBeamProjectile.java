@@ -30,6 +30,11 @@ public abstract class AbstractBeamProjectile extends GenericProjectile {
 		maxTicks = ticksToLive;
 	}
 
+	@Override
+	protected float speedFactor() {
+		return 1; // speed is the beam's range
+	}
+
 	/** Hits the first block or entity along the motion vector and sets {@link #distance} to it. */
 	protected void trace() {
 		Vec3 from = position(), to = from.add(getDeltaMovement());

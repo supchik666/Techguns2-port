@@ -80,6 +80,25 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> GAUSS_RIFLE_RECHAMBER = register("guns.gaussriflerechamber");
 	public static final DeferredHolder<SoundEvent, SoundEvent> LASER_PISTOL_FIRE = register("guns.laserpistolfire");
 	public static final DeferredHolder<SoundEvent, SoundEvent> LASER_PISTOL_RELOAD = register("guns.laserpistolreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_FIRE = register("guns.rocketfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_RELOAD = register("guns.rocketreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_FIRE = register("guns.biogunfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_RELOAD = register("guns.biogunreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_CHARGE = register("guns.bioguncharge");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_LAUNCHER_FIRE = register("guns.grenadelauncherfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_LAUNCHER_RELOAD = register("guns.grenadelauncherreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> LOCKON_BEEP = register("guns.lockon");
+	public static final DeferredHolder<SoundEvent, SoundEvent> LOCKED_BEEP = register("guns.locked");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GUIDEDMISSILE_FIRE = register("guns.guidedmissilelauncherfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_FIRE = register("guns.tfgfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_CHARGE = register("guns.tfgcharge");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_PIN = register("guns.grenade_pin");
+
+	// Explosive projectiles (M3.3)
+	public static final DeferredHolder<SoundEvent, SoundEvent> NUKE_EXPLOSION = register("effects.nukeexplosion");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION = register("effects.tfgexplosion");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION_ECHO = register("effects.tfgexplosionecho");
+	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_IMPACT = register("effects.biogunimpact");
 
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);

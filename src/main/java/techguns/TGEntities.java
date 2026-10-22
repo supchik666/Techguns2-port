@@ -7,15 +7,22 @@ import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import techguns.entities.projectiles.AlienBlasterProjectile;
+import techguns.entities.projectiles.BioGunProjectile;
 import techguns.entities.projectiles.BlasterProjectile;
 import techguns.entities.projectiles.CyberdemonBlasterProjectile;
 import techguns.entities.projectiles.DeatomizerProjectile;
 import techguns.entities.projectiles.FlamethrowerProjectile;
+import techguns.entities.projectiles.FragGrenadeProjectile;
 import techguns.entities.projectiles.GaussProjectile;
 import techguns.entities.projectiles.GenericProjectile;
+import techguns.entities.projectiles.Grenade40mmProjectile;
+import techguns.entities.projectiles.GrenadeProjectile;
+import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.LaserProjectile;
 import techguns.entities.projectiles.NDRProjectile;
+import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.SonicShotgunProjectile;
+import techguns.entities.projectiles.TFGProjectile;
 import techguns.entities.projectiles.TeslaProjectile;
 
 public class TGEntities {
@@ -37,6 +44,16 @@ public class TGEntities {
 			SonicShotgunProjectile::new);
 	public static final DeferredHolder<EntityType<?>, EntityType<FlamethrowerProjectile>> FLAMETHROWER_PROJECTILE = projectile("flamethrower_projectile",
 			FlamethrowerProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<RocketProjectile>> ROCKET_PROJECTILE = projectile("rocket_projectile", RocketProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<GuidedMissileProjectile>> GUIDED_MISSILE_PROJECTILE = projectile("guided_missile_projectile",
+			GuidedMissileProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<GrenadeProjectile>> GRENADE_PROJECTILE = projectile("grenade_projectile", GrenadeProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<FragGrenadeProjectile>> FRAG_GRENADE_PROJECTILE = projectile("frag_grenade_projectile",
+			FragGrenadeProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<Grenade40mmProjectile>> GRENADE_40MM_PROJECTILE = projectile("grenade_40mm_projectile",
+			Grenade40mmProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<TFGProjectile>> TFG_PROJECTILE = projectile("tfg_projectile", TFGProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<BioGunProjectile>> BIOGUN_PROJECTILE = projectile("biogun_projectile", BioGunProjectile::new);
 
 	private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory) {
 		return ENTITIES.register(name, () -> EntityType.Builder.of(factory, MobCategory.MISC).sized(0.25f, 0.25f)

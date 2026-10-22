@@ -27,6 +27,8 @@ public class TGParticleSystemType implements Cloneable {
 	int frames = 1;
 	/** Frames are random variations instead of an animation. */
 	boolean hasVariations;
+	/** Glow strength, see {@link TGFX#bloom}. */
+	float bloom;
 	/** Particles are joined into a ribbon. */
 	boolean streak;
 

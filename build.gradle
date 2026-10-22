@@ -27,7 +27,10 @@ sourceSets.main.resources {
 }
 
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    maven {
+        url = "https://api.modrinth.com/maven"
+        content { includeGroup "maven.modrinth" }
+    }
 }
 
 base {
@@ -115,6 +118,15 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+// Client-only dev mods: only runClient loads them (the server and GameTest runs crash on them). FML finds mods on the
+// JVM classpath, not on a run's additionalRuntimeClasspath.
+configurations {
+    clientMods
+}
+tasks.named('runClient') {
+    classpathProvider.from(configurations.clientMods)
+}
+
 dependencies {
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
@@ -122,6 +134,14 @@ dependencies {
     // compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
     // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
     // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
+
+    // Dev-only mods (not published as dependencies)
+    localRuntime "maven.modrinth:jei:rsnYBmN3" // 19.69.0.457 neoforge; JEI shares version numbers across loaders, so pin the version id
+    clientMods "maven.modrinth:ambientsounds:6.3.11"
+    clientMods "maven.modrinth:creativecore:2.13.51"
+    clientMods "maven.modrinth:extrasoundsforge:1.5.6+1.21.1-neoforge"
+    clientMods "maven.modrinth:pf-neoforge:1.21.1-1.12.0-beta.1"
+    clientMods "maven.modrinth:sound-physics-remastered:neoforge-1.21.1-1.5.2"
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar

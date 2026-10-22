@@ -14,7 +14,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 - [ ] M3. Remaining guns and their models
   - [x] M3.1 Bullet guns (20), ammo variants, zoom and scopes, crosshairs, magazine/rocket renderers
   - [x] M3.2 Energy guns and TGFX particles
-  - [ ] M3.3 Explosives, charge guns, grenades
+  - [x] M3.3 Explosives, charge guns, grenades
   - [ ] M3.4 Melee and mining tools
 - [ ] M4. Player data, armor and damage
 - [ ] M5. Machines and GUIs
@@ -92,13 +92,20 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Ammo variants (`techguns:ammo_variant` component) with incendiary and explosive bullets; `techguns:ammo_change` recipe (gun + other ammo). Shotgun pellets and bursts, loose-round reloads, rechamber sounds, gravity, camo textures (`techguns:camo`, no way to change it yet).
 - Right-click zoom with FOV, sniper/tech scope overlays, the 1.12 crosshair styles.
 - GameTests for the shotgun and the ammo change recipe.
-- **Deferred:** AI stats and turret offsets (M6), muzzle lights, the M4 Infiltrator silencer, penetration (stored, used in M4), minigun spin-up, camo change recipe, `miningtool_upgrade`/`copy_nbt`/`ammo_sum_recipe` recipes.
+- **Deferred:** AI stats and turret offsets (M6), the M4 Infiltrator silencer, penetration (stored, used in M4), minigun spin-up, camo change recipe, `miningtool_upgrade`/`copy_nbt`/`ammo_sum_recipe` recipes.
 
 **M3.2 done:**
 - TGFX (`client/particle/`) reads `assets/techguns/particles/*.txt` on resource reload and draws after vanilla particles. `TGEffects` is the common entry point: `createFX`/`createFXOnEntity` on the client, `sendFX` from the server (`techguns:spawn_fx`). Bullet impacts use the 1.12 per-material impact effects.
 - 12 energy guns (laser gun and pistol, tesla, alien blaster, netherblaster, blaster rifle, scatterbeam, sonic shotgun, NDR, deatomizer, gauss rifle, flamethrower), picked per gun with `GenericGun.setProjectile`. Beams (laser, tesla, NDR) are hitscan `AbstractBeamProjectile`s; tesla chains. Gauss rifle reload takes a slug plus an energy cell (`AmmoType.extra`). The gauss rifle is an OBJ model drawn by `ModelObj`.
 - Looping fire sounds (flamethrower, NDR), the flamethrower pilot flame.
-- **Deferred:** light pulses (no dynamic lights), TGFX death effects (M6), radiation from the NDR (M4), fire projectiles igniting blocks (M4 block damage config), armor penetration (M4). The gauss rifle HUD shows only slugs.
+- **Deferred:** TGFX death effects (M6), radiation from the NDR (M4), fire projectiles igniting blocks (M4 block damage config), armor penetration (M4). The gauss rifle HUD shows only slugs.
+
+**M3.3 done:**
+- Rocket launcher (rocket, nuke and high-velocity variants; the variant multipliers are applied in `RocketProjectile.create`), grenade launcher, guided missile launcher and grim reaper (hold right click to lock on, fire with left click), TFG and biogun (`GenericGunCharge`: hold to charge, ammo used by charge), stielgranate and frag grenade (`GenericGrenade`: hold to throw further). Charge guns and grenades fire through `ChargedProjectileFactory`.
+- `damagesystem/TGExplosion`: damage falls from full at the inner radius to the minimum at the outer one. 1.12 had this inverted past the inner radius; fixed on purpose.
+- Bloom (not in 1.12): `client/render/Bloom` draws glowing render types a second time into a mask, blurs it and adds it on top before the GUI. `ScreenEffect.additive(texture[, bloom])` glows, explosions in TGFX glow the most. Turns itself off with Iris/Oculus or on any GL error.
+- **Deferred:** radiation (nuke, biogun; M4), bioblob blocks, explosion, bloom and light config (M8), the layered TFG/biogun muzzle flashes with fades.
+- Since then: glowing model parts and scope lenses bloom (`LegacyGl` glowing render types, `GunRenderer.setScopeLenses`). Light pulses: `client/LightPulses` raises block light around muzzle flashes and explosions (mixins into `LevelRenderer.getLightColor` and entity light), and `client/render/LightTint` adds their color as a screen pass over the depth buffer. Only bullet guns and explosions light up; the flamethrower and minigun hold one steady light. Projectiles fly twice as fast with the same range (`GenericProjectile.SPEED_FACTOR`; beams and thrown grenades excluded), and the spawn packet carries the exact velocity so fast shots stay straight. `runClient` also loads JEI and some sound mods (`clientMods` in `build.gradle`).
 
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.

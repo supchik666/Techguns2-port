@@ -2,10 +2,13 @@ package techguns;
 
 import net.neoforged.neoforge.registries.DeferredItem;
 import techguns.entities.projectiles.*;
+import techguns.items.guns.GenericGrenade;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGun.Crosshair;
 import techguns.items.guns.GenericGun.GunHandType;
 import techguns.items.guns.GenericGun.RangeTooltipType;
+import techguns.items.guns.GenericGunCharge;
+import techguns.items.guns.GuidedMissileLauncher;
 import techguns.items.guns.SonicShotgun;
 import techguns.items.guns.ammo.AmmoTypes;
 
@@ -88,7 +91,8 @@ public class TGuns {
 					.setDamageDrop(25, 35, 6.0f)
 					.setBulletSpeed(2.0f)
 					.setTexture("textures/guns/m4_uq_texture")
-					.setPenetration(PENETRATION_LOW));
+					.setPenetration(PENETRATION_LOW)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> COMBATSHOTGUN = TGItems.ITEMS.register("combatshotgun",
 			() -> new GenericGun(AmmoTypes.SHOTGUN_ROUNDS, true, 14, 8, 50, 4.0f, TGSounds.COMBATSHOTGUN_FIRE, TGSounds.COMBATSHOTGUN_RELOAD, 15, 0.01f)
 					.setAmmoCount(8)
@@ -123,7 +127,9 @@ public class TGuns {
 					.setPenetration(PENETRATION_LOW)
 					.setBulletSpeed(3.0f)
 					.setTexture("textures/guns/minigun")
-					.setMuzzleFlashTime(4));
+					.setCheckRecoil()
+					.setMuzzleFlashTime(4)
+					.setCheckMuzzleFlash());
 	public static final DeferredItem<GenericGun> AS50 = TGItems.ITEMS.register("as50",
 			() -> new GenericGun(AmmoTypes.AS50_MAGAZINE, true, 10, 10, 80, 32.0f, TGSounds.AS50_FIRE, TGSounds.AS50_RELOAD, MAX_RANGE_SNIPER, 0.0625f)
 					.setDamageDrop(40, 60, 24.0f)
@@ -163,7 +169,8 @@ public class TGuns {
 					.setTextures("textures/guns/pdw", 3)
 					.setHandType(GunHandType.ONE_POINT_FIVE_HANDED)
 					.setMuzzleFlashTime(2)
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART)
+					.setMuzzleLight(0f, 0.8f, 1.0f));
 	public static final DeferredItem<GenericGun> PULSERIFLE = TGItems.ITEMS.register("pulserifle",
 			() -> new GenericGun(AmmoTypes.ADVANCED_MAGAZINE, false, 7, 12, 45, 10.0f, TGSounds.PULSE_RIFLE_FIRE, TGSounds.PULSE_RIFLE_RELOAD, MAX_RANGE_RIFLE_LONG, 0.024f)
 					.setDamageDrop(30, 45, 8f)
@@ -174,7 +181,8 @@ public class TGuns {
 					.setShotgunSpread(2, 0.015f, true)
 					.setTextures("textures/guns/pulserifle", 3)
 					.setMuzzleFlashTime(4)
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART)
+					.setMuzzleLight(0f, 0.8f, 1.0f));
 	public static final DeferredItem<GenericGun> PISTOL = TGItems.ITEMS.register("pistol",
 			() -> new GenericGun(AmmoTypes.PISTOL_MAGAZINE, true, 4, 18, 35, 8.0f, TGSounds.PISTOL_FIRE, TGSounds.PISTOL_RELOAD, MAX_RANGE_PISTOL, 0.025f)
 					.setBulletSpeed(2.0f)
@@ -207,7 +215,8 @@ public class TGuns {
 					.setBulletSpeed(80.0f)
 					.setMuzzleFlashTime(10)
 					.setTexture("textures/guns/teslagun")
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART_E));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART_E)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> LASERGUN = TGItems.ITEMS.register("lasergun",
 			() -> new GenericGun(AmmoTypes.ENERGY_CELL, false, 5, 45, 45, 12.0f, TGSounds.LASERGUN_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_SNIPER, 0.0f)
 					.setProjectile(LaserProjectile::new)
@@ -215,7 +224,8 @@ public class TGuns {
 					.setBulletSpeed(100.0f)
 					.setTexture("textures/guns/lasergun")
 					.setRangeTooltipType(RangeTooltipType.NO_DROP)
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> ALIENBLASTER = TGItems.ITEMS.register("alienblaster",
 			() -> new GenericGun(AmmoTypes.ENERGY_CELL, false, 8, 10, 35, 16.0f, TGSounds.ALIENBLASTER_FIRE, TGSounds.ALIENBLASTER_RELOAD, MAX_RANGE_PISTOL, 0.0f)
 					.setProjectile(AlienBlasterProjectile::new)
@@ -224,7 +234,8 @@ public class TGuns {
 					.setPenetration(PENETRATION_MED)
 					.setTexture("textures/guns/alien_blaster")
 					.setHandType(GunHandType.ONE_HANDED)
-					.setCrossHair(Crosshair.FOUR_PARTS_SPIKED));
+					.setCrossHair(Crosshair.FOUR_PARTS_SPIKED)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> NETHERBLASTER = TGItems.ITEMS.register("netherblaster",
 			() -> new GenericGun(AmmoTypes.NETHER_CHARGE, false, 8, 10, 35, 14.0f, TGSounds.NETHERBLASTER_FIRE, TGSounds.NETHERBLASTER_RELOAD, MAX_RANGE_RIFLE, 0.0f)
 					.setProjectile(CyberdemonBlasterProjectile::new)
@@ -234,7 +245,8 @@ public class TGuns {
 					.setTexture("textures/guns/cyberdemonblaster")
 					.setDamageDrop(15, 30, 8.0f)
 					.setHandType(GunHandType.ONE_POINT_FIVE_HANDED)
-					.setCrossHair(Crosshair.FOUR_PARTS_SPIKED));
+					.setCrossHair(Crosshair.FOUR_PARTS_SPIKED)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> BLASTERRIFLE = TGItems.ITEMS.register("blasterrifle",
 			() -> new GenericGun(AmmoTypes.ENERGY_CELL, false, 5, 50, 45, 10.0f, TGSounds.BLASTER_RIFLE_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_RIFLE, 0.025f)
 					.setProjectile(BlasterProjectile::new)
@@ -242,14 +254,16 @@ public class TGuns {
 					.setTexture("textures/guns/blasterrifle")
 					.setDamageDrop(25, 35, 8.0f)
 					.setPenetration(PENETRATION_MED)
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> SONICSHOTGUN = TGItems.ITEMS.register("sonicshotgun",
 			() -> new SonicShotgun(AmmoTypes.ENERGY_CELL, true, 12, 8, 40, 25.0f, TGSounds.SONIC_SHOTGUN_FIRE, TGSounds.SONIC_SHOTGUN_RELOAD, 20, 0.0f)
 					.setProjectile(SonicShotgunProjectile::new)
 					.setDamageDrop(5, 15, 5.0f)
 					.setPenetration(PENETRATION_MED)
 					.setTexture("textures/guns/sonicshotgun")
-					.setCrossHair(Crosshair.QUAD_NO_CORNERS));
+					.setCrossHair(Crosshair.QUAD_NO_CORNERS)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> SCATTERBEAMRIFLE = TGItems.ITEMS.register("scatterbeamrifle",
 			() -> new GenericGun(AmmoTypes.ENERGY_CELL, false, 7, 40, 45, 6.0f, TGSounds.LASERGUN_FIRE, TGSounds.LASERGUN_RELOAD, 30, 0.1f)
 					.setProjectile(BlasterProjectile::new)
@@ -258,7 +272,8 @@ public class TGuns {
 					.setZoom(0.75f, true, 0.75f, false)
 					.setBulletSpeed(2.0f)
 					.setTexture("textures/guns/lasergunnew")
-					.setCrossHair(Crosshair.FOUR_PARTS));
+					.setCrossHair(Crosshair.FOUR_PARTS)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> NUCLEARDEATHRAY = TGItems.ITEMS.register("nucleardeathray",
 			() -> new GenericGun(AmmoTypes.NUCLEAR_POWER_CELL, false, 5, 40, 50, 6.0f, TGSounds.BEAMGUN_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_SNIPER, 0.0f)
 					.setProjectile(NDRProjectile::new)
@@ -271,7 +286,8 @@ public class TGuns {
 					.setPenetration(PENETRATION_MED)
 					.setDamageDrop(20, 40, 1.0f)
 					.setHandType(GunHandType.TWO_HANDED)
-					.setCrossHair(Crosshair.TRI));
+					.setCrossHair(Crosshair.TRI)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> MIBGUN = TGItems.ITEMS.register("mibgun",
 			() -> new GenericGun(AmmoTypes.ENERGY_CELL, true, 8, 20, 45, 16.0f, TGSounds.MIBGUN_FIRE, TGSounds.MIBGUN_RELOAD, MAX_RANGE_PISTOL, 0.035f)
 					.setProjectile(DeatomizerProjectile::new)
@@ -280,7 +296,8 @@ public class TGuns {
 					.setBulletSpeed(1.5f)
 					.setPenetration(PENETRATION_MED)
 					.setHandType(GunHandType.ONE_HANDED)
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> GAUSSRIFLE = TGItems.ITEMS.register("gaussrifle",
 			() -> new GenericGun(AmmoTypes.AMMO_GAUSS_RIFLE, true, 30, 8, 60, 40.0f, TGSounds.GAUSS_RIFLE_FIRE, TGSounds.GAUSS_RIFLE_RELOAD, MAX_RANGE_SNIPER, 0.025f)
 					.setProjectile(GaussProjectile::new)
@@ -291,7 +308,8 @@ public class TGuns {
 					.setTexture("textures/guns/gaussrifle")
 					.setForwardOffset(0.45f)
 					.setPenetration(PENETRATION_MED_HIGH)
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART_LARGE));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART_LARGE)
+					.setNoMuzzleLight());
 	public static final DeferredItem<GenericGun> LASERPISTOL = TGItems.ITEMS.register("laserpistol",
 			() -> new GenericGun(AmmoTypes.REDSTONE_BATTERY, false, 6, 20, 40, 9.0f, TGSounds.LASER_PISTOL_FIRE, TGSounds.LASER_PISTOL_RELOAD, MAX_RANGE_SNIPER, 0.025f)
 					.setProjectile(LaserProjectile::new)
@@ -299,7 +317,93 @@ public class TGuns {
 					.setTexture("textures/guns/laser_pistol")
 					.setRangeTooltipType(RangeTooltipType.NO_DROP)
 					.setHandType(GunHandType.ONE_HANDED)
-					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART)
+					.setNoMuzzleLight());
+
+	public static final DeferredItem<GenericGun> ROCKETLAUNCHER = TGItems.ITEMS.register("rocketlauncher",
+			() -> new GenericGun(AmmoTypes.ROCKETS, true, 10, 1, 40, 50.0f, TGSounds.ROCKET_FIRE, TGSounds.ROCKET_RELOAD, 200, 0.05f)
+					.setProjectile(RocketProjectile::create)
+					.setGravity(0.01D)
+					.setBulletSpeed(1.0f)
+					.setRecoiltime(10)
+					.setTextures("textures/guns/rocketlauncher", 2)
+					.setDamageDrop(3.0f, 5.0f, 10f)
+					.setRangeTooltipType(RangeTooltipType.RADIUS)
+					.setForwardOffset(0.35f)
+					.setCrossHair(Crosshair.QUAD_CORNERS_DOT));
+	public static final DeferredItem<GenericGun> GRIMREAPER = TGItems.ITEMS.register("grimreaper",
+			() -> new GuidedMissileLauncher(AmmoTypes.ROCKETS_NO_NUKES, false, 6, 4, 40, 50.0f, TGSounds.GUIDEDMISSILE_FIRE, TGSounds.ROCKET_RELOAD, 200, 0.05f, 100, 1)
+					.setLockOn(20, 80)
+					.setChargedProjectile(GuidedMissileProjectile::create)
+					.setFireWhileCharging(true)
+					.setChargeFireAnims(false)
+					.setBulletSpeed(1.0f)
+					.setRecoiltime(10)
+					.setAmmoCount(4)
+					.setTexture("textures/guns/grimreaper")
+					.setDamageDrop(3f, 5f, 10f)
+					.setRangeTooltipType(RangeTooltipType.RADIUS)
+					.setCrossHair(Crosshair.VANILLA));
+	public static final DeferredItem<GenericGun> GRENADELAUNCHER = TGItems.ITEMS.register("grenadelauncher",
+			() -> new GenericGun(AmmoTypes.GRENADES_40MM, true, 5, 6, 100, 30.0f, TGSounds.GRENADE_LAUNCHER_FIRE, TGSounds.GRENADE_LAUNCHER_RELOAD, 160, 0.015f)
+					.setProjectile(Grenade40mmProjectile::new)
+					.setTexture("textures/guns/grenadelauncher")
+					.setBulletSpeed(0.5f)
+					.setAmmoCount(6)
+					.setDamageDrop(4.0f, 8.0f, 12f)
+					.setGravity(0.01d)
+					.setRangeTooltipType(RangeTooltipType.RADIUS)
+					.setCrossHair(Crosshair.QUAD_NO_CORNERS));
+	public static final DeferredItem<GenericGun> BIOGUN = TGItems.ITEMS.register("biogun",
+			() -> new GenericGunCharge(AmmoTypes.BIO_TANK, false, 6, 30, 45, 10.0f, TGSounds.BIOGUN_FIRE, TGSounds.BIOGUN_RELOAD, MAX_RANGE_PISTOL, 0.015f, 30.0f, 3)
+					.setChargedProjectile(BioGunProjectile::new)
+					.setChargeSound(TGSounds.BIOGUN_CHARGE)
+					.setChargeFX("biogunCharge", -0.12f, -0.07f, 0.27f)
+					.setBulletSpeed(0.75f)
+					.setGravity(0.01d)
+					.setPenetration(PENETRATION_LOW)
+					.setTexture("textures/guns/biogun")
+					.setDamageDrop(8, 15, 8.0f)
+					.setForwardOffset(0.40f)
+					.setCrossHair(Crosshair.QUAD_NO_CORNERS)
+					.setNoMuzzleLight());
+	public static final DeferredItem<GenericGun> GUIDEDMISSILELAUNCHER = TGItems.ITEMS.register("guidedmissilelauncher",
+			() -> new GuidedMissileLauncher(AmmoTypes.ROCKETS_NO_NUKES, true, 10, 1, 40, 50.0f, TGSounds.GUIDEDMISSILE_FIRE, TGSounds.ROCKET_RELOAD, 100, 0.05f, 200, 1)
+					.setLockOn(20, 80)
+					.setChargedProjectile(GuidedMissileProjectile::create)
+					.setFireWhileCharging(true)
+					.setChargeFireAnims(false)
+					.setBulletSpeed(1.0f)
+					.setRecoiltime(10)
+					.setTexture("textures/guns/guidedmissilelauncher")
+					.setDamageDrop(2f, 4f, 20f)
+					.setRangeTooltipType(RangeTooltipType.RADIUS)
+					.setCrossHair(Crosshair.QUAD_CORNERS_DOT));
+	public static final DeferredItem<GenericGun> TFG = TGItems.ITEMS.register("tfg",
+			() -> new GenericGunCharge(AmmoTypes.NUCLEAR_POWER_CELL, false, 5, 20, 45, 50.0f, TGSounds.TFG_FIRE, TGSounds.BIOGUN_RELOAD, 100, 0.015f, 60.0f, 10)
+					.setChargedProjectile(TFGProjectile::new)
+					.setChargeSound(TGSounds.TFG_CHARGE)
+					.setChargeFX("TFGChargeStart", -0.14f, -0.10f, 0.42f)
+					.setBulletSpeed(2.0f)
+					.setRangeTooltipType(RangeTooltipType.RADIUS)
+					.setPenetration(PENETRATION_MED_HIGH)
+					.setTexture("textures/guns/tfg")
+					.setDamageDrop(8, 15, 15.0f)
+					.setMuzzleFlashTime(10)
+					.setRecoiltime(10)
+					.setForwardOffset(0.40f)
+					.setCrossHair(Crosshair.TRI_INV)
+					.setNoMuzzleLight());
+
+	public static final DeferredItem<GenericGrenade> STIELGRANATE = TGItems.ITEMS.register("stielgranate",
+			() -> new GenericGrenade()
+					.setChargedProjectile(GrenadeProjectile::new)
+					.setDamageAndRadius(10, 3.0f, 5, 5.0f));
+	public static final DeferredItem<GenericGrenade> FRAGGRENADE = TGItems.ITEMS.register("fraggrenade",
+			() -> new GenericGrenade()
+					.setChargedProjectile(FragGrenadeProjectile::new)
+					.setStartSound(TGSounds.GRENADE_PIN)
+					.setDamageAndRadius(12, 3.5f, 6, 7.0f));
 
 	/** Loads the class so the guns above get registered. */
 	static void init() {}
