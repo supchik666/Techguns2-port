@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:revolver"
+    },
+    {
+      "item": "techguns:pistolrounds"
+    }
+  ],
+  "result": {
+    "id": "techguns:revolver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:revolver"
+    }
+  ]
+}

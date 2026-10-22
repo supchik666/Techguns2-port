@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:builtin/entity",
   "textures": {
-    "layer0": "techguns:item/dummy"
+    "particle": "techguns:item/plateiron"
   }
 }

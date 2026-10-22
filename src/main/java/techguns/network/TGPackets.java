@@ -20,10 +20,14 @@ public class TGPackets {
 	private static final StreamCodec<ByteBuf, InteractionHand> HAND = ByteBufCodecs.BOOL.map(
 			offhand -> offhand ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND, hand -> hand == InteractionHand.OFF_HAND);
 
-	/** Client pressed fire (or reload) with a gun in {@code hand}; the server runs the same gun logic the client predicted. */
-	public record GunAction(InteractionHand hand, boolean reload) implements CustomPacketPayload {
+	/**
+	 * Client pressed fire (or reload) with a gun in {@code hand}; the server runs the same gun logic the client predicted.
+	 * {@code zooming} is client state the server trusts, as in 1.12; it only tightens spread.
+	 */
+	public record GunAction(InteractionHand hand, boolean reload, boolean zooming) implements CustomPacketPayload {
 		public static final Type<GunAction> TYPE = new Type<>(Techguns.id("gun_action"));
-		static final StreamCodec<ByteBuf, GunAction> CODEC = StreamCodec.composite(HAND, GunAction::hand, ByteBufCodecs.BOOL, GunAction::reload, GunAction::new);
+		static final StreamCodec<ByteBuf, GunAction> CODEC = StreamCodec.composite(HAND, GunAction::hand, ByteBufCodecs.BOOL, GunAction::reload,
+				ByteBufCodecs.BOOL, GunAction::zooming, GunAction::new);
 
 		@Override
 		public Type<GunAction> type() {
@@ -53,7 +57,7 @@ public class TGPackets {
 			if (payload.reload()) {
 				gun.tryForcedReload(stack, player.level(), player, payload.hand());
 			} else {
-				gun.shootGunPrimary(stack, player.level(), player, payload.hand());
+				gun.shootGunPrimary(stack, player.level(), player, payload.hand(), payload.zooming());
 			}
 		});
 		registrar.playToClient(GunAnimation.TYPE, GunAnimation.CODEC, (payload, context) -> {

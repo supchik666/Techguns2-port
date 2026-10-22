@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:guidedmissilelauncher"
+    },
+    {
+      "item": "techguns:rocket"
+    }
+  ],
+  "result": {
+    "id": "techguns:guidedmissilelauncher"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:guidedmissilelauncher"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket"
+    }
+  ]
+}

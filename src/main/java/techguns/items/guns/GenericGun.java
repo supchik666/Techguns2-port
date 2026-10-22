@@ -2,12 +2,14 @@ package techguns.items.guns;
 
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -22,18 +24,29 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 import techguns.TGComponents;
+import techguns.Techguns;
 import techguns.client.ShooterValues;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.items.guns.ammo.AmmoType;
 import techguns.network.TGPackets.GunAnimation;
 
 /**
- * A gun that fires {@link GenericProjectile}s and reloads magazines from the player's inventory.
- * Firing runs on both sides: the client predicts sound, ammo and animation, the server spawns the bullet.
- * ponytail: 1.12 also had zoom, shotgun/burst modes, melee, mining, NPC use, ammo variants and armor accuracy bonuses;
- * they come back with the guns that need them.
+ * A gun that fires {@link GenericProjectile}s and reloads magazines (or loose rounds) from the player's inventory.
+ * Firing runs on both sides: the client predicts sound, ammo and animation, the server spawns the bullets.
+ * ponytail: 1.12 also had melee, mining, NPC/turret use, silencers, muzzle lights and armor accuracy bonuses;
+ * they come back with the guns or systems that need them.
  */
 public class GenericGun extends Item {
+	public enum GunHandType {
+		ONE_HANDED, ONE_POINT_FIVE_HANDED, TWO_HANDED
+	}
+
+	/** 1.12 EnumCrosshairStyle; the order is the column in tg_crosshairs.png. */
+	public enum Crosshair {
+		VANILLA, GUN_DYNAMIC, TRI, QUAD_CORNERS_DOT, TRI_INV, FOUR_PARTS, FOUR_PARTS_SPIKED, HORIZONTAL_TWO_PART, HORIZONTAL_TWO_PART_LARGE,
+		HORIZONTAL_TWO_PART_E, HORIZONTAL_SMALL, QUAD_NO_CORNERS
+	}
+
 	final AmmoType ammoType;
 	final boolean semiAuto;
 	final int minFiretime;
@@ -51,6 +64,24 @@ public class GenericGun extends Item {
 	float damageMin;
 	int recoiltime = 5;
 	int muzzleFlashtime = 5;
+	/** Rounds loaded per reload for guns fed loose shells; 1 means a full clip from one magazine. */
+	int ammoCount = 1;
+	float zoomMult = 1.0f;
+	/** Spread multiplier while zoomed. */
+	float zoombonus = 1.0f;
+	boolean fireCenteredZoomed;
+	boolean shotgun;
+	/** Spread of the extra shotgun pellets; the crosshair spacing too, as in 1.12. */
+	float spread = 0.015f;
+	int bulletcount = 7;
+	boolean burst;
+	double gravity;
+	float penetration; // ponytail: stored for the M4 damage system
+	Supplier<SoundEvent> rechamberSound;
+	float forwardOffset;
+	GunHandType handType = GunHandType.TWO_HANDED;
+	Crosshair crosshair = Crosshair.GUN_DYNAMIC;
+	List<ResourceLocation> textures = List.of();
 
 	public GenericGun(AmmoType ammoType, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage,
 			Supplier<SoundEvent> fireSound, Supplier<SoundEvent> reloadSound, int ttl, float accuracy) {
@@ -87,12 +118,112 @@ public class GenericGun extends Item {
 		return this;
 	}
 
+	public GenericGun setMuzzleFlashTime(int time) {
+		this.muzzleFlashtime = time;
+		return this;
+	}
+
+	public GenericGun setAmmoCount(int count) {
+		this.ammoCount = count;
+		return this;
+	}
+
+	/** {@code toggle} is always true for the ported guns; hold-to-zoom isn't implemented. */
+	public GenericGun setZoom(float mult, boolean toggle, float bonus, boolean fireCenteredWhileZooming) {
+		this.zoomMult = mult;
+		this.zoombonus = bonus;
+		this.fireCenteredZoomed = fireCenteredWhileZooming;
+		return this;
+	}
+
+	/** Fires {@code count} extra pellets with {@code spread}; a burst staggers them along the flight path. */
+	public GenericGun setShotgunSpread(int count, float spread, boolean burst) {
+		this.shotgun = true;
+		this.spread = spread;
+		this.bulletcount = count;
+		this.burst = burst;
+		return this;
+	}
+
+	public GenericGun setGravity(double gravity) {
+		this.gravity = gravity;
+		return this;
+	}
+
+	public GenericGun setPenetration(float penetration) {
+		this.penetration = penetration;
+		return this;
+	}
+
+	public GenericGun setRechamberSound(Supplier<SoundEvent> sound) {
+		this.rechamberSound = sound;
+		return this;
+	}
+
+	public GenericGun setForwardOffset(float offset) {
+		this.forwardOffset = offset;
+		return this;
+	}
+
+	public GenericGun setHandType(GunHandType type) {
+		this.handType = type;
+		return this;
+	}
+
+	public GenericGun setCrossHair(Crosshair crosshair) {
+		this.crosshair = crosshair;
+		return this;
+	}
+
+	public GenericGun setTexture(String path) {
+		return setTextures(path, 1);
+	}
+
+	/** Camo textures: {@code path.png}, {@code path_1.png}... */
+	public GenericGun setTextures(String path, int variations) {
+		textures = IntStream.range(0, variations).mapToObj(i -> Techguns.id(path + (i == 0 ? "" : "_" + i) + ".png")).toList();
+		return this;
+	}
+
+	public ResourceLocation getTexture(ItemStack stack) {
+		int camo = stack.getOrDefault(TGComponents.CAMO, 0);
+		return textures.get(camo < textures.size() ? camo : 0);
+	}
+
 	public boolean isSemiAuto() {
 		return semiAuto;
 	}
 
 	public float getSpread() {
-		return accuracy;
+		return spread;
+	}
+
+	public float getZoomMult() {
+		return zoomMult;
+	}
+
+	public boolean canZoom() {
+		return zoomMult != 1.0f;
+	}
+
+	public float getZoombonus() {
+		return zoombonus;
+	}
+
+	public GunHandType getHandType() {
+		return handType;
+	}
+
+	public Crosshair getCrosshair() {
+		return crosshair;
+	}
+
+	public int getAmmoCount() {
+		return ammoCount;
+	}
+
+	public AmmoType.Variant getAmmoVariant(ItemStack stack) {
+		return ammoType.get(stack.getOrDefault(TGComponents.AMMO_VARIANT, AmmoType.DEFAULT));
 	}
 
 	public int getClipsize() {
@@ -131,8 +262,11 @@ public class GenericGun extends Item {
 		player.getData(TGComponents.NEXT_FIRE)[hand.ordinal()] = player.level().getGameTime() + ticks;
 	}
 
-	/** Fires one shot, or swaps in a new magazine when empty. */
-	public void shootGunPrimary(ItemStack stack, Level level, Player player, InteractionHand hand) {
+	/**
+	 * Fires one shot (plus shotgun pellets), or reloads when empty. {@code zooming} is the shooter's client zoom state:
+	 * it tightens the spread and may fire from the eyes.
+	 */
+	public void shootGunPrimary(ItemStack stack, Level level, Player player, InteractionHand hand, boolean zooming) {
 		if (!isReady(player, hand)) return;
 		int ammo = getAmmo(stack);
 		if (ammo <= 0) {
@@ -145,37 +279,72 @@ public class GenericGun extends Item {
 			ShooterValues.fired(player, hand, recoiltime, muzzleFlashtime);
 		} else {
 			PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, false));
+			float bonus = 1.0f;
+			if (hand == InteractionHand.MAIN_HAND && player.isBlocking()) bonus *= handType == GunHandType.ONE_HANDED ? 4.0f : 8.0f;
 			boolean left = (hand == InteractionHand.MAIN_HAND) == (player.getMainArm() == HumanoidArm.LEFT);
-			level.addFreshEntity(new GenericProjectile(level, player, damage, speed, getScaledTTL(), accuracy,
-					damageDropStart, damageDropEnd, damageMin, left));
+			float side = left ? GenericProjectile.LEFT : GenericProjectile.RIGHT;
+			if (zooming) {
+				bonus *= zoombonus;
+				if (fireCenteredZoomed) side = GenericProjectile.CENTER;
+			}
+			GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
+			spawnProjectile(level, player, kind, accuracy * bonus, forwardOffset, side);
+			if (shotgun) {
+				float offset = burst ? speed / bulletcount : 0;
+				for (int i = 0; i < bulletcount; i++) {
+					spawnProjectile(level, player, kind, spread * bonus, forwardOffset + offset * (i + 1.0f), side);
+				}
+			}
 		}
 		level.playSound(player, player, fireSound.get(), SoundSource.PLAYERS, 4.0f, 1.0f);
+		if (rechamberSound != null) level.playSound(player, player, rechamberSound.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
 	}
 
-	/** The reload key: swaps the magazine even if it isn't empty, handing back the rounds left in it. */
+	private void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side) {
+		GenericProjectile projectile = new GenericProjectile(level, player, kind, damage, speed, getScaledTTL(), spread,
+				damageDropStart, damageDropEnd, damageMin, side, gravity);
+		if (offset > 0) projectile.shiftForward(offset / speed);
+		level.addFreshEntity(projectile);
+	}
+
+	/** The reload key: reloads even if not empty. A magazine hands back the rounds left in it; loose rounds are topped up. */
 	public void tryForcedReload(ItemStack stack, Level level, Player player, InteractionHand hand) {
 		int ammo = getAmmo(stack);
 		if (isReady(player, hand) && ammo < clipsize) reload(stack, level, player, hand, ammo);
 	}
 
 	private void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
-		Inventory inventory = player.getInventory();
-		int slot = inventory.findSlotMatchingItem(new ItemStack(ammoType.ammo().get()));
-		if (slot < 0) return;
-		inventory.removeItem(slot, 1);
-		give(player, new ItemStack(ammoType.emptyMag().get()));
-		if (oldAmmo > 0) {
-			int bulletsBack = (int) (oldAmmo / ammoType.getShotsPerBullet(clipsize, oldAmmo));
-			if (bulletsBack > 0) give(player, new ItemStack(ammoType.bullet().get(), bulletsBack));
+		AmmoType.Variant variant = getAmmoVariant(stack);
+		if (!consume(player, variant.ammo().get())) return;
+		int newAmmo;
+		if (ammoCount > 1) {
+			int loaded = 1;
+			while (loaded < ammoCount - oldAmmo && consume(player, variant.ammo().get())) loaded++;
+			newAmmo = oldAmmo + loaded;
+		} else {
+			if (ammoType.emptyMag() != null) {
+				give(player, new ItemStack(ammoType.emptyMag().get()));
+				int bulletsBack = oldAmmo > 0 ? (int) (oldAmmo / ammoType.getShotsPerBullet(clipsize, oldAmmo)) : 0;
+				if (bulletsBack > 0) give(player, new ItemStack(variant.bullet().get(), bulletsBack));
+			}
+			newAmmo = clipsize; // loose rounds left in the gun are lost, as in 1.12
 		}
 		setFireDelay(player, hand, reloadtime - minFiretime);
-		stack.set(TGComponents.AMMO, clipsize);
+		stack.set(TGComponents.AMMO, newAmmo);
 		if (level.isClientSide) {
 			ShooterValues.reloaded(player, hand, reloadtime);
 		} else {
 			PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, true));
 		}
 		level.playSound(player, player, reloadSound.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+	}
+
+	private static boolean consume(Player player, Item item) {
+		Inventory inventory = player.getInventory();
+		int slot = inventory.findSlotMatchingItem(new ItemStack(item));
+		if (slot < 0) return false;
+		inventory.removeItem(slot, 1);
+		return true;
 	}
 
 	private static void give(Player player, ItemStack stack) {
@@ -209,8 +378,9 @@ public class GenericGun extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-		tooltip.add(stat("ammo", ammoType.ammo().get().getDescription().copy().withStyle(ChatFormatting.WHITE)));
-		tooltip.add(stat("damage", damage + (damageMin < damage ? "-" + damageMin : "")));
+		Component ammo = getAmmoVariant(stack).ammo().get().getDescription().copy().withStyle(ChatFormatting.WHITE);
+		tooltip.add(stat("ammo", ammoCount > 1 ? Component.literal(ammoCount + "x ").append(ammo) : ammo));
+		tooltip.add(stat("damage", damage + (damageMin < damage ? "-" + damageMin : "") + (shotgun ? " (x" + (bulletcount + 1) + ")" : "")));
 		if (Screen.hasShiftDown()) {
 			tooltip.add(stat("range", String.format("%.1f,%.1f,%d", damageDropStart, damageDropEnd, ttl)));
 			tooltip.add(stat("velocity", String.format("%.1f", speed)));

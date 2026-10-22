@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:vector"
+    },
+    {
+      "item": "techguns:smgmagazine"
+    }
+  ],
+  "result": {
+    "id": "techguns:vector"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:vector"
+    }
+  ]
+}

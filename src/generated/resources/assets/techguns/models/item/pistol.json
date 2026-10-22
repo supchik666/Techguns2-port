@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:builtin/entity",
   "textures": {
-    "particle": "techguns:item/pistolmagazine"
+    "particle": "techguns:item/plateiron"
   }
 }

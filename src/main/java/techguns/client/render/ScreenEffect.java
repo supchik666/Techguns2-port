@@ -16,18 +16,42 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import techguns.Techguns;
 
-/** Animated sprite sheet drawn as a billboard, additively blended (1.12 ScreenEffect with RenderType.ADDITIVE). */
-public record ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites) {
-	public static final ScreenEffect muzzleFlash_gun = new ScreenEffect(Techguns.id("textures/fx/muzzleflashnew_2_add_2.png"), 4, 4, 11);
+/** Animated sprite sheet drawn as an unlit quad, additive or alpha blended (1.12 ScreenEffect). */
+public record ScreenEffect(ResourceLocation texture, int cols, int rows, int numSprites, boolean additive, boolean flipX, boolean flipY) {
+	public static final ScreenEffect muzzleFlash_gun = additive("muzzleflashnew_2_add_2", 4, 4, 11);
+	public static final ScreenEffect muzzleFlash_rifle = additive("muzzleflashnew_add", 4, 4, 12);
+	public static final ScreenEffect muzzleFlash_minigun = additive("muzzleflash_minigun", 2, 2, 4);
+	public static final ScreenEffect muzzleFlash_blue = new ScreenEffect(fx("bluemuzzleflash"), 4, 4, 8, true, true, true);
+	public static final ScreenEffect sniperScope = new ScreenEffect(fx("testscope"), 1, 1, 1, false, false, false);
+	public static final ScreenEffect techScope = new ScreenEffect(fx("techscope"), 1, 1, 1, false, false, true);
 
-	private static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(texture -> RenderType.create("techguns_additive",
-			DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, false, true, RenderType.CompositeState.builder()
-					.setShaderState(RenderStateShard.RENDERTYPE_EYES_SHADER)
-					.setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-					.setTransparencyState(RenderStateShard.LIGHTNING_TRANSPARENCY)
-					.setCullState(RenderStateShard.NO_CULL)
-					.setWriteMaskState(RenderStateShard.COLOR_WRITE)
-					.createCompositeState(false)));
+	private static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(texture -> unlit("techguns_additive", texture,
+			RenderStateShard.LIGHTNING_TRANSPARENCY));
+	private static final Function<ResourceLocation, RenderType> ALPHA = Util.memoize(texture -> unlit("techguns_alpha", texture,
+			RenderStateShard.TRANSLUCENT_TRANSPARENCY));
+
+	/** Unlit, additively blended: for glowing sprites. */
+	public static RenderType additive(ResourceLocation texture) {
+		return ADDITIVE.apply(texture);
+	}
+
+	private static ResourceLocation fx(String name) {
+		return Techguns.id("textures/fx/" + name + ".png");
+	}
+
+	private static ScreenEffect additive(String name, int cols, int rows, int numSprites) {
+		return new ScreenEffect(fx(name), cols, rows, numSprites, true, false, false);
+	}
+
+	private static RenderType unlit(String name, ResourceLocation texture, RenderStateShard.TransparencyStateShard transparency) {
+		return RenderType.create(name, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, false, true, RenderType.CompositeState.builder()
+				.setShaderState(RenderStateShard.RENDERTYPE_EYES_SHADER)
+				.setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+				.setTransparencyState(transparency)
+				.setCullState(RenderStateShard.NO_CULL)
+				.setWriteMaskState(RenderStateShard.COLOR_WRITE)
+				.createCompositeState(false));
+	}
 
 	/** Third person adds two quads crossing the first one, so the flash shows from every side. */
 	public void render(PoseStack pose, MultiBufferSource buffers, float progress, float x, float y, float z, float scale, boolean is3p) {
@@ -35,8 +59,18 @@ public record ScreenEffect(ResourceLocation texture, int cols, int rows, int num
 		if (frame >= numSprites) return;
 		float u1 = (float) (frame % cols) / cols, u2 = u1 + 1.0f / cols;
 		float v1 = (float) (frame / cols) / rows, v2 = v1 + 1.0f / rows;
+		if (flipX) {
+			float t = u1;
+			u1 = u2;
+			u2 = t;
+		}
+		if (flipY) {
+			float t = v1;
+			v1 = v2;
+			v2 = t;
+		}
 		float f = scale / 2.0f;
-		VertexConsumer consumer = buffers.getBuffer(ADDITIVE.apply(texture));
+		VertexConsumer consumer = buffers.getBuffer((additive ? ADDITIVE : ALPHA).apply(texture));
 		PoseStack.Pose last = pose.last();
 		vertex(last, consumer, x - f, y + f, z, u1, v2);
 		vertex(last, consumer, x - f, y - f, z, u1, v1);

@@ -12,6 +12,10 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 - [x] M1. Registration and data
 - [x] M2. One gun working end to end
 - [ ] M3. Remaining guns and their models
+  - [x] M3.1 Bullet guns (20), ammo variants, zoom and scopes, crosshairs, magazine/rocket renderers
+  - [ ] M3.2 Energy guns and TGFX particles
+  - [ ] M3.3 Explosives, charge guns, grenades
+  - [ ] M3.4 Melee and mining tools
 - [ ] M4. Player data, armor and damage
 - [ ] M5. Machines and GUIs
 - [ ] M6. NPCs
@@ -81,6 +85,14 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - OBJ models via the `neoforge:obj` loader.
 - OpenGL calls → `PoseStack`, `VertexConsumer`, `RenderType`.
 - Custom particles → `ParticleRenderType`.
+
+**M3.1 done:**
+- `tools/port/port_models.py` copies 1.12 model classes almost verbatim; `ModelRenderer`/`ModelBase`/`LegacyGl` are shims over `ModelPart.Cube` and the current `PoseStack`, so models keep their 1.12 code. This replaced the planned `LayerDefinition` conversion.
+- The 20 bullet guns, numbers and renderer settings copied from 1.12 `TGuns`/`ClientProxy`. `ItemModelRenderer` (1.12 RenderItemBase) also draws the AR/LMG/AS50 magazines and rockets.
+- Ammo variants (`techguns:ammo_variant` component) with incendiary and explosive bullets; `techguns:ammo_change` recipe (gun + other ammo). Shotgun pellets and bursts, loose-round reloads, rechamber sounds, gravity, camo textures (`techguns:camo`, no way to change it yet).
+- Right-click zoom with FOV, sniper/tech scope overlays, the 1.12 crosshair styles.
+- GameTests for the shotgun and the ammo change recipe.
+- **Deferred:** AI stats and turret offsets (M6), muzzle lights, the M4 Infiltrator silencer, penetration (stored, used in M4), minigun spin-up, camo change recipe, `miningtool_upgrade`/`copy_nbt`/`ammo_sum_recipe` recipes.
 
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.

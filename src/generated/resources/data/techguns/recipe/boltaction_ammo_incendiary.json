@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:boltaction"
+    },
+    {
+      "item": "techguns:riflerounds_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:boltaction"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:boltaction"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds_incendiary"
+    }
+  ]
+}

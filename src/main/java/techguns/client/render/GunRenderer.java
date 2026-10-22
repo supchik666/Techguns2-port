@@ -1,13 +1,10 @@
 package techguns.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -20,29 +17,17 @@ import techguns.client.models.ModelMultipart;
 import techguns.items.guns.GenericGun;
 
 /**
- * Draws a gun from its {@link ModelMultipart}, with recoil, reload and muzzle flash. A port of 1.12 RenderItemBase +
- * RenderGunBase; the setters take the same numbers as the 1.12 ClientProxy registrations.
- * ponytail: scopes, charge animation, item particles and NPC gun scaling come with the guns that use them.
+ * A gun: recoil, reload and muzzle flash on top of {@link ItemModelRenderer}, and the scope overlay when zoomed
+ * (1.12 RenderGunBase).
+ * ponytail: charge animation and idle FX come with the charge guns.
  */
-public class GunRenderer extends BlockEntityWithoutLevelRenderer {
-	private final ModelMultipart model;
-	private final int parts;
-	private final ResourceLocation texture;
-
-	private float baseScale = 1.0f;
-	private float scaleThirdp = 0.35f;
-	private float scaleGround = 0.35f;
-	private float scaleEgo = 0.5f;
-	private float scaleGui = 0.4f;
-	private float scaleItemframe = 0.5f;
-	private float[] translateBase = {0f, 0f, 0f};
-	/** First person, third person, GUI, ground, item frame. Mirrored for the left hand. */
-	private float[][] translateType = {{0f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}};
-
+public class GunRenderer extends ItemModelRenderer {
 	private GunAnimation recoilAnim = GunAnimation.genericRecoil;
 	private float[] recoilParams = {0.15f, 5.0f};
 	private GunAnimation reloadAnim = GunAnimation.genericReload;
 	private float[] reloadParams = {1.0f, 40.0f};
+	private GunAnimation scopeRecoilAnim;
+	private float[] scopeRecoilParams;
 	private GunAnimation recoilAnim3p = GunAnimation.genericRecoil;
 	private float[] recoilParams3p = {0f, 5.0f};
 	private GunAnimation reloadAnim3p = GunAnimation.genericReload;
@@ -52,37 +37,35 @@ public class GunRenderer extends BlockEntityWithoutLevelRenderer {
 	private float muzzleFX_x_r, muzzleFX_x_l, muzzleFX_y, muzzleFX_z, muzzleFX_scale = 1.0f;
 	private float muzzleFX_3p_y, muzzleFX_3p_z, muzzleFX_3p_scale = 0.5f;
 	private float jitterX, jitterY, jitterScale;
+	private ScreenEffect scope;
+	private float scopescale = 3.0f;
 
-	public GunRenderer(ModelMultipart model, int parts, ResourceLocation texture) {
-		super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
-		this.model = model;
-		this.parts = parts;
-		this.texture = texture;
-	}
-
-	public GunRenderer setBaseTranslation(float x, float y, float z) {
-		translateBase = new float[] {x, y, z};
-		return this;
-	}
-
-	public GunRenderer setBaseScale(float baseScale) {
-		this.baseScale = baseScale;
-		return this;
-	}
-
-	public GunRenderer setGUIScale(float scale) {
-		scaleGui = scale;
-		return this;
-	}
-
-	public GunRenderer setTransformTranslations(float[][] translations) {
-		translateType = translations;
-		return this;
+	public GunRenderer(ModelMultipart model, int parts) {
+		super(model, parts, null);
+		scaleGround = scaleThirdp;
 	}
 
 	public GunRenderer setRecoilAnim(GunAnimation anim, float... params) {
 		recoilAnim = anim;
 		recoilParams = params;
+		return this;
+	}
+
+	public GunRenderer setReloadAnim(GunAnimation anim, float... params) {
+		reloadAnim = anim;
+		reloadParams = params;
+		return this;
+	}
+
+	public GunRenderer setReloadAnim3p(GunAnimation anim, float... params) {
+		reloadAnim3p = anim;
+		reloadParams3p = params;
+		return this;
+	}
+
+	public GunRenderer setScopeRecoilAnim(GunAnimation anim, float... params) {
+		scopeRecoilAnim = anim;
+		scopeRecoilParams = params;
 		return this;
 	}
 
@@ -110,17 +93,70 @@ public class GunRenderer extends BlockEntityWithoutLevelRenderer {
 		return this;
 	}
 
+	public GunRenderer setScope(ScreenEffect scope) {
+		this.scope = scope;
+		return this;
+	}
+
+	public GunRenderer setScope(ScreenEffect scope, float scale) {
+		this.scope = scope;
+		scopescale = scale;
+		return this;
+	}
+
+	public boolean hasScopeTexture() {
+		return scope != null;
+	}
+
+	// Covariant overrides so the 1.12 setter chains compile in any order.
+	@Override
+	public GunRenderer setBaseRotation(BaseRotation rotation) {
+		super.setBaseRotation(rotation);
+		return this;
+	}
+
+	@Override
+	public GunRenderer setBaseTranslation(float x, float y, float z) {
+		super.setBaseTranslation(x, y, z);
+		return this;
+	}
+
+	@Override
+	public GunRenderer setBaseScale(float baseScale) {
+		super.setBaseScale(baseScale);
+		return this;
+	}
+
+	@Override
+	public GunRenderer setGUIScale(float scale) {
+		super.setGUIScale(scale);
+		return this;
+	}
+
+	@Override
+	public GunRenderer setTransformTranslations(float[][] translations) {
+		super.setTransformTranslations(translations);
+		return this;
+	}
+
+	@Override
+	protected ResourceLocation getTexture(ItemStack stack) {
+		return ((GenericGun) stack.getItem()).getTexture(stack);
+	}
+
 	@Override
 	public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
+		GenericGun gun = (GenericGun) stack.getItem();
 		boolean firstPerson = context.firstPerson();
 		boolean thirdPerson = context == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || context == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
 		boolean leftHand = context == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || context == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
 		LivingEntity entity = firstPerson ? Minecraft.getInstance().player : thirdPerson ? TGClient.renderedEntity : null;
 
 		float fireProgress = 0, reloadProgress = 0, muzzleProgress = 0;
+		boolean offhand = false;
 		ShooterValues.AttackTime time = null;
 		if (entity != null) {
-			boolean offhand = leftHand == (entity.getMainArm() == HumanoidArm.RIGHT);
+			offhand = leftHand == (entity.getMainArm() == HumanoidArm.RIGHT);
 			time = ShooterValues.get(entity, offhand ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
 			reloadProgress = ShooterValues.progress(time.reloadEnd, time.reloadTotal);
 			if (reloadProgress == 0) fireProgress = ShooterValues.progress(time.recoilEnd, time.recoilTotal);
@@ -129,13 +165,21 @@ public class GunRenderer extends BlockEntityWithoutLevelRenderer {
 
 		pose.pushPose();
 		pose.translate(0.5f, 0.5f, 0.5f); // ItemRenderer shifts custom renderers by -0.5; 1.12 drew from the origin
+		if (firstPerson && !offhand && scope != null && TGClient.isZooming(gun)) {
+			if (scopeRecoilAnim != null && fireProgress > 0) scopeRecoilAnim.play(pose, fireProgress, leftHand, scopeRecoilParams);
+			scope.render(pose, buffers, fireProgress, leftHand ? 0.56f : -0.56f, 0.52f, 0f, scopescale, false);
+			pose.popPose();
+			return;
+		}
 		pose.pushPose();
-		applyTranslation(pose, context, leftHand);
+		applyTranslation(pose, context);
 		if (firstPerson) {
 			if (fireProgress > 0) {
 				recoilAnim.play(pose, fireProgress, leftHand, recoilParams);
 			} else if (reloadProgress > 0) {
 				reloadAnim.play(pose, reloadProgress, leftHand, reloadParams);
+			} else if (offhand && entity.isCrouching()) {
+				pose.mulPose(Axis.XP.rotationDegrees(-35f)); // lower the off-hand gun while sneaking
 			}
 		} else if (thirdPerson) {
 			if (fireProgress > 0) {
@@ -149,16 +193,7 @@ public class GunRenderer extends BlockEntityWithoutLevelRenderer {
 		} else if (context == ItemDisplayContext.FIXED) {
 			pose.mulPose(Axis.YP.rotationDegrees(-90.0f));
 		}
-		float scale = baseScale * scaleFor(context);
-		pose.scale(scale, scale, scale);
-		pose.mulPose(Axis.XP.rotationDegrees(-180.0f));
-		pose.mulPose(Axis.YP.rotationDegrees(180.0f));
-		pose.translate(translateBase[0], translateBase[1], translateBase[2]);
-		VertexConsumer consumer = buffers.getBuffer(RenderType.entityCutout(texture));
-		int ammo = ((GenericGun) stack.getItem()).getAmmo(stack);
-		for (int i = 0; i < parts; i++) {
-			model.render(pose, consumer, light, overlay, i, fireProgress, reloadProgress, ammo);
-		}
+		renderModel(stack, context, pose, buffers, light, overlay, gun.getAmmo(stack), reloadProgress, fireProgress, 0);
 		pose.popPose();
 
 		if (muzzleProgress > 0 && muzzleFX != null) {
@@ -171,31 +206,5 @@ public class GunRenderer extends BlockEntityWithoutLevelRenderer {
 			}
 		}
 		pose.popPose();
-	}
-
-	private float scaleFor(ItemDisplayContext context) {
-		return switch (context) {
-			case FIRST_PERSON_LEFT_HAND, FIRST_PERSON_RIGHT_HAND -> scaleEgo;
-			case THIRD_PERSON_LEFT_HAND, THIRD_PERSON_RIGHT_HAND -> scaleThirdp;
-			case GUI -> scaleGui;
-			case GROUND -> scaleGround;
-			case FIXED -> scaleItemframe;
-			default -> 1.0f;
-		};
-	}
-
-	private void applyTranslation(PoseStack pose, ItemDisplayContext context, boolean leftHand) {
-		int index = switch (context) {
-			case FIRST_PERSON_LEFT_HAND, FIRST_PERSON_RIGHT_HAND -> 0;
-			case THIRD_PERSON_LEFT_HAND, THIRD_PERSON_RIGHT_HAND -> 1;
-			case GUI -> 2;
-			case GROUND -> 3;
-			case FIXED -> 4;
-			default -> -1;
-		};
-		if (index >= 0) {
-			float[] t = translateType[index];
-			pose.translate(leftHand ? -t[0] : t[0], t[1], t[2]);
-		}
 	}
 }

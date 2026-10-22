@@ -2,6 +2,8 @@ package techguns;
 
 import java.util.function.Supplier;
 
+import com.mojang.serialization.Codec;
+
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -18,6 +20,14 @@ public class TGComponents {
 
 	/** Shots left in a gun. Missing means a full clip, so new guns come loaded as in 1.12. */
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> AMMO = COMPONENTS.registerComponentType("ammo",
+			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
+	/** Loaded ammo variant ("incendiary"...), set by the ammo-change recipe. Missing means default. */
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> AMMO_VARIANT = COMPONENTS.registerComponentType("ammo_variant",
+			builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+
+	/** Index into the gun's textures. ponytail: nothing sets it until the camo bench is ported. */
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CAMO = COMPONENTS.registerComponentType("camo",
 			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
 	/** Game time from which each hand (indexed by InteractionHand ordinal) may fire again. Not saved, like the 1.12 fire delay. */

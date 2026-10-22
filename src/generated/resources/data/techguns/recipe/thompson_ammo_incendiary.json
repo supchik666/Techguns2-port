@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:thompson"
+    },
+    {
+      "item": "techguns:smgmagazine_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:thompson"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazine_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:thompson"
+    }
+  ]
+}

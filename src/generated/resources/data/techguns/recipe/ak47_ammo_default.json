@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:ak47"
+    },
+    {
+      "item": "techguns:assaultriflemagazine"
+    }
+  ],
+  "result": {
+    "id": "techguns:ak47"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ak47"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazine"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:sawedoff"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    }
+  ],
+  "result": {
+    "id": "techguns:sawedoff"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sawedoff"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shotgunrounds"
+    }
+  ]
+}

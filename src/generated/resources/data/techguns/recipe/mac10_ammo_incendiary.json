@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:mac10"
+    },
+    {
+      "item": "techguns:smgmagazine_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:mac10"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mac10"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazine_incendiary"
+    }
+  ]
+}

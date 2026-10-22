@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:m4"
+    },
+    {
+      "item": "techguns:assaultriflemagazine_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:m4"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazine_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:m4"
+    }
+  ]
+}

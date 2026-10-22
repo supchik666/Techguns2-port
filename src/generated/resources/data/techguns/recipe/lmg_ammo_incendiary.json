@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:lmg"
+    },
+    {
+      "item": "techguns:lmgmagazine_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:lmg"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lmg"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:lmgmagazine_incendiary"
+    }
+  ]
+}

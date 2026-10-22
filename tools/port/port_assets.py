@@ -73,8 +73,14 @@ ORE_BLOCKS = {"ore_tin": ("tin", "stone"), "ore_lead": ("lead", "iron"),
 SHOVEL_BLOCKS = {"bugnest_sand", "sandbags"}
 HAND_BLOCKS = {"slimyladder"}  # plus all camo nets
 CLIMBABLE = {"slimyladder"}  # plus kind "ladder"
-# Guns drawn by a Java renderer (GunRenderer): item -> particle texture; their item model only hands off to it
-BEWLR_ITEMS = {"pistol": "pistolmagazine"}
+# Items drawn by a Java renderer (1.12 ItemRenderHack); they get a builtin/entity model
+BEWLR_ITEMS = [
+    "pistol", "handcannon", "sawedoff", "revolver", "goldenrevolver", "thompson", "ak47", "boltaction", "m4",
+    "m4_infiltrator", "combatshotgun", "mac10", "lmg", "minigun", "as50", "vector", "scar", "aug", "pdw", "pulserifle",
+    "assaultriflemagazine", "assaultriflemagazineempty", "assaultriflemagazine_incendiary", "lmgmagazine",
+    "lmgmagazineempty", "lmgmagazine_incendiary", "as50magazine", "as50magazineempty", "as50magazine_incendiary",
+    "as50magazine_explosive", "rocket", "rocket_nuke", "rocket_high_velocity",
+]
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
 # 1.12 vanilla (id, meta) -> 1.21 ingredient, for the few with metadata used in recipes
@@ -136,9 +142,9 @@ def copy_textures_and_models():
                 shutil.copy2(src, dst)
     shutil.copytree(LEGACY / "sounds", ASSETS / "sounds")
     shutil.copy2(LEGACY / "sounds.json", ASSETS / "sounds.json")  # 1.12's extra "category" key is ignored
-    for name, particle in BEWLR_ITEMS.items():
+    for name in BEWLR_ITEMS:
         write_json(ASSETS / "models/item" / (name + ".json"),
-                   {"parent": "minecraft:builtin/entity", "textures": {"particle": "techguns:item/" + particle}})
+                   {"parent": "minecraft:builtin/entity", "textures": {"particle": "techguns:item/plateiron"}})
     for name in CUTOUT_MODELS:
         path = ASSETS / "models/block" / (name + ".json")
         write_json(path, json.loads(path.read_text()) | {"render_type": "minecraft:cutout"})
@@ -321,8 +327,9 @@ def convert_recipes():
             if r["type"] in ("forge:ore_shaped", "minecraft:crafting_shaped"):
                 out = {"type": "minecraft:crafting_shaped", "pattern": r["pattern"],
                        "key": {k: convert_ingredient(v, consts, used) for k, v in r["key"].items()}}
-            elif r["type"] in ("forge:ore_shapeless", "minecraft:crafting_shapeless"):
-                out = {"type": "minecraft:crafting_shapeless",
+            elif r["type"] in ("forge:ore_shapeless", "minecraft:crafting_shapeless", "techguns:ammo_change_crafting"):
+                kind = "techguns:ammo_change" if r["type"] == "techguns:ammo_change_crafting" else "minecraft:crafting_shapeless"
+                out = {"type": kind,
                        "ingredients": [convert_ingredient(i, consts, used) for i in r["ingredients"]]}
             else:
                 raise Skip(r["type"])

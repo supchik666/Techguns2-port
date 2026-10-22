@@ -1,34 +1,19 @@
 package techguns.client.models;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemDisplayContext;
 
 /**
- * Techne-style gun model rendered in parts (part 0 is the static body, higher parts move with the animation).
- * Boxes keep their 1.12 ModelRenderer numbers: texture offset, size, rotation point and rotation.
+ * 1.12 ModelMultipart: an item model drawn in parts (part 0 static, higher parts animated), with the 1.12 render signature
+ * so ported models keep their code. The renderer calls {@link LegacyGl#begin} first.
  */
-public abstract class ModelMultipart {
-	private final MeshDefinition mesh = new MeshDefinition();
-	private ModelPart root;
+public abstract class ModelMultipart extends ModelBase {
+	public abstract void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch,
+			float scale, int ammoLeft, float reloadProgress, ItemDisplayContext transformType, int part, float fireProgress, float chargeProgress);
 
-	protected void box(String name, int u, int v, float w, float h, float d, float x, float y, float z, float rx, float ry, float rz) {
-		mesh.getRoot().addOrReplaceChild(name, CubeListBuilder.create().texOffs(u, v).addBox(0, 0, 0, w, h, d), PartPose.offsetAndRotation(x, y, z, rx, ry, rz));
+	protected void setRotation(ModelRenderer model, float x, float y, float z) {
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
 	}
-
-	/** Call once all boxes are added. */
-	protected void bake(int textureWidth, int textureHeight) {
-		root = LayerDefinition.create(mesh, textureWidth, textureHeight).bakeRoot();
-	}
-
-	protected void render(PoseStack pose, VertexConsumer consumer, int light, int overlay, String... names) {
-		for (String name : names) root.getChild(name).render(pose, consumer, light, overlay);
-	}
-
-	public abstract void render(PoseStack pose, VertexConsumer consumer, int light, int overlay, int part, float fireProgress, float reloadProgress, int ammoLeft);
 }

@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:combatshotgun"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    }
+  ],
+  "result": {
+    "id": "techguns:combatshotgun"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:combatshotgun"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shotgunrounds"
+    }
+  ]
+}

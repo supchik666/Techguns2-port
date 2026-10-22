@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:grimreaper"
+    },
+    {
+      "item": "techguns:rocket_high_velocity"
+    }
+  ],
+  "result": {
+    "id": "techguns:grimreaper"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:grimreaper"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket_high_velocity"
+    }
+  ]
+}

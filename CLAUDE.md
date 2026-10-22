@@ -26,7 +26,8 @@ Requires JDK 21 (the system default `java` may be a different version; set `JAVA
 - Porting a new metadata block: add rows to the CSV, register the block in `TGBlocks` with the same id, rerun the script.
 - Recipes are converted for everything and gated by `neoforge:item_exists`, so they activate when their items get registered. The script prints the recipe types it skips.
 - Item ids keep their 1.12 names (`plateiron`, `ingotsteel`).
-- Sounds and `sounds.json` are copied as-is. Items drawn by a Java renderer go in `BEWLR_ITEMS`, which gives them a `builtin/entity` item model.
+- Sounds and `sounds.json` are copied as-is. Items drawn by a Java renderer go in the `BEWLR_ITEMS` list, which gives them a `builtin/entity` item model.
+- `python3 tools/port/port_models.py guns/ModelM4 ...` copies 1.12 model classes from `legacy/` into `src/.../client/models/`, swapping imports for the `ModelRenderer`/`LegacyGl` shims. It overwrites the target, so fixes to ported models go in the script or the shims.
 
 ## Legacy architecture (what you're porting from)
 

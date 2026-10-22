@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:goldenrevolver"
+    },
+    {
+      "item": "techguns:pistolrounds_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:goldenrevolver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:goldenrevolver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds_incendiary"
+    }
+  ]
+}

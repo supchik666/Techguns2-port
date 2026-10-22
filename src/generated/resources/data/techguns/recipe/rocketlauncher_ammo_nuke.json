@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:rocketlauncher"
+    },
+    {
+      "item": "techguns:rocket_nuke"
+    }
+  ],
+  "result": {
+    "id": "techguns:rocketlauncher"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket_nuke"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocketlauncher"
+    }
+  ]
+}

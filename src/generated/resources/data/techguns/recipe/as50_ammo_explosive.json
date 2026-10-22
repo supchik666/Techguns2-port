@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:as50"
+    },
+    {
+      "item": "techguns:as50magazine_explosive"
+    }
+  ],
+  "result": {
+    "id": "techguns:as50"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:as50"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:as50magazine_explosive"
+    }
+  ]
+}

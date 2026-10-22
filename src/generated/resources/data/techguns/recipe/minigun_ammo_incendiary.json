@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:minigun"
+    },
+    {
+      "item": "techguns:minigundrum_incendiary"
+    }
+  ],
+  "result": {
+    "id": "techguns:minigun"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigun"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigundrum_incendiary"
+    }
+  ]
+}

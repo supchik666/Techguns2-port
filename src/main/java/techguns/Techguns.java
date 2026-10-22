@@ -13,6 +13,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import techguns.recipes.AmmoChangeRecipe;
 
 @Mod(Techguns.MODID)
 public class Techguns {
@@ -36,6 +37,7 @@ public class Techguns {
 		TGSounds.SOUNDS.register(modEventBus);
 		TGEntities.ENTITIES.register(modEventBus);
 		CREATIVE_TABS.register(modEventBus);
+		AmmoChangeRecipe.SERIALIZERS.register(modEventBus);
 	}
 
 	public static ResourceLocation id(String path) {

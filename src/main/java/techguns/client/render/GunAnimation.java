@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -19,9 +20,20 @@ public class GunAnimation {
 		double d = Math.sin(Math.PI * x * 0.5);
 		return (float) (d * d);
 	};
+	static final Curve SINUS = x -> (float) Math.sin(Math.PI * x * 2.0);
 
 	public static final GunAnimation genericRecoil = new GunAnimation().addTranslate(0, 0, 1.0f).addRotate(1.0f, 1.0f, 0, 0)
 			.addSegment(0, 0.25f, FAST, 0f, 1f).addSegment(0.25f, 1f, SMOOTH, 1f, 0f);
+	public static final GunAnimation swayRecoil = new GunAnimation().addTranslate(1.0f, 0.75f, 0.50f).addRotate(1.0f, 1.0f, -0.75f, 0.25f)
+			.addSegment(0, 1.0f, SINUS, 0.0f, 1.0f);
+	public static final GunAnimation scopeRecoil = new GunAnimation().addTranslate(0.25f, 1.0f, 0.75f).addRotate(1.0f, 1.0f, 0, 0)
+			.addSegment(0, 0.25f, FAST, 0f, 1f).addSegment(0.25f, 1f, SMOOTH, 1f, 0f);
+	public static final GunAnimation pulseRifleRecoil = new GunAnimation().addTranslate(0, 0, 1.0f).addRotate(1.0f, 1.0f, 0, 0)
+			.addSegment(0, 0.1f, FAST, 0f, 0.4f).addSegment(0.1f, 0.2f, SMOOTH, 0.4f, 0.3f).addSegment(0.2f, 0.40f, FAST, 0.3f, 1f)
+			.addSegment(0.40f, 1f, SMOOTH, 1f, 0f);
+	public static final GunAnimation breechReload = new GunAnimation().addTranslate(0, 1.0f, -1.0f).addRotate(1.0f, -1.0f, 0f, 0f)
+			.addSegment(0, 0.25f, SMOOTH, 0f, 1f).addSegment(0.25f, 0.5f, LINEAR, 1f, 1f).addSegment(0.5f, 0.85f, SMOOTH, 1.0f, -0.25f)
+			.addSegment(0.85f, 1f, SMOOTH, -0.25f, 0f);
 	public static final GunAnimation genericReload = new GunAnimation().addTranslate(-0.15f, -0.05f, 0.15f).addRotate(1.0f, -0.5f, 1.0f, -0.25f)
 			.addSegment(0, 0.2f, SMOOTH, 0f, 1f).addSegment(0.2f, 0.8f, LINEAR, 1.0f, 1.0f).addSegment(0.8f, 1.0f, SMOOTH, 1.0f, 0.0f);
 
@@ -64,7 +76,9 @@ public class GunAnimation {
 			if (t.angle == null) {
 				pose.translate(mirror ? -t.x * v : t.x * v, t.y * v, t.z * v);
 			} else {
-				pose.mulPose(new Quaternionf().rotationAxis(t.angle * v * ((float) Math.PI / 180f), t.x, mirror ? -t.y : t.y, mirror ? -t.z : t.z));
+				// glRotate normalizes the axis; JOML's rotationAxis expects a unit vector
+				Vector3f axis = new Vector3f(t.x, mirror ? -t.y : t.y, mirror ? -t.z : t.z).normalize();
+				pose.mulPose(new Quaternionf().rotationAxis(t.angle * v * ((float) Math.PI / 180f), axis));
 			}
 		}
 	}

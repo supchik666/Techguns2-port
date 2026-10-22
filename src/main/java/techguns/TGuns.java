@@ -2,15 +2,185 @@ package techguns;
 
 import net.neoforged.neoforge.registries.DeferredItem;
 import techguns.items.guns.GenericGun;
+import techguns.items.guns.GenericGun.Crosshair;
+import techguns.items.guns.GenericGun.GunHandType;
 import techguns.items.guns.ammo.AmmoTypes;
 
-/** Gun definitions, numbers as in 1.12 TGuns. */
+/**
+ * Gun definitions, numbers as in 1.12 TGuns. ponytail: AI stats, turret offsets, muzzle lights and the M4 Infiltrator
+ * silencer are dropped until NPCs, turrets and dynamic lights exist; the minigun fires without its spin-up check.
+ */
 public class TGuns {
 	public static final int MAX_RANGE_PISTOL = 40;
+	public static final int MAX_RANGE_RIFLE = 60;
+	public static final int MAX_RANGE_RIFLE_LONG = 75;
+	public static final int MAX_RANGE_SNIPER = 90;
+	public static final float PENETRATION_LOW = 0.5f;
+	public static final float PENETRATION_MED = 1.0f;
+	public static final float PENETRATION_MED_HIGH = 2.0f;
 
+	public static final DeferredItem<GenericGun> HANDCANNON = TGItems.ITEMS.register("handcannon",
+			() -> new GenericGun(AmmoTypes.STONE_BULLETS, true, 12, 1, 30, 8.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD, 25, 0.035f)
+					.setBulletSpeed(1f)
+					.setGravity(0.015d)
+					.setDamageDrop(10, 25, 5.0f)
+					.setTexture("textures/guns/handgun")
+					.setRecoiltime(12)
+					.setCrossHair(Crosshair.QUAD_NO_CORNERS));
+	public static final DeferredItem<GenericGun> SAWEDOFF = TGItems.ITEMS.register("sawedoff",
+			() -> new GenericGun(AmmoTypes.SHOTGUN_ROUNDS, true, 4, 2, 28, 4.0f, TGSounds.SAWEDOFF_FIRE, TGSounds.SAWEDOFF_RELOAD, 10, 0.01f)
+					.setAmmoCount(2)
+					.setShotgunSpread(7, 0.2f, false)
+					.setDamageDrop(1, 4, 1.5f)
+					.setTexture("textures/guns/sawedoff")
+					.setBulletSpeed(1.5f)
+					.setCrossHair(Crosshair.FOUR_PARTS));
+	public static final DeferredItem<GenericGun> REVOLVER = TGItems.ITEMS.register("revolver",
+			() -> new GenericGun(AmmoTypes.PISTOL_ROUNDS, true, 6, 6, 45, 8.0f, TGSounds.REVOLVER_FIRE, TGSounds.REVOLVER_RELOAD, MAX_RANGE_PISTOL, 0.025f)
+					.setDamageDrop(12, 20, 6.0f)
+					.setBulletSpeed(2f)
+					.setRecoiltime(6)
+					.setTexture("textures/guns/revolver")
+					.setHandType(GunHandType.ONE_HANDED));
+	public static final DeferredItem<GenericGun> GOLDENREVOLVER = TGItems.ITEMS.register("goldenrevolver",
+			() -> new GenericGun(AmmoTypes.PISTOL_ROUNDS, true, 8, 6, 45, 14.0f, TGSounds.REVOLVER_GOLDEN_FIRE, TGSounds.REVOLVER_RELOAD, MAX_RANGE_PISTOL, 0.015f)
+					.setDamageDrop(12, 30, 6.0f)
+					.setRecoiltime(8)
+					.setBulletSpeed(1.75f)
+					.setTexture("textures/guns/goldenrevolver")
+					.setHandType(GunHandType.ONE_HANDED));
+	public static final DeferredItem<GenericGun> THOMPSON = TGItems.ITEMS.register("thompson",
+			() -> new GenericGun(AmmoTypes.SMG_MAGAZINE, false, 3, 20, 40, 5.0f, TGSounds.THOMPSON_FIRE, TGSounds.THOMPSON_RELOAD, MAX_RANGE_PISTOL, 0.05f)
+					.setBulletSpeed(1.75f)
+					.setDamageDrop(15, 24, 3.0f)
+					.setTexture("textures/guns/thompson")
+					.setMuzzleFlashTime(4));
+	public static final DeferredItem<GenericGun> AK47 = TGItems.ITEMS.register("ak47",
+			() -> new GenericGun(AmmoTypes.ASSAULT_RIFLE_MAGAZINE, false, 3, 30, 45, 9.0f, TGSounds.AK_FIRE, TGSounds.AK_RELOAD, MAX_RANGE_RIFLE, 0.030f)
+					.setDamageDrop(20, 30, 5.0f)
+					.setPenetration(PENETRATION_LOW)
+					.setBulletSpeed(2.5f)
+					.setTextures("textures/guns/ak47texture", 2)
+					.setMuzzleFlashTime(4));
+	public static final DeferredItem<GenericGun> BOLTACTION = TGItems.ITEMS.register("boltaction",
+			() -> new GenericGun(AmmoTypes.RIFLE_ROUNDS, true, 25, 6, 50, 16.0f, TGSounds.BOLT_ACTION_FIRE, TGSounds.BOLT_ACTION_RELOAD, MAX_RANGE_SNIPER, 0.05f)
+					.setZoom(0.35f, true, 0.125f, true)
+					.setBulletSpeed(3.5f)
+					.setRecoiltime(15)
+					.setRechamberSound(TGSounds.BOLT_ACTION_RECHAMBER)
+					.setDamageDrop(40, 60, 10.0f)
+					.setPenetration(PENETRATION_LOW)
+					.setTextures("textures/guns/boltactionrifle", 3));
+	public static final DeferredItem<GenericGun> M4 = TGItems.ITEMS.register("m4",
+			() -> new GenericGun(AmmoTypes.ASSAULT_RIFLE_MAGAZINE, false, 3, 30, 45, 8.0f, TGSounds.M4_FIRE, TGSounds.M4_RELOAD, MAX_RANGE_RIFLE, 0.015f)
+					.setBulletSpeed(3.0f)
+					.setZoom(0.75f, true, 0.75f, false)
+					.setDamageDrop(25, 40, 6.0f)
+					.setTextures("textures/guns/m4texture", 4)
+					.setPenetration(PENETRATION_LOW)
+					.setMuzzleFlashTime(4));
+	public static final DeferredItem<GenericGun> M4_INFILTRATOR = TGItems.ITEMS.register("m4_infiltrator",
+			() -> new GenericGun(AmmoTypes.ASSAULT_RIFLE_MAGAZINE, false, 3, 30, 45, 8.0f, TGSounds.M4_SILENCED_FIRE, TGSounds.M4_RELOAD, MAX_RANGE_RIFLE, 0.010f)
+					.setZoom(0.50f, true, 0.5f, true)
+					.setDamageDrop(25, 35, 6.0f)
+					.setBulletSpeed(2.0f)
+					.setTexture("textures/guns/m4_uq_texture")
+					.setPenetration(PENETRATION_LOW));
+	public static final DeferredItem<GenericGun> COMBATSHOTGUN = TGItems.ITEMS.register("combatshotgun",
+			() -> new GenericGun(AmmoTypes.SHOTGUN_ROUNDS, true, 14, 8, 50, 4.0f, TGSounds.COMBATSHOTGUN_FIRE, TGSounds.COMBATSHOTGUN_RELOAD, 15, 0.01f)
+					.setAmmoCount(8)
+					.setShotgunSpread(7, 0.15f, false)
+					.setRecoiltime(12)
+					.setBulletSpeed(1.5f)
+					.setRechamberSound(TGSounds.COMBATSHOTGUN_RECHAMBER)
+					.setDamageDrop(2, 5, 1.5f)
+					.setPenetration(PENETRATION_LOW)
+					.setTexture("textures/guns/combatshotgun")
+					.setCrossHair(Crosshair.FOUR_PARTS));
+	public static final DeferredItem<GenericGun> MAC10 = TGItems.ITEMS.register("mac10",
+			() -> new GenericGun(AmmoTypes.SMG_MAGAZINE, false, 2, 32, 40, 5.0f, TGSounds.MAC10_FIRE, TGSounds.M4_RELOAD, MAX_RANGE_PISTOL, 0.05f)
+					.setDamageDrop(15, 24, 3.0f)
+					.setTexture("textures/guns/mac10texture")
+					.setRecoiltime(2)
+					.setMuzzleFlashTime(3)
+					.setBulletSpeed(1.75f)
+					.setHandType(GunHandType.ONE_POINT_FIVE_HANDED));
+	public static final DeferredItem<GenericGun> LMG = TGItems.ITEMS.register("lmg",
+			() -> new GenericGun(AmmoTypes.LMG_MAGAZINE, false, 2, 100, 100, 8.0f, TGSounds.LMG_FIRE, TGSounds.LMG_RELOAD, MAX_RANGE_RIFLE_LONG, 0.020f)
+					.setZoom(0.75f, true, 0.75f, false)
+					.setDamageDrop(40, 60, 6.0f)
+					.setPenetration(PENETRATION_LOW)
+					.setBulletSpeed(3.0f)
+					.setTexture("textures/guns/mg2_texture")
+					.setMuzzleFlashTime(2)
+					.setRecoiltime(3));
+	public static final DeferredItem<GenericGun> MINIGUN = TGItems.ITEMS.register("minigun",
+			() -> new GenericGun(AmmoTypes.MINIGUN_AMMO_DRUM, false, 0, 200, 100, 5.0f, TGSounds.MINIGUN_FIRE, TGSounds.MINIGUN_RELOAD, MAX_RANGE_RIFLE_LONG, 0.025f)
+					.setDamageDrop(30, 50, 3.0f)
+					.setPenetration(PENETRATION_LOW)
+					.setBulletSpeed(3.0f)
+					.setTexture("textures/guns/minigun")
+					.setMuzzleFlashTime(4));
+	public static final DeferredItem<GenericGun> AS50 = TGItems.ITEMS.register("as50",
+			() -> new GenericGun(AmmoTypes.AS50_MAGAZINE, true, 10, 10, 80, 32.0f, TGSounds.AS50_FIRE, TGSounds.AS50_RELOAD, MAX_RANGE_SNIPER, 0.0625f)
+					.setDamageDrop(40, 60, 24.0f)
+					.setZoom(0.35f, true, 0.125f, true)
+					.setBulletSpeed(3.5f)
+					.setRecoiltime(10)
+					.setPenetration(PENETRATION_MED_HIGH)
+					.setTexture("textures/guns/as50texture"));
+	public static final DeferredItem<GenericGun> VECTOR = TGItems.ITEMS.register("vector",
+			() -> new GenericGun(AmmoTypes.SMG_MAGAZINE, false, 2, 25, 40, 6.0f, TGSounds.VECTOR_FIRE, TGSounds.VECTOR_RELOAD, MAX_RANGE_PISTOL, 0.05f)
+					.setZoom(0.75f, true, 0.35f, false)
+					.setDamageDrop(17, 25, 4.0f)
+					.setBulletSpeed(2.0f)
+					.setTextures("textures/guns/vector_texture", 2)
+					.setRecoiltime(2)
+					.setMuzzleFlashTime(3)
+					.setPenetration(PENETRATION_LOW));
+	public static final DeferredItem<GenericGun> SCAR = TGItems.ITEMS.register("scar",
+			() -> new GenericGun(AmmoTypes.ASSAULT_RIFLE_MAGAZINE, false, 4, 20, 45, 12.0f, TGSounds.SCAR_FIRE, TGSounds.SCAR_RELOAD, MAX_RANGE_RIFLE_LONG, 0.015f)
+					.setZoom(0.65f, true, 0.5f, true)
+					.setDamageDrop(35, 60, 10.0f)
+					.setTextures("textures/guns/scar_texture", 2)
+					.setPenetration(PENETRATION_MED)
+					.setBulletSpeed(3.0f)
+					.setMuzzleFlashTime(5));
+	public static final DeferredItem<GenericGun> AUG = TGItems.ITEMS.register("aug",
+			() -> new GenericGun(AmmoTypes.ASSAULT_RIFLE_MAGAZINE, false, 3, 30, 45, 8.0f, TGSounds.AUG_FIRE, TGSounds.AUG_RELOAD, MAX_RANGE_RIFLE, 0.010f)
+					.setZoom(0.50f, true, 0.5f, true)
+					.setDamageDrop(30, 45, 7.0f)
+					.setTextures("textures/guns/augtexture", 5)
+					.setPenetration(PENETRATION_LOW)
+					.setMuzzleFlashTime(4));
+	public static final DeferredItem<GenericGun> PDW = TGItems.ITEMS.register("pdw",
+			() -> new GenericGun(AmmoTypes.ADVANCED_MAGAZINE, false, 1, 40, 40, 5.0f, TGSounds.PDW_FIRE, TGSounds.PDW_RELOAD, MAX_RANGE_PISTOL, 0.03f)
+					.setDamageDrop(18, 25, 3.0f)
+					.setPenetration(PENETRATION_MED)
+					.setTextures("textures/guns/pdw", 3)
+					.setHandType(GunHandType.ONE_POINT_FIVE_HANDED)
+					.setMuzzleFlashTime(2)
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
+	public static final DeferredItem<GenericGun> PULSERIFLE = TGItems.ITEMS.register("pulserifle",
+			() -> new GenericGun(AmmoTypes.ADVANCED_MAGAZINE, false, 7, 12, 45, 10.0f, TGSounds.PULSE_RIFLE_FIRE, TGSounds.PULSE_RIFLE_RELOAD, MAX_RANGE_RIFLE_LONG, 0.024f)
+					.setDamageDrop(30, 45, 8f)
+					.setZoom(0.35f, true, 0.5f, true)
+					.setBulletSpeed(3.25f)
+					.setRecoiltime(8)
+					.setPenetration(PENETRATION_MED)
+					.setShotgunSpread(2, 0.015f, true)
+					.setTextures("textures/guns/pulserifle", 3)
+					.setMuzzleFlashTime(4)
+					.setCrossHair(Crosshair.HORIZONTAL_TWO_PART));
 	public static final DeferredItem<GenericGun> PISTOL = TGItems.ITEMS.register("pistol",
-			() -> new GenericGun(AmmoTypes.PISTOL_MAGAZINE, true, 4, 18, 35, 8.0f, TGSounds.PISTOL_FIRE, TGSounds.PISTOL_RELOAD,
-					MAX_RANGE_PISTOL, 0.025f).setBulletSpeed(2.0f).setDamageDrop(18, 25, 5.0f).setRecoiltime(3));
+			() -> new GenericGun(AmmoTypes.PISTOL_MAGAZINE, true, 4, 18, 35, 8.0f, TGSounds.PISTOL_FIRE, TGSounds.PISTOL_RELOAD, MAX_RANGE_PISTOL, 0.025f)
+					.setBulletSpeed(2.0f)
+					.setDamageDrop(15, 22, 6.0f)
+					.setTexture("textures/guns/pistol3")
+					.setDamageDrop(18, 25, 5.0f)
+					.setHandType(GunHandType.ONE_HANDED)
+					.setRecoiltime(3)
+					.setCrossHair(Crosshair.GUN_DYNAMIC));
 
 	/** Loads the class so the guns above get registered. */
 	static void init() {}
