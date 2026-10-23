@@ -843,6 +843,7 @@
   "techguns.configuration.lightTint": "Light Tint",
   "techguns.configuration.scopeLens": "Scope Lens Effect",
   "techguns.configuration.screenShake": "Screen Shake",
+  "techguns.configuration.deathEffects": "Death Effects",
   "techguns.configuration.damagePvP": "PvP Damage Factor",
   "techguns.configuration.damageTurretToPlayer": "Turret to Player Damage Factor",
   "techguns.configuration.damageFactorNPC": "NPC Damage Factor",

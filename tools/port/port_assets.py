@@ -323,7 +323,7 @@ EXTRA_LANG |= {"techguns.armorTooltip.resistances": "Protection", "techguns.gun.
 # TGConfig entries in NeoForge's config screen (techguns.configuration.<name>); the spec comments are the tooltips
 EXTRA_LANG |= {"techguns.configuration.title": "Techguns Configuration"} | {f"techguns.configuration.{k}": v for k, v in {
     "bloom": "Bloom", "bloomIntensity": "Bloom Intensity", "lightTint": "Light Tint", "scopeLens": "Scope Lens Effect",
-    "screenShake": "Screen Shake", "damagePvP": "PvP Damage Factor", "damageTurretToPlayer": "Turret to Player Damage Factor",
+    "screenShake": "Screen Shake", "deathEffects": "Death Effects", "damagePvP": "PvP Damage Factor", "damageTurretToPlayer": "Turret to Player Damage Factor",
     "damageFactorNPC": "NPC Damage Factor", "helicopterSelfDamage": "Helicopters Hurt by Own Rockets",
     "explosionBlockDamage": "Guns Break Blocks", "restrictUnsafeModeToOP": "Unsafe Mode Only for OPs",
     "disableAutofeeder": "Disable Autofeeder", "radiation": "Radiation", "machinesNeedNoPower": "Machines Need No Power",

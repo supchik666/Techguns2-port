@@ -11,7 +11,7 @@ import techguns.Techguns;
 
 /**
  * 1.12 TGDamageSource: a damage type carrying its TG type, armor penetration and death effect. Knockback is done by the
- * weapon (all TG damage types are no_knockback). ponytail: the death type is unused until gore and death effects (M6).
+ * weapon (all TG damage types are no_knockback). The death type plays on a kill with {@link #goreChance} ({@link DeathEffects}).
  */
 public class TGDamageSource extends DamageSource {
 	/** The sonic shotgun's own death message on physical damage. */
@@ -25,6 +25,8 @@ public class TGDamageSource extends DamageSource {
 	public final DeathType deathType;
 	/** Armor points ignored, in 1.12 gun units (x4 against toughness). */
 	public float penetration;
+	/** Chance that a kill plays {@link #deathType}. */
+	public float goreChance = 0.5f;
 
 	public TGDamageSource(TGDamageType type, DeathType deathType, Entity direct, @Nullable Entity causing) {
 		this(type.key, type, deathType, direct, causing);

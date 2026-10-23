@@ -32,6 +32,10 @@ public final class TGConfig {
 			.comment("Camera shake from your own shots, and the view kick through scopes.")
 			.define("screenShake", true);
 
+	public static final ModConfigSpec.BooleanValue DEATH_EFFECTS = CLIENT
+			.comment("Mobs killed by some Techguns weapons burst into gore, melt away or burn to ash.")
+			.define("deathEffects", true);
+
 	public static final ModConfigSpec CLIENT_SPEC = CLIENT.build();
 
 	private static final ModConfigSpec.Builder SERVER = new ModConfigSpec.Builder();

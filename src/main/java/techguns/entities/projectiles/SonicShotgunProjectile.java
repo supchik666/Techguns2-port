@@ -76,6 +76,7 @@ public class SonicShotgunProjectile extends GenericProjectile {
 	protected TGDamageSource damageSource() {
 		TGDamageSource source = new TGDamageSource(TGDamageSource.SONIC, TGDamageType.PHYSICAL, DeathType.GORE, this, getOwner());
 		source.penetration = penetration;
+		source.goreChance = 1;
 		return source;
 	}
 

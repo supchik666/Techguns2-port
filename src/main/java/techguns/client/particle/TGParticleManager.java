@@ -31,7 +31,6 @@ import techguns.Techguns;
  * after vanilla's: alpha ones back to front, then additive ones grouped by type, since their blend doesn't depend on
  * order and every texture change is a draw call; streaks after them in spawn order; those attached to a held gun by its
  * renderer.
- * ponytail: DeathEffect isn't ported.
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class TGParticleManager implements TGEffects.Handler {

@@ -43,6 +43,11 @@ public final class TGFX {
 		return systems;
 	}
 
+	/** System {@code name}, null if there's none (lists aren't systems). */
+	static TGParticleSystemType type(String name) {
+		return SYSTEMS.get(name.toLowerCase(Locale.ROOT));
+	}
+
 	private static boolean add(String name, Function<TGParticleSystemType, TGParticleSystem> factory, List<TGParticleSystem> out) {
 		TGParticleSystemType type = SYSTEMS.get(name);
 		if (type != null) return out.add(factory.apply(type));

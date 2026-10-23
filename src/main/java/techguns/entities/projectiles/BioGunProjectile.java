@@ -81,6 +81,6 @@ public class BioGunProjectile extends GenericProjectile {
 
 	@Override
 	protected TGDamageSource damageSource() {
-		return source(TGDamageType.POISON, DeathType.BIO);
+		return source(TGDamageType.POISON, DeathType.BIO, 1);
 	}
 }

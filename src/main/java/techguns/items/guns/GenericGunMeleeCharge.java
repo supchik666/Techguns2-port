@@ -55,7 +55,7 @@ import techguns.items.guns.ammo.AmmoType;
  * subclasses, here set up by setters): left click hits and mines like a tool, faster and harder with ammo, using one
  * round per block or hit. Upgrade heads ({@link TGComponents#MINING_HEAD}) add harvest level and speed. Right click
  * charges a blow, fires a short hit, or does nothing ({@link RightClick}).
- * ponytail: the TG damage system's gore, armor penetration and knockback, and the drill's sneak silk touch, wait for M4.
+ * ponytail: the TG damage system's armor penetration and knockback, and the drill's sneak silk touch, wait for M4.
  */
 @EventBusSubscriber(modid = Techguns.MODID)
 public class GenericGunMeleeCharge extends GenericGunCharge {
@@ -87,6 +87,8 @@ public class GenericGunMeleeCharge extends GenericGunCharge {
 	Supplier<SoundEvent> swingSound, breakSound, sweepSound;
 	boolean sweepFX;
 	int fireSeconds;
+	/** Chance a powered hit's kill bursts into gore (1.12 getMeleeDamageSource). */
+	float goreChance = 1;
 
 	public GenericGunMeleeCharge(AmmoType ammoType, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage,
 			Supplier<SoundEvent> fireSound, Supplier<SoundEvent> reloadSound, int ttl, float accuracy, float fullChargeTime,
@@ -173,6 +175,16 @@ public class GenericGunMeleeCharge extends GenericGunCharge {
 	public GenericGunMeleeCharge setFireOnHit(int seconds) {
 		fireSeconds = seconds;
 		return this;
+	}
+
+	public GenericGunMeleeCharge setGoreChance(float chance) {
+		goreChance = chance;
+		return this;
+	}
+
+	/** Unpowered hits never gore. */
+	public float goreChance(ItemStack stack) {
+		return getAmmo(stack) > 0 ? goreChance : 0;
 	}
 
 	public int getMiningHead(ItemStack stack) {

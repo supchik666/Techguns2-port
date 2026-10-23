@@ -38,7 +38,7 @@ public class AlienBlasterProjectile extends BlasterProjectile {
 
 	@Override
 	protected TGDamageSource damageSource() {
-		return source(TGDamageType.FIRE, DeathType.LASER);
+		return source(TGDamageType.FIRE, DeathType.LASER, 0.25f);
 	}
 
 	@Override

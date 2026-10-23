@@ -4,9 +4,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -16,9 +18,12 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import techguns.TGAttributes;
+import techguns.TGComponents;
 import techguns.TGItems;
+import techguns.TGuns;
 import techguns.Techguns;
 import techguns.capabilities.TGExtendedPlayer;
+import techguns.damagesystem.DeathEffects;
 import techguns.damagesystem.TGDamageSource;
 import techguns.damagesystem.TGDamageSource.DeathType;
 import techguns.damagesystem.TGDamageType;
@@ -85,6 +90,33 @@ public class ArmorTests {
 		float pierced = techguns.damagesystem.DamageSystem.damageAfterArmor(100, 10, 0, techguns.damagesystem.DamageSystem.PENETRATION_POINTS);
 		helper.assertTrue(Math.abs(plain - (100 - techguns.damagesystem.DamageSystem.protectionPercent(10))) < 0.01f, "protection % off: " + plain);
 		helper.assertTrue(Math.abs(pierced - (plain + techguns.damagesystem.DamageSystem.penetrationPercent(1))) < 0.01f, "armor pen % off: " + pierced);
+		helper.succeed();
+	}
+
+	/**
+	 * Death effects (DeathEffects): gore only on gore-tagged mobs, BIO on any; a powered chainsaw hit gores, an empty one
+	 * doesn't. Then a gore kill goes through the death event.
+	 */
+	@GameTest(template = "empty")
+	public static void deathEffectTypes(GameTestHelper helper) {
+		Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, new Vec3(1.5, 1, 1.5));
+		IronGolem golem = helper.spawnWithNoFreeWill(EntityType.IRON_GOLEM, new Vec3(1.5, 1, 1.5));
+		TGDamageSource gore = new TGDamageSource(TGDamageType.PROJECTILE, DeathType.GORE, zombie, null);
+		TGDamageSource bio = new TGDamageSource(TGDamageType.POISON, DeathType.BIO, zombie, null);
+		gore.goreChance = bio.goreChance = 1;
+		helper.assertTrue(DeathEffects.deathType(gore, zombie) == DeathType.GORE, "zombie should gore");
+		helper.assertTrue(DeathEffects.deathType(gore, golem) == DeathType.DEFAULT, "iron golem isn't in #techguns:gore");
+		helper.assertTrue(DeathEffects.deathType(bio, golem) == DeathType.BIO, "bio death works on any mob");
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		ItemStack chainsaw = new ItemStack(TGuns.CHAINSAW.get());
+		player.setItemInHand(InteractionHand.MAIN_HAND, chainsaw);
+		helper.assertTrue(DeathEffects.deathType(player.damageSources().playerAttack(player), zombie) == DeathType.GORE, "powered chainsaw should gore");
+		chainsaw.set(TGComponents.AMMO, 0);
+		helper.assertTrue(DeathEffects.deathType(player.damageSources().playerAttack(player), zombie) == DeathType.DEFAULT, "empty chainsaw gored");
+		gore.goreChance = 0;
+		helper.assertTrue(DeathEffects.deathType(gore, zombie) == DeathType.DEFAULT, "chance 0 gored");
+		zombie.hurt(new TGDamageSource(TGDamageType.PROJECTILE, DeathType.GORE, zombie, null), 1000);
+		helper.assertTrue(zombie.isDeadOrDying(), "zombie survived");
 		helper.succeed();
 	}
 }

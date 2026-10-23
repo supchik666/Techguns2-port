@@ -11,6 +11,7 @@ import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
 import techguns.TGSounds;
+import techguns.damagesystem.TGDamageSource;
 
 /**
  * The invisible, few blocks long hit of the power hammer's charged blow, and of the chainsaw, mining drill and
@@ -33,6 +34,13 @@ public class PowerHammerProjectile extends GenericProjectile {
 			float spread, float damageDropStart, float damageDropEnd, float damageMin, float side, double gravity, float charge, int ammoConsumed) {
 		return new PowerHammerProjectile(level, shooter, kind, damage * ammoConsumed, speed, ticksToLive, spread, damageDropStart, damageDropEnd,
 				damageMin * ammoConsumed, side, gravity);
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		TGDamageSource source = super.damageSource();
+		source.goreChance = 1;
+		return source;
 	}
 
 	@Override

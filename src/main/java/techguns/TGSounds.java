@@ -99,6 +99,9 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION = register("effects.tfgexplosion");
 	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION_ECHO = register("effects.tfgexplosionecho");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_IMPACT = register("effects.biogunimpact");
+	public static final DeferredHolder<SoundEvent, SoundEvent> DEATH_GORE = register("effects.gore");
+	public static final DeferredHolder<SoundEvent, SoundEvent> DEATH_BIO = register("effects.biodeath");
+	public static final DeferredHolder<SoundEvent, SoundEvent> DEATH_LASER = register("effects.disintegrate");
 	public static final DeferredHolder<SoundEvent, SoundEvent> STEAM_JUMP = register("effects.steamarmorjump");
 
 	// Powered melee tools (M3.4)

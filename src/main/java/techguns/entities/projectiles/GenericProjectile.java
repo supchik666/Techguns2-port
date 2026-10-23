@@ -286,12 +286,18 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	/** The source of a hit: its TG damage type and death effect, by kind. */
 	protected TGDamageSource damageSource() {
 		if (kind == Kind.INCENDIARY_BULLET || kind == Kind.INCENDIARY_SHELL) return source(TGDamageType.FIRE, DeathType.DEFAULT);
-		return source(kind == Kind.EXPLOSIVE_BULLET ? TGDamageType.EXPLOSION : TGDamageType.PROJECTILE, DeathType.GORE);
+		if (kind == Kind.EXPLOSIVE_BULLET) return source(TGDamageType.EXPLOSION, DeathType.GORE, 1);
+		return source(TGDamageType.PROJECTILE, DeathType.GORE);
 	}
 
 	protected TGDamageSource source(TGDamageType type, DeathType deathType) {
+		return source(type, deathType, 0.5f);
+	}
+
+	protected TGDamageSource source(TGDamageType type, DeathType deathType, float goreChance) {
 		TGDamageSource source = new TGDamageSource(type, deathType, this, getOwner());
 		source.penetration = penetration;
+		source.goreChance = goreChance;
 		return source;
 	}
 

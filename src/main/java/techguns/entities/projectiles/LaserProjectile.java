@@ -32,6 +32,6 @@ public class LaserProjectile extends AbstractBeamProjectile {
 
 	@Override
 	protected TGDamageSource damageSource() {
-		return source(TGDamageType.ENERGY, DeathType.LASER);
+		return source(TGDamageType.ENERGY, DeathType.LASER, 1);
 	}
 }

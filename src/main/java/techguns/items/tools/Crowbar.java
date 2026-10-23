@@ -8,7 +8,7 @@ import net.minecraft.world.level.LevelReader;
 
 /**
  * A steel pickaxe that lets sneak-clicks reach the block it's used on (1.12 TGCrowbar).
- * ponytail: the 1.12 "wrench" tool class had no users; damage type and gore wait for the M4 damage system.
+ * ponytail: the 1.12 "wrench" tool class had no users; its TG damage type isn't applied (gore is, in DeathEffects).
  */
 public class Crowbar extends PickaxeItem {
 	public Crowbar(Properties properties) {

@@ -94,7 +94,7 @@ public class RocketProjectile extends GenericProjectile {
 
 	@Override
 	protected TGDamageSource damageSource() {
-		return source(TGDamageType.EXPLOSION, kind == Kind.NUKE ? DeathType.LASER : DeathType.GORE);
+		return source(TGDamageType.EXPLOSION, kind == Kind.NUKE ? DeathType.LASER : DeathType.GORE, 1);
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class DeatomizerProjectile extends BlasterProjectile {
 
 	@Override
 	protected TGDamageSource damageSource() {
-		return source(TGDamageType.ENERGY, DeathType.GORE);
+		return source(TGDamageType.ENERGY, DeathType.GORE, 1);
 	}
 
 	@Override
