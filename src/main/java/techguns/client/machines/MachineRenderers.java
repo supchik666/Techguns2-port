@@ -33,6 +33,7 @@ import techguns.TGFluids;
 import techguns.TGMenus;
 import techguns.Techguns;
 import techguns.client.models.LegacyGl;
+import techguns.client.render.Bloom;
 import techguns.client.models.machines.ModelAmmoPress;
 import techguns.client.models.machines.ModelChemLab;
 import techguns.client.models.machines.ModelMachine;
@@ -44,7 +45,10 @@ import techguns.machines.GrinderBlockEntity;
 import techguns.machines.MachineBlock;
 import techguns.machines.MachineBlockEntity;
 
-/** Machine screens, block entity renderers (1.12 RenderMachine, RenderGrinder, RenderChargingStation, RenderBlastfurnace) and item renderers. */
+/**
+ * Machine screens, block entity renderers (1.12 RenderMachine, RenderGrinder, RenderChargingStation, RenderBlastfurnace) and item renderers.
+ * Grinder, presses and turret base have no lit pixels to glow ({@link MachineGlow}); the blast furnace's lava blooms instead.
+ */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class MachineRenderers {
 	private static final ModelMachine AMMO_PRESS = new ModelAmmoPress();
@@ -55,6 +59,7 @@ public final class MachineRenderers {
 	private static final ResourceLocation CHEM_LAB_TEXTURE = Techguns.id("textures/block/chemlab.png");
 	private static final ResourceLocation GRINDER_ROLL = Techguns.id("textures/block/grinder_roll.png");
 	private static final float UNIT = 1 / 16f;
+	private static final RenderType LAVA = Bloom.wrap(RenderType.entitySolid(InventoryMenu.BLOCK_ATLAS), MachineGlow.WORKING);
 
 	private MachineRenderers() {}
 
@@ -94,7 +99,7 @@ public final class MachineRenderers {
 	private static BlockEntityRenderer<MachineBlockEntity> model(ModelMachine model, ResourceLocation texture) {
 		return (be, partialTick, pose, buffers, light, overlay) -> {
 			int rotation = be.getBlockState().getValue(MachineBlock.FACING).getOpposite().get2DDataValue();
-			drawModel(model, texture, pose, buffers, light, overlay, rotation, be.getProgress());
+			drawModel(model, texture, pose, buffers, light, overlay, rotation, be.getProgress(), MachineGlow.strength(be));
 		};
 	}
 
@@ -104,7 +109,7 @@ public final class MachineRenderers {
 				Minecraft.getInstance().getEntityModels()) {
 			@Override
 			public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
-				drawModel(model, texture, pose, buffers, light, overlay, 0, 0);
+				drawModel(model, texture, pose, buffers, light, overlay, 0, 0, 0);
 			}
 		};
 		return new IClientItemExtensions() {
@@ -118,16 +123,27 @@ public final class MachineRenderers {
 		};
 	}
 
-	/** 1.12 RenderMachine; {@code rotation} is the placer's horizontal index, as 1.12 stored it. */
-	private static void drawModel(ModelMachine model, ResourceLocation texture, PoseStack pose, MultiBufferSource buffers, int light, int overlay,
-			int rotation, float progress) {
+	/**
+	 * 1.12 RenderMachine; {@code rotation} is the placer's horizontal index, as 1.12 stored it. Then the model again with
+	 * only its lit pixels, with {@code glow} bloom ({@link MachineGlow}); 0 for none.
+	 */
+	static void drawModel(ModelMachine model, ResourceLocation texture, PoseStack pose, MultiBufferSource buffers, int light, int overlay,
+			int rotation, float progress, float glow) {
+		Runnable draw = () -> {
+			pose.pushPose();
+			pose.translate(0.5, 1.5, 0.5);
+			pose.mulPose(Axis.ZP.rotationDegrees(180));
+			pose.mulPose(Axis.YP.rotationDegrees(180 + 90 * rotation));
+			model.render(null, 0, 0, 0, 0, 0, 0.0625f, progress);
+			pose.popPose();
+		};
 		LegacyGl.begin(pose, buffers, texture, light, overlay);
-		pose.pushPose();
-		pose.translate(0.5, 1.5, 0.5);
-		pose.mulPose(Axis.ZP.rotationDegrees(180));
-		pose.mulPose(Axis.YP.rotationDegrees(180 + 90 * rotation));
-		model.render(null, 0, 0, 0, 0, 0, 0.0625f, progress);
-		pose.popPose();
+		draw.run();
+		ResourceLocation mask = glow > 0 ? MachineGlow.mask(texture) : null;
+		if (mask != null) {
+			LegacyGl.begin(pose, buffers.getBuffer(MachineGlow.type(mask, glow)), LightTexture.FULL_BRIGHT, overlay);
+			draw.run();
+		}
 	}
 
 	private static void renderGrinder(GrinderBlockEntity be, float partialTick, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
@@ -184,6 +200,7 @@ public final class MachineRenderers {
 
 	private static void renderChargingStation(ChargingStationBlockEntity be, float partialTick, PoseStack pose, MultiBufferSource buffers, int light,
 			int overlay) {
+		MachineGlow.blockModel(be, pose, buffers, MachineGlow.strength(be));
 		ItemStack item = be.charged();
 		if (item.isEmpty()) return;
 		pose.pushPose();
@@ -204,7 +221,7 @@ public final class MachineRenderers {
 		pose.mulPose(Axis.YP.rotationDegrees(-facing.toYRot()));
 		pose.translate(-0.5, 0, -0.5);
 		// the pane faces south here: 10 x 6 px, 3 px up, just in front of the grate
-		VertexConsumer consumer = buffers.getBuffer(RenderType.entitySolid(InventoryMenu.BLOCK_ATLAS));
+		VertexConsumer consumer = buffers.getBuffer(LAVA);
 		float x0 = 3 * UNIT, x1 = 13 * UNIT, y0 = 3 * UNIT, y1 = 9 * UNIT, z = 15 * UNIT + 0.0025f;
 		float u0 = lava.getU0(), u1 = lava.getU1(), v0 = lava.getV0(), v1 = lava.getV1();
 		int bright = LightTexture.FULL_BRIGHT;
