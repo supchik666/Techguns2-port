@@ -153,11 +153,6 @@ public class GunRenderer extends ItemModelRenderer {
 		return scopeKick;
 	}
 
-	/** Degrees of camera shake per unscoped shot. ponytail: read off the recoil animation's tilt; add a per-gun setter if one feels off. */
-	float getShake() {
-		return 0.25f + (recoilParams.length > 1 ? recoilParams[1] : 0) * 0.04f;
-	}
-
 	// Covariant overrides so the 1.12 setter chains compile in any order.
 	@Override
 	public GunRenderer setBaseRotation(BaseRotation rotation) {

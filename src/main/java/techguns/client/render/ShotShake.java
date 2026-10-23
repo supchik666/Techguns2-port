@@ -1,7 +1,12 @@
 package techguns.client.render;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -23,6 +28,15 @@ import techguns.items.guns.GenericGun;
 public final class ShotShake {
 	/** Scales every gun's {@link GunRenderer#getScopeKick()}. */
 	private static final float KICK_SCALE = 1.15f;
+	/** Degrees of shake per unscoped shot, by gun id; anything else (pistols, SMGs, energy guns) is {@link #LIGHT}. */
+	private static final float LIGHT = 0.75f;
+	private static final Map<String, Float> SHAKE = new HashMap<>();
+	static {
+		for (String id : List.of("thompson", "ak47", "m4", "m4_infiltrator", "scar", "aug", "lmg", "handcannon")) SHAKE.put(id, 1.5f);
+		for (String id : List.of("combatshotgun", "sawedoff", "boltaction", "as50", "gaussrifle")) SHAKE.put(id, 2.5f);
+		for (String id : List.of("rocketlauncher", "grenadelauncher", "guidedmissilelauncher", "grimreaper", "tfg")) SHAKE.put(id, 4.5f);
+		SHAKE.put("minigun", 1.75f);
+	}
 	/** Standing shakes more, sneaking steadies the gun. */
 	private static final float STAND = 1.5f, SNEAK = 0.5f;
 
@@ -51,8 +65,8 @@ public final class ShotShake {
 
 	/** Scope kick: peaks 70 ms after the shot, settled in about 300. */
 	private static final Spring kickPitch = new Spring(14), kickYaw = new Spring(14);
-	/** Shake: peaks 40 ms after the shot, settled in about 160. */
-	private static final Spring shakePitch = new Spring(25), shakeYaw = new Spring(25), shakeRoll = new Spring(25);
+	/** Shake: peaks 55 ms after the shot, settled in about 220. */
+	private static final Spring shakePitch = new Spring(18), shakeYaw = new Spring(18), shakeRoll = new Spring(18);
 	private static final int[] lastShots = new int[2];
 	private static long lastFrame;
 
@@ -93,9 +107,10 @@ public final class ShotShake {
 			kickPitch.kick(k * up);
 			kickYaw.kick(k * side);
 		} else {
-			float k = strength * renderer.getShake();
-			shakePitch.kick(k * up);
-			shakeYaw.kick(k * side);
+			// mostly a punch upward, so the gun's power reads as recoil
+			float k = strength * SHAKE.getOrDefault(BuiltInRegistries.ITEM.getKey(gun).getPath(), LIGHT);
+			shakePitch.kick(k * (0.6f + 0.4f * up));
+			shakeYaw.kick(k * side * 0.5f);
 			shakeRoll.kick(k * (float) (Math.random() * 2 - 1));
 		}
 	}

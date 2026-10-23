@@ -140,6 +140,12 @@ tasks.named('runClient') {
     classpathProvider.from(configurations.clientMods)
     dependsOn copyClientMods
 }
+// The server runs share run/ and crash on client mods, so they empty run/mods first; runClient fills it again.
+def clearClientMods = tasks.register('clearClientMods', Delete) {
+    delete 'run/mods'
+}
+tasks.named('runServer') { dependsOn clearClientMods }
+tasks.named('runGameTestServer') { dependsOn clearClientMods }
 
 dependencies {
     // Example optional mod dependency with JEI

@@ -125,6 +125,7 @@ public class TGuns {
 					.setRecoiltime(3));
 	public static final DeferredItem<GenericGun> MINIGUN = TGItems.ITEMS.register("minigun",
 			() -> new GenericGun(AmmoTypes.MINIGUN_AMMO_DRUM, false, 0, 200, 100, 5.0f, TGSounds.MINIGUN_FIRE, TGSounds.MINIGUN_RELOAD, MAX_RANGE_RIFLE_LONG, 0.025f)
+					.setNoZoom()
 					.setDamageDrop(30, 50, 3.0f)
 					.setPenetration(PENETRATION_LOW)
 					.setBulletSpeed(3.0f)
@@ -324,6 +325,7 @@ public class TGuns {
 
 	public static final DeferredItem<GenericGun> ROCKETLAUNCHER = TGItems.ITEMS.register("rocketlauncher",
 			() -> new GenericGun(AmmoTypes.ROCKETS, true, 10, 1, 40, 50.0f, TGSounds.ROCKET_FIRE, TGSounds.ROCKET_RELOAD, 200, 0.05f)
+					.setNoZoom()
 					.setProjectile(RocketProjectile::create)
 					.setGravity(0.01D)
 					.setBulletSpeed(1.0f)
@@ -348,6 +350,7 @@ public class TGuns {
 					.setCrossHair(Crosshair.VANILLA));
 	public static final DeferredItem<GenericGun> GRENADELAUNCHER = TGItems.ITEMS.register("grenadelauncher",
 			() -> new GenericGun(AmmoTypes.GRENADES_40MM, true, 5, 6, 100, 30.0f, TGSounds.GRENADE_LAUNCHER_FIRE, TGSounds.GRENADE_LAUNCHER_RELOAD, 160, 0.015f)
+					.setNoZoom()
 					.setProjectile(Grenade40mmProjectile::new)
 					.setTexture("textures/guns/grenadelauncher")
 					.setBulletSpeed(0.5f)

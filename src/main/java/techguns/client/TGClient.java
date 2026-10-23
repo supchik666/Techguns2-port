@@ -751,7 +751,7 @@ public class TGClient {
 		event.setCanceled(true);
 		float spread = gun.getSpread();
 		if (mc.player.isBlocking()) spread *= gun.getHandType() == GenericGun.GunHandType.ONE_HANDED ? 4.0f : 8.0f;
-		if (isZooming(gun)) spread *= gun.getZoombonus();
+		spread *= gun.stanceSpread(mc.player, isZooming(gun));
 		int s = Mth.clamp(Math.round(100 * spread), 1, 10);
 		GuiGraphics g = event.getGuiGraphics();
 		int x = g.guiWidth() / 2;

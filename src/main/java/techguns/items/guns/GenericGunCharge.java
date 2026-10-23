@@ -43,6 +43,7 @@ public class GenericGunCharge extends GenericGun {
 		super(ammoType, semiAuto, minFiretime, clipsize, reloadtime, damage, fireSound, reloadSound, ttl, accuracy);
 		this.fullChargeTime = fullChargeTime;
 		this.ammoConsumedOnFullCharge = ammoConsumedOnFullCharge;
+		setNoZoom();
 	}
 
 	/** The charged projectile; an uncharged left-click shot is the same one with charge 0, as in 1.12. */
@@ -140,7 +141,7 @@ public class GenericGunCharge extends GenericGun {
 			float side = player.getMainArm() == HumanoidArm.RIGHT ? GenericProjectile.RIGHT : GenericProjectile.LEFT;
 			GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
 			float extra = extraChargedDamage(stack);
-			GenericProjectile proj = chargedProjectile.create(level, player, kind, damage + extra, speed, getScaledTTL(), accuracy, damageDropStart,
+			GenericProjectile proj = chargedProjectile.create(level, player, kind, damage + extra, speed, getScaledTTL(), accuracy * stanceSpread(player, false), damageDropStart,
 					damageDropEnd, damageMin + extra, side, gravity, charge, ammoConsumed);
 			if (proj != null) {
 				proj.setPenetration(penetration);

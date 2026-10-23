@@ -77,9 +77,10 @@ public class GenericGun extends Item {
 	float[] muzzleLight = {1f, 0.9f, 0.2f};
 	/** Rounds loaded per reload for guns fed loose shells; 1 means a full clip from one magazine. */
 	int ammoCount = 1;
-	float zoomMult = 1.0f;
+	/** Every gun aims like the LMG unless it sets its own zoom or {@link #setNoZoom()} (not in 1.12, where most guns couldn't). */
+	float zoomMult = 0.75f;
 	/** Spread multiplier while zoomed. */
-	float zoombonus = 1.0f;
+	float zoombonus = 0.75f;
 	boolean fireCenteredZoomed;
 	boolean shotgun;
 	/** Spread of the extra shotgun pellets; the crosshair spacing too, as in 1.12. */
@@ -162,6 +163,12 @@ public class GenericGun extends Item {
 
 	public GenericGun setAmmoCount(int count) {
 		this.ammoCount = count;
+		return this;
+	}
+
+	/** Heavy guns (and charge guns, whose right click charges) don't aim. */
+	public GenericGun setNoZoom() {
+		this.zoomMult = this.zoombonus = 1.0f;
 		return this;
 	}
 
@@ -301,10 +308,6 @@ public class GenericGun extends Item {
 		return zoomMult != 1.0f;
 	}
 
-	public float getZoombonus() {
-		return zoombonus;
-	}
-
 	public GunHandType getHandType() {
 		return handType;
 	}
@@ -369,6 +372,12 @@ public class GenericGun extends Item {
 		player.getData(TGComponents.NEXT_FIRE)[hand.ordinal()] = player.level().getGameTime() + ticks;
 	}
 
+	/** Spread multiplier (not in 1.12): aiming while sneaking cuts it to a tenth; otherwise twice the spread unless sneaking, times the zoom bonus. */
+	public float stanceSpread(Player player, boolean zooming) {
+		if (!player.isCrouching()) return zooming ? 2.0f * zoombonus : 2.0f;
+		return zooming ? Math.min(zoombonus, 0.1f) : 1.0f;
+	}
+
 	/**
 	 * Fires one shot (plus shotgun pellets), or reloads when empty. {@code zooming} is the shooter's client zoom state:
 	 * it tightens the spread and may fire from the eyes.
@@ -394,14 +403,11 @@ public class GenericGun extends Item {
 			ShooterValues.fired(player, hand, this);
 		} else {
 			PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, false));
-			float bonus = Mth.clamp(1 - GenericArmor.bonus(player, TGArmorBonus.GUN_ACCURACY, false), 0, 1);
+			float bonus = Mth.clamp(1 - GenericArmor.bonus(player, TGArmorBonus.GUN_ACCURACY, false), 0, 1) * stanceSpread(player, zooming);
 			if (hand == InteractionHand.MAIN_HAND && player.isBlocking()) bonus *= handType == GunHandType.ONE_HANDED ? 4.0f : 8.0f;
 			boolean left = (hand == InteractionHand.MAIN_HAND) == (player.getMainArm() == HumanoidArm.LEFT);
 			float side = left ? GenericProjectile.LEFT : GenericProjectile.RIGHT;
-			if (zooming) {
-				bonus *= zoombonus;
-				if (fireCenteredZoomed) side = GenericProjectile.CENTER;
-			}
+			if (zooming && fireCenteredZoomed) side = GenericProjectile.CENTER;
 			GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
 			spawnProjectile(level, player, kind, accuracy * bonus, forwardOffset, side, target);
 			if (shotgun) {
