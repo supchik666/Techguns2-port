@@ -3,7 +3,6 @@ package techguns.client.particle;
 import java.util.function.Predicate;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -29,7 +28,9 @@ import techguns.Techguns;
 
 /**
  * Ticks and draws all TGFX systems and particles, and is the client's {@link TGEffects.Handler}. Particles are drawn
- * after vanilla's, back to front; streaks after them in spawn order; those attached to a held gun by its renderer.
+ * after vanilla's: alpha ones back to front, then additive ones grouped by type, since their blend doesn't depend on
+ * order and every texture change is a draw call; streaks after them in spawn order; those attached to a held gun by its
+ * renderer.
  * ponytail: DeathEffect isn't ported.
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
@@ -126,7 +127,9 @@ public final class TGParticleManager implements TGEffects.Handler {
 		Camera camera = event.getCamera();
 		float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
 		Vec3 cam = camera.getPosition(), look = new Vec3(camera.getLookVector());
-		particles.sort(Comparator.comparingDouble(particle -> -look.dot(particle.pos.subtract(cam))));
+		for (TGParticle particle : particles) particle.depth = look.dot(particle.pos.subtract(cam));
+		particles.sort((a, b) -> a.additive() != b.additive() ? Boolean.compare(a.additive(), b.additive())
+				: a.additive() ? Integer.compare(System.identityHashCode(a.type), System.identityHashCode(b.type)) : Double.compare(b.depth, a.depth));
 		MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
 		for (TGParticle particle : particles) particle.render(buffers, camera, partialTick);
 		for (TGParticle streak : streaks) streak.render(buffers, camera, partialTick);

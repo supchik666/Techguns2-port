@@ -43,6 +43,8 @@ public class TGParticle {
 	boolean dead;
 	/** Set by {@link #prepare}. */
 	float r, g, b, alpha, renderSize;
+	/** Distance along the camera's look, set by the manager each frame to sort by. */
+	double depth;
 
 	TGParticle(TGParticleSystem system, Vec3 pos, Vec3 motion) {
 		this.system = system;
@@ -151,10 +153,13 @@ public class TGParticle {
 		return new float[] { u, v, u + cell, v + cell };
 	}
 
+	// ponytail: SOLID/ALPHA_SHADED draw as ALPHA and NO_Z_TEST as ADDITIVE with depth test; no effect in use needs more
+	boolean additive() {
+		return type.renderType == RenderMode.ADDITIVE || type.renderType == RenderMode.NO_Z_TEST;
+	}
+
 	RenderType renderType() {
-		// ponytail: SOLID/ALPHA_SHADED draw as ALPHA and NO_Z_TEST as ADDITIVE with depth test; no effect in use needs more
-		return type.renderType == RenderMode.ADDITIVE || type.renderType == RenderMode.NO_Z_TEST ? ScreenEffect.additive(type.texture, type.bloom)
-				: ScreenEffect.alpha(type.texture, type.bloom);
+		return additive() ? ScreenEffect.additive(type.texture, type.bloom) : ScreenEffect.alpha(type.texture, type.bloom);
 	}
 
 	void render(MultiBufferSource buffers, Camera camera, float partialTick) {

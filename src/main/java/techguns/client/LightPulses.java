@@ -18,10 +18,9 @@ import techguns.Techguns;
 /**
  * Short flashes of block light from muzzle flashes and explosions (1.12 LightPulse, which needed the Albedo mod). The
  * light is mixed into {@code LevelRenderer.getLightColor} and entity light by mixins, and the chunk sections around a
- * pulse rebuild every tick it changes. Vanilla light has no color, so that light is white and
- * {@link techguns.client.render.LightTint} tints the screen around each pulse with its color.
- * ponytail: rebuilding sections each tick is what dynamic light mods do too; fine for a few pulses, a minigun keeps
- * the sections around the player rebuilding.
+ * pulse rebuild when its block or whole-block radius changes, so a minigun fired standing still rebuilds nothing.
+ * Vanilla light has no color, so that light is white and {@link techguns.client.render.LightTint} tints the screen
+ * around each pulse with its color.
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class LightPulses {
@@ -49,7 +48,7 @@ public final class LightPulses {
 		}
 	}
 
-	/** A pulse as the chunk builders see it this tick: position and radius. */
+	/** A pulse as the chunk builders see it: its block's center and a whole-block radius, so it changes in steps. */
 	private record Light(double x, double y, double z, float radius) {}
 
 	private static final List<Pulse> PULSES = new ArrayList<>();
@@ -72,11 +71,7 @@ public final class LightPulses {
 
 	/** A light held while {@code shooter} keeps firing faster than every 4 ticks: each shot moves it and starts its life over. */
 	public static void steadyMuzzleFlash(Entity shooter, float[] color) {
-		PULSES.removeIf(p -> {
-			if (p.owner != shooter) return false;
-			setDirty(p.x, p.y, p.z, p.radiusStart);
-			return true;
-		});
+		PULSES.removeIf(p -> p.owner == shooter);
 		Vec3 pos = muzzle(shooter);
 		PULSES.add(new Pulse(pos.x, pos.y, pos.z, 4, 6, 6, color[0], color[1], color[2], shooter, new int[1]));
 		update();
@@ -98,28 +93,27 @@ public final class LightPulses {
 	@SubscribeEvent
 	static void tick(ClientTickEvent.Post event) {
 		if (PULSES.isEmpty()) return;
-		PULSES.removeIf(p -> {
-			if (++p.age[0] < p.lifetime) return false;
-			setDirty(p.x, p.y, p.z, p.radiusStart); // rebuild once more without it
-			return true;
-		});
+		PULSES.removeIf(p -> ++p.age[0] >= p.lifetime);
 		update();
 	}
 
+	/** Publishes the lights and rebuilds around the ones that appeared or went away (a moved or resized light is both). */
 	private static void update() {
 		Light[] next = new Light[PULSES.size()];
 		for (int i = 0; i < next.length; i++) {
 			Pulse p = PULSES.get(i);
-			next[i] = new Light(p.x, p.y, p.z, p.radius());
-			setDirty(p.x, p.y, p.z, Math.max(p.radiusStart, p.radiusEnd));
+			next[i] = new Light(Mth.floor(p.x) + 0.5, Mth.floor(p.y) + 0.5, Mth.floor(p.z) + 0.5, Math.round(p.radius()));
 		}
+		Light[] previous = lights;
 		lights = next;
+		List<Light> before = List.of(previous), after = List.of(next);
+		for (Light l : next) if (!before.contains(l)) setDirty(l);
+		for (Light l : previous) if (!after.contains(l)) setDirty(l);
 	}
 
-	private static void setDirty(double x, double y, double z, float radius) {
-		int r = (int) Math.ceil(Math.min(radius, MAX_RADIUS));
-		Minecraft.getInstance().levelRenderer.setBlocksDirty(Mth.floor(x) - r, Mth.floor(y) - r, Mth.floor(z) - r, Mth.floor(x) + r,
-				Mth.floor(y) + r, Mth.floor(z) + r);
+	private static void setDirty(Light l) {
+		int r = (int) Math.ceil(l.radius), x = Mth.floor(l.x), y = Mth.floor(l.y), z = Mth.floor(l.z);
+		if (r > 0) Minecraft.getInstance().levelRenderer.setBlocksDirty(x - r, y - r, z - r, x + r, y + r, z + r);
 	}
 
 	/**
