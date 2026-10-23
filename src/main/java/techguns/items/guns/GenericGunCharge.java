@@ -136,7 +136,10 @@ public class GenericGunCharge extends GenericGun {
 			GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
 			GenericProjectile proj = chargedProjectile.create(level, player, kind, damage, speed, getScaledTTL(), accuracy, damageDropStart,
 					damageDropEnd, damageMin, side, gravity, charge, ammoConsumed);
-			if (proj != null) level.addFreshEntity(proj);
+			if (proj != null) {
+				proj.setPenetration(penetration);
+				level.addFreshEntity(proj);
+			}
 			if (hasChargedFireAnim) PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, false));
 		} else if (hasChargedFireAnim) {
 			ShooterValues.fired(player, hand, this);

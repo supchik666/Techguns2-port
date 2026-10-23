@@ -14,6 +14,9 @@ import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
 import techguns.TGSounds;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /**
  * Bio gun blob: poisons what it hits, splashes on blocks, dies in water. {@code level} is the ammo the charge used (1-3),
@@ -74,5 +77,10 @@ public class BioGunProjectile extends GenericProjectile {
 		super.readSpawnData(buffer);
 		level = buffer.readByte();
 		TGEffects.createFXOnEntity(this, "BioGunTrail");
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.POISON, DeathType.BIO);
 	}
 }

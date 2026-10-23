@@ -5,6 +5,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /** Alien blaster bolt: fire damage, sets the target alight. ponytail: no block burning until the M4 block damage config. */
 public class AlienBlasterProjectile extends BlasterProjectile {
@@ -31,5 +34,15 @@ public class AlienBlasterProjectile extends BlasterProjectile {
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		fireHit(result, 3);
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.FIRE, DeathType.LASER);
+	}
+
+	@Override
+	protected float knockback() {
+		return 1;
 	}
 }

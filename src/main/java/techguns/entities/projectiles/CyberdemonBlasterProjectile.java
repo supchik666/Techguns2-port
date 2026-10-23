@@ -5,6 +5,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /** Nether blaster bolt: fire damage, doesn't ignite. */
 public class CyberdemonBlasterProjectile extends BlasterProjectile {
@@ -31,5 +34,15 @@ public class CyberdemonBlasterProjectile extends BlasterProjectile {
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		fireHit(result, 0);
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.FIRE, DeathType.DEFAULT);
+	}
+
+	@Override
+	protected float knockback() {
+		return 1;
 	}
 }

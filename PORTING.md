@@ -113,6 +113,12 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Armor materials are a registry; stats via the attribute-modifier component; custom armor models via `IClientItemExtensions`.
 - Radiation → `MobEffect` + `Potion`.
 
+**M4a done (damage system and armor):**
+- `damagesystem/`: `TGDamageSource` (type, death type, penetration) over the `data/techguns/damage_type` JSON and tags; `DamageSystem` replaces the vanilla armor reduction in `LivingIncomingDamageEvent` with the 1.12 formula (4% a point, cap 24, penetration ×4 minus toughness removes points) for TG damage and for anyone in TG armor. `ShieldStats` lets TG damage through shields by type. Guns pass their penetration to projectiles and explosions; each projectile sets its 1.12 damage type and knockback.
+- `TGArmors`: all 1.12 armor sets with their materials (`TGArmorMaterial`, registered `ArmorMaterial`s plus per-type values), bonuses (`TGArmorBonus`, applied in `ArmorBonuses`), steam/RF powered armor (`PoweredArmor`, charged from batteries in the inventory), camo cycling on sneak-use, the beret, and riot, ballistic and advanced shields.
+- 3D armor models and shields are ported with `port_models.py` over a `ModelBiped` shim, drawn by `client/ArmorRenderers` (worn model, render-hack items, shield BEWLR with the blocking model).
+- **Deferred:** broken pieces still show their vanilla armor points; repair and camo benches (shield camos); PvP/NPC damage factors (M8); NPC per-type resistances and penetration resistance (M6); gore (M6); radiation resistance is stored only; the night vision, oxygen and toggle bonuses, hide flags and slot items wait for the player data work; `ModelHeavyShield` has no item; no baby scaling on armor models.
+
 ### M5. Machines and GUIs
 - `TileEntity` → `BlockEntity`, `ITickable` → `BlockEntityTicker`.
 - Item/energy/fluid handlers via `RegisterCapabilitiesEvent`.

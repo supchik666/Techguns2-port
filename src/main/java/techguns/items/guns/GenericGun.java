@@ -28,13 +28,15 @@ import techguns.TGComponents;
 import techguns.Techguns;
 import techguns.client.ShooterValues;
 import techguns.entities.projectiles.GenericProjectile;
+import techguns.items.armors.GenericArmor;
+import techguns.items.armors.TGArmorBonus;
 import techguns.items.guns.ammo.AmmoType;
 import techguns.network.TGPackets.GunAnimation;
 
 /**
  * A gun that fires {@link GenericProjectile}s and reloads magazines (or loose rounds) from the player's inventory.
  * Firing runs on both sides: the client predicts sound, ammo and animation, the server spawns the bullets.
- * ponytail: 1.12 also had melee, mining, NPC/turret use, silencers, muzzle lights and armor accuracy bonuses;
+ * ponytail: 1.12 also had melee, mining, NPC/turret use, silencers and muzzle lights;
  * they come back with the guns or systems that need them.
  */
 public class GenericGun extends Item {
@@ -84,7 +86,8 @@ public class GenericGun extends Item {
 	int bulletcount = 7;
 	boolean burst;
 	double gravity;
-	float penetration; // ponytail: stored for the M4 damage system
+	/** Armor piercing, see {@link techguns.damagesystem.DamageSystem}. */
+	float penetration;
 	Supplier<SoundEvent> rechamberSound;
 	float forwardOffset;
 	GunHandType handType = GunHandType.TWO_HANDED;
@@ -357,7 +360,7 @@ public class GenericGun extends Item {
 			ShooterValues.fired(player, hand, this);
 		} else {
 			PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, false));
-			float bonus = 1.0f;
+			float bonus = Mth.clamp(1 - GenericArmor.bonus(player, TGArmorBonus.GUN_ACCURACY, false), 0, 1);
 			if (hand == InteractionHand.MAIN_HAND && player.isBlocking()) bonus *= handType == GunHandType.ONE_HANDED ? 4.0f : 8.0f;
 			boolean left = (hand == InteractionHand.MAIN_HAND) == (player.getMainArm() == HumanoidArm.LEFT);
 			float side = left ? GenericProjectile.LEFT : GenericProjectile.RIGHT;
@@ -386,6 +389,7 @@ public class GenericGun extends Item {
 		GenericProjectile bullet = projectile.create(level, player, kind, damage, speed, getScaledTTL(), spread,
 				damageDropStart, damageDropEnd, damageMin, side, gravity);
 		if (offset > 0) bullet.shiftForward(offset / speed);
+		bullet.setPenetration(penetration);
 		return bullet;
 	}
 
@@ -427,7 +431,7 @@ public class GenericGun extends Item {
 		level.playSound(player, player, reloadSound.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
 	}
 
-	private static boolean consume(Player player, Item item) {
+	public static boolean consume(Player player, Item item) {
 		Inventory inventory = player.getInventory();
 		int slot = inventory.findSlotMatchingItem(new ItemStack(item));
 		if (slot < 0) return false;
@@ -435,7 +439,7 @@ public class GenericGun extends Item {
 		return true;
 	}
 
-	private static void give(Player player, ItemStack stack) {
+	public static void give(Player player, ItemStack stack) {
 		if (!player.getInventory().add(stack) && !player.level().isClientSide) player.drop(stack, false);
 	}
 

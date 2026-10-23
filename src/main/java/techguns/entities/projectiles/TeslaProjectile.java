@@ -12,6 +12,9 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /** Tesla gun bolt: a beam that chains from each target it hits to the next one within 8 blocks, up to 4 times. */
 public class TeslaProjectile extends AbstractBeamProjectile {
@@ -78,5 +81,10 @@ public class TeslaProjectile extends AbstractBeamProjectile {
 
 	private static Vec3 center(Entity entity) {
 		return entity.position().add(0, entity.getEyeHeight() * 0.5, 0);
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.LIGHTNING, DeathType.LASER);
 	}
 }

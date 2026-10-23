@@ -2,16 +2,12 @@ package techguns.entities.projectiles;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,15 +26,16 @@ import techguns.TGEffects;
 import techguns.TGEntities;
 import techguns.TGSounds;
 import techguns.Techguns;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /**
  * A bullet; its {@link Kind} stands in for the 1.12 subclasses (incendiary, explosive, stone, advanced). Hits are only
  * applied on the server; the client copy just flies for the tracer, so gravity and kind go in the spawn packet.
- * ponytail: armor penetration, block damage and the TG damage system (fire/explosion damage types) come with M4.
+ * ponytail: no block damage until the M4 safemode config.
  */
 public class GenericProjectile extends Projectile implements IEntityWithComplexSpawn {
-	public static final ResourceKey<DamageType> BULLET = ResourceKey.create(Registries.DAMAGE_TYPE, Techguns.id("bullet"));
-
 	public enum Kind {
 		BULLET(1.0f), INCENDIARY_BULLET(1.1f), INCENDIARY_SHELL(1.1f), EXPLOSIVE_BULLET(1.15f), STONE(1.0f), ADVANCED(1.0f),
 		/** Rocket and missile variants. */
@@ -68,6 +65,8 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	protected double gravity;
 	/** {@link #LEFT}/{@link #RIGHT}/{@link #CENTER}, sent to clients for muzzle effects. */
 	protected float side;
+	/** The gun's armor penetration, see {@link techguns.damagesystem.DamageSystem}. Not synced: hits are server side. */
+	protected float penetration;
 
 	public GenericProjectile(EntityType<? extends GenericProjectile> type, Level level) {
 		super(type, level);
@@ -191,8 +190,7 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	protected void onHitEntity(EntityHitResult result) {
 		if (level().isClientSide) return;
 		Entity target = result.getEntity();
-		DamageSource source = new DamageSource(level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(BULLET), this, getOwner());
-		target.hurt(source, getDamage());
+		damage(target);
 		if (kind == Kind.INCENDIARY_BULLET || kind == Kind.INCENDIARY_SHELL) {
 			if (!target.fireImmune()) target.igniteForSeconds(3);
 		} else if (kind == Kind.EXPLOSIVE_BULLET) {
@@ -247,6 +245,39 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 			case "Metal" -> TGSounds.BULLET_IMPACT_METAL.get();
 			default -> TGSounds.BULLET_IMPACT_DIRT.get();
 		};
+	}
+
+	public void setPenetration(float penetration) {
+		this.penetration = penetration;
+	}
+
+	public float getPenetration() {
+		return penetration;
+	}
+
+	/** The source of a hit: its TG damage type and death effect, by kind. */
+	protected TGDamageSource damageSource() {
+		if (kind == Kind.INCENDIARY_BULLET || kind == Kind.INCENDIARY_SHELL) return source(TGDamageType.FIRE, DeathType.DEFAULT);
+		return source(kind == Kind.EXPLOSIVE_BULLET ? TGDamageType.EXPLOSION : TGDamageType.PROJECTILE, DeathType.GORE);
+	}
+
+	protected TGDamageSource source(TGDamageType type, DeathType deathType) {
+		TGDamageSource source = new TGDamageSource(type, deathType, this, getOwner());
+		source.penetration = penetration;
+		return source;
+	}
+
+	/** 1.12 knockback multiplier: pushes the target 0.4 x this away along the flight. */
+	protected float knockback() {
+		return kind == Kind.EXPLOSIVE_BULLET ? 3 : 0;
+	}
+
+	/** Hurts {@code target} with {@link #damageSource} and {@link #knockback}; true if it took damage. */
+	protected boolean damage(Entity target) {
+		if (!target.hurt(damageSource(), getDamage())) return false;
+		Vec3 motion = getDeltaMovement();
+		if (knockback() > 0 && target instanceof LivingEntity living) living.knockback(0.4 * knockback(), -motion.x, -motion.z);
+		return true;
 	}
 
 	/** Falls linearly from damage to damageMin between damageDropStart and damageDropEnd blocks from the muzzle. */

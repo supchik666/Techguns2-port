@@ -11,7 +11,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,12 +23,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
+import techguns.entities.projectiles.GenericProjectile;
 
 /**
  * The 1.12 TG explosion: full damage within {@code primaryRadius}, falling to {@code secondaryDamage} at
  * {@code secondaryRadius}, nothing beyond; blocks give way along rays while their resistance is below the remaining
  * power times {@code blockDamageFactor}. A vanilla {@link Explosion} stands in for resistance, events and block breaking.
- * ponytail: vanilla explosion damage types and no friendly-fire factor until the M4 damage system.
+ * Hurts with TG explosion damage carrying the projectile's penetration. ponytail: no friendly-fire factor until the M8 config.
  */
 public class TGExplosion {
 	/** 1.12 config ExplosiveBlockDamage. ponytail: constant until the M8 config. */
@@ -76,7 +76,8 @@ public class TGExplosion {
 	public void doExplosion(boolean playSound) {
 		double totalRadius = Math.max(primaryRadius, secondaryRadius);
 		boolean damagesTerrain = blockDamageFactor >= 0.01;
-		DamageSource source = level.damageSources().explosion(exploder, projectile);
+		TGDamageSource source = new TGDamageSource(TGDamageType.EXPLOSION, TGDamageSource.DeathType.GORE, projectile, exploder);
+		if (projectile instanceof GenericProjectile p) source.penetration = p.getPenetration();
 		Explosion explosion = new Explosion(level, projectile, source, null, center.x, center.y, center.z, (float) totalRadius, false,
 				damagesTerrain ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.KEEP, ParticleTypes.EXPLOSION,
 				ParticleTypes.EXPLOSION_EMITTER, SoundEvents.GENERIC_EXPLODE);

@@ -9,6 +9,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /**
  * Nuclear death ray: a beam that follows the shooter's aim and re-traces (and hits) every tick of its 10 tick life, on
@@ -59,5 +62,10 @@ public class NDRProjectile extends AbstractBeamProjectile {
 		super.readSpawnData(buffer);
 		range = buffer.readFloat();
 		TGEffects.createFXOnEntity(this, "BeamGunMuzzleFX");
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.RADIATION, DeathType.LASER);
 	}
 }
