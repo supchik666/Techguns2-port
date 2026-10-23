@@ -19,6 +19,10 @@
     {
       "structure": "techguns:desert_oil_cluster",
       "weight": 15
+    },
+    {
+      "structure": "techguns:alien_bug_nest",
+      "weight": 20
     }
   ],
   "placement": {

@@ -38,6 +38,8 @@ STRUCTURES = [
     ("nether_ghast_spawner", "NetherGhastSpawner", "nether_medium", 10, "nether", -3, 0, 16, "nether"),
     ("nether_orecluster_castle", "NetherOreClusterCastle", "nether_medium", 1000, "nether", -2, 0, 16, "nether"),
 ]
+# procedural structures in these sets (their structure JSON is hand-written in src/main/resources): set -> [(id, weight)]
+EXTRA_SET_ENTRIES = {"overworld_medium": [("alien_bug_nest", 20)]}
 # 1.12 TGConfig StructureSpawnWeightSmall/Medium/Big: one try every N chunks
 SETS = {"overworld_small": 16, "overworld_medium": 32, "overworld_big": 64, "nether_small": 16, "nether_medium": 32}
 BIOMES = {"overworld": "#minecraft:is_overworld", "desert": "#c:is_desert", "ocean": "#minecraft:is_ocean", "nether": "#minecraft:is_nether"}
@@ -388,7 +390,8 @@ def main():
             "y_offset": y_offset, "foundation": foundation})
     for salt, (structure_set, spacing) in enumerate(SETS.items()):
         write_json(OUT / f"worldgen/structure_set/{structure_set}.json", {
-            "structures": [{"structure": f"techguns:{s[0]}", "weight": s[3]} for s in STRUCTURES if s[2] == structure_set],
+            "structures": [{"structure": f"techguns:{s[0]}", "weight": s[3]} for s in STRUCTURES if s[2] == structure_set]
+            + [{"structure": f"techguns:{name}", "weight": w} for name, w in EXTRA_SET_ENTRIES.get(structure_set, [])],
             "placement": {"type": "minecraft:random_spread", "spacing": spacing, "separation": spacing // 4, "salt": 1645120 + salt}})
     for biome, tag in BIOMES.items():
         write_json(OUT / f"tags/worldgen/biome/has_structure/{biome}.json", {"values": [{"id": tag, "required": False}]})

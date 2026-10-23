@@ -25,9 +25,10 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M6.1 NPC framework and the 17 GenericNPC mobs (soldiers, zombies, bandits, cyberdemon, super mutants), natural spawning
   - [x] M6.2 Special mobs: alien bug, ghastling, attack helicopter (eggs only; their 1.12 spawners come with M7)
   - [x] M6.3 NPC turret (block, GUI, targeting) on `GenericGun.fireWeaponFromNPC` and `TGNpcFaction.TURRET`
-- [ ] M7. World generation
+- [x] M7. World generation
   - [x] M7.1 Ores, the 18 scanned structures (buildings, ore clusters, aircraft carrier, nether ruins), TG spawners, military crates, bunker door, structure loot
   - [x] M7.2 Procedural structures: maze dungeons (castle, tech fortress, nether dungeon), military base, city
+  - [x] M7.3 Alien bug nest
 - [ ] M8. Config and integrations
 
 Each milestone ends with the game launching and something testable in game.
@@ -259,6 +260,8 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Unlike 1.12: camp and city stand flush on flattened ground (`beard_box` plus `Canvas` filling/clearing the footprint); tents use the biome's camo net (1.12 always wood); the helicopter spawner sits on the helipad (1.12 added 64 blocks); the bunker door is a copper door; land height is sampled at 9 points; the nether dungeon finds its cave floor in one column.
 - GameTests in `DungeonTests` (templates load, mazes are deterministic, a castle, a military base and a city place blocks, structures and the set are registered).
 - **Deferred:** military crate block (M7.1 has them now; the camp still uses barrels), side-by-side chests pairing into double chests, config for spawn rarity/biomes (M8), caching the redrawn camp/city layout if worldgen time shows it.
+
+**M7.3 alien bug nest:** `world/dungeon/AlienBugNest` (1.12 AlienBugNest): the layout (entrance shaft with slimy ladders, main chamber with a laddered sand pillar, 5 side chambers plus up to 5 more, walls of bugnest sand/eggs/sandstone, egg piles and a hole spawner with alien bugs, 1.12 params 7/3/150/1, per side chamber) is drawn from the seed into a block map and placed chunk by chunk; unwritten positions count as solid below the surface. Desert only, weight 20 in `overworld_medium` (`EXTRA_SET_ENTRIES` in `port_structures.py`; JSON in `src/main/resources`). Kept 1.12's ladder bug: `createSlimeLadder`'s distance check always passed, so ladders fill every free wall spot in the shaft's box. GameTest `alienBugNestLayout`. Not checked in game.
 
 ### M7. World generation
 - Ores → configured/placed feature JSON + `neoforge:add_features` biome modifier.

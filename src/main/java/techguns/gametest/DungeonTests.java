@@ -105,4 +105,22 @@ public class DungeonTests {
 		}
 		return n;
 	}
+
+	/** The bug nest layout: chambers below the surface with egg piles, alien bug spawners and a laddered shaft; same seed, same nest. */
+	@GameTest(template = "empty8")
+	public static void alienBugNestLayout(GameTestHelper helper) {
+		var layout = new techguns.world.dungeon.AlienBugNest.Layout(42L, new BlockPos(0, 60, 0), 63);
+		int eggs = 0, ladders = 0, holes = 0;
+		for (var state : layout.blocks.values()) {
+			if (state.is(techguns.TGBlocks.BUGNEST_EGGS.get())) eggs++;
+			if (state.is(techguns.TGBlocks.SLIMYLADDER.get())) ladders++;
+			if (state.is(techguns.TGBlocks.HOLE.get())) holes++;
+		}
+		helper.assertTrue(eggs > 20 && ladders > 4, "eggs " + eggs + ", ladders " + ladders);
+		helper.assertTrue(holes >= 5 && holes == layout.spawners.size(), "spawners " + holes + "/" + layout.spawners.size());
+		helper.assertTrue(layout.blocks.equals(new techguns.world.dungeon.AlienBugNest.Layout(42L, new BlockPos(0, 60, 0), 63).blocks), "not deterministic");
+		helper.assertTrue(helper.getLevel().registryAccess().registryOrThrow(Registries.STRUCTURE)
+				.containsKey(ResourceLocation.fromNamespaceAndPath(Techguns.MODID, "alien_bug_nest")), "nest not registered");
+		helper.succeed();
+	}
 }

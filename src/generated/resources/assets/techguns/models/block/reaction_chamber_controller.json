@@ -4,6 +4,6 @@
   "model": "techguns:models/block/reactionchamber.obj",
   "flip_v": true,
   "textures": {
-    "particle": "techguns:block/reaction_chamber_controller"
+    "particle": "techguns:block/reactionchamber_controller"
   }
 }

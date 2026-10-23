@@ -23,6 +23,9 @@ public final class TGDungeons {
 	public static final DeferredHolder<StructureType<?>, StructureType<ProceduralStructure>> CITY = STRUCTURE_TYPES.register("city", () -> () -> ProceduralStructure.CITY_CODEC);
 	public static final DeferredHolder<StructurePieceType, StructurePieceType> PROCEDURAL_PIECE = PIECE_TYPES.register("procedural",
 			() -> (StructurePieceType.ContextlessType) ProceduralStructure.Piece::new);
+	public static final DeferredHolder<StructureType<?>, StructureType<AlienBugNest>> ALIEN_BUG_NEST = STRUCTURE_TYPES.register("alien_bug_nest", () -> () -> AlienBugNest.CODEC);
+	public static final DeferredHolder<StructurePieceType, StructurePieceType> ALIEN_BUG_NEST_PIECE = PIECE_TYPES.register("alien_bug_nest",
+			() -> (StructurePieceType.ContextlessType) AlienBugNest.Piece::new);
 
 	private TGDungeons() {
 	}

@@ -359,6 +359,7 @@ def fix_paths(text):
     text = re.sub(r'"(techguns|minecraft):blocks/', r'"\1:block/', text)
     text = re.sub(r'"(blocks|items)/', lambda m: '"' + m[1][:-1] + '/', text)
     text = re.sub(r'"((?:minecraft:)?block/)planks_(\w+)"', r'"\1\2_planks"', text)
+    text = re.sub(r'"((?:minecraft:)?block/door_(?:top|bottom))(_rh)?"', lambda m: f'"{m[1]}_{"right" if m[2] else "left"}"', text)
     return re.sub(r'"(parent|model)"(\s*:\s*)"techguns:([^"/]+)"', r'"\1"\2"techguns:block/\3"', text)
 
 
@@ -381,7 +382,8 @@ def copy_textures_and_models():
             else:
                 shutil.copy2(src, dst)
     shutil.copytree(LEGACY / "sounds", ASSETS / "sounds")
-    shutil.copy2(LEGACY / "sounds.json", ASSETS / "sounds.json")  # 1.12's extra "category" key is ignored
+    # 1.12's extra "category" key is ignored; its shishkebab swings point at misspelled files
+    (ASSETS / "sounds.json").write_text((LEGACY / "sounds.json").read_text().replace("shishkebap_swing", "shishkebab_swing"))
     shutil.copytree(LEGACY / "particles", ASSETS / "particles")  # TGFX definitions, read by client.particle.TGFX
     for name in BEWLR_ITEMS:
         write_json(ASSETS / "models/item" / (name + ".json"),
@@ -484,7 +486,7 @@ def write_blockstates():
                 variant["model"] = f"techguns:block/{name}"
                 write_json(ASSETS / "models/block" / (name + ".json"), {
                     "parent": "minecraft:block/block", "loader": "neoforge:obj", "model": f"techguns:models/block/{obj}",
-                    "flip_v": True, "textures": {"particle": f"techguns:block/{name}"}})
+                    "flip_v": True, "textures": {"particle": "techguns:block/" + (name if (ASSETS / f"textures/block/{name}.png").exists() else r["legacy_variant"].split("=")[1])}})
         write_json(ASSETS / "blockstates" / (short(r["new_id"]) + ".json"), {"variants": variants})
         model = next(iter(variants.values()))["model"]
         if name in ITEM_MODELS:
