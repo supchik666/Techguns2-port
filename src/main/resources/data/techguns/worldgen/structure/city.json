@@ -1,0 +1,7 @@
+{
+  "type": "techguns:city",
+  "biomes": "#techguns:has_structure/city",
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_box"
+}

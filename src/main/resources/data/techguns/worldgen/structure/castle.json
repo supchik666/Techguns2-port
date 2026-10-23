@@ -1,0 +1,8 @@
+{
+  "type": "techguns:dungeon",
+  "preset": "castle",
+  "biomes": "#techguns:has_structure/castle",
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "none"
+}

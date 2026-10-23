@@ -1,0 +1,8 @@
+{
+  "type": "techguns:dungeon",
+  "preset": "tech_fortress",
+  "biomes": "#techguns:has_structure/tech_fortress",
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "none"
+}

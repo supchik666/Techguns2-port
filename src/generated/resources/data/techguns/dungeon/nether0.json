@@ -1,0 +1,769 @@
+{
+ "size_xz": 5,
+ "size_y": 5,
+ "segments": {
+  "CROSS": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_grate1",
+    "d": "techguns:nethermetal_border_lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "b...b",
+     ".....",
+     ".....",
+     ".....",
+     "b...b"
+    ],
+    [
+     "b...b",
+     ".....",
+     ".....",
+     ".....",
+     "b...b"
+    ],
+    [
+     "b...b",
+     ".....",
+     ".....",
+     ".....",
+     "b...b"
+    ],
+    [
+     "bbbbb",
+     "bcdcb",
+     "bdddb",
+     "bcdcb",
+     "bbbbb"
+    ]
+   ]
+  },
+  "CURVE": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_border_lava",
+    "d": "techguns:nethermetal_grate2"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "aaaab",
+     "a....",
+     "a....",
+     "a....",
+     "b...b"
+    ],
+    [
+     "aaaab",
+     "a....",
+     "a....",
+     "a....",
+     "b...b"
+    ],
+    [
+     "ccccb",
+     "c....",
+     "c....",
+     "c....",
+     "b...b"
+    ],
+    [
+     "bbbbb",
+     "bdddb",
+     "bdddb",
+     "bdddb",
+     "bbbbb"
+    ]
+   ]
+  },
+  "END": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_border_lava",
+    "d": "techguns:nethermetal_grate1",
+    "e": "techguns:nethermetal_grate2"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "baaab",
+     "a....",
+     "c....",
+     "a....",
+     "baaab"
+    ],
+    [
+     "baaab",
+     "c....",
+     "c....",
+     "c....",
+     "baaab"
+    ],
+    [
+     "bdddb",
+     "d....",
+     "c....",
+     "d....",
+     "bdddb"
+    ],
+    [
+     "bbbbb",
+     "beeeb",
+     "beeeb",
+     "beeeb",
+     "bbbbb"
+    ]
+   ]
+  },
+  "ENTRANCE": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_border_lava",
+    "c": "techguns:nethermetal_grate2"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     ".....",
+     "a....",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     ".....",
+     "a....",
+     "aaaaa"
+    ],
+    [
+     "abbbb",
+     "a....",
+     "a....",
+     "a....",
+     "abbbb"
+    ],
+    [
+     "acccc",
+     "acccc",
+     "acccc",
+     "acccc",
+     "acccc"
+    ]
+   ]
+  },
+  "FORK": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_border_lava",
+    "d": "techguns:nethermetal_grate2"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "baaab",
+     ".....",
+     ".....",
+     ".....",
+     "b...b"
+    ],
+    [
+     "baaab",
+     ".....",
+     ".....",
+     ".....",
+     "b...b"
+    ],
+    [
+     "bcccb",
+     ".....",
+     ".....",
+     ".....",
+     "b...b"
+    ],
+    [
+     "bbbbb",
+     "bdddb",
+     "bdddb",
+     "bdddb",
+     "bbbbb"
+    ]
+   ]
+  },
+  "FOUNDATION": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:nether_bricks"
+   },
+   "layers": [
+    [
+     "abbba",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "abbba",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "abbba",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "abbba",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "aaaaa",
+     "abbba",
+     "abbba",
+     "abbba",
+     "aaaaa"
+    ]
+   ]
+  },
+  "PILLARS": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:lava[level=6]",
+    "c": "minecraft:nether_bricks"
+   },
+   "layers": [
+    [
+     "a..ba",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "accca",
+     "accca",
+     "accca",
+     "aaaaa"
+    ]
+   ]
+  },
+  "RAMP": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "minecraft:nether_brick_stairs[facing=east,half=bottom]",
+    "d": "techguns:nethermetal_grate1",
+    "e": "techguns:nethermetal_border_lava",
+    "f": "techguns:nethermetal_grate2"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "baaaa",
+     "caaaa",
+     "caaaa",
+     "caaaa",
+     "baaaa"
+    ],
+    [
+     "baaaa",
+     ".caaa",
+     ".caaa",
+     ".caaa",
+     "baaaa"
+    ],
+    [
+     "baaaa",
+     "..caa",
+     "..caa",
+     "..caa",
+     "baaaa"
+    ],
+    [
+     "baaaa",
+     "...ca",
+     "...ca",
+     "...ca",
+     "baaaa"
+    ],
+    [
+     "bdddb",
+     "d...c",
+     "d...c",
+     "d...c",
+     "bdddb"
+    ],
+    [
+     "baaab",
+     "a....",
+     "a....",
+     "a....",
+     "baaab"
+    ],
+    [
+     "baaab",
+     "a....",
+     "a....",
+     "a....",
+     "baaab"
+    ],
+    [
+     "beeeb",
+     "e....",
+     "e....",
+     "e....",
+     "beeeb"
+    ],
+    [
+     "bbbbb",
+     "bfffb",
+     "bfffb",
+     "bfffb",
+     "bbbbb"
+    ]
+   ]
+  },
+  "ROOM_CORNER": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_grate2",
+    "d": "minecraft:lava",
+    "e": "techguns:nethermetal_grate1"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abccc",
+     "abcbb",
+     "abcbd"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "a....",
+     "a....",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "a....",
+     "a....",
+     "a...."
+    ],
+    [
+     "eeeee",
+     "e....",
+     "e....",
+     "e....",
+     "e...."
+    ],
+    [
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_grate2",
+    "d": "minecraft:lava",
+    "e": "techguns:nethermetal_grate1",
+    "f": "minecraft:nether_brick_stairs[facing=south,half=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "ccccc",
+     "bbbbb",
+     "ddddd"
+    ],
+    [
+     "aa.aa",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "aa.aa",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "eafae",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER1": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_grate2",
+    "d": "minecraft:lava",
+    "e": "techguns:nethermetal_grate1",
+    "f": "minecraft:nether_brick_stairs[facing=south,half=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abccc",
+     "abcbb",
+     "abcbd"
+    ],
+    [
+     "aa.aa",
+     "a....",
+     "a....",
+     "a....",
+     "a...."
+    ],
+    [
+     "aa.aa",
+     "a....",
+     "a....",
+     "a....",
+     "a...."
+    ],
+    [
+     "eafae",
+     "e....",
+     "e....",
+     "e....",
+     "e...."
+    ],
+    [
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER2": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_grate2",
+    "d": "minecraft:lava",
+    "e": "techguns:nethermetal_grate1",
+    "f": "minecraft:nether_brick_stairs[facing=east,half=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abccc",
+     "abcbb",
+     "abcbd"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     ".....",
+     "a....",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "a....",
+     ".....",
+     "a....",
+     "a...."
+    ],
+    [
+     "eeeee",
+     "a....",
+     "f....",
+     "a....",
+     "e...."
+    ],
+    [
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER_DOUBLE": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_grate2",
+    "d": "minecraft:lava",
+    "e": "techguns:nethermetal_grate1",
+    "f": "minecraft:nether_brick_stairs[facing=south,half=top]",
+    "g": "minecraft:nether_brick_stairs[facing=east,half=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abccc",
+     "abcbb",
+     "abcbd"
+    ],
+    [
+     "aa.aa",
+     "a....",
+     ".....",
+     "a....",
+     "a...."
+    ],
+    [
+     "aa.aa",
+     "a....",
+     ".....",
+     "a....",
+     "a...."
+    ],
+    [
+     "eafae",
+     "a....",
+     "g....",
+     "a....",
+     "e...."
+    ],
+    [
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "ROOM_INNER": {
+   "palette": {
+    "a": "minecraft:lava",
+    "b": "techguns:nethermetal_grate2"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb"
+    ]
+   ]
+  },
+  "ROOM_WALL": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_plate_black",
+    "c": "techguns:nethermetal_grate2",
+    "d": "minecraft:lava",
+    "e": "techguns:nethermetal_grate1"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "ccccc",
+     "bbbbb",
+     "ddddd"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "eeeee",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "STRAIGHT": {
+   "palette": {
+    "a": "minecraft:nether_bricks",
+    "b": "techguns:nethermetal_border_lava",
+    "c": "techguns:nethermetal_plate_black",
+    "d": "techguns:nethermetal_grate2"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "aaaaa"
+    ],
+    [
+     "bbbbb",
+     ".....",
+     ".....",
+     ".....",
+     "bbbbb"
+    ],
+    [
+     "ccccc",
+     "ddddd",
+     "ddddd",
+     "ddddd",
+     "ccccc"
+    ]
+   ]
+  }
+ }
+}

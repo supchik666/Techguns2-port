@@ -1,0 +1,872 @@
+{
+ "size_xz": 5,
+ "size_y": 5,
+ "segments": {
+  "CROSS": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:spruce_slab[type=double]",
+    "d": "minecraft:spruce_log[axis=x]",
+    "e": "minecraft:spruce_log[axis=z]",
+    "f": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "abbba",
+     "bbbbb",
+     "cbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "addda",
+     "efffe",
+     "efffe",
+     "efffe",
+     "addda"
+    ]
+   ]
+  },
+  "CURVE": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "d": "minecraft:chiseled_stone_bricks",
+    "e": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "f": "minecraft:iron_bars",
+    "g": "minecraft:stone_brick_stairs[facing=south,half=top]",
+    "h": "minecraft:stone_brick_stairs[facing=east,half=top]",
+    "i": "minecraft:wall_torch[facing=south]",
+    "j": "minecraft:wall_torch[facing=east]",
+    "k": "minecraft:spruce_slab[type=top]",
+    "l": "minecraft:spruce_log[axis=z]",
+    "m": "minecraft:spruce_log[axis=x]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbba"
+    ],
+    [
+     "acdca",
+     "e....",
+     "d....",
+     "e....",
+     "a...a"
+    ],
+    [
+     "afafa",
+     "f....",
+     "a....",
+     "f....",
+     "a...a"
+    ],
+    [
+     "agdga",
+     "hi.i.",
+     "d....",
+     "hj...",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "akkkl",
+     "akkkl",
+     "akkkl",
+     "ammma"
+    ]
+   ]
+  },
+  "END": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "d": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "e": "minecraft:spruce_door[facing=west,half=lower,hinge=left,open=false]",
+    "f": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "g": "minecraft:iron_bars",
+    "h": "minecraft:spruce_door[facing=west,half=upper,hinge=left,open=false]",
+    "i": "minecraft:wall_torch[facing=west]",
+    "j": "minecraft:stone_brick_stairs[facing=east,half=top]",
+    "k": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbba",
+     "abbbb",
+     "abbba",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "d...a",
+     "d..e.",
+     "d...a",
+     "afffa"
+    ],
+    [
+     "aggga",
+     "g...a",
+     "g..h.",
+     "g...a",
+     "aggga"
+    ],
+    [
+     "a...a",
+     "...ia",
+     "...j.",
+     "...ia",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "akkja",
+     "akkaa",
+     "akkja",
+     "aaaaa"
+    ]
+   ]
+  },
+  "ENTRANCE": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:cobblestone",
+    "c": "minecraft:chiseled_stone_bricks",
+    "d": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "e": "minecraft:iron_bars",
+    "f": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "g": "minecraft:spruce_door[facing=west,half=lower,hinge=left,open=false]",
+    "h": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "i": "minecraft:wall_torch[facing=west]",
+    "j": "minecraft:spruce_door[facing=west,half=upper,hinge=left,open=false]",
+    "k": "minecraft:stone_brick_stairs[facing=south,half=top]",
+    "l": "minecraft:wall_torch[facing=south]",
+    "m": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "n": "minecraft:stone_brick_stairs[facing=east,half=top]",
+    "o": "minecraft:wall_torch[facing=north]",
+    "p": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbba",
+     "accca",
+     "abbba",
+     "aaaaa"
+    ],
+    [
+     "adaaa",
+     "e..fa",
+     "...g.",
+     "e..fa",
+     "ahaaa"
+    ],
+    [
+     "aeaaa",
+     "e..ia",
+     "...j.",
+     "e..ia",
+     "aeaaa"
+    ],
+    [
+     "akaka",
+     "el.ma",
+     "e..n.",
+     "eo.ka",
+     "amama"
+    ],
+    [
+     "aaaaa",
+     "appaa",
+     "appaa",
+     "appaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "FORK": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:spruce_slab[type=double]",
+    "d": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "e": "minecraft:chiseled_stone_bricks",
+    "f": "minecraft:iron_bars",
+    "g": "minecraft:stone_brick_stairs[facing=south,half=top]",
+    "h": "minecraft:wall_torch[facing=south]",
+    "i": "minecraft:spruce_log[axis=z]",
+    "j": "minecraft:spruce_slab[type=top]",
+    "k": "minecraft:spruce_log[axis=x]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "cbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "adeda",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "afafa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "agega",
+     ".h.h.",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "ijjji",
+     "ijjji",
+     "ijjji",
+     "akkka"
+    ]
+   ]
+  },
+  "FOUNDATION": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "c": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "d": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "e": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "f": "minecraft:stone_brick_stairs[facing=south,half=top]",
+    "g": "minecraft:stone_brick_stairs[facing=east,half=top]",
+    "h": "minecraft:stone_brick_stairs[facing=west,half=top]",
+    "i": "minecraft:stone_brick_stairs[facing=north,half=top]"
+   },
+   "layers": [
+    [
+     "ababa",
+     "caaad",
+     "aaaaa",
+     "caaad",
+     "aeaea"
+    ],
+    [
+     "a.a.a",
+     ".aaa.",
+     "aaaaa",
+     ".aaa.",
+     "a.a.a"
+    ],
+    [
+     "a.a.a",
+     ".aaa.",
+     "aaaaa",
+     ".aaa.",
+     "a.a.a"
+    ],
+    [
+     "a.a.a",
+     ".aaa.",
+     "aaaaa",
+     ".aaa.",
+     "a.a.a"
+    ],
+    [
+     "afafa",
+     "gaaah",
+     "aaaaa",
+     "gaaah",
+     "aiaia"
+    ]
+   ]
+  },
+  "PILLARS": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "c": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "d": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "e": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "f": "minecraft:iron_bars",
+    "g": "minecraft:cobblestone",
+    "h": "minecraft:stone_brick_stairs[facing=south,half=top]",
+    "i": "minecraft:stone_brick_stairs[facing=east,half=top]",
+    "j": "minecraft:stone_brick_stairs[facing=west,half=top]",
+    "k": "minecraft:stone_brick_stairs[facing=north,half=top]"
+   },
+   "layers": [
+    [
+     ".aba.",
+     "aaaaa",
+     "caaad",
+     "aaaaa",
+     ".aea."
+    ],
+    [
+     ".a.a.",
+     "aafaa",
+     ".fgf.",
+     "aafaa",
+     ".a.a."
+    ],
+    [
+     ".a.a.",
+     "aafaa",
+     ".fgf.",
+     "aafaa",
+     ".a.a."
+    ],
+    [
+     ".a.a.",
+     "aafaa",
+     ".fgf.",
+     "aafaa",
+     ".a.a."
+    ],
+    [
+     ".aha.",
+     "aaaaa",
+     "iaaaj",
+     "aaaaa",
+     ".aka."
+    ]
+   ]
+  },
+  "RAMP": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:spruce_slab[type=double]",
+    "d": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "e": "minecraft:chiseled_stone_bricks",
+    "f": "minecraft:spruce_stairs[facing=east,half=bottom]",
+    "g": "minecraft:crafting_table",
+    "h": "minecraft:chest[facing=north]",
+    "i": "minecraft:iron_bars",
+    "j": "minecraft:spruce_stairs[facing=west,half=top]",
+    "k": "minecraft:wall_torch[facing=north]",
+    "l": "minecraft:stone_brick_stairs[facing=south,half=top]",
+    "m": "minecraft:wall_torch[facing=south]",
+    "n": "minecraft:spruce_stairs[facing=west,half=bottom]",
+    "o": "minecraft:spruce_slab[type=top]",
+    "p": "minecraft:chest[facing=east]",
+    "q": "minecraft:wall_torch[facing=east]",
+    "r": "minecraft:spruce_log[axis=z]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbba",
+     "cbbba",
+     "bbbba",
+     "aaaaa"
+    ],
+    [
+     "adeaa",
+     "....a",
+     "fb..a",
+     "fbgha",
+     "aaaaa"
+    ],
+    [
+     "aiaaa",
+     "....a",
+     ".fj.a",
+     ".fjka",
+     "aaaaa"
+    ],
+    [
+     "aleaa",
+     ".m..a",
+     "..fja",
+     "..fja",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "....a",
+     "...fa",
+     "...fa",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "abbbb",
+     "a...f",
+     "a...f",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "an...",
+     "ao...",
+     "ao...",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "ap...",
+     "ap...",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "i....",
+     "aq...",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aooor",
+     "aooor",
+     "aooor",
+     "aaaaa"
+    ]
+   ]
+  },
+  "ROOM_CORNER": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "d": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "e": "minecraft:crafting_table",
+    "f": "minecraft:furnace[facing=south]",
+    "g": "minecraft:wall_torch[facing=south]",
+    "h": "minecraft:cobblestone",
+    "i": "minecraft:wall_torch[facing=east]",
+    "j": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "k": "minecraft:stone_brick_stairs[facing=west,half=top]",
+    "l": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbbb"
+    ],
+    [
+     "aaaaa",
+     "aacac",
+     "ad...",
+     "ae...",
+     "ad..."
+    ],
+    [
+     "aaaaa",
+     "aa.f.",
+     "a....",
+     "a....",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "aaghg",
+     "a....",
+     "ai...",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "aajhj",
+     "aklll",
+     "aklll",
+     "aklll"
+    ]
+   ]
+  },
+  "ROOM_DOOR": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:spruce_slab[type=double]",
+    "d": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "e": "minecraft:spruce_door[facing=south,half=lower,hinge=right,open=false]",
+    "f": "minecraft:spruce_door[facing=south,half=upper,hinge=right,open=false]",
+    "g": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "h": "minecraft:wall_torch[facing=south]",
+    "i": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aabaa",
+     "cbbbb",
+     "bbbbb",
+     "bbbbb"
+    ],
+    [
+     "aa.aa",
+     "daead",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "aa.aa",
+     ".afa.",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "aa.aa",
+     ".aga.",
+     ".h.h.",
+     ".....",
+     "....."
+    ],
+    [
+     "aaaaa",
+     "gaaag",
+     "iiiii",
+     "iiiii",
+     "iiiii"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER1": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:spruce_door[facing=south,half=lower,hinge=right,open=false]",
+    "d": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "e": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "f": "minecraft:spruce_door[facing=south,half=upper,hinge=right,open=false]",
+    "g": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "h": "minecraft:wall_torch[facing=south]",
+    "i": "minecraft:stone_brick_stairs[facing=west,half=top]",
+    "j": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aabaa",
+     "aabbb",
+     "aabbb",
+     "aabbb"
+    ],
+    [
+     "aa.aa",
+     "aacad",
+     "ae...",
+     "ae...",
+     "ae..."
+    ],
+    [
+     "aa.aa",
+     "aafa.",
+     "a....",
+     "a....",
+     "a...."
+    ],
+    [
+     "aa.aa",
+     "aaga.",
+     "ah.h.",
+     "a....",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "aaaag",
+     "aijjj",
+     "aijjj",
+     "aijjj"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER2": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "d": "minecraft:spruce_door[facing=east,half=lower,hinge=left,open=false]",
+    "e": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "f": "minecraft:spruce_door[facing=east,half=upper,hinge=left,open=false]",
+    "g": "minecraft:wall_torch[facing=east]",
+    "h": "minecraft:stone_brick_stairs[facing=west,half=top]",
+    "i": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "j": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "abbbb",
+     "aabbb",
+     "aabbb"
+    ],
+    [
+     "aaaaa",
+     "aaccc",
+     ".d...",
+     "aa...",
+     "ae..."
+    ],
+    [
+     "aaaaa",
+     "aa...",
+     ".f...",
+     "aa...",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "aag..",
+     ".h...",
+     "aag..",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "aaiii",
+     "aajjj",
+     "aajjj",
+     "ahjjj"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER_DOUBLE": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:spruce_door[facing=south,half=lower,hinge=right,open=false]",
+    "d": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "e": "minecraft:spruce_door[facing=east,half=lower,hinge=left,open=false]",
+    "f": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "g": "minecraft:spruce_door[facing=south,half=upper,hinge=right,open=false]",
+    "h": "minecraft:spruce_door[facing=east,half=upper,hinge=left,open=false]",
+    "i": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "j": "minecraft:stone_brick_stairs[facing=west,half=top]",
+    "k": "minecraft:wall_torch[facing=south]",
+    "l": "minecraft:wall_torch[facing=east]",
+    "m": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aabaa",
+     "abbbb",
+     "aabbb",
+     "aabbb"
+    ],
+    [
+     "aa.aa",
+     "aacad",
+     ".e...",
+     "aa...",
+     "af..."
+    ],
+    [
+     "aa.aa",
+     "aaga.",
+     ".h...",
+     "aa...",
+     "a...."
+    ],
+    [
+     "aa.aa",
+     "aaia.",
+     ".j.k.",
+     "aal..",
+     "a...."
+    ],
+    [
+     "aaaaa",
+     "aaaai",
+     "aammm",
+     "aammm",
+     "ajmmm"
+    ]
+   ]
+  },
+  "ROOM_INNER": {
+   "palette": {
+    "a": "minecraft:spruce_planks",
+    "b": "minecraft:spruce_slab[type=double]",
+    "c": "minecraft:oak_stairs[facing=west,half=bottom]",
+    "d": "minecraft:oak_stairs[facing=east,half=bottom]",
+    "e": "minecraft:oak_log[axis=y]",
+    "f": "minecraft:oak_slab[type=bottom]",
+    "g": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "baaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     ".....",
+     ".c.d.",
+     ".ced.",
+     ".c.d.",
+     "....."
+    ],
+    [
+     ".....",
+     "..f..",
+     "..f..",
+     "..f..",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "ggggg",
+     "ggggg",
+     "ggggg",
+     "ggggg",
+     "ggggg"
+    ]
+   ]
+  },
+  "ROOM_WALL": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "d": "minecraft:wall_torch[facing=south]",
+    "e": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "f": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb"
+    ],
+    [
+     "aaaaa",
+     "cacac",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "aaaaa",
+     ".a.a.",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "aaaaa",
+     ".a.a.",
+     ".d.d.",
+     ".....",
+     "....."
+    ],
+    [
+     "aaaaa",
+     "eaeae",
+     "fffff",
+     "fffff",
+     "fffff"
+    ]
+   ]
+  },
+  "STRAIGHT": {
+   "palette": {
+    "a": "minecraft:stone_bricks",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:spruce_slab[type=double]",
+    "d": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "e": "minecraft:chiseled_stone_bricks",
+    "f": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "g": "minecraft:iron_bars",
+    "h": "minecraft:stone_brick_stairs[facing=south,half=top]",
+    "i": "minecraft:wall_torch[facing=south]",
+    "j": "minecraft:wall_torch[facing=north]",
+    "k": "minecraft:stone_brick_stairs[facing=north,half=top]",
+    "l": "minecraft:spruce_log[axis=z]",
+    "m": "minecraft:spruce_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "cbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "adeda",
+     ".....",
+     ".....",
+     ".....",
+     "afefa"
+    ],
+    [
+     "agaga",
+     ".....",
+     ".....",
+     ".....",
+     "agaga"
+    ],
+    [
+     "aheha",
+     ".i.i.",
+     ".....",
+     ".j.j.",
+     "akeka"
+    ],
+    [
+     "aaaaa",
+     "lmmml",
+     "lmmml",
+     "lmmml",
+     "aaaaa"
+    ]
+   ]
+  }
+ }
+}

@@ -26,6 +26,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M6.2 Special mobs: alien bug, ghastling, attack helicopter (eggs only; their 1.12 spawners come with M7)
   - [x] M6.3 NPC turret (block, GUI, targeting) on `GenericGun.fireWeaponFromNPC` and `TGNpcFaction.TURRET`
 - [ ] M7. World generation
+  - [x] M7.2 Procedural structures: maze dungeons (castle, tech fortress, nether dungeon), military base, city
 - [ ] M8. Config and integrations
 
 Each milestone ends with the game launching and something testable in game.
@@ -238,6 +239,15 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Unlike 1.12, the turret has no watch-closest goal: it only turns to what it targets (and looks around idly), never to a player it isn't shooting.
 - On a Sable ship the turret entity is pinned to its base's world position (`SableCompat.toWorld`), and a base that moved (ship assembly/disassembly) relinks its turret; it doesn't tilt with the ship.
 - **Deferred:** turret-to-player damage factor (1.12 config 0.5, M8); FTB PvP settings 1 and 2; shift-click into the gun and plate slots (lands in the ammo inputs); slot background icons; a turret lost for good (not just unloaded) counts as killed after 5 s and is rebuilt; it can drown.
+
+**M7.2 done (procedural structures):**
+- Templates: `tools/port/port_dungeons.py` (run by `port_assets.py`) compiles a small dump tool against stub 1.12 classes in `tools/port/dungeons/`, reads the `.ser` dungeon segments from `legacy/` and writes `data/techguns/dungeon/<name>.json` (palette + layers per segment type, blocks through `flattening.csv`; 13 templates incl. `netherdungeon_entrance`). No Java deserialization at runtime; `DungeonTemplate` reads the JSON from the mod jar.
+- `world/dungeon/`: `MazeDungeonPath` (1.12 maze generator), `DungeonPreset` (castle / nether / tech fortress: templates, loot, mobs), `DungeonStructure` + `DungeonPiece` (the whole maze as one piece; `postProcess` places only what falls inside the chunk), `ProceduralStructure` (military base and city: the layout is rolled from a seed stored in the piece and redrawn into a `Canvas` write buffer per chunk), `TGDungeons` (structure types `dungeon`, `military_base`, `city`; piece types `dungeon`, `procedural`). Ported layouts: `world/camp/` (1.12 `MilitaryBaseStructure` segments and parts: tents, containers, bunkers, barracks, helipad, tanks, watch towers) and `world/city/` (1.12 `GenericCity` and `CityBuildingType`).
+- Data: `worldgen/structure/{castle,tech_fortress,nether_dungeon,military_base,city}.json`, biome tags `has_structure/*`, structure set `big_structures` (castle and military base, weight 1 each, random spread spacing 64 chunks, separation 16 = 1.12 defaults of one big structure per 64x64 chunk region; config in M8). The tech fortress (1.12 test-only), nether dungeon and city (disabled in 1.12) don't spawn naturally; use `/place structure techguns:<id>`.
+- Spawners: `DungeonSpawners.place` puts a vanilla spawner with one of the structure's mobs; swap it for the M7.1 TG spawner (`TGSpawnerBlockEntity.configure(mobsLeft, maxActive, 200, 2)` + `addMob`) once that merges. Chests are vanilla chests with `techguns:chests/castle` (castle, nether), `chests/militarybase_barracks`, `chests/militarybase_bunker` (loot tables come from M7.1); military crates are barrels.
+- Unlike 1.12: camp and city stand flush on flattened ground (`beard_box` plus `Canvas` filling/clearing the footprint); tents use the biome's camo net (1.12 always wood); the helicopter spawner sits on the helipad (1.12 added 64 blocks); the bunker door is a copper door; land height is sampled at 9 points; the nether dungeon finds its cave floor in one column.
+- GameTests in `DungeonTests` (templates load, mazes are deterministic, a castle, a military base and a city place blocks, structures and the set are registered).
+- **Deferred:** TG spawners (M7.1 merge), military crate block, side-by-side chests pairing into double chests, config for spawn rarity/biomes (M8), caching the redrawn camp/city layout if worldgen time shows it.
 
 ### M7. World generation
 - Ores → configured/placed feature JSON + `neoforge:add_features` biome modifier.

@@ -15,6 +15,8 @@ import shutil
 from collections import defaultdict
 from pathlib import Path
 
+import port_dungeons
+
 ROOT = Path(__file__).resolve().parents[2]
 LEGACY = ROOT / "legacy/src/main/resources/assets/techguns"
 LEGACY_TGITEMS = ROOT / "legacy/src/main/java/techguns/TGItems.java"
@@ -769,6 +771,7 @@ def main():
     count += write_reaction_chamber_recipes()
     write_tags_and_loot()
     write_npcs()
+    port_dungeons.main()
     print(f"{len(ITEMS)} items, {len(BLOCKS)} blocks, {count} recipes written")
     for reason, files in sorted(skipped.items(), key=lambda kv: -len(kv[1])):
         print(f"  skipped {len(files):3} recipes: {reason}")
