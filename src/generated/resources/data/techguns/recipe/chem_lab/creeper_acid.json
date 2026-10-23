@@ -1,0 +1,27 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:biomass"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_result": {
+    "id": "techguns:creeper_acid",
+    "amount": 1000
+  },
+  "power": 20,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biomass"
+    }
+  ]
+}

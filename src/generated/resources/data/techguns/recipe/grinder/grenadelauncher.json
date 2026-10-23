@@ -1,0 +1,40 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:grenadelauncher"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 3
+    },
+    {
+      "id": "techguns:ingotsteel",
+      "count": 2
+    },
+    {
+      "id": "techguns:plasticsheet",
+      "count": 2
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:grenadelauncher"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotsteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

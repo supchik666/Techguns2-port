@@ -1,0 +1,28 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:rocket"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:lava",
+    "amount": 250
+  },
+  "results": [
+    {
+      "id": "techguns:rocket_high_velocity"
+    }
+  ],
+  "power": 5,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rocket_high_velocity"
+    }
+  ]
+}

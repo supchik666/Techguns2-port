@@ -1,0 +1,32 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "bottle": {
+    "item": "techguns:compressedairtankempty"
+  },
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 250
+  },
+  "results": [
+    {
+      "id": "techguns:compressedairtank"
+    }
+  ],
+  "power": 5,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:compressedairtank"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:compressedairtankempty"
+    }
+  ]
+}

@@ -14,7 +14,9 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import techguns.recipes.AmmoChangeRecipe;
+import techguns.recipes.MachineRecipe;
 
 @Mod(Techguns.MODID)
 public class Techguns {
@@ -44,6 +46,12 @@ public class Techguns {
 		TGMenus.MENUS.register(modEventBus);
 		CREATIVE_TABS.register(modEventBus);
 		AmmoChangeRecipe.SERIALIZERS.register(modEventBus);
+		MachineRecipe.TYPES.register(modEventBus);
+		TGBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+		TGFluids.FLUID_TYPES.register(modEventBus);
+		TGFluids.FLUIDS.register(modEventBus);
+		modEventBus.addListener(TGBlockEntities::registerCapabilities);
+		NeoForgeMod.enableMilkFluid();
 		modContainer.registerConfig(ModConfig.Type.CLIENT, TGConfig.CLIENT_SPEC);
 	}
 

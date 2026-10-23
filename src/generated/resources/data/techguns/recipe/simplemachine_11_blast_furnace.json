@@ -23,12 +23,12 @@
     }
   },
   "result": {
-    "id": "techguns:simplemachine"
+    "id": "techguns:blast_furnace"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:simplemachine"
+      "item": "techguns:blast_furnace"
     }
   ]
 }

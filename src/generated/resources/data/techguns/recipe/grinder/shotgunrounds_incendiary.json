@@ -1,0 +1,42 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:shotgunrounds_incendiary"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:nuggetlead"
+    },
+    {
+      "id": "techguns:nuggetcopper"
+    },
+    {
+      "id": "minecraft:gunpowder"
+    },
+    {
+      "id": "minecraft:blaze_powder"
+    }
+  ],
+  "chances": [
+    0.5,
+    1,
+    0.0625,
+    0.125
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuggetcopper"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuggetlead"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shotgunrounds_incendiary"
+    }
+  ]
+}

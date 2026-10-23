@@ -1,0 +1,23 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:plates/steel"
+    },
+    {
+      "tag": "c:plates/bronze"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:steamarmorplate"
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:steamarmorplate"
+    }
+  ]
+}

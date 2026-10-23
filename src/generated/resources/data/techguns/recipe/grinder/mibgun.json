@@ -1,0 +1,31 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:mibgun"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 3
+    },
+    {
+      "id": "techguns:ingottitanium"
+    },
+    {
+      "id": "minecraft:redstone",
+      "count": 20
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingottitanium"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mibgun"
+    }
+  ]
+}

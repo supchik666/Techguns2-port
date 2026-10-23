@@ -1,0 +1,32 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:netherblaster"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 4
+    },
+    {
+      "id": "techguns:cyberneticparts",
+      "count": 2
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:cyberneticparts"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:netherblaster"
+    }
+  ]
+}

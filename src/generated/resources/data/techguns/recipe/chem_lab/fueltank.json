@@ -1,0 +1,28 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:fueltankempty"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:lava",
+    "amount": 500
+  },
+  "results": [
+    {
+      "id": "techguns:fueltank"
+    }
+  ],
+  "power": 1,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fueltank"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fueltankempty"
+    }
+  ]
+}

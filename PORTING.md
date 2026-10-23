@@ -11,13 +11,14 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 - [x] M0. Project setup
 - [x] M1. Registration and data
 - [x] M2. One gun working end to end
-- [ ] M3. Remaining guns and their models
+- [x] M3. Remaining guns and their models
   - [x] M3.1 Bullet guns (20), ammo variants, zoom and scopes, crosshairs, magazine/rocket renderers
   - [x] M3.2 Energy guns and TGFX particles
   - [x] M3.3 Explosives, charge guns, grenades
   - [x] M3.4 Melee and mining tools
 - [x] M4. Player data, armor and damage
 - [ ] M5. Machines and GUIs
+  - [x] M5.1 Machine framework and the six single-block machines
 - [ ] M6. NPCs
 - [ ] M7. World generation
 - [ ] M8. Config and integrations
@@ -146,6 +147,26 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Item/energy/fluid handlers via `RegisterCapabilitiesEvent`.
 - `Container` → `AbstractContainerMenu` + `MenuType`; `GuiContainer` → `AbstractContainerScreen` with `GuiGraphics` (72 GUI files).
 - Keep the master/slave multiblock design.
+
+**M5.1 done (framework, simple machines):**
+- `machines/`: `TGBlockEntity` (inventory laid out by `slots`, automation handler that only extracts outputs, owner + security, redstone mode, `buttonClicked`, `menuData`, whole-BE sync via `needUpdate`), `MachineBlockEntity` (energy, an `Operation` with progress/totaltime, upgrade-slot stack multiplier, recipe matching; hooks `recipes`, `recipeInput`, `inputFluid`/`drainInput`/`fillOutput`, `operationPower`, `start`, `finish`, `ambient`), `MachineBlock` (facing, ticker, owner on place, menu, buckets into fluid handlers, drops), `MachineMenu` (one `MenuType` for every TG block entity; buttons go through `clickMenuButton`). `client/machines/MachineScreen` draws the 1.12 GUI textures: redstone/security buttons, power bar, upgrade slot, per-machine progress; `MachineRenderers` has the BERs and item renderers. Capabilities (items, energy, chem lab fluids, RF powered armor energy) in `TGBlockEntities.registerCapabilities`.
+- Machines: ammo press, metal press, grinder, blast furnace, charging station (also charges anything with an energy capability, e.g. RF power armor), chem lab. Creeper acid fluid (`TGFluids`), milk via NeoForge.
+- For the bench/multiblock steps: a new GUI block entity extends `TGBlockEntity` (or `MachineBlockEntity` for recipe machines), passes its slot positions, adds button ids from 3 up and a `MachineScreen` subclass in `MachineScreen.create`.
+- Recipes are data: types `techguns:ammo_press`, `metal_press`, `grinder`, `blast_furnace`, `charging_station`, `chem_lab`, all one format (`recipes/MachineRecipe`), generated into `data/techguns/recipe/<machine>/` by `port_assets.py` from `MACHINE_RECIPES`:
+  ```json
+  {"type": "techguns:chem_lab",
+   "inputs": [{"item": "minecraft:nether_wart"}, {"tag": "c:gems/diamond", "count": 2}],
+   "bottle": {"item": "techguns:infusionbag"},
+   "fluid": {"fluid": "techguns:creeper_acid", "amount": 250},
+   "results": [{"id": "techguns:radaway"}],
+   "chances": [1.0],
+   "fluid_result": {"id": "techguns:creeper_acid", "amount": 1000},
+   "power": 25, "time": 100, "swap": true}
+  ```
+  `inputs` fill the input slots in order (sized ingredients; `neoforge:compound` for either-of; empty slots past them must stay empty); `swap` also accepts the first two swapped. `bottle` (chem lab container slot), `fluid` (sized fluid ingredient, `{"tag": "c:milk", ...}` works) and `fluid_result` are optional. `chances` (grinder) multiply each result's count, a fraction is a random extra item. `power` is FE/t, 0 or missing means the machine's default (ammo press and grinder 5, metal press 20, blast furnace 10, charging station 800, chem lab 1), times the upgrade stack multiplier (squared for metal press, blast furnace and chem lab, as in 1.12); `time` defaults to 100 ticks. The ammo press's plan buttons cycle through its recipes sorted by id.
+- KubeJS + Rhino are `localRuntime` dev mods. Without a KubeJS plugin, scripts use `event.custom({type: 'techguns:metal_press', inputs: [...], results: [...]})` and `event.remove({id: 'techguns:metal_press/plateiron'})`; both checked by hand on the GameTest server.
+- GameTests in `MachineTests` (metal press, chem lab RadAway and fluid check, charging station, no power, recipes load).
+- **Deferred:** JEI categories; grinder recipes for armor (1.12 gave back their crafting ingredients); slot background icons; acid hurting what's in it; per-side slot config; the `machinesNeedNoPower` config (M8); team security levels 1/2; the KubeJS recipe schema plugin; a translucent render layer for creeper acid.
 
 ### M6. NPCs
 - 27 mob types. `EntityAIBase` → `Goal`.

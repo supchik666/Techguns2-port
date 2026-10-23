@@ -1,0 +1,31 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "item": "techguns:sniperrounds_incendiary"
+    },
+    {
+      "item": "techguns:tgx"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:sniperrounds_explosive"
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds_explosive"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds_incendiary"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tgx"
+    }
+  ]
+}

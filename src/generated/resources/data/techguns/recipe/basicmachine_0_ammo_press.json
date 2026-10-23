@@ -23,12 +23,12 @@
     }
   },
   "result": {
-    "id": "techguns:basicmachine"
+    "id": "techguns:ammo_press"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:basicmachine"
+      "item": "techguns:ammo_press"
     },
     {
       "type": "neoforge:item_exists",

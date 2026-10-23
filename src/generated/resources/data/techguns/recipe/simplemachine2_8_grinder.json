@@ -20,7 +20,7 @@
     }
   },
   "result": {
-    "id": "techguns:simplemachine2"
+    "id": "techguns:grinder"
   },
   "neoforge:conditions": [
     {
@@ -29,11 +29,11 @@
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:mechanicalpartsiron"
+      "item": "techguns:grinder"
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:simplemachine2"
+      "item": "techguns:mechanicalpartsiron"
     }
   ]
 }

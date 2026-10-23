@@ -1,0 +1,28 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "tag": "c:gunpowders"
+    },
+    {
+      "tag": "c:gems/lapis"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:lava",
+    "amount": 500
+  },
+  "results": [
+    {
+      "id": "techguns:tgx"
+    }
+  ],
+  "power": 20,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tgx"
+    }
+  ]
+}

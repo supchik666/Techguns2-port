@@ -1,0 +1,25 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "tag": "c:ores/uranium"
+    }
+  ],
+  "fluid": {
+    "fluid": "techguns:creeper_acid",
+    "amount": 250
+  },
+  "results": [
+    {
+      "id": "techguns:yellowcake",
+      "count": 3
+    }
+  ],
+  "power": 20,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:yellowcake"
+    }
+  ]
+}

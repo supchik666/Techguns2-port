@@ -1,0 +1,24 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:fibers/carbon"
+    },
+    {
+      "tag": "c:fibers/carbon"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:platecarbon",
+      "count": 2
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:platecarbon"
+    }
+  ]
+}

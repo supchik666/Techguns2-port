@@ -1,0 +1,39 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:riflerounds"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:nuggetlead"
+    },
+    {
+      "id": "techguns:nuggetcopper",
+      "count": 2
+    },
+    {
+      "id": "minecraft:gunpowder"
+    }
+  ],
+  "chances": [
+    1,
+    1,
+    0.125
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuggetcopper"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuggetlead"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds"
+    }
+  ]
+}

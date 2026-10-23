@@ -13,7 +13,7 @@
       "tag": "c:plates/steel"
     },
     "c": {
-      "item": "techguns:basicmachine"
+      "item": "techguns:chem_lab"
     },
     "e": {
       "tag": "c:circuits/elite"
@@ -29,7 +29,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:basicmachine"
+      "item": "techguns:chem_lab"
     },
     {
       "type": "neoforge:item_exists",

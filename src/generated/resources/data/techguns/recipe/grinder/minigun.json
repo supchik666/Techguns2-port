@@ -1,0 +1,39 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:minigun"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 20
+    },
+    {
+      "id": "techguns:ingotsteel",
+      "count": 2
+    },
+    {
+      "id": "techguns:electricengine"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:electricengine"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotsteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:minigun"
+    }
+  ]
+}

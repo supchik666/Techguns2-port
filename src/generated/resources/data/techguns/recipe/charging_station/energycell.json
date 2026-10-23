@@ -1,0 +1,24 @@
+{
+  "type": "techguns:charging_station",
+  "inputs": [
+    {
+      "item": "techguns:energycellempty"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:energycell"
+    }
+  ],
+  "time": 62,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycellempty"
+    }
+  ]
+}

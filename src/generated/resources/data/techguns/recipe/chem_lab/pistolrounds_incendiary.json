@@ -1,0 +1,33 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:pistolrounds",
+      "count": 2
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:lava",
+    "amount": 250
+  },
+  "results": [
+    {
+      "id": "techguns:pistolrounds_incendiary",
+      "count": 2
+    }
+  ],
+  "power": 25,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds_incendiary"
+    }
+  ]
+}

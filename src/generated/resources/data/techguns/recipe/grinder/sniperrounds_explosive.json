@@ -1,0 +1,52 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:sniperrounds_explosive"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:nuggetlead",
+      "count": 2
+    },
+    {
+      "id": "techguns:nuggetcopper",
+      "count": 4
+    },
+    {
+      "id": "minecraft:gunpowder"
+    },
+    {
+      "id": "minecraft:blaze_powder"
+    },
+    {
+      "id": "techguns:tgx"
+    }
+  ],
+  "chances": [
+    1,
+    1,
+    0.25,
+    0.125,
+    0.5
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuggetcopper"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuggetlead"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds_explosive"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tgx"
+    }
+  ]
+}

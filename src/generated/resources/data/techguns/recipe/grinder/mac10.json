@@ -1,0 +1,38 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:mac10"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 3
+    },
+    {
+      "id": "techguns:ingotsteel"
+    },
+    {
+      "id": "techguns:ingotsteel",
+      "count": 5
+    },
+    {
+      "id": "minecraft:iron_ingot"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotsteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mac10"
+    }
+  ]
+}

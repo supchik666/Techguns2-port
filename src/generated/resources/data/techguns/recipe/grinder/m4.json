@@ -1,0 +1,40 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:m4"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 3
+    },
+    {
+      "id": "techguns:ingotsteel",
+      "count": 2
+    },
+    {
+      "id": "techguns:plasticsheet",
+      "count": 2
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotsteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:m4"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

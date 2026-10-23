@@ -1,0 +1,38 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:pdw"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:carbonfibers",
+      "count": 6
+    },
+    {
+      "id": "techguns:plasticsheet"
+    },
+    {
+      "id": "techguns:ingotobsidiansteel"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonfibers"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pdw"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

@@ -20,16 +20,16 @@
     }
   },
   "result": {
-    "id": "techguns:simplemachine"
+    "id": "techguns:charging_station"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:coil"
+      "item": "techguns:charging_station"
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:simplemachine"
+      "item": "techguns:coil"
     }
   ]
 }

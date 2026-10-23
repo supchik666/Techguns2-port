@@ -1,0 +1,35 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:biomass"
+    }
+  ],
+  "bottle": {
+    "item": "techguns:biotankempty"
+  },
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 500
+  },
+  "results": [
+    {
+      "id": "techguns:biotank"
+    }
+  ],
+  "power": 1,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biomass"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biotank"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:biotankempty"
+    }
+  ]
+}

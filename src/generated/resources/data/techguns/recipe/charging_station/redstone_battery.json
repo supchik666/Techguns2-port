@@ -1,0 +1,24 @@
+{
+  "type": "techguns:charging_station",
+  "inputs": [
+    {
+      "item": "techguns:redstone_battery_empty"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:redstone_battery"
+    }
+  ],
+  "time": 25,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:redstone_battery"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:redstone_battery_empty"
+    }
+  ]
+}

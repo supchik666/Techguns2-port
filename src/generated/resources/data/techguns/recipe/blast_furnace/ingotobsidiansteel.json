@@ -1,0 +1,24 @@
+{
+  "type": "techguns:blast_furnace",
+  "inputs": [
+    {
+      "tag": "c:ingots/steel"
+    },
+    {
+      "item": "minecraft:obsidian"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel"
+    }
+  ],
+  "power": 10,
+  "time": 200,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    }
+  ]
+}
