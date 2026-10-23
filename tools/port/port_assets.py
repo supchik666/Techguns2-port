@@ -85,7 +85,9 @@ BEWLR_ITEMS = [
     "nucleardeathray", "gaussrifle", "sonicshotgun", "flamethrower",
     "rocketlauncher", "grenadelauncher", "guidedmissilelauncher", "grimreaper", "tfg", "biogun", "stielgranate", "fraggrenade",
     "powerhammer", "chainsaw", "miningdrill", "shishkebap",
-] + [f"{s}_{p}" for s in ("steam", "t3_power", "t4_power") for p in ("helmet", "chestplate", "leggings", "boots")]
+]
+# 3D armor: Java renderer except in the GUI, which shows a flat icon baked from the 3D model (src/main/resources textures/item)
+ICON_ARMOR = [f"{s}_{p}" for s in ("steam", "t3_power", "t4_power") for p in ("helmet", "chestplate", "leggings", "boots")]
 # Shields: the vanilla shield transforms, drawn by a Java renderer, with the blocking pose
 SHIELDS = ["riot_shield", "ballistic_shield", "advanced_shield"]
 # 1.12 lang keys that 1.21 looks up under another name
@@ -96,6 +98,10 @@ LANG_RENAMES = {
 }
 # en_us keys 1.12 didn't have, for what the port adds
 EXTRA_LANG = {
+    "techguns.tgguitooltip.togglejump": "Toggle Jump Boost",
+    "techguns.tgguitooltip.togglejump.tooltip1": "Lets your armor make",
+    "techguns.tgguitooltip.togglejump.tooltip2": " you jump higher",
+    "techguns.msg.jumpboost": "Jump Boost",
     "death.attack.techguns.radiation": "%s died of radiation",
     "death.attack.techguns.radiation.player": "%s died of radiation whilst fighting %s",
     "death.attack.techguns.radiation_poisoning": "%s died of radiation poisoning",
@@ -168,6 +174,12 @@ def copy_textures_and_models():
     for name in BEWLR_ITEMS:
         write_json(ASSETS / "models/item" / (name + ".json"),
                    {"parent": "minecraft:builtin/entity", "textures": {"particle": "techguns:item/plateiron"}})
+    for name in ICON_ARMOR:
+        write_json(ASSETS / "models/item" / (name + ".json"), {
+            "loader": "neoforge:separate_transforms", "gui_light": "front",
+            "base": {"parent": "minecraft:builtin/entity"},
+            "perspectives": {"gui": {"loader": "neoforge:item_layers", "gui_light": "front", "textures": {"layer0": f"techguns:item/{name}"}}},
+            "textures": {"particle": f"techguns:item/{name}"}})
     for name in SHIELDS:
         write_json(ASSETS / "models/item" / (name + ".json"), {"parent": "minecraft:item/shield", "overrides": [
             {"predicate": {"blocking": 1}, "model": f"techguns:item/{name}_blocking"}]})

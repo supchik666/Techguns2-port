@@ -80,7 +80,7 @@ public class ArmorBonuses {
 
 	@SubscribeEvent
 	static void jump(LivingEvent.LivingJumpEvent event) {
-		if (!(event.getEntity() instanceof Player player)) return;
+		if (!(event.getEntity() instanceof Player player) || !TGExtendedPlayer.get(player).enableJumpBoost) return;
 		float jump = GenericArmor.bonus(player, TGArmorBonus.JUMP, true);
 		if (jump > 0) player.setDeltaMovement(player.getDeltaMovement().add(0, jump, 0));
 	}

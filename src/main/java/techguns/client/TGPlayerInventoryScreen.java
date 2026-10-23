@@ -23,12 +23,13 @@ import techguns.events.TGPlayerEvents.PlayerAction;
 import techguns.gui.TGPlayerInventoryMenu;
 import techguns.items.armors.GenericArmor;
 
-/** 1.12 TGPlayerInventoryGui: the extra slots, the player, and the five toggle buttons on the left edge. */
+/** 1.12 TGPlayerInventoryGui: the extra slots, the player, and the toggle buttons on the left edge (1.12's five plus armor jump boost). */
 public class TGPlayerInventoryScreen extends AbstractContainerScreen<TGPlayerInventoryMenu> {
 	public static final ResourceLocation TEXTURE = Techguns.id("textures/gui/tgplayerinventory.png");
 	/** Empty slot pictures by {@link techguns.items.additionalslots.TGSlotType} ordinal. */
 	private static final ResourceLocation[] EMPTY_ICONS = {icon("face"), icon("back"), icon("hand"), icon("bullet"), icon("food"), icon("heal")};
-	private static final String[] TOGGLES = {"togglehud", "togglenv", "togglesafe", "togglestep", "togglejetpack"};
+	private static final String[] TOGGLES = {"togglehud", "togglenv", "togglesafe", "togglestep", "togglejetpack", "togglejump"};
+	private static final Action[] ACTIONS = {Action.HUD, Action.NIGHTVISION, Action.SAFEMODE, Action.STEP_ASSIST, Action.JETPACK, Action.JUMP_BOOST};
 
 	public TGPlayerInventoryScreen(TGPlayerInventoryMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title);
@@ -115,7 +116,8 @@ public class TGPlayerInventoryScreen extends AbstractContainerScreen<TGPlayerInv
 			case 1 -> tg.enableNightVision;
 			case 2 -> tg.enableSafemode;
 			case 3 -> tg.enableStepAssist;
-			default -> tg.enableJetpack;
+			case 4 -> tg.enableJetpack;
+			default -> tg.enableJumpBoost;
 		};
 	}
 
@@ -133,15 +135,23 @@ public class TGPlayerInventoryScreen extends AbstractContainerScreen<TGPlayerInv
 
 		Toggle(int x, int y, int mode) {
 			super(x, y, 11, 11, Component.translatable("techguns.tgguitooltip." + TOGGLES[mode]),
-					b -> PacketDistributor.sendToServer(new PlayerAction(Action.values()[mode], false)), DEFAULT_NARRATION);
+					b -> PacketDistributor.sendToServer(new PlayerAction(ACTIONS[mode], false)), DEFAULT_NARRATION);
 			this.mode = mode;
 		}
 
 		@Override
 		protected void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
 			g.blitSprite(SPRITES.get(active, isHoveredOrFocused()), getX(), getY(), width, height);
+			boolean on = state(TGExtendedPlayer.get(minecraft.player), mode);
+			if (mode == 5) {
+				// the texture has no jump icon: an up arrow, green or red like the others
+				int x = getX() + 2, y = getY() + 2, color = on ? 0xFF00C000 : 0xFFE00000;
+				for (int row = 0; row < 3; row++) g.fill(x + 3 - row, y + row, x + 4 + row, y + row + 1, color);
+				g.fill(x + 2, y + 3, x + 5, y + 7, color);
+				return;
+			}
 			int v = 7 * mode + (mode > 3 ? 14 : 0);
-			g.blit(TEXTURE, getX() + 2, getY() + 2, 242 + (state(TGExtendedPlayer.get(minecraft.player), mode) ? 7 : 0), v, 7, 7);
+			g.blit(TEXTURE, getX() + 2, getY() + 2, 242 + (on ? 7 : 0), v, 7, 7);
 		}
 	}
 }

@@ -41,6 +41,8 @@ public class TGExtendedPlayer implements INBTSerializable<CompoundTag> {
 	public boolean enableStepAssist = true;
 	public boolean enableNightVision;
 	public boolean enableSafemode;
+	/** Armor jump bonus; stored inverted (bit 256) so saves from before it default to on. */
+	public boolean enableJumpBoost = true;
 	/** Saved but unused, as in 1.12. */
 	public boolean enableHovermode;
 	/** Read by the client, saved on the server. */
@@ -60,7 +62,7 @@ public class TGExtendedPlayer implements INBTSerializable<CompoundTag> {
 
 	/** Server: what the clients last got. */
 	private final NonNullList<ItemStack> synced = NonNullList.withSize(NUMSLOTS, ItemStack.EMPTY);
-	private byte syncedStates;
+	private int syncedStates;
 
 	public static TGExtendedPlayer get(Player player) {
 		return player.getData(TGComponents.EXTENDED_PLAYER);
@@ -90,21 +92,22 @@ public class TGExtendedPlayer implements INBTSerializable<CompoundTag> {
 		return get(player).showTGHudElements;
 	}
 
-	/** Bits as in 1.12 (jetpack, nv, safe, step, hud, hover); 6 and 7 are the synced jump key and gliding. */
-	private byte states(boolean withTransient) {
+	/** Bits as in 1.12 (jetpack, nv, safe, step, hud, hover); 6 and 7 are the synced jump key and gliding, 8 jump boost off. */
+	private int states(boolean withTransient) {
 		int b = (enableJetpack ? 1 : 0) | (enableNightVision ? 2 : 0) | (enableSafemode ? 4 : 0) | (enableStepAssist ? 8 : 0)
-				| (showTGHudElements ? 16 : 0) | (enableHovermode ? 32 : 0);
+				| (showTGHudElements ? 16 : 0) | (enableHovermode ? 32 : 0) | (enableJumpBoost ? 0 : 256);
 		if (withTransient) b |= (isJumpkeyPressed ? 64 : 0) | (isGliding ? 128 : 0);
-		return (byte) b;
+		return b;
 	}
 
-	private void setStates(byte b, boolean withTransient) {
+	private void setStates(int b, boolean withTransient) {
 		enableJetpack = (b & 1) != 0;
 		enableNightVision = (b & 2) != 0;
 		enableSafemode = (b & 4) != 0;
 		enableStepAssist = (b & 8) != 0;
 		showTGHudElements = (b & 16) != 0;
 		enableHovermode = (b & 32) != 0;
+		enableJumpBoost = (b & 256) == 0;
 		if (withTransient) {
 			isJumpkeyPressed = (b & 64) != 0;
 			isGliding = (b & 128) != 0;
@@ -114,7 +117,7 @@ public class TGExtendedPlayer implements INBTSerializable<CompoundTag> {
 	@Override
 	public CompoundTag serializeNBT(HolderLookup.Provider provider) {
 		CompoundTag tag = ContainerHelper.saveAllItems(new CompoundTag(), inventory.getItems(), provider);
-		tag.putByte("states", states(false));
+		tag.putInt("states", states(false));
 		tag.putShort("foodLeft", foodleft);
 		tag.putFloat("lastSaturation", lastSaturation);
 		return tag;
@@ -124,7 +127,7 @@ public class TGExtendedPlayer implements INBTSerializable<CompoundTag> {
 	public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
 		inventory.clearContent();
 		ContainerHelper.loadAllItems(tag, inventory.getItems(), provider);
-		setStates(tag.getByte("states"), false);
+		setStates(tag.getInt("states"), false);
 		foodleft = tag.getShort("foodLeft");
 		lastSaturation = tag.getFloat("lastSaturation");
 	}
@@ -152,7 +155,7 @@ public class TGExtendedPlayer implements INBTSerializable<CompoundTag> {
 		@Override
 		public void write(RegistryFriendlyByteBuf buf, TGExtendedPlayer tg, boolean initialSync) {
 			for (ItemStack stack : tg.inventory.getItems()) ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, stack);
-			buf.writeByte(tg.states(true));
+			buf.writeShort(tg.states(true));
 		}
 
 		/** In place, so open menus keep pointing at the right container; the local player keeps its own jump key and gliding. */
@@ -160,7 +163,7 @@ public class TGExtendedPlayer implements INBTSerializable<CompoundTag> {
 		public TGExtendedPlayer read(IAttachmentHolder holder, RegistryFriendlyByteBuf buf, @Nullable TGExtendedPlayer prev) {
 			TGExtendedPlayer tg = prev != null ? prev : new TGExtendedPlayer();
 			for (int i = 0; i < NUMSLOTS; i++) tg.inventory.setItem(i, ItemStack.OPTIONAL_STREAM_CODEC.decode(buf));
-			tg.setStates(buf.readByte(), !(holder instanceof Player p && p.isLocalPlayer()));
+			tg.setStates(buf.readShort(), !(holder instanceof Player p && p.isLocalPlayer()));
 			return tg;
 		}
 	};

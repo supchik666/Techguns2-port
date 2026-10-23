@@ -38,6 +38,10 @@ public class PlayerSlotTests {
 		helper.assertTrue(loaded.getSlot(TGExtendedPlayer.SLOT_BACK).is(TGItems.JETPACK.get()), "back slot lost");
 		helper.assertTrue(loaded.getSlot(TGExtendedPlayer.SLOTS_AMMO_START).getCount() == 3, "ammo slot lost");
 		helper.assertTrue(loaded.enableSafemode && !loaded.enableJetpack && loaded.foodleft == 4, "toggles lost");
+		helper.assertTrue(loaded.enableJumpBoost, "jump boost not on by default");
+		tg.enableJumpBoost = false;
+		loaded.deserializeNBT(helper.getLevel().registryAccess(), tg.serializeNBT(helper.getLevel().registryAccess()));
+		helper.assertTrue(!loaded.enableJumpBoost, "jump boost off lost");
 		helper.succeed();
 	}
 

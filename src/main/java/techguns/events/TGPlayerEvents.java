@@ -58,7 +58,7 @@ public class TGPlayerEvents {
 
 	/** 0-4 are the inventory screen's toggle buttons, in order. */
 	public enum Action {
-		HUD, NIGHTVISION, SAFEMODE, STEP_ASSIST, JETPACK, BOOST_START, BOOST_STOP, OPEN_INVENTORY
+		HUD, NIGHTVISION, SAFEMODE, STEP_ASSIST, JETPACK, BOOST_START, BOOST_STOP, OPEN_INVENTORY, JUMP_BOOST
 	}
 
 	/** Client pressed a toggle key or button (1.12 PacketTGKeybindPress); {@code showMsg} confirms it in the action bar. */
@@ -244,6 +244,10 @@ public class TGPlayerEvents {
 				if (tg.isJumpkeyPressed) return;
 				tg.enableJetpack = !tg.enableJetpack;
 				confirm(player, p, "techguns.msg.enablejetpack", tg.enableJetpack);
+			}
+			case JUMP_BOOST -> {
+				tg.enableJumpBoost = !tg.enableJumpBoost;
+				confirm(player, p, "techguns.msg.jumpboost", tg.enableJumpBoost);
 			}
 			case BOOST_START -> tg.isJumpkeyPressed = true;
 			case BOOST_STOP -> tg.isJumpkeyPressed = false;

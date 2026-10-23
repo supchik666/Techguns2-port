@@ -1,6 +1,19 @@
 {
-  "parent": "minecraft:builtin/entity",
+  "loader": "neoforge:separate_transforms",
+  "gui_light": "front",
+  "base": {
+    "parent": "minecraft:builtin/entity"
+  },
+  "perspectives": {
+    "gui": {
+      "loader": "neoforge:item_layers",
+      "gui_light": "front",
+      "textures": {
+        "layer0": "techguns:item/t4_power_helmet"
+      }
+    }
+  },
   "textures": {
-    "particle": "techguns:item/plateiron"
+    "particle": "techguns:item/t4_power_helmet"
   }
 }

@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -142,7 +141,6 @@ public class ArmorRenderers {
 			biped.bipedRightLeg.showModel = biped.bipedLeftLeg.showModel = slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET;
 			scaleThirdp = 1.0f;
 			scaleEgo = 1.0f;
-			scaleGui = 1.5f;
 			scaleItemframe = 1.5f;
 			scaleGround = slot == EquipmentSlot.HEAD ? 1.25f : 1.5f;
 			translateBase = new float[] {0, switch (slot) {
@@ -156,10 +154,10 @@ public class ArmorRenderers {
 
 		@Override
 		public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
+			// the GUI never gets here: its model is a flat icon (port_assets.py ICON_ARMOR)
 			pose.pushPose();
 			pose.translate(0.5f, 0.5f, 0.5f);
 			applyTranslation(pose, context);
-			if (context == ItemDisplayContext.GUI) pose.mulPose(Axis.YP.rotationDegrees(180.0f));
 			renderModel(stack, context, pose, buffers, light, overlay, 0, 0, 0, 0);
 			LegacyGl.begin(pose, buffers, texture, light, overlay);
 			biped.render(SCALE);
