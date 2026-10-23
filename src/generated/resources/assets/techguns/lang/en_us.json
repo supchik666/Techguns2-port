@@ -847,6 +847,8 @@
   "techguns.configuration.damagePvP": "PvP Damage Factor",
   "techguns.configuration.damageTurretToPlayer": "Turret to Player Damage Factor",
   "techguns.configuration.damageFactorNPC": "NPC Damage Factor",
+  "techguns.configuration.goreChance": "Gore Chance",
+  "techguns.configuration.machinePowerMultiplier": "Machine Power Multiplier",
   "techguns.configuration.helicopterSelfDamage": "Helicopters Hurt by Own Rockets",
   "techguns.configuration.explosionBlockDamage": "Guns Break Blocks",
   "techguns.configuration.restrictUnsafeModeToOP": "Unsafe Mode Only for OPs",

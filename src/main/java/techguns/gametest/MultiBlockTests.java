@@ -22,6 +22,7 @@ import techguns.Techguns;
 import techguns.machines.multiblock.FabricatorBlockEntity;
 import techguns.machines.multiblock.MultiBlockPart;
 import techguns.machines.multiblock.OreDrillBlockEntity;
+import techguns.machines.MachineBlock;
 import techguns.machines.multiblock.ReactionChamberBlockEntity;
 
 /** Forming, unforming and running the multiblock machines; {@code empty8} is an 8x8x8 air template. */
@@ -86,6 +87,7 @@ public class MultiBlockTests {
 		ReactionChamberBlockEntity be = helper.getBlockEntity(controller);
 		be.tryForm(helper.makeMockPlayer(GameType.SURVIVAL), Direction.NORTH);
 		helper.assertTrue(be.formed, "chamber didn't form");
+		helper.assertTrue(be.getBlockState().getValue(MachineBlock.FACING) == Direction.SOUTH, "formed model doesn't face the chamber");
 		helper.assertTrue(helper.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, helper.absolutePos(new BlockPos(3, 4, 2)), null) != null,
 				"top center doesn't take power");
 		be.energy.set(be.energy.getMaxEnergyStored());

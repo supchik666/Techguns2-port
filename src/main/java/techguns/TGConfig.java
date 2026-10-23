@@ -52,6 +52,10 @@ public final class TGConfig {
 			.comment("Damage factor for Techguns weapons fired by mobs other than turrets.")
 			.defineInRange("damageFactorNPC", 1.0, 0.0, 100.0);
 
+	public static final ModConfigSpec.DoubleValue GORE_CHANCE = SERVER
+			.comment("Chance that a kill by a Techguns weapon bursts the body into gibs (1.12 rolled a chance per weapon, 0.25 to 1).")
+			.defineInRange("goreChance", 1.0, 0.0, 1.0);
+
 	public static final ModConfigSpec.BooleanValue HELICOPTER_SELF_DAMAGE = SERVER
 			.comment("Attack helicopters are hurt by their own rockets, as in 1.12. They fly well inside the blast, so this downs them after a few volleys.")
 			.define("helicopterSelfDamage", false);
@@ -76,6 +80,10 @@ public final class TGConfig {
 	public static final ModConfigSpec.BooleanValue MACHINES_NEED_NO_POWER = SERVER
 			.comment("Machines, turrets and the ore drill run without power or fuel, for playing without a mod that makes power.")
 			.define("machinesNeedNoPower", false);
+
+	public static final ModConfigSpec.DoubleValue MACHINE_POWER_MULTIPLIER = SERVER
+			.comment("Multiplies the FE/t that machine recipes use (1 = 1.12's values). Not the charging station, reaction chamber, ore drill or turrets.")
+			.defineInRange("machinePowerMultiplier", 10.0, 0.0, 1000.0);
 
 	public static final ModConfigSpec.IntValue UPGRADE_XP_COST = SERVER
 			.comment("XP per enchantment level the upgrade bench charges.")

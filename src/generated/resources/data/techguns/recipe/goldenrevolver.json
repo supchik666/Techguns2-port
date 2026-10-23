@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ggg",
+    "grg",
+    "ggg"
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:revolver"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "result": {
+    "id": "techguns:goldenrevolver"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:goldenrevolver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:revolver"
+    }
+  ]
+}

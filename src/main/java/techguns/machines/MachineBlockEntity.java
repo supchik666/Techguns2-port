@@ -217,9 +217,10 @@ public abstract class MachineBlockEntity extends TGBlockEntity {
 		return fluid.isEmpty();
 	}
 
-	/** FE/t of {@code mult} runs of {@code recipe} at once. */
+	/** FE/t of {@code mult} runs of {@code recipe} at once; the charging station's FE goes into the item, so the config doesn't scale it. */
 	protected int operationPower(MachineRecipe recipe, int mult) {
-		return (recipe.power() > 0 ? recipe.power() : defaultPower) * mult;
+		double scale = kind == MachineRecipe.CHARGING_STATION ? 1 : TGConfig.MACHINE_POWER_MULTIPLIER.get();
+		return (int) ((recipe.power() > 0 ? recipe.power() : defaultPower) * mult * scale);
 	}
 
 	/** Starts the first recipe that matches, as many runs at once as upgrades, inputs and output space allow. */

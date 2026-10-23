@@ -9,7 +9,7 @@ only load with Patchouli.
 import json
 import re
 
-from port_assets import ASSETS, BY_LEGACY, DATA, LEGACY, LEGACY_META_IDS, ROOT, ROWS, write_json
+from port_assets import ASSETS, BY_LEGACY, DATA, LEGACY, LEGACY_META_IDS, ROOT, ROWS, tagged, write_json
 
 SRC = LEGACY / "patchouli_books/techguns_manual"
 BOOK = "techguns:techguns_manual"
@@ -70,7 +70,7 @@ def write_book_recipes():
         write_json(DATA / f"techguns/recipe/{name}.json", {
             "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "patchouli"}]
             + [{"type": "neoforge:item_exists", "item": i} for i in tg],
-            "type": "minecraft:crafting_shapeless", "ingredients": ings,
+            "type": "minecraft:crafting_shapeless", "ingredients": [tagged(i) for i in ings],
             "result": {"id": "patchouli:guide_book", "components": {"patchouli:book": BOOK}}})
 
 

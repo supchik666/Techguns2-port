@@ -2,7 +2,7 @@
   "type": "techguns:blast_furnace",
   "inputs": [
     {
-      "item": "minecraft:iron_ingot",
+      "tag": "c:ingots/iron",
       "count": 4
     },
     {

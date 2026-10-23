@@ -4,9 +4,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -61,10 +64,23 @@ public class MachineTests {
 		ChemLabBlockEntity be = (ChemLabBlockEntity) machine(helper, TGBlocks.CHEM_LAB, new ItemStack(Items.GLISTERING_MELON_SLICE),
 				new ItemStack(Items.NETHER_WART), new ItemStack(TGItems.INFUSION_BAG.get()));
 		be.inputTank.fill(new FluidStack(TGFluids.CREEPER_ACID.get(), 1000), IFluidHandler.FluidAction.EXECUTE);
+		helper.setBlock(POS.above(), TGBlocks.CREATIVE_ENERGY.get()); // a full buffer doesn't last a run at machinePowerMultiplier 10
 		helper.succeedWhen(() -> {
 			helper.assertTrue(be.inventory.getStackInSlot(3).is(TGItems.RAD_AWAY.get()), "no RadAway: " + be.inventory.getStackInSlot(3));
 			helper.assertTrue(be.inputTank.getFluidAmount() == 750, "acid left: " + be.inputTank.getFluidAmount());
 		});
+	}
+
+	/** A water bucket used on the chem lab fills its input tank. */
+	@GameTest(template = "empty")
+	public static void chemLabTakesBuckets(GameTestHelper helper) {
+		ChemLabBlockEntity be = (ChemLabBlockEntity) machine(helper, TGBlocks.CHEM_LAB);
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
+		helper.useBlock(POS, player);
+		helper.assertTrue(be.inputTank.getFluidAmount() == 1000, "tank holds " + be.inputTank.getFluidAmount());
+		helper.assertTrue(player.getMainHandItem().is(Items.BUCKET), "hand holds " + player.getMainHandItem());
+		helper.succeed();
 	}
 
 	/** chem_lab/radpills.json needs milk; water doesn't start it. */

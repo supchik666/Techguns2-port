@@ -19,6 +19,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import techguns.TGConfig;
 import techguns.TGItems;
 import techguns.TGRadiation;
 import techguns.Techguns;
@@ -72,6 +73,8 @@ public final class DeathEffects {
 			chance = 1;
 		}
 		if (type == DeathType.GORE && !entity.getType().is(GORE)) return DeathType.DEFAULT;
+		// gore rolls the config chance instead of 1.12's per-weapon one; a weapon chance of 0 (an unpowered melee gun) still turns it off
+		if (type == DeathType.GORE && chance > 0) chance = TGConfig.GORE_CHANCE.get().floatValue();
 		return entity.getRandom().nextFloat() < chance ? type : DeathType.DEFAULT;
 	}
 

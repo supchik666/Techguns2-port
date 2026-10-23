@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rr ",
+    "rrc"
+  ],
+  "key": {
+    "r": {
+      "item": "techguns:guidedmissilelauncher"
+    },
+    "c": {
+      "item": "techguns:carbonreceiver"
+    }
+  },
+  "result": {
+    "id": "techguns:grimreaper"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonreceiver"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:grimreaper"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:guidedmissilelauncher"
+    }
+  ]
+}

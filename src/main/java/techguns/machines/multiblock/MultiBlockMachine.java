@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import techguns.TGEffects;
+import techguns.machines.MachineBlock;
 import techguns.machines.MachineBlockEntity;
 import techguns.recipes.MachineRecipe;
 
@@ -57,7 +58,9 @@ public abstract class MultiBlockMachine extends MachineBlockEntity {
 		found.forEach((pos, type) -> {
 			if (level.getBlockEntity(pos) instanceof MultiBlockSlave part) part.link(worldPosition, type);
 		});
-		level.setBlock(worldPosition, getBlockState().setValue(MultiBlockPart.FORMED, true), 3);
+		// 1.12 getActualState: the formed model faces the structure, not the way the controller was placed (ore drills can point down)
+		BlockState state = getBlockState().setValue(MultiBlockPart.FORMED, true);
+		level.setBlock(worldPosition, direction.getAxis().isHorizontal() ? state.setValue(MachineBlock.FACING, direction) : state, 3);
 		contentsChanged = true;
 		needUpdate();
 	}

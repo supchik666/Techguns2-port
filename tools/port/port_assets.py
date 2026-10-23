@@ -324,7 +324,7 @@ EXTRA_LANG |= {"techguns.armorTooltip.resistances": "Protection", "techguns.gun.
 EXTRA_LANG |= {"techguns.configuration.title": "Techguns Configuration"} | {f"techguns.configuration.{k}": v for k, v in {
     "bloom": "Bloom", "bloomIntensity": "Bloom Intensity", "lightTint": "Light Tint", "scopeLens": "Scope Lens Effect",
     "screenShake": "Screen Shake", "deathEffects": "Death Effects", "damagePvP": "PvP Damage Factor", "damageTurretToPlayer": "Turret to Player Damage Factor",
-    "damageFactorNPC": "NPC Damage Factor", "helicopterSelfDamage": "Helicopters Hurt by Own Rockets",
+    "damageFactorNPC": "NPC Damage Factor", "goreChance": "Gore Chance", "machinePowerMultiplier": "Machine Power Multiplier", "helicopterSelfDamage": "Helicopters Hurt by Own Rockets",
     "explosionBlockDamage": "Guns Break Blocks", "restrictUnsafeModeToOP": "Unsafe Mode Only for OPs",
     "disableAutofeeder": "Disable Autofeeder", "radiation": "Radiation", "machinesNeedNoPower": "Machines Need No Power",
     "upgradeXPCost": "Upgrade Bench XP per Level", "explosiveChargeMaxHardness": "Mining Charge Max Hardness",
@@ -502,7 +502,7 @@ def write_blockstates():
                 variant["model"] = f"techguns:block/{name}"
                 write_json(ASSETS / "models/block" / (name + ".json"), {
                     "parent": "minecraft:block/block", "loader": "neoforge:obj", "model": f"techguns:models/block/{obj}",
-                    "flip_v": True, "textures": {"particle": "techguns:block/" + (name if (ASSETS / f"textures/block/{name}.png").exists() else r["legacy_variant"].split("=")[1])}})
+                    "flip_v": True, "render_type": "minecraft:cutout", "textures": {"particle": "techguns:block/" + (name if (ASSETS / f"textures/block/{name}.png").exists() else r["legacy_variant"].split("=")[1])}})
         write_json(ASSETS / "blockstates" / (short(r["new_id"]) + ".json"), {"variants": variants})
         model = next(iter(variants.values()))["model"]
         if name in ITEM_MODELS:
@@ -565,6 +565,18 @@ def load_constants():
     return consts
 
 
+# Recipe inputs naming one ingot or nugget take its common tag instead, so other mods' metals work. Not titanium.
+INGOT_TAGS = {f"techguns:ingot{m}": f"c:ingots/{t}" for m, t in (
+    ("tin", "tin"), ("bronze", "bronze"), ("lead", "lead"), ("steel", "steel"), ("obsidiansteel", "obsidian_steel"))}
+INGOT_TAGS |= {f"techguns:nugget{m}": f"c:nuggets/{m}" for m in ("copper", "lead", "steel")}
+INGOT_TAGS |= {f"minecraft:{m}_ingot": f"c:ingots/{m}" for m in ("iron", "gold", "copper")}
+INGOT_TAGS |= {f"minecraft:{m}_nugget": f"c:nuggets/{m}" for m in ("iron", "gold")}
+
+
+def tagged(ing):
+    return {"tag": INGOT_TAGS[ing["item"]]} if ing.get("item") in INGOT_TAGS else ing
+
+
 def convert_ingredient(ing, consts, used):
     if isinstance(ing, list):
         out = []
@@ -580,7 +592,7 @@ def convert_ingredient(ing, consts, used):
     if item.startswith("#"):
         return consts[item]
     if item.startswith("minecraft:"):
-        return VANILLA.get((item, data), {"item": item})
+        return tagged(VANILLA.get((item, data), {"item": item}))
     if item in LEGACY_META_IDS:
         if data == 32767:
             ids = [r["new_id"] for r in ROWS if r["legacy_id"] == item]
@@ -592,7 +604,7 @@ def convert_ingredient(ing, consts, used):
         item = row["new_id"]
     if item.startswith("techguns:"):
         used.add(item)
-    return {"item": item}
+    return tagged({"item": item})
 
 
 def convert_result(res, used):
@@ -625,7 +637,9 @@ def convert_recipes():
         r = json.loads(src.read_text())
         used = set()
         try:
-            if r["type"] in ("forge:ore_shaped", "minecraft:crafting_shaped"):
+            # ponytail: copy_nbt (golden revolver) and ammo_sum_recipe (grim reaper) become plain shaped recipes, so the
+            # crafted gun starts empty instead of keeping the ingredient guns' ammo
+            if r["type"] in ("forge:ore_shaped", "minecraft:crafting_shaped", "techguns:copy_nbt", "techguns:ammo_sum_recipe"):
                 out = {"type": "minecraft:crafting_shaped", "pattern": r["pattern"],
                        "key": {k: convert_ingredient(v, consts, used) for k, v in r["key"].items()}}
             elif r["type"] in ("forge:ore_shapeless", "minecraft:crafting_shapeless", "techguns:ammo_change_crafting",
@@ -674,7 +688,7 @@ def machine_ingredient(spec, used):
         else:
             if ":" not in option:
                 used.add(ns(option))
-            options.append({"item": ns(option)})
+            options.append(tagged({"item": ns(option)}))
     ing = options[0] if len(options) == 1 else {"type": "neoforge:compound", "children": options}
     return ing | ({"count": int(count)} if count else {})
 

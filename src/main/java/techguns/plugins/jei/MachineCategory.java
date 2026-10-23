@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import techguns.TGConfig;
 import techguns.machines.ChemLabBlockEntity;
 import techguns.machines.MachineBlockEntity;
 import techguns.recipes.MachineRecipe;
@@ -53,7 +54,8 @@ public class MachineCategory extends TGCategory<RecipeHolder<MachineRecipe>> {
 
 	@Override
 	protected int power(RecipeHolder<MachineRecipe> recipe) {
-		return recipe.value().power() > 0 ? recipe.value().power() : be.defaultPower;
+		double scale = be.kind == MachineRecipe.CHARGING_STATION ? 1 : TGConfig.MACHINE_POWER_MULTIPLIER.get();
+		return (int) ((recipe.value().power() > 0 ? recipe.value().power() : be.defaultPower) * scale);
 	}
 
 	@Override
