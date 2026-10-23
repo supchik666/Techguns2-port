@@ -163,6 +163,38 @@ public class TGBlocks {
 	public static final DeferredBlock<techguns.blocks.CreativeEnergyBlock> CREATIVE_ENERGY = withItem("creative_energy",
 			techguns.blocks.CreativeEnergyBlock::new, Properties.of().mapColor(MapColor.METAL).strength(-1.0f, 3600000.0f).noLootTable());
 
+	//World generation (M7.1): spawner markers, the bunker door and the crates of military structures
+	public static final DeferredBlock<techguns.world.TGSpawnerBlock> HOLE = withItem("hole", techguns.world.TGSpawnerBlock::new, spawner());
+	public static final DeferredBlock<techguns.world.TGSpawnerBlock> SOLDIER_SPAWN = withItem("soldier_spawn", techguns.world.TGSpawnerBlock::new, spawner());
+	/** 1.12 BlockTGDoor2x1: an iron-looking door that opens by hand. ponytail: double doors don't open together. */
+	public static final net.minecraft.world.level.block.state.properties.BlockSetType BUNKER = net.minecraft.world.level.block.state.properties.BlockSetType.register(
+			new net.minecraft.world.level.block.state.properties.BlockSetType("techguns:bunker", true, false, false,
+					net.minecraft.world.level.block.state.properties.BlockSetType.PressurePlateSensitivity.MOBS, SoundType.METAL,
+					net.minecraft.sounds.SoundEvents.IRON_DOOR_CLOSE, net.minecraft.sounds.SoundEvents.IRON_DOOR_OPEN,
+					net.minecraft.sounds.SoundEvents.IRON_TRAPDOOR_CLOSE, net.minecraft.sounds.SoundEvents.IRON_TRAPDOOR_OPEN,
+					net.minecraft.sounds.SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, net.minecraft.sounds.SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
+					net.minecraft.sounds.SoundEvents.STONE_BUTTON_CLICK_OFF, net.minecraft.sounds.SoundEvents.STONE_BUTTON_CLICK_ON));
+	public static final DeferredBlock<net.minecraft.world.level.block.DoorBlock> BUNKERDOOR = BLOCKS.registerBlock("bunkerdoor",
+			p -> new net.minecraft.world.level.block.DoorBlock(BUNKER, p),
+			Properties.of().mapColor(MapColor.METAL).strength(8.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion().pushReaction(PushReaction.DESTROY));
+	public static final net.neoforged.neoforge.registries.DeferredItem<net.minecraft.world.item.DoubleHighBlockItem> BUNKERDOOR_ITEM = TGItems.ITEMS.register("bunkerdoor",
+			() -> new net.minecraft.world.item.DoubleHighBlockItem(BUNKERDOOR.get(), new net.minecraft.world.item.Item.Properties()));
+	/** Military crates drop their loot table (loot_table/blocks/military_crate_*) when broken. The 4 wood variants of 1.12's generic one are one block. */
+	public static final DeferredBlock<Block> MILITARY_CRATE_AMMO = block("military_crate_ammo", crate());
+	public static final DeferredBlock<Block> MILITARY_CRATE_GUN = block("military_crate_gun", crate());
+	public static final DeferredBlock<Block> MILITARY_CRATE_ARMOR = block("military_crate_armor", crate());
+	public static final DeferredBlock<Block> MILITARY_CRATE_MEDICAL = block("military_crate_medical", crate());
+	public static final DeferredBlock<Block> MILITARY_CRATE_EXPLOSIVES = block("military_crate_explosives", crate());
+	public static final DeferredBlock<Block> MILITARY_CRATE_GENERIC = block("military_crate_generic", crate());
+
+	private static Properties spawner() {
+		return Properties.of().mapColor(MapColor.COLOR_BLACK).strength(-1.0f, 3600000.0f).noCollission().noLootTable().noOcclusion();
+	}
+
+	private static Properties crate() {
+		return Properties.of().mapColor(MapColor.WOOD).strength(4.0f).sound(SoundType.WOOD).noOcclusion();
+	}
+
 	private static Properties multiBlock() {
 		return Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion()
 				.pushReaction(PushReaction.BLOCK);

@@ -1,0 +1,11 @@
+{
+  "type": "techguns:template",
+  "biomes": "#techguns:has_structure/nether",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "techguns:nether_ghast_spawner",
+  "placement": "nether",
+  "y_offset": -3,
+  "foundation": 16
+}

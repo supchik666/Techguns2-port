@@ -1,0 +1,10 @@
+{
+  "values": [
+    "techguns:military_crate_ammo",
+    "techguns:military_crate_gun",
+    "techguns:military_crate_armor",
+    "techguns:military_crate_medical",
+    "techguns:military_crate_explosives",
+    "techguns:military_crate_generic"
+  ]
+}

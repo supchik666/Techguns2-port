@@ -47,7 +47,7 @@ import techguns.items.guns.GenericGun;
 public abstract class GenericNPC extends Monster implements RangedAttackMob, INpcTGDamageSystem, TGNpcFaction.Member {
 	/** Flat TG armor, see {@link DamageSystem#armorAgainstTypeDefault}. */
 	protected float armor;
-	/** Undead that burn in daylight (1.12 GenericNPCUndead.shouldBurnInDay). */
+	/** Undead that burn in daylight (1.12 GenericNPCUndead.shouldBurnInDay), unless they came from a TG spawner. */
 	protected boolean burnsInDaylight;
 	private SoundEvent ambient = SoundEvents.VILLAGER_AMBIENT, hurt = SoundEvents.VILLAGER_HURT, death = SoundEvents.VILLAGER_DEATH;
 	@Nullable
@@ -141,7 +141,7 @@ public abstract class GenericNPC extends Monster implements RangedAttackMob, INp
 
 	@Override
 	public void aiStep() {
-		if (burnsInDaylight && isAlive() && isSunBurnTick()) igniteForSeconds(8);
+		if (burnsInDaylight && !hasData(techguns.world.TGWorldgen.SPAWNER) && isAlive() && isSunBurnTick()) igniteForSeconds(8);
 		super.aiStep();
 	}
 

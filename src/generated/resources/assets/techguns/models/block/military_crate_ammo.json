@@ -1,0 +1,9 @@
+{
+  "parent": "techguns:block/military_crate",
+  "textures": {
+    "top": "techguns:block/crate_top_dark",
+    "side": "techguns:block/military_crate_side",
+    "bottom": "techguns:block/military_crate_bottom",
+    "particle": "techguns:block/military_crate_bottom"
+  }
+}

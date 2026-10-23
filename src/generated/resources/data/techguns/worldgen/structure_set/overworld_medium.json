@@ -1,0 +1,30 @@
+{
+  "structures": [
+    {
+      "structure": "techguns:policestation",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:survivor_hideout",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:orecluster_spike",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:orecluster_meteorbase",
+      "weight": 5
+    },
+    {
+      "structure": "techguns:desert_oil_cluster",
+      "weight": 15
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 8,
+    "salt": 1645121
+  }
+}

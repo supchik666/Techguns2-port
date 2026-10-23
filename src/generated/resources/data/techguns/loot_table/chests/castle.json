@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:chest",
+  "random_sequence": "techguns:chests/castle",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1,
+        "max": 2
+      },
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "techguns:blocks/military_crate_gun",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 3,
+        "max": 6
+      },
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "techguns:blocks/military_crate_generic",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 3,
+        "max": 6
+      },
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "techguns:blocks/military_crate_ammo",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "techguns:blocks/military_crate_explosives",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "techguns:blocks/military_crate_armor",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}
