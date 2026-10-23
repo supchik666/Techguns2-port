@@ -155,8 +155,9 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 	}
 
 	@Override
-	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side, Entity lockedTarget) {
-		GenericProjectile missile = createProjectile(level, player, kind, spread, offset, side);
+	protected void spawnProjectile(Level level, LivingEntity shooter, GenericProjectile.Kind kind, float spread, float offset, float side,
+			float damageScale, Entity lockedTarget) {
+		GenericProjectile missile = createProjectile(level, shooter, kind, spread, offset, side, damageScale);
 		if (missile instanceof GuidedMissileProjectile guided) guided.setTarget(lockedTarget);
 		level.addFreshEntity(missile);
 	}

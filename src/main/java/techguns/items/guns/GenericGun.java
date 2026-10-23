@@ -16,6 +16,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -28,6 +32,7 @@ import techguns.TGComponents;
 import techguns.capabilities.TGExtendedPlayer;
 import techguns.Techguns;
 import techguns.client.ShooterValues;
+import techguns.entities.npcs.RangedGunAttackGoal;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.items.armors.GenericArmor;
 import techguns.items.armors.TGArmorBonus;
@@ -37,8 +42,8 @@ import techguns.network.TGPackets.GunAnimation;
 /**
  * A gun that fires {@link GenericProjectile}s and reloads magazines (or loose rounds) from the player's inventory.
  * Firing runs on both sides: the client predicts sound, ammo and animation, the server spawns the bullets.
- * Melee and mining are in {@link GenericGunMeleeCharge}. ponytail: 1.12 also had NPC/turret use, silencers and muzzle lights;
- * they come back with the guns or systems that need them.
+ * Melee and mining are in {@link GenericGunMeleeCharge}. NPCs fire through {@link #fireWeaponFromNPC} and {@link #getAIAttack}.
+ * ponytail: 1.12 also had silencers; they come back with the systems that need them.
  */
 public class GenericGun extends Item {
 	public enum GunHandType {
@@ -109,6 +114,11 @@ public class GenericGun extends Item {
 	boolean bowAnim = true;
 	/** TGFX played on the holder while the gun has ammo, or null (1.12 setHasAmbient + the renderer's ambient FX). */
 	String ambientFX;
+	/** NPC use (1.12 setAIStats): attack range in blocks, ticks between attacks, shots per burst (0 for none) and ticks between them. */
+	float aiRange = 15.0f;
+	int aiAttackTime = 60;
+	int aiBurstCount;
+	int aiBurstDelay;
 
 	public GenericGun(AmmoType ammoType, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage,
 			Supplier<SoundEvent> fireSound, Supplier<SoundEvent> reloadSound, int ttl, float accuracy) {
@@ -276,6 +286,19 @@ public class GenericGun extends Item {
 	}
 
 	/** Camos the camo bench cycles through. */
+	public GenericGun setAIStats(float range, int attackTime, int burstCount, int burstDelay) {
+		this.aiRange = range;
+		this.aiAttackTime = attackTime;
+		this.aiBurstCount = burstCount;
+		this.aiBurstDelay = burstDelay;
+		return this;
+	}
+
+	/** The AI goal a mob holding this gun attacks with (1.12 getAIAttack). */
+	public <T extends Mob & RangedAttackMob> Goal getAIAttack(T mob) {
+		return new RangedGunAttackGoal<>(mob, 1.0, aiAttackTime / 3, aiAttackTime, aiRange, aiBurstCount, aiBurstDelay);
+	}
+
 	public int camoCount() {
 		return textures.size();
 	}
@@ -413,26 +436,52 @@ public class GenericGun extends Item {
 			boolean left = (hand == InteractionHand.MAIN_HAND) == (player.getMainArm() == HumanoidArm.LEFT);
 			float side = left ? GenericProjectile.LEFT : GenericProjectile.RIGHT;
 			if (zooming && fireCenteredZoomed) side = GenericProjectile.CENTER;
-			GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
-			spawnProjectile(level, player, kind, accuracy * bonus, forwardOffset, side, target);
-			if (shotgun) {
-				float offset = burst ? speed / bulletcount : 0;
-				for (int i = 0; i < bulletcount; i++) {
-					spawnProjectile(level, player, kind, spread * bonus, forwardOffset + offset * (i + 1.0f), side, target);
-				}
-			}
+			fireProjectiles(level, player, stack, bonus, side, 1.0f, target);
 		}
 		level.playSound(player, player, (loopStart ? firesoundStart : fireSound).get(), SoundSource.PLAYERS, 4.0f, 1.0f);
 		if (rechamberSound != null) level.playSound(player, player, rechamberSound.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
 	}
 
-	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side, Entity target) {
-		level.addFreshEntity(createProjectile(level, player, kind, spread, offset, side));
+	/** An NPC shot from the shooter's main arm, see below. */
+	public void fireWeaponFromNPC(LivingEntity shooter, ItemStack stack, float damageScale, float accuracyScale) {
+		fireWeaponFromNPC(shooter, stack, damageScale, accuracyScale,
+				shooter.getMainArm() == HumanoidArm.LEFT ? GenericProjectile.LEFT : GenericProjectile.RIGHT);
 	}
 
-	protected GenericProjectile createProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side) {
-		GenericProjectile bullet = projectile.create(level, player, kind, damage, speed, getScaledTTL(), spread,
-				damageDropStart, damageDropEnd, damageMin, side, gravity);
+	/**
+	 * A server side NPC or turret shot along the shooter's head rotation (1.12 fireWeaponFromNPC): no ammo or fire delay
+	 * (the AI goal paces shots), damage times {@code damageScale}, spread times the zoom bonus and {@code accuracyScale}.
+	 * {@code side} places the muzzle: {@link GenericProjectile#CENTER} for turrets.
+	 */
+	public void fireWeaponFromNPC(LivingEntity shooter, ItemStack stack, float damageScale, float accuracyScale, float side) {
+		Level level = shooter.level();
+		PacketDistributor.sendToPlayersTrackingEntity(shooter, new GunAnimation(shooter.getId(), InteractionHand.MAIN_HAND, false));
+		fireProjectiles(level, shooter, stack, zoombonus * accuracyScale, side, damageScale, null);
+		level.playSound(null, shooter, fireSound.get(), SoundSource.HOSTILE, 4.0f, 1.0f);
+		if (rechamberSound != null) level.playSound(null, shooter, rechamberSound.get(), SoundSource.HOSTILE, 1.0f, 1.0f);
+	}
+
+	/** Spawns the shot and any shotgun pellets, with spread times {@code bonus}. */
+	void fireProjectiles(Level level, LivingEntity shooter, ItemStack stack, float bonus, float side, float damageScale, Entity target) {
+		GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
+		spawnProjectile(level, shooter, kind, accuracy * bonus, forwardOffset, side, damageScale, target);
+		if (shotgun) {
+			float offset = burst ? speed / bulletcount : 0;
+			for (int i = 0; i < bulletcount; i++) {
+				spawnProjectile(level, shooter, kind, spread * bonus, forwardOffset + offset * (i + 1.0f), side, damageScale, target);
+			}
+		}
+	}
+
+	protected void spawnProjectile(Level level, LivingEntity shooter, GenericProjectile.Kind kind, float spread, float offset, float side,
+			float damageScale, Entity target) {
+		level.addFreshEntity(createProjectile(level, shooter, kind, spread, offset, side, damageScale));
+	}
+
+	protected GenericProjectile createProjectile(Level level, LivingEntity shooter, GenericProjectile.Kind kind, float spread, float offset,
+			float side, float damageScale) {
+		GenericProjectile bullet = projectile.create(level, shooter, kind, damage * damageScale, speed, getScaledTTL(), spread,
+				damageDropStart, damageDropEnd, damageMin * damageScale, side, gravity);
 		if (offset > 0) bullet.shiftForward(offset / speed);
 		bullet.setPenetration(penetration);
 		return bullet;

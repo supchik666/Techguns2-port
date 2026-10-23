@@ -23,14 +23,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import techguns.TGSounds;
+import techguns.damagesystem.INpcTGDamageSystem;
 import techguns.damagesystem.TGDamageType;
 
 /**
  * 1.12 AlienBug: a fast, wall-climbing spider that hunts players and iron golems by day too, screeching when it picks a
- * target. An arthropod (entity type tag). Drops nothing, as in 1.12. ponytail: no faction (HOSTILE) or spawner link
- * (ITGSpawnerNPC) until the shared NPC system.
+ * target. An arthropod (entity type tag), on the HOSTILE side. Drops nothing, as in 1.12. ponytail: no spawner link
+ * (ITGSpawnerNPC) until M7's structure spawners.
  */
-public class AlienBug extends Spider {
+public class AlienBug extends Spider implements INpcTGDamageSystem, TGNpcFaction.Member {
 	/** Jaw animation ticks after a bite, mirrored to clients by entity event 4. */
 	private int attackTimer;
 
@@ -123,7 +124,17 @@ public class AlienBug extends Spider {
 		playSound(TGSounds.ALIENBUG_STEP.get(), 0.15f, 1.0f);
 	}
 
-	/** 1.12 per-type armor. ponytail: unused until the shared NPC damage hook; the bug has no armor meanwhile. */
+	@Override
+	public TGNpcFaction getTGFaction() {
+		return TGNpcFaction.HOSTILE;
+	}
+
+	@Override
+	public float getTotalArmorAgainstType(TGDamageType type) {
+		return armorAgainst(type);
+	}
+
+	/** 1.12 per-type armor. */
 	public static float armorAgainst(TGDamageType type) {
 		return switch (type) {
 			case ENERGY, EXPLOSION, ICE, LIGHTNING -> 5.0f;

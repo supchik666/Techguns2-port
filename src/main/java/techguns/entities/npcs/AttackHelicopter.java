@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import techguns.TGEffects;
 import techguns.TGSounds;
+import techguns.damagesystem.INpcTGDamageSystem;
 import techguns.damagesystem.TGDamageType;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.RocketProjectile;
@@ -27,7 +28,7 @@ import techguns.entities.projectiles.RocketProjectile;
  * 1.12 AttackHelicopter: cruises 24 blocks up, fires bullet bursts and a rocket at players within 64 blocks in sight, and
  * crashes spinning for 5 seconds when shot down.
  */
-public class AttackHelicopter extends GenericFlyingMob {
+public class AttackHelicopter extends GenericFlyingMob implements INpcTGDamageSystem {
 	public static final int MAX_DEATH_TIME = 100;
 	private int rotorSoundTick;
 
@@ -114,7 +115,17 @@ public class AttackHelicopter extends GenericFlyingMob {
 		}
 	}
 
-	/** 1.12 per-type armor. ponytail: unused until the shared NPC damage hook; vanilla armor 16 applies meanwhile. */
+	@Override
+	public float getTotalArmorAgainstType(TGDamageType type) {
+		return armorAgainst(type);
+	}
+
+	@Override
+	public float getPenetrationResistance(TGDamageType type) {
+		return penetrationResistance(type);
+	}
+
+	/** 1.12 per-type armor; replaces the vanilla armor 16. */
 	public static float armorAgainst(TGDamageType type) {
 		return switch (type) {
 			case LIGHTNING, ENERGY -> 10.0f;

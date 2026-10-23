@@ -17,6 +17,8 @@ RE_REPLACE = [
     # ModelJetPack spawned its flames from the model each frame; TGPlayerClient spawns them each tick instead.
     (r"\n\t\tif \(entityIn!=null && entityIn instanceof EntityPlayer\)\{.*?\n\t\t\}\n",
      "\n\t\t// Flames: TGPlayerClient spawns them each tick for players boosting.\n"),
+    # ModelSuperMutant scaled itself by the mutant's tier; NpcRenderer scales the whole mob instead.
+    (r"\n  @Override\n  \tpublic void render\(Entity entity.*?\n\t\}\n", "\n"),
 ]
 
 # Applied in order: imports first, then the bare names they bring in.
@@ -38,6 +40,9 @@ REPLACE = [
     ("GlStateManager.enableBlend();\n\t    GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);",
      "LegacyGl.enableBlendMode(RenderType.ALPHA);"),
     ("GlStateManager.disableBlend();", "LegacyGl.disableBlendMode(RenderType.ALPHA);"),
+    # ModelSuperMutant: ModelGenericNPC only added the arm poses, which NpcRenderer sets on the vanilla model it copies.
+    ("import net.minecraft.entity.Entity;\nimport techguns.entities.npcs.SuperMutantBasic;\n", "import techguns.client.models.ModelBiped;\n"),
+    ("extends ModelGenericNPC", "extends ModelBiped"),
     ("import net.minecraft.client.model.ModelRenderer;", "import techguns.client.models.ModelRenderer;"),
     ("import net.minecraft.client.renderer.GlStateManager;", "import techguns.client.models.LegacyGl;"),
     ("import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;", "import net.minecraft.world.item.ItemDisplayContext;"),

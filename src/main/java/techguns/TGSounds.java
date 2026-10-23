@@ -154,6 +154,10 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_OPEN = register("blocks.techdoor.open");
 	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_CLOSE = register("blocks.techdoor.close");
 	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_STATE_FINISHED = register("blocks.techdoor.statefinished");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CYBERDEMON_IDLE = register("npcs.cyberdemonidle");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CYBERDEMON_HURT = register("npcs.cyberdemonhurt");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CYBERDEMON_DEATH = register("npcs.cyberdemondeath");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CYBERDEMON_STEP = register("npcs.cyberdemonstep");
 
 	// Special mobs (M6.2)
 	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBUG_IDLE = register("npcs.alienbugidle");
