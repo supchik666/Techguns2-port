@@ -19,6 +19,8 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 - [x] M4. Player data, armor and damage
 - [ ] M5. Machines and GUIs
   - [x] M5.1 Machine framework and the six single-block machines
+  - [ ] M5.2 Multiblocks: fabricator, reaction chamber (also a radiation source, M4), ore drill; keep the 1.12 master/slave design
+  - [ ] M5.3 Benches and the rest: repair bench (repairs broken armor, M4), camo bench (shield and gun camos), upgrade bench, explosive charges, 3x3 door. Brings back the turret/camo bench/repair bench/armor bench crafting recipes once their blocks have CSV rows. The turret waits for M6 (NPC AI).
 - [ ] M6. NPCs
 - [ ] M7. World generation
 - [ ] M8. Config and integrations
@@ -141,6 +143,9 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - GameTests in `PlayerSlotTests` (save/load, gas mask, autofeed, reload from ammo slots).
 - **Deferred:** heal slot items (none accept anything yet), the safe mode permission, hover mode, sending food/ammo slots only to their owner.
 **M4 wiring done:** armor and gas mask radiation resistance (`ArmorBonuses`, an attribute modifier), armor night vision and step assist follow the toggles, armor oxygen gear counts for the scuba tanks, helmet/chest hide flags hide the face/back/hand slot models, HUD lines for power armor, step assist and radiation, and the TG inventory's armor values and radiation bar tooltips. GameTest `hazmatAndGasMaskResistRadiation`.
+
+**Gun feel (not in 1.12):** camera shake per unscoped shot by gun class (`client/render/ShotShake.SHAKE`: 0.75° pistols/SMGs/energy guns, 1.5° ARs/LMG/hand cannon, 1.75° minigun, 2.5° shotguns/snipers/gauss, 4.5° launchers/TFG). Spread doubles unless sneaking, aiming while sneaking cuts it to a tenth (`GenericGun.stanceSpread`; the crosshair follows). Every gun aims like the LMG by default; `setNoZoom()` on the rocket launcher, grenade launcher, minigun and all charge guns.
+**Dev client:** `runClient` also loads Sodium (synced into `run/mods`, since its wrapper jar only loads from a mods folder), Iris, OpenComputers: Rebooted, Markdown Manual. `runServer`/`runGameTestServer` empty `run/mods` first. Bloom, light tint and scope lens step aside only while an Iris shader pack is on. 3D armor (steam, T3/T4 power) shows icons baked from the 3D models in the GUI (`ICON_ARMOR` in `port_assets.py`).
 
 ### M5. Machines and GUIs
 - `TileEntity` → `BlockEntity`, `ITickable` → `BlockEntityTicker`.
