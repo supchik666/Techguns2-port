@@ -1,0 +1,22 @@
+{
+  "structures": [
+    {
+      "structure": "techguns:nether_altar_medium",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:nether_ghast_spawner",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:nether_orecluster_castle",
+      "weight": 1000
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 8,
+    "salt": 1645124
+  }
+}

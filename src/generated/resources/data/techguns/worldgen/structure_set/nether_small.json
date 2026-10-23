@@ -1,0 +1,30 @@
+{
+  "structures": [
+    {
+      "structure": "techguns:nether_altar_small",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:nether_soul_platform",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:nether_loot_01",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:nether_acid_hole",
+      "weight": 10
+    },
+    {
+      "structure": "techguns:nether_orecluster_small",
+      "weight": 10
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 16,
+    "separation": 4,
+    "salt": 1645123
+  }
+}

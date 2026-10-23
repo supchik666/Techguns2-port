@@ -245,3 +245,12 @@ techguns:orecluster,5,techguns:ore_cluster_common_gem,cube,type=common_gem
 techguns:orecluster,6,techguns:ore_cluster_shiny_gem,cube,type=shiny_gem
 techguns:orecluster,7,techguns:ore_cluster_nether_crystal,cube,type=nether_crystal
 techguns:orecluster,8,techguns:ore_cluster_oil,cube,type=oil
+techguns:tg_spawner,0,techguns:hole,cube,type=hole
+techguns:tg_spawner,1,techguns:soldier_spawn,cube,type=soldier_spawn
+techguns:military_crate,0,techguns:military_crate_ammo,crate,type=ammo
+techguns:military_crate,1,techguns:military_crate_gun,crate,type=gun
+techguns:military_crate,2,techguns:military_crate_armor,crate,type=armor
+techguns:military_crate,3,techguns:military_crate_medical,crate,type=medical
+techguns:military_crate,4,techguns:military_crate_explosives,crate,type=explosive
+techguns:military_crate,5,techguns:military_crate_generic,crate,type=generic_oak
+techguns:bunkerdoor,0,techguns:bunkerdoor,door,

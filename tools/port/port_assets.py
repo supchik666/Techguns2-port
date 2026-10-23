@@ -25,7 +25,7 @@ DATA = OUT / "data"
 ROWS = list(csv.DictReader(open(Path(__file__).with_name("flattening.csv"))))
 BY_LEGACY = {(r["legacy_id"], int(r["meta"])): r for r in ROWS}
 LEGACY_META_IDS = {r["legacy_id"] for r in ROWS}
-BLOCKS = [r for r in ROWS if r["kind"] in ("cube", "stairs", "ladder", "lamp", "camonet", "copy")]
+BLOCKS = [r for r in ROWS if r["kind"] in ("cube", "stairs", "ladder", "lamp", "camonet", "copy", "crate", "door")]
 ITEMS = [r for r in ROWS if r["kind"] == "item"]
 
 # 1.12 ore dictionary name -> 1.21 tag
@@ -95,6 +95,7 @@ LANG_RENAMES = {
     "techguns.radiation": "effect.techguns.radiation", "techguns.radresistance": "effect.techguns.radresistance",
     "techguns.radregeneration": "effect.techguns.radregeneration",
     "attribute.name.techguns.radiationResistance": "attribute.name.techguns.radiation_resistance",
+    "item.techguns.item_bunkerdoor.name": "block.techguns.bunkerdoor", "item.techguns.item_bunkerdoor": "block.techguns.bunkerdoor",
 }
 # en_us keys 1.12 didn't have, for what the port adds
 EXTRA_LANG = {
@@ -449,6 +450,15 @@ def write_blockstates():
         elif r["kind"] == "lamp":
             state = filter_multipart(legacy, prop, value)
             item_model = {"parent": f"techguns:item/lamp_inventory_{value}"}
+        elif r["kind"] == "crate":  # Forge v1: one model, per-type textures
+            model = f"techguns:block/{name}"
+            write_json(ASSETS / "models" / (short(model) + ".json"),
+                       {"parent": legacy["defaults"]["model"], "textures": legacy["variants"][prop][value]["textures"]})
+            state = {"variants": {"": {"model": model}}}
+            item_model = {"parent": model}
+        elif r["kind"] == "door":  # 1.21 doors have the same states plus powered, which never changes the model
+            state = {"variants": {k.replace(",powered=false", ""): v for k, v in legacy["variants"].items() if "powered=true" not in k}}
+            item_model = {"parent": f"techguns:item/item_{name}"}
         elif r["kind"] == "camonet":
             state = forge_to_multipart(legacy, name, prop, value)
             inventory = json.loads(fix_paths((LEGACY / "blockstates" / (legacy_name + "_inventory.json")).read_text()))
@@ -678,6 +688,8 @@ def write_tags_and_loot():
         rid, name = r["new_id"], short(r["new_id"])
         if name in SHOVEL_BLOCKS:
             block_tags["minecraft:mineable/shovel"].append(rid)
+        elif r["kind"] == "crate":
+            block_tags["minecraft:mineable/axe"].append(rid)
         elif name not in HAND_BLOCKS and r["kind"] != "camonet":
             block_tags["minecraft:mineable/pickaxe"].append(rid)
         if name in ORE_BLOCKS:
@@ -690,10 +702,18 @@ def write_tags_and_loot():
             item_tags["minecraft:stairs"].append(rid)
         if r["kind"] == "ladder" or name in CLIMBABLE:
             block_tags["minecraft:climbable"].append(rid)
+        if r["kind"] == "crate":  # drops its 1.12 loot table. ponytail: silk touch too, not the crate
+            write_json(DATA / "techguns/loot_table/blocks" / (name + ".json"),
+                       convert_chest_loot(json.loads((LEGACY / "loot_tables/blocks" / (name + ".json")).read_text()), "blocks/" + name, "block"))
+            continue
+        if r["kind"] == "door":
+            block_tags["minecraft:doors"].append(rid)
+            item_tags["minecraft:doors"].append(rid)
+        lower = [{"condition": "minecraft:block_state_property", "block": rid, "properties": {"half": "lower"}}] if r["kind"] == "door" else []
         write_json(DATA / "techguns/loot_table/blocks" / (name + ".json"), {
             "type": "minecraft:block", "random_sequence": "techguns:blocks/" + name,
             "pools": [{"rolls": 1, "bonus_rolls": 0, "entries": [{"type": "minecraft:item", "name": rid}],
-                       "conditions": [{"condition": "minecraft:survives_explosion"}]}]})
+                       "conditions": [{"condition": "minecraft:survives_explosion"}] + lower}]})
     # Shared items 1.12 let into the ammo slots of the TG inventory.
     item_tags["techguns:ammo_slot"] = sorted(ns(m) for m in re.findall(
         r'addsharedVariant\("(\w+)"[^;]*TGSlotType\.AMMOSLOT', LEGACY_TGITEMS.read_text()))
@@ -738,6 +758,33 @@ def convert_npc_loot(table, name):
     return {"type": "minecraft:entity", "random_sequence": "techguns:entities/" + name, "pools": pools}
 
 
+def convert_chest_loot(table, name, kind="chest"):
+    """1.12 chest or crate loot table: item and loot_table entries; set_data picks the flattened item."""
+    pools = []
+    for pool in table["pools"]:
+        entries = []
+        for e in pool["entries"]:
+            if e["type"] == "loot_table":
+                entries.append({"type": "minecraft:loot_table", "value": e["name"], "weight": e.get("weight", 1)})
+                continue
+            item, functions = e["name"], []
+            for f in e.get("functions", []):
+                if f["function"] == "set_data":
+                    item = BY_LEGACY[(item, f["data"])]["new_id"]
+                else:  # set_count
+                    c = f["count"]
+                    functions.append({"function": "minecraft:set_count", "count": loot_count(c) if isinstance(c, dict) else c})
+            entries.append({"type": "minecraft:item", "name": item, "weight": e.get("weight", 1)} | ({"functions": functions} if functions else {}))
+        rolls = pool["rolls"]
+        pools.append({"rolls": loot_count(rolls) if isinstance(rolls, dict) else rolls, "bonus_rolls": 0, "entries": entries})
+    return {"type": "minecraft:" + kind, "random_sequence": "techguns:" + name, "pools": pools}
+
+
+def write_chest_loot():
+    for src in (LEGACY / "loot_tables/chests").glob("*.json"):
+        write_json(DATA / "techguns/loot_table/chests" / src.name, convert_chest_loot(json.loads(src.read_text()), "chests/" + src.stem))
+
+
 def write_npcs():
     """Entity names under their 1.21 keys, spawn egg models and names, NPC loot tables."""
     for path in (ASSETS / "lang").glob("*.json"):
@@ -768,7 +815,10 @@ def main():
     count += write_machine_recipes()
     count += write_reaction_chamber_recipes()
     write_tags_and_loot()
+    write_chest_loot()
     write_npcs()
+    import port_structures
+    port_structures.main()
     print(f"{len(ITEMS)} items, {len(BLOCKS)} blocks, {count} recipes written")
     for reason, files in sorted(skipped.items(), key=lambda kv: -len(kv[1])):
         print(f"  skipped {len(files):3} recipes: {reason}")

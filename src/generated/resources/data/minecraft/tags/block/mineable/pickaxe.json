@@ -78,6 +78,9 @@
     "techguns:ore_cluster_common_gem",
     "techguns:ore_cluster_shiny_gem",
     "techguns:ore_cluster_nether_crystal",
-    "techguns:ore_cluster_oil"
+    "techguns:ore_cluster_oil",
+    "techguns:hole",
+    "techguns:soldier_spawn",
+    "techguns:bunkerdoor"
   ]
 }

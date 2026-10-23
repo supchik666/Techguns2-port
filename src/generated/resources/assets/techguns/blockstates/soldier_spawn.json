@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "": {
+      "model": "techguns:block/soldier_spawn",
+      "y": 0
+    }
+  }
+}

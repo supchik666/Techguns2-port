@@ -1,0 +1,11 @@
+{
+  "type": "techguns:template",
+  "biomes": "#techguns:has_structure/overworld",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "techguns:factory_building_small",
+  "placement": "surface",
+  "y_offset": 0,
+  "foundation": 3
+}

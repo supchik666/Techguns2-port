@@ -1,0 +1,11 @@
+{
+  "type": "techguns:template",
+  "biomes": "#techguns:has_structure/overworld",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "techguns:orecluster_meteorbase",
+  "placement": "surface",
+  "y_offset": -5,
+  "foundation": 0
+}
