@@ -71,12 +71,16 @@ public class TGEntities {
 	public static final DeferredHolder<EntityType<?>, EntityType<techguns.entities.npcs.AttackHelicopter>> ATTACK_HELICOPTER = ENTITIES.register(
 			"attackhelicopter", () -> EntityType.Builder.of(techguns.entities.npcs.AttackHelicopter::new, MobCategory.MONSTER).sized(4.0f, 4.0f)
 					.eyeHeight(0.5f).fireImmune().clientTrackingRange(13).build("attackhelicopter"));
+	// NPC turret (M6.3)
+	public static final DeferredHolder<EntityType<?>, EntityType<techguns.entities.npcs.NPCTurret>> TURRET = ENTITIES.register("turret",
+			() -> EntityType.Builder.of(techguns.entities.npcs.NPCTurret::new, MobCategory.MISC).sized(0.6f, 0.9f).eyeHeight(0.75f).build("turret"));
 
 	/** Mod bus listener (see {@link Techguns}). */
 	public static void registerAttributes(net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent event) {
 		event.put(ALIENBUG.get(), techguns.entities.npcs.AlienBug.createAttributes().build());
 		event.put(GHASTLING.get(), techguns.entities.npcs.Ghastling.createAttributes().build());
 		event.put(ATTACK_HELICOPTER.get(), techguns.entities.npcs.AttackHelicopter.createAttributes().build());
+		event.put(TURRET.get(), techguns.entities.npcs.NPCTurret.createAttributes().build());
 	}
 
 	private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory) {

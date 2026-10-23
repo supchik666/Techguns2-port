@@ -156,6 +156,9 @@ public class TGBlocks {
 	public static final DeferredBlock<Block> ORE_CLUSTER_SHINY_GEM = block("ore_cluster_shiny_gem", oreCluster());
 	public static final DeferredBlock<Block> ORE_CLUSTER_NETHER_CRYSTAL = block("ore_cluster_nether_crystal", oreCluster());
 	public static final DeferredBlock<Block> ORE_CLUSTER_OIL = block("ore_cluster_oil", oreCluster());
+	//NPC turret (M6.3)
+	public static final DeferredBlock<techguns.machines.TurretBlock> TURRET = withItem("turret", techguns.machines.TurretBlock::new,
+			Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion());
 
 	private static Properties multiBlock() {
 		return Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion()

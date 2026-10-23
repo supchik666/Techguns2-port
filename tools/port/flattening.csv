@@ -220,7 +220,7 @@ techguns:simplemachine2,8,techguns:grinder,cube,machinetype=grinder
 techguns:simplemachine,8,techguns:camo_bench,cube,machinetype=camo_bench
 techguns:simplemachine,9,techguns:repair_bench,cube,machinetype=repair_bench
 techguns:simplemachine2,9,techguns:upgrade_bench,cube,machinetype=armor_bench
-techguns:basicmachine,3,techguns:turret,item,
+techguns:basicmachine,3,techguns:turret,cube,machinetype=turret
 techguns:explosive_charge,0,techguns:tnt_charge,cube,machinetype=tnt
 techguns:explosive_charge,1,techguns:c4_charge,cube,machinetype=advanced
 techguns:door3x3,0,techguns:door3x3,cube,type=metal

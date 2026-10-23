@@ -41,6 +41,8 @@ public class TGBlockEntities {
 			"charging_station", ChargingStationBlockEntity::new, TGBlocks.CHARGING_STATION);
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChemLabBlockEntity>> CHEM_LAB = register("chem_lab",
 			ChemLabBlockEntity::new, TGBlocks.CHEM_LAB);
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<techguns.machines.TurretBlockEntity>> TURRET = register("turret",
+			techguns.machines.TurretBlockEntity::new, TGBlocks.TURRET);
 
 	@SuppressWarnings("DataFlowIssue")
 	private static <T extends MachineBlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(String name,

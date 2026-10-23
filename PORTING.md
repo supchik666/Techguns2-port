@@ -24,7 +24,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
 - [ ] M6. NPCs
   - [x] M6.1 NPC framework and the 17 GenericNPC mobs (soldiers, zombies, bandits, cyberdemon, super mutants), natural spawning
   - [x] M6.2 Special mobs: alien bug, ghastling, attack helicopter (eggs only; their 1.12 spawners come with M7)
-  - [ ] M6.3 NPC turret (block, GUI, targeting) on `GenericGun.fireWeaponFromNPC` and `TGNpcFaction.TURRET`
+  - [x] M6.3 NPC turret (block, GUI, targeting) on `GenericGun.fireWeaponFromNPC` and `TGNpcFaction.TURRET`
 - [ ] M7. World generation
 - [ ] M8. Config and integrations
 
@@ -226,6 +226,13 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Renderers in `client/SpecialMobRenderers` (1.12 models through `port_models.py`; the helicopter's three OBJ parts with spinning rotor and pitching gun).
 - GameTests in `SpecialMobTests` (stats, eggs and loot, the bug bites, the ghastling and the helicopter shoot a pig).
 - **Deferred:** no natural spawns; 1.12 only spawned them from structure spawners (alien bug nest, nether soul platform, aircraft carrier, military camp), which come with M7 and the NPC spawn system. Spawner linking (`ITGSpawnerNPC`, M7) and gore deaths. Since the M6.1 merge the bug is HOSTILE, and the bug and helicopter take damage through `INpcTGDamageSystem` with their 1.12 per-type armor (the helicopter's penetration resistance too, via `getPenetrationResistance`). The helicopter is immune to its own rockets (1.12 let them hurt it) until a friendly-fire config (M8). Death smoke/fire particles (commented out in 1.12 too).
+
+**M6.3 done (NPC turret):**
+- Block `techguns:turret` (`machines/TurretBlock`, a `MachineBlock` with `hanging` set when placed against a block's underside; CSV row `basicmachine,3` is now `cube`, so its recipe is active) and `TurretBlockEntity` (1.12 `TurretTileEnt` on `MachineBlockEntity`: 5000 FE, 9 ammo inputs, 9 outputs for empty magazines, gun slot, armor plate slot; 5 FE/t while on, heals 1 HP per 3 s for 500 FE, rebuilds a dead turret in 10 s at 50 FE/t back at 10 HP; redstone off or no power turns the turret's AI off). Buttons: target animals (anyone who may use it) and PvP (owner only) cycling no PvP → everyone outside the owner's scoreboard team (1.12 setting 3, vanilla teams instead of FTB) → everyone but the owner.
+- Entity `techguns:turret` (`entities/npcs/NPCTurret`, faction `TURRET`): pinned on (or under) its base, gun read from the base (`getItemBySlot`), attack goal from `GenericGun.getAIAttack` with the gun's AI range as follow range, shoots through `fireWeaponFromNPC(..., CENTER)` only after `TurretBlockEntity.consumeAmmo` takes a round (reloading from the inputs with the new `GenericGun.load(stack, AmmoSource, oldAmmo)`, which the player reload uses too). Targets `Enemy` mobs within 20 blocks up/down, animals when told (not tamed pets/horses), players and other turrets per PvP; retaliates on whoever hurts it except its owner and their team. Armor from the plate: 5/10/15/20 through `INpcTGDamageSystem`. The base tracks its turret by UUID; a turret whose base doesn't name it goes away, one without a base wastes away, breaking the base removes it and drops gun, ammo and plate.
+- Client in `client/machines/TurretClient`: entity renderer (mount yaw, top pitch, gun in third person with the 1.12 per-gun turret offsets, tier texture from the plate), base BER and item renderer, the 1.12 GUI (`turret_base_gui.png`, repair bar and health tooltip). Rendering not checked in game yet.
+- GameTests in `TurretTests` (kills a husk with base ammo and hands back the empty magazine; spares owner and tamed pets, targets strangers and animals per the buttons; breaking drops contents and removes the turret).
+- **Deferred:** turret-to-player damage factor (1.12 config 0.5, M8); FTB PvP settings 1 and 2; the watch-closest goal's 20-block vertical range (vanilla look-at-player); shift-click into the gun and plate slots (lands in the ammo inputs) and the plate slot taking a stack; slot background icons; a turret lost for good (not just unloaded) counts as killed after 5 s and is rebuilt; it can drown.
 
 ### M7. World generation
 - Ores → configured/placed feature JSON + `neoforge:add_features` biome modifier.

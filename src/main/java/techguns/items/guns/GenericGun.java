@@ -294,6 +294,11 @@ public class GenericGun extends Item {
 		return this;
 	}
 
+	/** How far NPCs and turrets holding this gun shoot. */
+	public float getAIRange() {
+		return aiRange;
+	}
+
 	/** The AI goal a mob holding this gun attacks with (1.12 getAIAttack). */
 	public <T extends Mob & RangedAttackMob> Goal getAIAttack(T mob) {
 		return new RangedGunAttackGoal<>(mob, 1.0, aiAttackTime / 3, aiAttackTime, aiRange, aiBurstCount, aiBurstDelay);
@@ -493,30 +498,63 @@ public class GenericGun extends Item {
 		if (isReady(player, hand) && ammo < clipsize) reload(stack, level, player, hand, ammo);
 	}
 
-	void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
+	/** Where a reload takes rounds from and puts empties: the player's inventory, or a turret's. */
+	public interface AmmoSource {
+		boolean consume(Item item);
+
+		void give(ItemStack stack);
+
+		int count(Item item);
+	}
+
+	/**
+	 * Loads {@code stack} from {@code source} (magazine swap, or loose rounds topped up from {@code oldAmmo}); false, and no
+	 * change, if there were no rounds.
+	 */
+	public boolean load(ItemStack stack, AmmoSource source, int oldAmmo) {
 		AmmoType.Variant variant = getAmmoVariant(stack);
 		Item extra = ammoType.extraAmmo() == null ? null : ammoType.extraAmmo().get();
-		if (extra != null && TGExtendedPlayer.countAmmo(player, extra) == 0) return;
-		if (!TGExtendedPlayer.consumeAmmo(player, variant.ammo().get())) return;
+		if (extra != null && source.count(extra) == 0) return false;
+		if (!source.consume(variant.ammo().get())) return false;
 		if (extra != null) {
-			TGExtendedPlayer.consumeAmmo(player, extra);
-			TGExtendedPlayer.giveAmmo(player, new ItemStack(ammoType.extraEmpty().get()));
+			source.consume(extra);
+			source.give(new ItemStack(ammoType.extraEmpty().get()));
 		}
 		int newAmmo;
 		if (ammoCount > 1) {
 			int loaded = 1;
-			while (loaded < ammoCount - oldAmmo && TGExtendedPlayer.consumeAmmo(player, variant.ammo().get())) loaded++;
+			while (loaded < ammoCount - oldAmmo && source.consume(variant.ammo().get())) loaded++;
 			newAmmo = oldAmmo + loaded;
 		} else {
 			if (ammoType.emptyMag() != null) {
-				TGExtendedPlayer.giveAmmo(player, new ItemStack(ammoType.emptyMag().get()));
+				source.give(new ItemStack(ammoType.emptyMag().get()));
 				int bulletsBack = oldAmmo > 0 ? (int) (oldAmmo / ammoType.getShotsPerBullet(clipsize, oldAmmo)) : 0;
-				if (bulletsBack > 0 && variant.bullet() != null) TGExtendedPlayer.giveAmmo(player, new ItemStack(variant.bullet().get(), bulletsBack));
+				if (bulletsBack > 0 && variant.bullet() != null) source.give(new ItemStack(variant.bullet().get(), bulletsBack));
 			}
 			newAmmo = clipsize; // loose rounds left in the gun are lost, as in 1.12
 		}
-		setFireDelay(player, hand, reloadtime - minFiretime);
 		stack.set(TGComponents.AMMO, newAmmo);
+		return true;
+	}
+
+	void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
+		if (!load(stack, new AmmoSource() {
+			@Override
+			public boolean consume(Item item) {
+				return TGExtendedPlayer.consumeAmmo(player, item);
+			}
+
+			@Override
+			public void give(ItemStack given) {
+				TGExtendedPlayer.giveAmmo(player, given);
+			}
+
+			@Override
+			public int count(Item item) {
+				return TGExtendedPlayer.countAmmo(player, item);
+			}
+		}, oldAmmo)) return;
+		setFireDelay(player, hand, reloadtime - minFiretime);
 		if (level.isClientSide) {
 			ShooterValues.reloaded(player, hand, reloadtime);
 		} else {
