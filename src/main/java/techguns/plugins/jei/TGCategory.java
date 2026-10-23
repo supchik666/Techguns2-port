@@ -2,6 +2,8 @@ package techguns.plugins.jei;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -29,12 +31,13 @@ public abstract class TGCategory<T> extends AbstractRecipeCategory<T> {
 	/** Holds the power bar, as in MachineScreen. */
 	private static final ResourceLocation COMMON = Techguns.id("textures/gui/ammo_press_gui.png");
 	public final Block block;
-	/** The recipe-click area on the block's screen, in GUI coordinates. */
+	/** The recipe-click area on the block's screen, in GUI coordinates; null for none. */
+	@Nullable
 	public final Rect2i clickArea;
 	/** The machine's GUI texture, textures/gui/(block id without "_controller")_gui.png. */
 	protected final ResourceLocation texture;
 
-	protected TGCategory(IGuiHelper gui, RecipeType<T> type, Component title, Block block, Rect2i clickArea) {
+	protected TGCategory(IGuiHelper gui, RecipeType<T> type, Component title, Block block, @Nullable Rect2i clickArea) {
 		super(type, title, gui.createDrawableItemLike(block), W, H + 10);
 		this.block = block;
 		this.clickArea = clickArea;
@@ -46,7 +49,7 @@ public abstract class TGCategory<T> extends AbstractRecipeCategory<T> {
 	/** FE/t, 0 for none. */
 	protected abstract int power(T recipe);
 
-	/** Ticks. */
+	/** Ticks, 0 for none (benches). */
 	protected abstract int time(T recipe);
 
 	/** Draws over the texture, in GUI coordinates; {@code p} runs from 0 to 1 every {@link #time} ticks. */
@@ -64,6 +67,7 @@ public abstract class TGCategory<T> extends AbstractRecipeCategory<T> {
 		g.pose().popPose();
 		Font font = Minecraft.getInstance().font;
 		if (power(recipe) > 0) g.drawString(font, power(recipe) + " FE/t", 0, H + 1, 0xFF808080, false);
+		if (time(recipe) <= 0) return;
 		Component duration = Component.translatable("techguns.tooltip.duration").append(": " + time(recipe) + " ")
 				.append(Component.translatable("techguns.tooltip.ticks"));
 		g.drawString(font, duration, W - font.width(duration), H + 1, 0xFF808080, false);

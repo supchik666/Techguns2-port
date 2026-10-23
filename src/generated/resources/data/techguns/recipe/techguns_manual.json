@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "patchouli"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:stonebullets"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:glass_pane"
+    },
+    {
+      "item": "techguns:stonebullets"
+    }
+  ],
+  "result": {
+    "id": "patchouli:guide_book",
+    "components": {
+      "patchouli:book": "techguns:techguns_manual"
+    }
+  }
+}

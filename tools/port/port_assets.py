@@ -826,6 +826,8 @@ def main():
     import port_structures
     port_structures.main()
     port_dungeons.main()
+    import port_patchouli
+    port_patchouli.main()
     print(f"{len(ITEMS)} items, {len(BLOCKS)} blocks, {count} recipes written")
     for reason, files in sorted(skipped.items(), key=lambda kv: -len(kv[1])):
         print(f"  skipped {len(files):3} recipes: {reason}")

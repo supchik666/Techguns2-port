@@ -67,7 +67,7 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 		}
 	};
 
-	record Ore(ItemStack stack, int weight) implements WeightedEntry {
+	public record Ore(ItemStack stack, int weight) implements WeightedEntry {
 		@Override
 		public Weight getWeight() {
 			return Weight.of(weight);
@@ -75,7 +75,7 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 	}
 
 	/** 1.12 OreCluster: the head level it needs, the ore and power multipliers, and the ores it gives. */
-	record Cluster(int level, double amount, double power, List<Ore> ores) {}
+	public record Cluster(int level, double amount, double power, List<Ore> ores) {}
 
 	private static Map<Block, Cluster> clusters;
 
@@ -84,7 +84,7 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 	}
 
 	/** 1.12 TGOreClusters defaults. ponytail: hard-coded, a datapack format if anyone wants to change them */
-	static Map<Block, Cluster> clusters() {
+	public static Map<Block, Cluster> clusters() {
 		if (clusters == null) {
 			clusters = Map.of(
 					TGBlocks.ORE_CLUSTER_COAL.get(), new Cluster(0, 10, 0.1, List.of(ore(Blocks.COAL_ORE, 99), ore(Items.DIAMOND, 1))),
@@ -115,7 +115,7 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 		return slots;
 	}
 
-	private static final List<DeferredItem<Item>> HEADS = List.of(TGItems.OREDRILLHEAD_STEEL, TGItems.OREDRILLHEAD_OBSIDIANSTEEL,
+	public static final List<DeferredItem<Item>> HEADS = List.of(TGItems.OREDRILLHEAD_STEEL, TGItems.OREDRILLHEAD_OBSIDIANSTEEL,
 			TGItems.OREDRILLHEAD_CARBON, TGItems.OREDRILLHEAD_MEDIUM_STEEL, TGItems.OREDRILLHEAD_MEDIUM_OBSIDIANSTEEL, TGItems.OREDRILLHEAD_MEDIUM_CARBON,
 			TGItems.OREDRILLHEAD_LARGE_STEEL, TGItems.OREDRILLHEAD_LARGE_OBSIDIANSTEEL, TGItems.OREDRILLHEAD_LARGE_CARBON);
 

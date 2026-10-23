@@ -167,6 +167,7 @@ dependencies {
     compileOnly "maven.modrinth:sable:fg9dTRz9" // 2.0.6, techguns.plugins.sable pushes ships with its physics API
     localRuntime "maven.modrinth:kubejs:F2nzeC19" // 2101.7.2-build.368, for testing machine recipe scripts
     localRuntime "maven.modrinth:rhino:SqkDvOLG" // 2101.2.8-build.91, KubeJS's script engine
+    localRuntime "maven.modrinth:patchouli:BIogJv2D" // 1.21.1-93-neoforge, for the techguns_manual book (pure data, no code needs it)
     clientMods "maven.modrinth:ambientsounds:6.3.11"
     clientMods "maven.modrinth:creativecore:2.13.51"
     clientMods "maven.modrinth:extrasoundsforge:1.5.6+1.21.1-neoforge"

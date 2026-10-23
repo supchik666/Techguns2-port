@@ -1,0 +1,27 @@
+{
+  "name": "T3 : Adv. Combat Armor",
+  "icon": "techguns:t3_combat_chestplate",
+  "category": "techguns:armors",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The Advanced Combat Armor is a Tier 3 armor and intended to be used for combat. It's stats are a direct upgrade of the $(l:armors/combat_armor)Combat Armor$(/l). The Advanced Combat Armor can be upgraded to the $(l:armors/exosuit)Exo Suit$(/l)."
+    },
+    {
+      "type": "entity",
+      "name": "Combat Armor",
+      "entity": "minecraft:armor_stand{ShowArms:1,NoBasePlate:1,ArmorItems:[{count:1,id:'techguns:t3_combat_boots'}, {count:1,id:'techguns:t3_combat_leggings'}, {count:1,id:'techguns:t3_combat_chestplate'}, {count:1,id:'techguns:t3_combat_helmet'}]}",
+      "text": ""
+    },
+    {
+      "type": "crafting",
+      "recipe": "techguns:t3_combat_helmet",
+      "recipe2": "techguns:t3_combat_chestplate"
+    },
+    {
+      "type": "crafting",
+      "recipe": "techguns:t3_combat_leggings",
+      "recipe2": "techguns:t3_combat_boots"
+    }
+  ]
+}
