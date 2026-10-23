@@ -6,6 +6,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /**
  * Flamethrower flame: an invisible bolt drawn by its TGFX trail; fire damage, ignites, goes out in water or rain.
@@ -50,5 +53,10 @@ public class FlamethrowerProjectile extends BlasterProjectile {
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		fireHit(result, 3);
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.FIRE, DeathType.DEFAULT);
 	}
 }

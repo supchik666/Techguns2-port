@@ -84,7 +84,9 @@ BEWLR_ITEMS = [
     "nucleardeathray", "gaussrifle", "sonicshotgun", "flamethrower",
     "rocketlauncher", "grenadelauncher", "guidedmissilelauncher", "grimreaper", "tfg", "biogun", "stielgranate", "fraggrenade",
     "powerhammer", "chainsaw", "miningdrill", "shishkebap",
-]
+] + [f"{s}_{p}" for s in ("steam", "t3_power", "t4_power") for p in ("helmet", "chestplate", "leggings", "boots")]
+# Shields: the vanilla shield transforms, drawn by a Java renderer, with the blocking pose
+SHIELDS = ["riot_shield", "ballistic_shield", "advanced_shield"]
 # 1.12 lang keys that 1.21 looks up under another name
 LANG_RENAMES = {
     "techguns.radiation": "effect.techguns.radiation", "techguns.radresistance": "effect.techguns.radresistance",
@@ -163,6 +165,10 @@ def copy_textures_and_models():
     for name in BEWLR_ITEMS:
         write_json(ASSETS / "models/item" / (name + ".json"),
                    {"parent": "minecraft:builtin/entity", "textures": {"particle": "techguns:item/plateiron"}})
+    for name in SHIELDS:
+        write_json(ASSETS / "models/item" / (name + ".json"), {"parent": "minecraft:item/shield", "overrides": [
+            {"predicate": {"blocking": 1}, "model": f"techguns:item/{name}_blocking"}]})
+        write_json(ASSETS / "models/item" / (name + "_blocking.json"), {"parent": "minecraft:item/shield_blocking"})
     for name in CUTOUT_MODELS:
         path = ASSETS / "models/block" / (name + ".json")
         write_json(path, json.loads(path.read_text()) | {"render_type": "minecraft:cutout"})
@@ -255,7 +261,7 @@ def convert_lang():
             key = key.strip()
             if key == "techguns.itemGroup.techguns":
                 key = "itemGroup.techguns"
-            elif m := re.fullmatch(r"item\.techguns\.(.+)\.name", key):
+            elif m := re.fullmatch(r"(?:item\.techguns|techguns\.item)\.(.+)\.name", key):  # armor used the latter
                 key = "item.techguns." + m[1]
             elif m := re.fullmatch(r"tile\.techguns\.(.+)\.(\d+)\.name", key):
                 row = BY_LEGACY.get(("techguns:" + m[1], int(m[2])))

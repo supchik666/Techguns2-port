@@ -3,7 +3,6 @@ package techguns.entities.projectiles;
 import javax.annotation.Nullable;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +12,9 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /**
  * Blaster rifle bolt, and the base of the other bolts: a bullet with a TGFX trail and a TGFX burst where it hits a
@@ -45,14 +47,11 @@ public class BlasterProjectile extends GenericProjectile {
 		return "LaserGunImpact";
 	}
 
-	/**
-	 * Vanilla fireball damage (is_fire: fire-immune mobs ignore it), setting the target alight for {@code seconds}.
-	 * ponytail: stands in for the TG fire damage type until M4.
-	 */
+	/** Hurts the target as usual, setting it alight for {@code seconds}. */
 	protected void fireHit(EntityHitResult result, int seconds) {
 		if (level().isClientSide) return;
 		Entity target = result.getEntity();
-		if (target.hurt(damageSources().source(DamageTypes.FIREBALL, this, getOwner()), getDamage()) && seconds > 0) target.igniteForSeconds(seconds);
+		if (damage(target) && seconds > 0) target.igniteForSeconds(seconds);
 	}
 
 	@Override
@@ -65,5 +64,10 @@ public class BlasterProjectile extends GenericProjectile {
 	public void readSpawnData(RegistryFriendlyByteBuf buffer) {
 		super.readSpawnData(buffer);
 		if (trail() != null) TGEffects.createFXOnEntity(this, trail());
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.ENERGY, DeathType.LASER);
 	}
 }

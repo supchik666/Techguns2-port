@@ -11,6 +11,9 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 import techguns.damagesystem.TGExplosion;
 
 /**
@@ -55,7 +58,7 @@ public class GrenadeProjectile extends GenericProjectile {
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		if (level().isClientSide) return;
-		result.getEntity().hurt(damageSources().explosion(getOwner(), this), getDamage());
+		damage(result.getEntity());
 		explode((ServerLevel) level());
 	}
 
@@ -93,5 +96,10 @@ public class GrenadeProjectile extends GenericProjectile {
 	protected void explode(ServerLevel server) {
 		TGEffects.sendFX(server, "RocketExplosion", getX(), getY(), getZ(), 1.0f, 50);
 		new TGExplosion(server, getOwner(), this, getX(), getY(), getZ(), damage, damageMin, damageDropStart, damageDropEnd, 0).doExplosion(true);
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.EXPLOSION, DeathType.GORE);
 	}
 }

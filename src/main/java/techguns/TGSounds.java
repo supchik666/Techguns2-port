@@ -99,6 +99,7 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION = register("effects.tfgexplosion");
 	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION_ECHO = register("effects.tfgexplosionecho");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_IMPACT = register("effects.biogunimpact");
+	public static final DeferredHolder<SoundEvent, SoundEvent> STEAM_JUMP = register("effects.steamarmorjump");
 
 	// Powered melee tools (M3.4)
 	public static final DeferredHolder<SoundEvent, SoundEvent> POWERHAMMER_FIRE = register("guns.powerhammerfire");

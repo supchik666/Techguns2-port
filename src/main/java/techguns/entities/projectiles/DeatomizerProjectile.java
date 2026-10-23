@@ -4,6 +4,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /** MIB gun (deatomizer) bolt. */
 public class DeatomizerProjectile extends BlasterProjectile {
@@ -25,5 +28,15 @@ public class DeatomizerProjectile extends BlasterProjectile {
 	@Override
 	protected String impact() {
 		return "BlueBlasterExplosion";
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.ENERGY, DeathType.GORE);
+	}
+
+	@Override
+	protected float knockback() {
+		return 1;
 	}
 }

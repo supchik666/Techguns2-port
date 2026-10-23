@@ -33,6 +33,7 @@ public class Techguns {
 		TGBlocks.BLOCKS.register(modEventBus);
 		TGItems.ITEMS.register(modEventBus);
 		TGuns.init();
+		TGArmors.init(modEventBus);
 		TGComponents.COMPONENTS.register(modEventBus);
 		TGComponents.ATTACHMENTS.register(modEventBus);
 		TGSounds.SOUNDS.register(modEventBus);

@@ -31,6 +31,7 @@ REPLACE = [
     ("import techguns.client.render.TGRenderHelper;", "import techguns.client.models.LegacyGl;"),
     ("import techguns.client.render.TGRenderHelper.RenderType;", "import techguns.client.models.LegacyGl.RenderType;"),
     ("import net.minecraft.client.model.ModelBase;", "import techguns.client.models.ModelBase;"),
+    ("import net.minecraft.client.model.ModelBiped;", "import techguns.client.models.ModelBiped;"),
     ("import org.lwjgl.opengl.GL11;\n", ""),
     ("import techguns.util.MathUtil;", "import net.minecraft.util.Mth;"),
     ("MathUtil.D2R", "Mth.DEG_TO_RAD"),

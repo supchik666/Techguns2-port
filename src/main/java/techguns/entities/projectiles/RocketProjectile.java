@@ -11,6 +11,9 @@ import net.minecraft.world.phys.EntityHitResult;
 import techguns.TGEffects;
 import techguns.TGEntities;
 import techguns.TGSounds;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 import techguns.damagesystem.TGExplosion;
 import techguns.entities.special.RadiationEntity;
 
@@ -63,7 +66,7 @@ public class RocketProjectile extends GenericProjectile {
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		if (level().isClientSide) return;
-		result.getEntity().hurt(damageSources().explosion(getOwner(), this), getDamage());
+		damage(result.getEntity());
 		explode((ServerLevel) level());
 	}
 
@@ -87,5 +90,15 @@ public class RocketProjectile extends GenericProjectile {
 			new TGExplosion(server, getOwner(), this, getX(), getY(), getZ(), damage, damageMin, damageDropStart, damageDropEnd,
 					TGExplosion.blockDamage(getOwner()) ? 0.5 : 0.0).doExplosion(true);
 		}
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.EXPLOSION, kind == Kind.NUKE ? DeathType.LASER : DeathType.GORE);
+	}
+
+	@Override
+	protected float knockback() {
+		return 3;
 	}
 }

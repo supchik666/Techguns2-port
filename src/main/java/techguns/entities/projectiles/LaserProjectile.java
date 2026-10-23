@@ -8,6 +8,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /** Laser gun/pistol beam; lives 7 ticks whatever the gun's TTL. */
 public class LaserProjectile extends AbstractBeamProjectile {
@@ -25,5 +28,10 @@ public class LaserProjectile extends AbstractBeamProjectile {
 	protected void onHitBlock(BlockHitResult result) {
 		Vec3 pos = result.getLocation();
 		if (level() instanceof ServerLevel server) TGEffects.sendFX(server, "LaserGunImpact", pos.x, pos.y, pos.z, 1.0f, 35);
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		return source(TGDamageType.ENERGY, DeathType.LASER);
 	}
 }

@@ -13,10 +13,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
+import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGDamageSource.DeathType;
+import techguns.damagesystem.TGDamageType;
 
 /**
  * One wave of a sonic shotgun shot (the gun fires a center one and two rings). Goes through entities, hitting each
- * one once per shot with double knockback; a block stops it.
+ * one once per shot with sonic damage and double knockback; a block stops it.
  */
 public class SonicShotgunProjectile extends GenericProjectile {
 	/** Shared by all projectiles of one shot, so a target is hit only once. */
@@ -39,16 +42,10 @@ public class SonicShotgunProjectile extends GenericProjectile {
 		if (!level().isClientSide) {
 			Vec3 motion = getDeltaMovement(), from = position(), to = from.add(motion);
 			for (Entity target : level().getEntities(this, getBoundingBox().expandTowards(motion).inflate(1.0), super::canHitEntity)) {
-				if (target.getBoundingBox().inflate(0.3).clip(from, to).isPresent() && entitiesHit.add(target)) hit(target, motion);
+				if (target.getBoundingBox().inflate(0.3).clip(from, to).isPresent() && entitiesHit.add(target)) damage(target);
 			}
 		}
 		super.tick();
-	}
-
-	private void hit(Entity target, Vec3 motion) {
-		if (target.hurt(damageSources().source(BULLET, this, getOwner()), getDamage()) && target instanceof LivingEntity living) {
-			living.knockback(0.8, -motion.x, -motion.z); // 1.12 knockback x2
-		}
 	}
 
 	/** Entities are hit in {@link #tick} without stopping it; only blocks end it. */
@@ -73,5 +70,17 @@ public class SonicShotgunProjectile extends GenericProjectile {
 		super.readSpawnData(buffer);
 		mainProjectile = buffer.readBoolean();
 		if (mainProjectile) TGEffects.createFXOnEntity(this, "SonicShotgunTrail"); // 1.12 sent this from the gun
+	}
+
+	@Override
+	protected TGDamageSource damageSource() {
+		TGDamageSource source = new TGDamageSource(TGDamageSource.SONIC, TGDamageType.PHYSICAL, DeathType.GORE, this, getOwner());
+		source.penetration = penetration;
+		return source;
+	}
+
+	@Override
+	protected float knockback() {
+		return 2;
 	}
 }

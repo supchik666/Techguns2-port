@@ -26,12 +26,16 @@ public class TGComponents {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> AMMO_VARIANT = COMPONENTS.registerComponentType("ammo_variant",
 			builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
-	/** Index into the gun's textures. ponytail: nothing sets it until the camo bench is ported. */
+	/** Index into a gun's or armor's textures. ponytail: guns get it from the camo bench, not ported yet; armor cycles it by sneak-use. */
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CAMO = COMPONENTS.registerComponentType("camo",
 			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
 	/** A mining tool's head: 0 (missing) is the default, n is the tool's n-th upgrade head (1.12 "miningHead" NBT). */
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MINING_HEAD = COMPONENTS.registerComponentType("mining_head",
+			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
+	/** Charge of powered armor (1.12 "power" NBT). Missing means empty. */
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POWER = COMPONENTS.registerComponentType("power",
 			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
 	/** Game time from which each hand (indexed by InteractionHand ordinal) may fire again. Not saved, like the 1.12 fire delay. */
