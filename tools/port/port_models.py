@@ -4,12 +4,20 @@
 Usage: python3 tools/port/port_models.py guns/ModelM4 items/ModelARMagazine ...
 (paths under client/models/, without .java). Overwrites the target, so port fixes belong here, not in the copy.
 """
+import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "legacy/src/main/java/techguns/client/models"
 DST = ROOT / "src/main/java/techguns/client/models"
+
+# Regexes applied to the legacy text before REPLACE.
+RE_REPLACE = [
+    # ModelJetPack spawned its flames from the model each frame; TGPlayerClient spawns them each tick instead.
+    (r"\n\t\tif \(entityIn!=null && entityIn instanceof EntityPlayer\)\{.*?\n\t\t\}\n",
+     "\n\t\t// Flames: TGPlayerClient spawns them each tick for players boosting.\n"),
+]
 
 # Applied in order: imports first, then the bare names they bring in.
 REPLACE = [
@@ -31,6 +39,16 @@ REPLACE = [
     ("import techguns.client.render.TGRenderHelper;", "import techguns.client.models.LegacyGl;"),
     ("import techguns.client.render.TGRenderHelper.RenderType;", "import techguns.client.models.LegacyGl.RenderType;"),
     ("import net.minecraft.client.model.ModelBase;", "import techguns.client.models.ModelBase;"),
+    ("import net.minecraft.client.model.ModelBiped;", "import techguns.client.models.ModelBiped;"),
+    ("import net.minecraft.entity.player.EntityPlayer;", "import net.minecraft.world.entity.player.Player;"),
+    ("import net.minecraft.init.MobEffects;", "import net.minecraft.world.effect.MobEffects;"),
+    ("import techguns.client.ClientProxy;\n", ""),
+    ("EntityPlayer", "Player"),
+    ("entityIn.isSneaking()", "entityIn.isCrouching()"),
+    ("ply.getActivePotionEffect(MobEffects.NIGHT_VISION) != null", "ply.hasEffect(MobEffects.NIGHT_VISION)"),
+    # Bloom on the glowing parts (ModelRenderer.glow): the anti-grav core and emitters, the goggles' lenses.
+    ("\t\tthis.BackBack.addChild(box2);\n", "\t\tthis.BackBack.addChild(box2);\n\t\tBack3.glow = box1.glow = box2.glow = box3.glow = box4.glow = true;\n"),
+    ("\t\tthis.bipedHead.addChild(Left);\n", "\t\tthis.bipedHead.addChild(Left);\n\t\tRight.glow = Left.glow = true;\n"),
     ("import org.lwjgl.opengl.GL11;\n", ""),
     ("import techguns.util.MathUtil;", "import net.minecraft.util.Mth;"),
     ("MathUtil.D2R", "Mth.DEG_TO_RAD"),
@@ -46,6 +64,8 @@ REPLACE = [
 def main():
     for name in sys.argv[1:]:
         text = (SRC / (name + ".java")).read_text()
+        for pattern, new in RE_REPLACE:
+            text = re.sub(pattern, lambda m: new, text, flags=re.S)
         for old, new in REPLACE:
             text = text.replace(old, new)
         out = DST / (name + ".java")

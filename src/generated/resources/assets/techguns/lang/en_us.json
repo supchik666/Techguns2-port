@@ -823,5 +823,7 @@
   "block.techguns.stairs_concrete_light": "Reinforced Concrete Stairs (Light)",
   "block.techguns.stairs_concrete": "Reinforced Concrete Stairs (Dark)",
   "item.techguns.item_door3x3_3": "Techdoor (Nether)",
-  "item.techguns.laserpistol": "Laser Pistol"
+  "item.techguns.laserpistol": "Laser Pistol",
+  "techguns.extendedinventory": "Techguns Inventory",
+  "techguns.key.openTGInventory": "Open Techguns Inventory"
 }

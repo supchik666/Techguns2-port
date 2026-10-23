@@ -113,6 +113,14 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Armor materials are a registry; stats via the attribute-modifier component; custom armor models via `IClientItemExtensions`.
 - Radiation → `MobEffect` + `Potion`.
 
+**M4 player data and extra slots done:**
+- `capabilities/TGExtendedPlayer` is the `techguns:extended_player` attachment (15 slots, toggles, autofeed leftovers), copied on death and synced to everyone by `TGExtendedPlayer.SYNC` (item or toggle changes at once, component-only changes once a second). Transient state (jump key, gliding) syncs to other players only.
+- Techguns inventory tab (`gui/TGPlayerInventoryMenu`, `client/TGPlayerInventoryScreen`): face/back/hand, 3 food, heal and 8 ammo slots, the five toggle buttons. Tabs above the vanilla and TG inventory screens. Keys: I (open), N, B, V, J (night vision, safe mode, step assist, jetpack).
+- Slot items (`items/additionalslots/`): gas mask, oxygen mask, tactical mask, night vision goggles, glider, jetpack, jump pack, scuba tanks, anti grav pack, working gloves. Effects live in `events/TGPlayerEvents` (night vision, creative flight, jump boost, fall damage, break speed, autofeed, drops on death); the client part (keys, HUD icons, worn models with glowing parts, jetpack flames, loop sounds, fly speed) is in `client/TGPlayerClient`.
+- Guns reload from the ammo slots first and empties go back there (`TGExtendedPlayer.consumeAmmo/giveAmmo/countAmmo`); `techguns:ammo_slot` item tag says what fits. Safe mode stops TG explosions breaking blocks.
+- GameTests in `PlayerSlotTests` (save/load, gas mask, autofeed, reload from ammo slots).
+- **Deferred:** heal slot items (none accept anything yet), the safe mode permission, gas mask rad resistance (radiation), hover mode, armor hiding slots and armor night vision/step assist in the HUD (armor), the RAD line and inventory radiation bar, sending food/ammo slots only to their owner.
+
 ### M5. Machines and GUIs
 - `TileEntity` → `BlockEntity`, `ITickable` → `BlockEntityTicker`.
 - Item/energy/fluid handlers via `RegisterCapabilitiesEvent`.

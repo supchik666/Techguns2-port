@@ -24,6 +24,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
+import techguns.capabilities.TGExtendedPlayer;
 
 /**
  * The 1.12 TG explosion: full damage within {@code primaryRadius}, falling to {@code secondaryDamage} at
@@ -58,9 +59,9 @@ public class TGExplosion {
 		this.blockDamageFactor = blockDamageFactor;
 	}
 
-	/** 1.12 GenericGun.getDoBlockDamage: only players break blocks. ponytail: no per-player safe mode until M4. */
+	/** 1.12 GenericGun.getDoBlockDamage: only players break blocks, and not in safe mode. */
 	public static boolean blockDamage(@Nullable Entity shooter) {
-		return BLOCK_DAMAGE && shooter instanceof Player;
+		return BLOCK_DAMAGE && shooter instanceof Player p && !TGExtendedPlayer.isSafemode(p);
 	}
 
 	/**

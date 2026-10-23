@@ -17,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 LEGACY = ROOT / "legacy/src/main/resources/assets/techguns"
+LEGACY_TGITEMS = ROOT / "legacy/src/main/java/techguns/TGItems.java"
 OUT = ROOT / "src/generated/resources"
 ASSETS = OUT / "assets/techguns"
 DATA = OUT / "data"
@@ -252,7 +253,16 @@ def convert_lang():
             elif m := re.fullmatch(r"tile\.techguns\.(.+)\.name", key):
                 key = "block.techguns." + m[1]
             out[key] = value
+        if src.stem.lower() == "en_us":
+            out.update(EXTRA_LANG)
         write_json(ASSETS / "lang" / (src.stem.lower() + ".json"), out)
+
+
+# Keys 1.12 used without a lang entry, or new in the port.
+EXTRA_LANG = {
+    "techguns.extendedinventory": "Techguns Inventory",
+    "techguns.key.openTGInventory": "Open Techguns Inventory",
+}
 
 
 class Skip(Exception):
@@ -383,6 +393,9 @@ def write_tags_and_loot():
             "type": "minecraft:block", "random_sequence": "techguns:blocks/" + name,
             "pools": [{"rolls": 1, "bonus_rolls": 0, "entries": [{"type": "minecraft:item", "name": rid}],
                        "conditions": [{"condition": "minecraft:survives_explosion"}]}]})
+    # Shared items 1.12 let into the ammo slots of the TG inventory.
+    item_tags["techguns:ammo_slot"] = sorted(ns(m) for m in re.findall(
+        r'addsharedVariant\("(\w+)"[^;]*TGSlotType\.AMMOSLOT', LEGACY_TGITEMS.read_text()))
     for kind, tags in (("item", item_tags), ("block", block_tags)):
         for tag, values in tags.items():
             tag_ns, path = tag.split(":")

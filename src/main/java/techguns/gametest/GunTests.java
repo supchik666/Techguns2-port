@@ -21,6 +21,7 @@ import techguns.TGEntities;
 import techguns.TGItems;
 import techguns.TGuns;
 import techguns.Techguns;
+import techguns.capabilities.TGExtendedPlayer;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.ammo.AmmoType;
@@ -50,7 +51,7 @@ public class GunTests {
 				.thenExecuteAfter(5, () -> gun.shootGunPrimary(stack, helper.getLevel(), player, InteractionHand.MAIN_HAND, false))
 				.thenExecute(() -> {
 					helper.assertTrue(gun.getAmmo(stack) == gun.getClipsize(), "didn't reload");
-					helper.assertTrue(player.getInventory().countItem(TGItems.PISTOL_MAGAZINE_EMPTY.get()) == 1, "no empty magazine back");
+					helper.assertTrue(TGExtendedPlayer.countAmmo(player, TGItems.PISTOL_MAGAZINE_EMPTY.get()) == 1, "no empty magazine back");
 					helper.assertTrue(player.getInventory().countItem(TGItems.PISTOL_MAGAZINE.get()) == 0, "magazine not used");
 				})
 				.thenSucceed();
@@ -95,7 +96,7 @@ public class GunTests {
 		helper.assertTrue(gun.getAmmo(stack) == gun.getClipsize(), "didn't reload");
 		helper.assertTrue(player.getInventory().countItem(TGItems.GAUSSRIFLE_SLUGS.get()) == 1, "should use one slug");
 		helper.assertTrue(player.getInventory().countItem(TGItems.ENERGY_CELL.get()) == 0, "cell not used");
-		helper.assertTrue(player.getInventory().countItem(TGItems.ENERGY_CELL_EMPTY.get()) == 1, "no empty cell back");
+		helper.assertTrue(TGExtendedPlayer.countAmmo(player, TGItems.ENERGY_CELL_EMPTY.get()) == 1, "no empty cell back");
 		helper.succeed();
 	}
 

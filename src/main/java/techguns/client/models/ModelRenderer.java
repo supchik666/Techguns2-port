@@ -27,6 +27,8 @@ public class ModelRenderer {
 	public boolean mirror;
 	public boolean showModel = true;
 	public boolean isHidden;
+	/** Draws this part's own boxes full bright with bloom (not in 1.12; set by port_models.py on lamps and screens). */
+	public boolean glow;
 	public List<ModelRenderer> childModels;
 	private final List<ModelPart.Cube> cubes = new ArrayList<>();
 	private ModelPart part;
@@ -89,7 +91,9 @@ public class ModelRenderer {
 			for (ModelRenderer child : childModels) child.render(scale);
 		}
 		pose.scale(scale * 16, scale * 16, scale * 16); // cubes are in pixels and ModelPart divides by 16
+		if (glow) LegacyGl.enableFXLighting();
 		part.render(pose, LegacyGl.consumer, LegacyGl.light, LegacyGl.overlay);
+		if (glow) LegacyGl.disableFXLighting();
 		pose.popPose();
 	}
 }

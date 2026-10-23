@@ -3,6 +3,16 @@ package techguns;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import techguns.items.additionalslots.ItemAntiGravPack;
+import techguns.items.additionalslots.ItemGasMask;
+import techguns.items.additionalslots.ItemGlider;
+import techguns.items.additionalslots.ItemJetpack;
+import techguns.items.additionalslots.ItemJumpPack;
+import techguns.items.additionalslots.ItemNightVisionGoggles;
+import techguns.items.additionalslots.ItemScubaTanks;
+import techguns.items.additionalslots.ItemTGSpecialSlot;
+import techguns.items.additionalslots.ItemTacticalMask;
+import techguns.items.additionalslots.TGSlotType;
 
 /**
  * Plain items, flattened from the 1.12 shared meta-item (techguns:itemshared).
@@ -103,7 +113,7 @@ public class TGItems {
 	public static final DeferredItem<Item> GLIDER_BACKBACK = ITEMS.registerSimpleItem("gliderbackpack");
 	public static final DeferredItem<Item> GLIDER_WING = ITEMS.registerSimpleItem("gliderwing");
 	public static final DeferredItem<Item> ANTI_GRAV_CORE = ITEMS.registerSimpleItem("antigravcore");
-	public static final DeferredItem<Item> OXYGEN_MASK = ITEMS.registerSimpleItem("oxygenmask", new Item.Properties().stacksTo(1));
+	public static final DeferredItem<ItemTGSpecialSlot> OXYGEN_MASK = ITEMS.register("oxygenmask", () -> new ItemTGSpecialSlot(TGSlotType.FACE, 0, 0));
 	public static final DeferredItem<Item> MACHINE_UPGRADE_STACK = ITEMS.registerSimpleItem("machinestackupgrade", new Item.Properties().stacksTo(7));
 	public static final DeferredItem<Item> RAW_RUBBER = ITEMS.registerSimpleItem("rawrubber");
 	public static final DeferredItem<Item> RAW_PLASTIC = ITEMS.registerSimpleItem("rawplastic");
@@ -142,7 +152,8 @@ public class TGItems {
 	public static final DeferredItem<Item> BARREL_TITANIUM = ITEMS.registerSimpleItem("shieldedtitaniumbarrel");
 	public static final DeferredItem<Item> RECEIVER_TITANIUM = ITEMS.registerSimpleItem("titaniumreceiver");
 	public static final DeferredItem<Item> PLASMA_GENERATOR = ITEMS.registerSimpleItem("plasmagenerator");
-	public static final DeferredItem<Item> WORKING_GLOVES = ITEMS.registerSimpleItem("workinggloves", new Item.Properties().stacksTo(1));
+	/** Mines 10% faster (TGPlayerEvents). */
+	public static final DeferredItem<ItemTGSpecialSlot> WORKING_GLOVES = ITEMS.register("workinggloves", () -> new ItemTGSpecialSlot(TGSlotType.HAND, 0, 0));
 	public static final DeferredItem<Item> PROTECTIVE_FIBER = ITEMS.registerSimpleItem("protectivefiber");
 	public static final DeferredItem<Item> OREDRILLHEAD_STEEL = ITEMS.registerSimpleItem("oredrillsmall_steel", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> OREDRILLHEAD_OBSIDIANSTEEL = ITEMS.registerSimpleItem("oredrillsmall_obsidiansteel", new Item.Properties().stacksTo(1));
@@ -166,4 +177,14 @@ public class TGItems {
 	public static final DeferredItem<Item> UPGRADE_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_protection_3", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> UPGRADE_PROJECTILE_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_projectile_protection_3", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> UPGRADE_BLAST_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_blast_protection_3", new Item.Properties().stacksTo(1));
+
+	// Extra slot items (M4)
+	public static final DeferredItem<ItemGasMask> GAS_MASK = ITEMS.register("gasmask", () -> new ItemGasMask(1, 300).setRadresist(1f));
+	public static final DeferredItem<ItemGlider> GLIDER = ITEMS.register("glider", () -> new ItemGlider(1));
+	public static final DeferredItem<ItemJumpPack> JUMPPACK = ITEMS.register("jumppack", () -> new ItemJumpPack(4, 1000));
+	public static final DeferredItem<ItemScubaTanks> SCUBA_TANKS = ITEMS.register("scubatanks", () -> new ItemScubaTanks(1, 600));
+	public static final DeferredItem<ItemNightVisionGoggles> NIGHTVISION_GOGGLES = ITEMS.register("nightvisiongoggles", () -> new ItemNightVisionGoggles(1, 24000));
+	public static final DeferredItem<ItemJetpack> JETPACK = ITEMS.register("jetpack", () -> new ItemJetpack(4, 5000));
+	public static final DeferredItem<ItemTacticalMask> TACTICAL_MASK = ITEMS.register("tacticalmask", () -> new ItemTacticalMask(4, 24000));
+	public static final DeferredItem<ItemAntiGravPack> ANTI_GRAV_PACK = ITEMS.register("antigravpack", () -> new ItemAntiGravPack(5, 12000));
 }

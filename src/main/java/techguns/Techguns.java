@@ -36,6 +36,7 @@ public class Techguns {
 		TGComponents.ATTACHMENTS.register(modEventBus);
 		TGSounds.SOUNDS.register(modEventBus);
 		TGEntities.ENTITIES.register(modEventBus);
+		TGMenus.MENUS.register(modEventBus);
 		CREATIVE_TABS.register(modEventBus);
 		AmmoChangeRecipe.SERIALIZERS.register(modEventBus);
 	}

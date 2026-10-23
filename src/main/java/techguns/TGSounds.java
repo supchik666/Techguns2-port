@@ -100,6 +100,17 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION_ECHO = register("effects.tfgexplosionecho");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_IMPACT = register("effects.biogunimpact");
 
+	// Extra equipment slots (M4)
+	public static final DeferredHolder<SoundEvent, SoundEvent> ANTI_GRAV_START = register("items.antigravstart");
+	public static final DeferredHolder<SoundEvent, SoundEvent> NIGHTVISION_ON = register("nightvision.on");
+	public static final DeferredHolder<SoundEvent, SoundEvent> NIGHTVISION_OFF = register("nightvision.off");
+	public static final DeferredHolder<SoundEvent, SoundEvent> STEAM_JUMP_2 = register("effects.steamarmorjump2");
+	public static final DeferredHolder<SoundEvent, SoundEvent> JETPACK_START = register("jetpack.start");
+	/** 1.12 asked for "jetpack.end", which sounds.json doesn't have; this is the stop sound it meant. */
+	public static final DeferredHolder<SoundEvent, SoundEvent> JETPACK_END = register("jetpack.stop");
+	public static final DeferredHolder<SoundEvent, SoundEvent> JETPACK_LOOP = register("jetpack.loop");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GLIDER_LOOP = register("glider.loop");
+
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);
 	}

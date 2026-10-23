@@ -16,7 +16,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 import techguns.TGComponents;
+import techguns.capabilities.TGExtendedPlayer;
 import techguns.Techguns;
 import techguns.client.ShooterValues;
 import techguns.entities.projectiles.GenericProjectile;
@@ -398,22 +398,22 @@ public class GenericGun extends Item {
 	void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
 		AmmoType.Variant variant = getAmmoVariant(stack);
 		Item extra = ammoType.extraAmmo() == null ? null : ammoType.extraAmmo().get();
-		if (extra != null && !player.getInventory().contains(new ItemStack(extra))) return;
-		if (!consume(player, variant.ammo().get())) return;
+		if (extra != null && TGExtendedPlayer.countAmmo(player, extra) == 0) return;
+		if (!TGExtendedPlayer.consumeAmmo(player, variant.ammo().get())) return;
 		if (extra != null) {
-			consume(player, extra);
-			give(player, new ItemStack(ammoType.extraEmpty().get()));
+			TGExtendedPlayer.consumeAmmo(player, extra);
+			TGExtendedPlayer.giveAmmo(player, new ItemStack(ammoType.extraEmpty().get()));
 		}
 		int newAmmo;
 		if (ammoCount > 1) {
 			int loaded = 1;
-			while (loaded < ammoCount - oldAmmo && consume(player, variant.ammo().get())) loaded++;
+			while (loaded < ammoCount - oldAmmo && TGExtendedPlayer.consumeAmmo(player, variant.ammo().get())) loaded++;
 			newAmmo = oldAmmo + loaded;
 		} else {
 			if (ammoType.emptyMag() != null) {
-				give(player, new ItemStack(ammoType.emptyMag().get()));
+				TGExtendedPlayer.giveAmmo(player, new ItemStack(ammoType.emptyMag().get()));
 				int bulletsBack = oldAmmo > 0 ? (int) (oldAmmo / ammoType.getShotsPerBullet(clipsize, oldAmmo)) : 0;
-				if (bulletsBack > 0 && variant.bullet() != null) give(player, new ItemStack(variant.bullet().get(), bulletsBack));
+				if (bulletsBack > 0 && variant.bullet() != null) TGExtendedPlayer.giveAmmo(player, new ItemStack(variant.bullet().get(), bulletsBack));
 			}
 			newAmmo = clipsize; // loose rounds left in the gun are lost, as in 1.12
 		}
@@ -425,18 +425,6 @@ public class GenericGun extends Item {
 			PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, true));
 		}
 		level.playSound(player, player, reloadSound.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
-	}
-
-	private static boolean consume(Player player, Item item) {
-		Inventory inventory = player.getInventory();
-		int slot = inventory.findSlotMatchingItem(new ItemStack(item));
-		if (slot < 0) return false;
-		inventory.removeItem(slot, 1);
-		return true;
-	}
-
-	private static void give(Player player, ItemStack stack) {
-		if (!player.getInventory().add(stack) && !player.level().isClientSide) player.drop(stack, false);
 	}
 
 	@Override
