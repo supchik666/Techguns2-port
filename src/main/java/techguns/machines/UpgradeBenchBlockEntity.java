@@ -15,19 +15,18 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import techguns.TGBlockEntities;
+import techguns.TGConfig;
 import techguns.items.armors.GenericArmor;
 import techguns.recipes.UpgradeBenchRecipe;
 
 /**
  * 1.12 UpgradeBenchTileEnt and UpgradeBenchContainer: TG armor and an upgrade item ({@link UpgradeBenchRecipe}) make the
- * armor with that enchantment level, for {@link #XP_PER_LEVEL} XP per level it gains. Taking the result uses up both.
+ * armor with that enchantment level, for {@link TGConfig#UPGRADE_XP_COST} XP per level it gains. Taking the result uses up both.
  * ponytail: 1.12 kept the inputs in the menu and gave them back on close; here they stay in the bench (and drop when it breaks).
  * ponytail: any TG armor takes the three protection upgrades, as in 1.12; TG armor isn't in the vanilla enchantable tags.
  */
 public class UpgradeBenchBlockEntity extends TGBlockEntity {
 	public static final int SLOT_ARMOR = 0, SLOT_UPGRADE = 1;
-	/** 1.12 TGConfig upgrade_xp_cost. */
-	public static final int XP_PER_LEVEL = 20;
 
 	public final SimpleContainer output = new SimpleContainer(1);
 	public int cost;
@@ -63,7 +62,7 @@ public class UpgradeBenchBlockEntity extends TGBlockEntity {
 			UpgradeBenchRecipe r = recipe.get();
 			int has = EnchantmentHelper.getItemEnchantmentLevel(r.enchantment(), armor);
 			if (r.level() > has) {
-				cost = XP_PER_LEVEL * (r.level() - has);
+				cost = TGConfig.UPGRADE_XP_COST.get() * (r.level() - has);
 				result = armor.copy();
 				EnchantmentHelper.updateEnchantments(result, e -> e.set(r.enchantment(), r.level()));
 			}

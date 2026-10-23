@@ -25,6 +25,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
+import techguns.TGConfig;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.capabilities.TGExtendedPlayer;
 import techguns.plugins.sable.SableCompat;
@@ -34,12 +35,9 @@ import techguns.plugins.sable.SableCompat;
  * {@code secondaryRadius}, nothing beyond; blocks give way along rays while their resistance is below the remaining
  * power times {@code blockDamageFactor}. A vanilla {@link Explosion} stands in for resistance, events and block breaking.
  * Hurts with TG explosion damage carrying the projectile's penetration. Rays also reach Sable ships: they push every ship
- * block they touch and break them like world blocks. ponytail: no friendly-fire factor until the M8 config.
+ * block they touch and break them like world blocks. Damage factors (PvP, NPC) apply in {@link DamageSystem}.
  */
 public class TGExplosion {
-	/** 1.12 config ExplosiveBlockDamage. ponytail: constant until the M8 config. */
-	public static final boolean BLOCK_DAMAGE = true;
-
 	private final ServerLevel level;
 	@Nullable
 	private final Entity exploder;
@@ -65,7 +63,7 @@ public class TGExplosion {
 
 	/** 1.12 GenericGun.getDoBlockDamage: only players break blocks, and not in safe mode. */
 	public static boolean blockDamage(@Nullable Entity shooter) {
-		return BLOCK_DAMAGE && shooter instanceof Player p && !TGExtendedPlayer.isSafemode(p);
+		return TGConfig.EXPLOSION_BLOCK_DAMAGE.getAsBoolean() && shooter instanceof Player p && !TGExtendedPlayer.isSafemode(p);
 	}
 
 	/**

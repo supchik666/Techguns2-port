@@ -320,6 +320,22 @@ EXTRA_LANG |= {"block.techguns.ore_cluster_oil": "Ore Cluster (Oil)"}
 EXTRA_LANG |= {"block.techguns.creative_energy": "Creative Energy Source"}  # not in 1.12; its models are hand-written
 # tooltips show percents (DamageSystem.protectionPercent/penetrationPercent) instead of 1.12's raw points
 EXTRA_LANG |= {"techguns.armorTooltip.resistances": "Protection", "techguns.gun.tooltip.armorPen": "Ignores armor"}
+# TGConfig entries in NeoForge's config screen (techguns.configuration.<name>); the spec comments are the tooltips
+EXTRA_LANG |= {"techguns.configuration.title": "Techguns Configuration"} | {f"techguns.configuration.{k}": v for k, v in {
+    "bloom": "Bloom", "bloomIntensity": "Bloom Intensity", "lightTint": "Light Tint", "scopeLens": "Scope Lens Effect",
+    "screenShake": "Screen Shake", "damagePvP": "PvP Damage Factor", "damageTurretToPlayer": "Turret to Player Damage Factor",
+    "damageFactorNPC": "NPC Damage Factor", "helicopterSelfDamage": "Helicopters Hurt by Own Rockets",
+    "explosionBlockDamage": "Guns Break Blocks", "restrictUnsafeModeToOP": "Unsafe Mode Only for OPs",
+    "disableAutofeeder": "Disable Autofeeder", "radiation": "Radiation", "machinesNeedNoPower": "Machines Need No Power",
+    "upgradeXPCost": "Upgrade Bench XP per Level", "explosiveChargeMaxHardness": "Mining Charge Max Hardness",
+    "explosiveChargeAdvancedMaxHardness": "Advanced Mining Charge Max Hardness", "oreDrillMultiplierOre": "Ore Drill Ore Multiplier",
+    "oreDrillMultiplierPower": "Ore Drill Power Multiplier", "oreDrillFuelMultiplier": "Ore Drill FE per Fuel",
+    "distanceSpawnLevel0": "Danger Level 0 Distance", "distanceSpawnLevel1": "Danger Level 1 Distance",
+    "distanceSpawnLevel2": "Danger Level 2 Distance", "spawnWeightZombieSoldier": "Zombie Soldier Spawn Weight",
+    "spawnWeightZombieFarmer": "Zombie Farmer Spawn Weight", "spawnWeightZombieMiner": "Zombie Miner Spawn Weight",
+    "spawnWeightSkeletonSoldier": "Skeleton Soldier Spawn Weight", "spawnWeightPsychoSteve": "Psycho Steve Spawn Weight",
+    "spawnWeightBandit": "Bandit Spawn Weight", "spawnWeightZombiePigmanSoldier": "Zombie Pigman Soldier Spawn Weight",
+    "spawnWeightCyberDemon": "Cyber Demon Spawn Weight", "npcBiomeBlacklist": "NPC Biome Blacklist"}.items()}
 
 
 def write_reaction_chamber_recipes():

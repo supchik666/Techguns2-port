@@ -61,6 +61,7 @@ public class Techguns {
 		techguns.world.dungeon.TGDungeons.register(modEventBus);
 		NeoForgeMod.enableMilkFluid();
 		modContainer.registerConfig(ModConfig.Type.CLIENT, TGConfig.CLIENT_SPEC);
+		modContainer.registerConfig(ModConfig.Type.SERVER, TGConfig.SERVER_SPEC);
 	}
 
 	public static ResourceLocation id(String path) {

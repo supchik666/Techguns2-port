@@ -1,10 +1,13 @@
 package techguns.damagesystem;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -14,15 +17,17 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
+import techguns.TGConfig;
 import techguns.Techguns;
+import techguns.entities.npcs.NPCTurret;
 import techguns.items.armors.GenericArmor;
 import techguns.items.armors.TGArmorBonus;
 
 /**
  * 1.12 DamageSystem: TG armor resists each damage type separately, and penetration pierces armor past its toughness.
  * Applies to TG damage on anything and to all damage on entities wearing TG armor; vanilla armor counts with its
- * vanilla points. NPCs ({@link INpcTGDamageSystem}) use their own per-type armor against everything.
- * ponytail: no PvP/NPC damage factors until the M8 config.
+ * vanilla points. NPCs ({@link INpcTGDamageSystem}) use their own per-type armor against everything. TG damage is first
+ * scaled by the {@link #damageFactor} config.
  */
 @EventBusSubscriber(modid = Techguns.MODID)
 public class DamageSystem {
@@ -64,10 +69,19 @@ public class DamageSystem {
 		};
 	}
 
+	/** 1.12 getDamageFactor: PvP, turret-to-player and NPC config factors; players hitting mobs deal full damage. */
+	public static float damageFactor(@Nullable Entity attacker, LivingEntity target) {
+		if (!(attacker instanceof LivingEntity)) return 1.0f;
+		if (attacker instanceof Player) return target instanceof Player ? TGConfig.DAMAGE_PVP.get().floatValue() : 1.0f;
+		if (attacker instanceof NPCTurret && target instanceof Player) return TGConfig.DAMAGE_TURRET_TO_PLAYER.get().floatValue();
+		return TGConfig.DAMAGE_FACTOR_NPC.get().floatValue();
+	}
+
 	@SubscribeEvent
 	static void incoming(LivingIncomingDamageEvent event) {
 		LivingEntity entity = event.getEntity();
 		DamageSource source = event.getSource();
+		if (source instanceof TGDamageSource) event.setAmount(event.getAmount() * damageFactor(source.getEntity(), entity));
 		// 1.12 ignoreHurtresistTime: bullets and the like neither wait for nor start the hurt cooldown
 		if (source instanceof TGDamageSource && source.is(DamageTypeTags.BYPASSES_COOLDOWN)) {
 			event.getContainer().setPostAttackInvulnerabilityTicks(entity.invulnerableTime);

@@ -42,8 +42,6 @@ import techguns.Techguns;
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class Bloom {
-	/** Overall glow strength. ponytail: constant until the M8 config. */
-	static final float INTENSITY = 1.25f;
 	/** The 8-bit mask holds bloom strength / this, so strong glows (explosions) don't clip. */
 	private static final float MASK_SCALE = 4;
 	private static final int LEVELS = 4;
@@ -204,7 +202,7 @@ public final class Bloom {
 				blurPass(targets[2 * i], targets[2 * i + 1], 0, 1, 3);
 				in = targets[2 * i + 1];
 			}
-			float k = INTENSITY * MASK_SCALE / LEVELS;
+			float k = TGConfig.BLOOM_INTENSITY.get().floatValue() * MASK_SCALE / LEVELS;
 			add.safeGetUniform("ColorModulate").set(k, k, k, 0);
 			for (int i = 0; i < LEVELS; i++) pass(add, targets[2 * i + 1], main, GlStateManager.SourceFactor.ONE);
 		} catch (RuntimeException e) {

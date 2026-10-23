@@ -19,6 +19,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import techguns.TGBlockEntities;
+import techguns.TGConfig;
 import techguns.TGEffects;
 import techguns.TGSounds;
 import techguns.blocks.ExplosiveChargeBlock;
@@ -31,8 +32,6 @@ import techguns.blocks.ExplosiveChargeBlock;
 public class ExplosiveChargeBlockEntity extends TGBlockEntity {
 	/** 3 arms it, 4/5 radius +/-, 6/7 length +/-, 8/9 fuse +/- 1 s. */
 	public static final int BUTTON_DETONATE = 3, BUTTON_RADIUS = 4, BUTTON_LENGTH = 6, BUTTON_FUSE = 8;
-	/** 1.12 TGConfig explosiveChargeMaxBlockHardness / explosiveChargeAdvancedMaxBlockHardness. ponytail: not configurable. */
-	private static final float MAX_HARDNESS = 30, MAX_HARDNESS_ADVANCED = 100;
 	private static final GameProfile FAKE_PLAYER = new GameProfile(UUID.fromString("5b0d9c5e-3b52-4d8e-9c7f-6a8b1f3c2e10"), "[Techguns charge]");
 
 	public final boolean advanced;
@@ -112,7 +111,7 @@ public class ExplosiveChargeBlockEntity extends TGBlockEntity {
 	private boolean breakBlock(ServerLevel level, BlockPos pos, Player player) {
 		BlockState state = level.getBlockState(pos);
 		float hardness = state.getDestroySpeed(level, pos);
-		if (hardness < 0 || (advanced ? hardness > MAX_HARDNESS_ADVANCED : hardness >= MAX_HARDNESS)) return false;
+		if (hardness < 0 || (advanced ? hardness > TGConfig.CHARGE_ADVANCED_MAX_HARDNESS.get() : hardness >= TGConfig.CHARGE_MAX_HARDNESS.get())) return false;
 		if (NeoForge.EVENT_BUS.post(new BlockEvent.BreakEvent(level, pos, state, player)).isCanceled()) return false;
 		Block.dropResources(state, level, pos, level.getBlockEntity(pos));
 		level.removeBlock(pos, false);

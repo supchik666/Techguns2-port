@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import techguns.TGConfig;
 import techguns.TGEffects;
 import techguns.TGSounds;
 import techguns.damagesystem.INpcTGDamageSystem;
@@ -86,13 +87,10 @@ public class AttackHelicopter extends GenericFlyingMob implements INpcTGDamageSy
 		return 1;
 	}
 
-	/**
-	 * Its own rockets explode with a 30 block radius from below. ponytail: in 1.12 they hurt it too; immune until the M8
-	 * friendly-fire config exists.
-	 */
+	/** Its own rockets explode with a 30 block radius from below; they only hurt it with the helicopterSelfDamage config (1.12 behavior). */
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		return source.getEntity() == this || super.isInvulnerableTo(source);
+		return (source.getEntity() == this && !TGConfig.HELICOPTER_SELF_DAMAGE.getAsBoolean()) || super.isInvulnerableTo(source);
 	}
 
 	@Override

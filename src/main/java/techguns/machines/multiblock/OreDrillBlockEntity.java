@@ -37,6 +37,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.registries.DeferredItem;
 import techguns.TGBlocks;
+import techguns.TGConfig;
 import techguns.TGItems;
 import techguns.TGSounds;
 
@@ -51,8 +52,6 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 	public static final int SLOT_DRILL = 0, SLOT_FUEL = 1;
 	public static final int ROD = 0, ENGINE = 1, FRAME = 2, SCAFFOLD = 3;
 	public static final int MAX_RADIUS = 3, MAX_SIZE = 16;
-	/** FE per point of fuel buffer, 1.12 oreDrillFuelMultiplier. */
-	private static final float FACTOR = 1000;
 
 	public int engines, rods, radius;
 	public Direction drillDirection = Direction.NORTH;
@@ -165,12 +164,12 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 		List<Ore> ores = cluster.ores();
 		if (eff >= 0 && !ores.isEmpty()) {
 			int size = Math.min(clusterSize(target, state, engines + rods), engines + rods);
-			double perHour = (size * 3 + size * eff * 0.5) * cluster.amount();
+			double perHour = (size * 3 + size * eff * 0.5) * cluster.amount() * TGConfig.ORE_DRILL_ORES.get();
 			ItemStack ore = WeightedRandom.getRandomItem(level.random, ores).map(o -> o.stack().copy()).orElse(new ItemStack(Blocks.COBBLESTONE));
-			operation = new Operation(List.of(), List.of(ore), FluidStack.EMPTY, (int) (8 * perHour * (1 + Math.max(drillRadius() - 1, 0) * 0.2) * cluster.power()));
+			operation = new Operation(List.of(), List.of(ore), FluidStack.EMPTY, (int) (8 * perHour * (1 + Math.max(drillRadius() - 1, 0) * 0.2) * cluster.power() * TGConfig.ORE_DRILL_POWER.get()));
 			totaltime = (int) (60 / perHour * 1200);
 		} else {
-			operation = new Operation(List.of(), List.of(new ItemStack(Blocks.COBBLESTONE)), FluidStack.EMPTY, 24);
+			operation = new Operation(List.of(), List.of(new ItemStack(Blocks.COBBLESTONE)), FluidStack.EMPTY, (int) (24 * TGConfig.ORE_DRILL_POWER.get()));
 			totaltime = 20 * 20;
 		}
 		progress = 0;
@@ -218,11 +217,13 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 
 	@Override
 	protected boolean consumePower(int amount) {
-		if (fuelBuffer * FACTOR >= amount) {
-			fuelBuffer -= (int) Math.max(amount / FACTOR, 1);
+		if (TGConfig.MACHINES_NEED_NO_POWER.getAsBoolean()) return true;
+		float fePerFuel = TGConfig.ORE_DRILL_FUEL.get().floatValue();
+		if (fuelBuffer * fePerFuel >= amount) {
+			fuelBuffer -= (int) Math.max(amount / fePerFuel, 1);
 			return true;
 		}
-		amount -= (int) (fuelBuffer * FACTOR);
+		amount -= (int) (fuelBuffer * fePerFuel);
 		fuelBuffer = fuelBufferMax = 0;
 		ItemStack fuel = inventory.getStackInSlot(SLOT_FUEL);
 		int burn = fuel.isEmpty() ? 0 : fuel.getBurnTime(RecipeType.SMELTING);
@@ -234,8 +235,8 @@ public class OreDrillBlockEntity extends MultiBlockMachine {
 		} else if (!tank.isEmpty()) {
 			fuelBuffer = fuelBufferMax = tank.drain(1000, IFluidHandler.FluidAction.EXECUTE).getAmount() * 20;
 		}
-		if (fuelBuffer * FACTOR >= amount) {
-			fuelBuffer -= (int) Math.max(amount / FACTOR, 1);
+		if (fuelBuffer * fePerFuel >= amount) {
+			fuelBuffer -= (int) Math.max(amount / fePerFuel, 1);
 			return true;
 		}
 		return amount == 0 || energy.consume(amount);

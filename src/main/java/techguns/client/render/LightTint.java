@@ -18,6 +18,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import techguns.TGConfig;
 import techguns.Techguns;
 import techguns.client.LightPulses;
 
@@ -28,8 +29,6 @@ import techguns.client.LightPulses;
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class LightTint {
-	/** ponytail: constant until the M8 config. */
-	private static final float STRENGTH = 1.5f;
 	private static final int MAX_LIGHTS = 16;
 
 	private static final float[] lights = new float[MAX_LIGHTS * 8];
@@ -59,6 +58,8 @@ public final class LightTint {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	static void afterLevel(RenderLevelStageEvent event) {
 		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL || broken || tint == null || Bloom.shaderPack()) return;
+		float strength = TGConfig.LIGHT_TINT.get().floatValue();
+		if (strength <= 0) return;
 		int count = LightPulses.tints(lights, event.getCamera().getPosition(), event.getPartialTick().getGameTimeDeltaPartialTick(false));
 		if (count == 0) return;
 		RenderTarget main = Minecraft.getInstance().getMainRenderTarget();
@@ -74,7 +75,7 @@ public final class LightTint {
 			tint.safeGetUniform("LightCount").set(count);
 			tint.safeGetUniform("Lights").set(lights);
 			Bloom.pass(tint, main, target, null);
-			add.safeGetUniform("ColorModulate").set(STRENGTH, STRENGTH, STRENGTH, 0);
+			add.safeGetUniform("ColorModulate").set(strength, strength, strength, 0);
 			Bloom.pass(add, target, main, GlStateManager.SourceFactor.DST_COLOR);
 		} catch (RuntimeException e) {
 			fail("rendering", e);

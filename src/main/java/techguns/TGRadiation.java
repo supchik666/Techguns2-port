@@ -46,7 +46,7 @@ import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
  * 1.12 TGRadiationSystem. Players have a radiation level (0 to {@link #MAX_RADIATION}) that the radiation effect raises
  * every second, less their {@link TGAttributes#RADIATION_RESISTANCE}; from {@link #MINOR_POISONING} up it poisons them.
  * Radioactive items carried ({@link #ITEM_RADIATION}) and radiation zones ({@link techguns.entities.special.RadiationEntity})
- * give the effect. ponytail: always on; 1.12 had a WIP config to turn it off (off by default), wait for the M8 config.
+ * give the effect. The radiation config turns the level off (1.12 WIP_disableRadiationSystem).
  */
 @EventBusSubscriber(modid = Techguns.MODID)
 public class TGRadiation {
@@ -96,6 +96,7 @@ public class TGRadiation {
 
 	/** 1.12 TGExtendedPlayer.addRadiation: changes the level by {@code amount}, kept within 0 to {@link #MAX_RADIATION}. */
 	public static void addRadiation(Player player, int amount) {
+		if (!TGConfig.RADIATION.getAsBoolean()) return;
 		int old = getRadiation(player), level = Mth.clamp(old + amount, 0, MAX_RADIATION);
 		if (level != old) player.setData(RAD_LEVEL, level);
 	}

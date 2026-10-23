@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.fluids.FluidStack;
+import techguns.TGConfig;
 import techguns.TGItems;
 import techguns.recipes.MachineRecipe;
 
@@ -69,8 +70,9 @@ public abstract class MachineBlockEntity extends TGBlockEntity {
 			return received;
 		}
 
-		/** Takes all of {@code amount} or nothing. */
+		/** Takes all of {@code amount} or nothing; free with the machinesNeedNoPower config. */
 		public boolean consume(int amount) {
+			if (TGConfig.MACHINES_NEED_NO_POWER.getAsBoolean()) return true;
 			if (energy < amount) return false;
 			take(amount);
 			return true;

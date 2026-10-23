@@ -31,8 +31,10 @@ import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import techguns.TGConfig;
 import techguns.TGEffects;
 import techguns.TGItems;
+import techguns.TGPermissions;
 import techguns.TGSounds;
 import techguns.Techguns;
 import techguns.capabilities.TGExtendedPlayer;
@@ -85,7 +87,7 @@ public class TGPlayerEvents {
 		}
 		tickSlots(player, tg);
 		if (player.level().isClientSide) return;
-		autofeed(player, tg);
+		if (!TGConfig.DISABLE_AUTOFEEDER.getAsBoolean()) autofeed(player, tg);
 		if (tg.enableNightVision && ItemNightVisionGoggles.givesNightVision(tg.getSlot(TGExtendedPlayer.SLOT_FACE))) {
 			player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
 		}
@@ -232,8 +234,7 @@ public class TGPlayerEvents {
 				confirm(player, p, "techguns.armorTooltip.nightvision", tg.enableNightVision);
 			}
 			case SAFEMODE -> {
-				// ponytail: no unsafe-mode permission (1.12 TGPermissions) until the permissions port
-				tg.enableSafemode = !tg.enableSafemode;
+				tg.enableSafemode = !tg.enableSafemode || !TGPermissions.canUseUnsafeMode(player);
 				confirm(player, p, "techguns.msg.safemode", tg.enableSafemode);
 			}
 			case STEP_ASSIST -> {

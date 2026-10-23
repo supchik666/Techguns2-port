@@ -30,6 +30,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M7.2 Procedural structures: maze dungeons (castle, tech fortress, nether dungeon), military base, city
   - [x] M7.3 Alien bug nest
 - [ ] M8. Config and integrations
+  - [x] M8.1 Config (`TGConfig` client and server specs, NeoForge config screen) and the unsafe-mode permission
 
 Each milestone ends with the game launching and something testable in game.
 
@@ -273,6 +274,12 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Keybinds via `RegisterKeyMappingsEvent`.
 - Integrations in order: JEI, Patchouli (book moves to `data/`), CraftTweaker, permissions via NeoForge's permission API (replaces FTBLib).
 - Done early: Sable (Create Aeronautics ships), `plugins/sable/SableCompat`. Sable's patched `Level.clip` returns ship hits in plot coordinates; projectile hits, gun aim and missile lock map them back to the world. `TGExplosion` rays also sample ship blocks, break them and push the ship (impulse 5 per block, as Sable gives vanilla explosions). Sable and its companion API are `compileOnly`; Sable types stay in `SableCompat.Ships`, which only loads with Sable (the verifier would otherwise load them).
+
+**M8.1 done:**
+- `TGConfig`: `techguns-client.toml` (bloom, bloomIntensity, lightTint, scopeLens, screenShake) and the per-world `serverconfig/techguns-server.toml`, synced to clients: damagePvP 0.5, damageTurretToPlayer 0.5, damageFactorNPC 1 (`DamageSystem.damageFactor`, on all TG damage), helicopterSelfDamage, explosionBlockDamage, restrictUnsafeModeToOP, disableAutofeeder, radiation, machinesNeedNoPower (`MachineBlockEntity.Energy.consume` and the ore drill's fuel), upgradeXPCost, the two mining charge hardness limits, oreDrillMultiplierOre/Power and oreDrillFuelMultiplier, NPC danger distances, per-mob spawn weights (0 stops natural spawns) and npcBiomeBlacklist. 1.12 defaults except: spawn weights keep the port's tuning, radiation is on (1.12's WIP switch defaulted off), and helicopters stay immune to their own rockets (with the fixed explosion falloff they sit inside the full-damage radius). `client/TechgunsClient` registers NeoForge's `ConfigurationScreen`; entry names are `techguns.configuration.<name>` in `EXTRA_LANG`.
+- `TGPermissions`: node `techguns.allowunsafemode` (default allowed) via `PermissionGatherEvent.Nodes`, checked when toggling safe mode off and at login (forces safe mode back on), as in 1.12.
+- **Data-driven instead of config:** ore generation (`worldgen/placed_feature/ore_*`, `biome_modifier/ores.json`), structure spacing and spawning (`worldgen/structure_set`, `has_structure` biome tags), the overall TG NPC spawn weight and biomes (`biome_modifier/npcs_*.json`), loot. Override them with a datapack.
+- **Deferred:** FTBLib team integration (no port target); options for features not ported: death effects and gore, sprint FOV lock, particle depth sort passes, debug items, liquid fuel values and fluid lists, keepLavaRecipesWhenFuelIsPresent, per-cluster ore drill mining levels and multipliers (hard-coded in `OreDrillBlockEntity`); the monster cap (`MobCategoryMixin`) stays a constant; machine GUIs don't show "no power needed".
 
 ## Effort split
 Rendering (M2–M3) ~35–40%, machines and GUIs ~20%, world generation ~15%, the rest mostly mechanical.
