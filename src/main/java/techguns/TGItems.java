@@ -209,4 +209,13 @@ public class TGItems {
 	public static final DeferredItem<ItemJetpack> JETPACK = ITEMS.register("jetpack", () -> new ItemJetpack(4, 5000));
 	public static final DeferredItem<ItemTacticalMask> TACTICAL_MASK = ITEMS.register("tacticalmask", () -> new ItemTacticalMask(4, 24000));
 	public static final DeferredItem<ItemAntiGravPack> ANTI_GRAV_PACK = ITEMS.register("antigravpack", () -> new ItemAntiGravPack(5, 12000));
+
+	// Spawn eggs (M6.2), 1.12 egg colors
+	public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> ALIENBUG_SPAWN_EGG = ITEMS.register("alienbug_spawn_egg",
+			() -> new net.neoforged.neoforge.common.DeferredSpawnEggItem(TGEntities.ALIENBUG, 0xc6a96b, 0x71552e, new Item.Properties()));
+	public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> GHASTLING_SPAWN_EGG = ITEMS.register("ghastling_spawn_egg",
+			() -> new net.neoforged.neoforge.common.DeferredSpawnEggItem(TGEntities.GHASTLING, 0xaeaeae, 0xce81ff, new Item.Properties()));
+	public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> ATTACK_HELICOPTER_SPAWN_EGG = ITEMS.register(
+			"attackhelicopter_spawn_egg",
+			() -> new net.neoforged.neoforge.common.DeferredSpawnEggItem(TGEntities.ATTACK_HELICOPTER, 0x373d23, 0x8ec0d7, new Item.Properties()));
 }

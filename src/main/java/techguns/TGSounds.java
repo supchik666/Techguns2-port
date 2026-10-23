@@ -155,6 +155,19 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_CLOSE = register("blocks.techdoor.close");
 	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_STATE_FINISHED = register("blocks.techdoor.statefinished");
 
+	// Special mobs (M6.2)
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBUG_IDLE = register("npcs.alienbugidle");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBUG_HURT = register("npcs.alienbughurt");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBUG_DEATH = register("npcs.alienbugdeath");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBUG_STEP = register("npcs.alienbugstep");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBUG_AGGRO = register("npcs.alienbugaggro");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ALIENBUG_BITE = register("npcs.alienbugbite");
+	public static final DeferredHolder<SoundEvent, SoundEvent> HELICOPTER_HIT = register("npcs.apachehit");
+	public static final DeferredHolder<SoundEvent, SoundEvent> HELICOPTER_ROTOR = register("npcs.apacherotor");
+	public static final DeferredHolder<SoundEvent, SoundEvent> HELICOPTER_BURST = register("npcs.apacheburst");
+	public static final DeferredHolder<SoundEvent, SoundEvent> HELICOPTER_DEATH = register("npcs.apachedie");
+	public static final DeferredHolder<SoundEvent, SoundEvent> HELICOPTER_EXPLODE = register("npcs.apacheexplode");
+
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);
 	}

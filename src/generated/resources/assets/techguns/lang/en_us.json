@@ -284,8 +284,8 @@
   "entity.techguns.SuperMutantHeavy.name": "Heavy Super Mutant",
   "entity.techguns.SkeletonSoldier.name": "Skeleton Soldier",
   "entity.techguns.ZombiePigmanSoldier.name": "Zombie Pigman Soldier",
-  "entity.techguns.AttackHelicopter.name": "Attack Helicopter",
-  "entity.techguns.AlienBug.name": "Alien Bug",
+  "entity.techguns.attackhelicopter": "Attack Helicopter",
+  "entity.techguns.alienbug": "Alien Bug",
   "entity.techguns.Turret.name": "Turret",
   "techguns.tgguitooltip.on": "Enabled",
   "techguns.tgguitooltip.off": "Disabled",
@@ -802,7 +802,7 @@
   "block.techguns.nethermetal_plate_black": "Nether Metal (Dark Pillar)",
   "block.techguns.nethermetal_plate_red": "Nether Metal (Red Panel)",
   "block.techguns.nethermetal_border_lava": "Nether Metal (Lava Pillar)",
-  "entity.techguns.Ghastling.name": "Ghastling",
+  "entity.techguns.ghastling": "Ghastling",
   "item.techguns.riot_shield": "Riot Shield",
   "item.techguns.riot_shield.camoname.1": "Black",
   "item.techguns.riot_shield.camoname.2": "Dark Green",
@@ -835,5 +835,8 @@
   "techguns.key.openTGInventory": "Open Techguns Inventory",
   "item.techguns.creeper_acid_bucket": "Creeper Acid Bucket",
   "block.techguns.door3x3": "Techdoor",
-  "techguns.container.explosivecharge": "Mining Charge"
+  "techguns.container.explosivecharge": "Mining Charge",
+  "item.techguns.alienbug_spawn_egg": "Alien Bug Spawn Egg",
+  "item.techguns.ghastling_spawn_egg": "Ghastling Spawn Egg",
+  "item.techguns.attackhelicopter_spawn_egg": "Attack Helicopter Spawn Egg"
 }
