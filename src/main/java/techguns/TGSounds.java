@@ -115,6 +115,9 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> DRILLER_BREAK = register("guns.drillerbreak");
 	public static final DeferredHolder<SoundEvent, SoundEvent> SHISHKEBAP_SWING = register("guns.shishkebabfire");
 	public static final DeferredHolder<SoundEvent, SoundEvent> SHISHKEBAP_RELOAD = register("guns.shishkebabreload");
+	// Radiation (M4)
+	public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER_LOW = register("effects.geiger.low");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER_HIGH = register("effects.geiger.high");
 
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);

@@ -1,10 +1,16 @@
 package techguns;
 
+import java.util.List;
+
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.UseAnim;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import techguns.items.RadConsumable;
 import techguns.items.tools.Crowbar;
 import techguns.items.tools.TGTiers;
 
@@ -175,4 +181,11 @@ public class TGItems {
 			p -> new SwordItem(TGTiers.STEEL, p.attributes(SwordItem.createAttributes(TGTiers.STEEL, 3, -2.4f))));
 	public static final DeferredItem<Crowbar> CROWBAR = ITEMS.registerItem("crowbar",
 			p -> new Crowbar(p.attributes(PickaxeItem.createAttributes(TGTiers.STEEL, 1.0f, -2.8f))));
+
+	// Radiation (M4)
+	public static final DeferredItem<RadConsumable> RAD_AWAY = ITEMS.register("radaway", () -> new RadConsumable(UseAnim.BOW, INFUSION_BAG,
+			() -> List.of(new MobEffectInstance(TGRadiation.RAD_REGENERATION, 400, 14, false, false))));
+	public static final DeferredItem<RadConsumable> RAD_PILLS = ITEMS.register("radpills", () -> new RadConsumable(UseAnim.EAT, () -> Items.GLASS_BOTTLE,
+			() -> List.of(new MobEffectInstance(TGRadiation.RAD_REGENERATION, 500, 1, false, false),
+					new MobEffectInstance(TGRadiation.RAD_RESISTANCE, 3600, 2, false, false))));
 }

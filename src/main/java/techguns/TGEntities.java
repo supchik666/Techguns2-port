@@ -25,6 +25,7 @@ import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.SonicShotgunProjectile;
 import techguns.entities.projectiles.TFGProjectile;
 import techguns.entities.projectiles.TeslaProjectile;
+import techguns.entities.special.RadiationEntity;
 
 public class TGEntities {
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, Techguns.MODID);
@@ -57,6 +58,9 @@ public class TGEntities {
 			Grenade40mmProjectile::new);
 	public static final DeferredHolder<EntityType<?>, EntityType<TFGProjectile>> TFG_PROJECTILE = projectile("tfg_projectile", TFGProjectile::new);
 	public static final DeferredHolder<EntityType<?>, EntityType<BioGunProjectile>> BIOGUN_PROJECTILE = projectile("biogun_projectile", BioGunProjectile::new);
+	/** Tracking range 0: never sent to clients. */
+	public static final DeferredHolder<EntityType<?>, EntityType<RadiationEntity>> RADIATION = ENTITIES.register("radiation",
+			() -> EntityType.Builder.<RadiationEntity>of(RadiationEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(0).build("radiation"));
 
 	private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory) {
 		return ENTITIES.register(name, () -> EntityType.Builder.of(factory, MobCategory.MISC).sized(0.25f, 0.25f)

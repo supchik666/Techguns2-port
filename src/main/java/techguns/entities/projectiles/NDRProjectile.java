@@ -1,18 +1,21 @@
 package techguns.entities.projectiles;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import techguns.TGEffects;
 import techguns.TGEntities;
+import techguns.TGRadiation;
 
 /**
  * Nuclear death ray: a beam that follows the shooter's aim and re-traces (and hits) every tick of its 10 tick life, on
- * both sides; the client trace only plays the impact effect. ponytail: no radiation effect on hit until the M4
- * radiation system; the client traces from the 3rd person muzzle also in first person.
+ * both sides; the client trace only plays the impact effect, and what it hits gets the radiation effect. ponytail: the
+ * client traces from the 3rd person muzzle also in first person.
  */
 public class NDRProjectile extends AbstractBeamProjectile {
 	static final int BEAM_LIFETIME = 10;
@@ -36,6 +39,14 @@ public class NDRProjectile extends AbstractBeamProjectile {
 			trace();
 		}
 		super.tick();
+	}
+
+	@Override
+	protected void onHitEntity(EntityHitResult result) {
+		super.onHitEntity(result);
+		if (!level().isClientSide && result.getEntity() instanceof LivingEntity living) {
+			living.addEffect(new MobEffectInstance(TGRadiation.RADIATION, 40, 4, false, true));
+		}
 	}
 
 	@Override

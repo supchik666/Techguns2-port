@@ -112,6 +112,14 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Combat knife and crowbar on the 1.12 steel tier (`items/tools`); they're in the vanilla `swords`/`pickaxes` tags for enchanting.
 - Shots leave from the gun muzzle (`GenericProjectile.aim`): beside, below and in front of the eyes, aimed at the crosshair point; from the eyes when a block is in the way.
 - **Deferred:** damage types, gore, penetration (M4), drill sneak silk touch, per-tool-type harvest levels, the shishkebap flame on the held model.
+**M4 radiation done:**
+- `TGRadiation` (1.12 `TGRadiationSystem`): the player's radiation level is the `techguns:radiation` attachment (saved, kept through death less 200, synced to its own player). Effects `radiation`, `radregeneration`, `radresistance` with the 1.12 icons drawn from `tgplayerinventory.png`; four potions with the 1.12 brewing mixes. Poisoning at 500/750/1000 as in 1.12, lethal damage is `techguns:radiation_poisoning` (bypasses armor); the radiation effect hurts mobs with `techguns:radiation`.
+- `TGAttributes.RADIATION_RESISTANCE` (`techguns:radiation_resistance`) on every living entity; the radresistance effect adds to it.
+- Radioactive items are the `techguns:radiation` item data map (`data/techguns/data_maps/item/radiation.json`, 1.12 numbers, uranium tags included); carrying one gives the effect every 3 s, the tooltip shows its strength.
+- Sources: the nuke leaves a `RadiationEntity` zone for 60 s (server only); the NDR beam gives radiation V for 2 s. The biogun never irradiated in 1.12. The zone falloff runs from full at the inner radius to the outer strength at the edge; 1.12 had it backwards, fixed on purpose.
+- RadAway and Anti-RAD Pills (`RadConsumable`); in 1.12 they come from the chem lab, so their recipes come with M5.
+- HUD: "N RAD" and "+[n RAD/s]" at the right edge (`client/RadiationHud`).
+- **Deferred:** the 1.12 config switch (off by default there, WIP), the radiation resistance of armor and the gas mask (attribute modifiers, from the armor and extra slot work), the TG damage type mapping of the two damage types, the radiation line in the TG inventory GUI, the reaction chamber as a source (M5), mutants' radiation immunity (M6).
 
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.
