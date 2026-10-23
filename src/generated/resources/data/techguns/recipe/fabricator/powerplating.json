@@ -1,0 +1,36 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "tag": "c:ingots/titanium",
+      "count": 2
+    },
+    {
+      "tag": "c:circuits/basic",
+      "count": 4
+    },
+    {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "tag": "c:plates/carbon",
+      "count": 4
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:powerplating",
+      "count": 2
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:powerplating"
+    }
+  ]
+}

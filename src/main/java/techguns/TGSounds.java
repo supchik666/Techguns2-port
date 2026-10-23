@@ -138,6 +138,14 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> CHARGING_STATION_WORK = register("machines.chargingstationwork");
 	public static final DeferredHolder<SoundEvent, SoundEvent> GRINDER_START = register("machines.grinder.start");
 	public static final DeferredHolder<SoundEvent, SoundEvent> GRINDER_WORK = register("machines.grinder.work");
+	// Multiblock machines (M5.2)
+	public static final DeferredHolder<SoundEvent, SoundEvent> FABRICATOR_WORK = register("machines.fabricatorwork");
+	public static final DeferredHolder<SoundEvent, SoundEvent> RC_HEATRAY_WORK = register("machines.rc_heatraywork");
+	public static final DeferredHolder<SoundEvent, SoundEvent> RC_WARNING = register("machines.rc_warning");
+	public static final DeferredHolder<SoundEvent, SoundEvent> RC_BEEP = register("machines.rc_beep");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ORE_DRILL_SMALL = register("machines.oredrillsmallwork");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ORE_DRILL_MEDIUM = register("machines.oredrillmediumwork");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ORE_DRILL_LARGE = register("machines.oredrilllargework");
 
 	public static final DeferredHolder<SoundEvent, SoundEvent> TNT_TICK = register("tntcharge.tick");
 	public static final DeferredHolder<SoundEvent, SoundEvent> TNT_INIT = register("tntcharge.init");

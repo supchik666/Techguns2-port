@@ -1,0 +1,29 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "tag": "c:ingots/gold"
+    },
+    {
+      "tag": "c:wires/copper"
+    },
+    {
+      "tag": "c:dusts/redstone",
+      "count": 3
+    },
+    {
+      "tag": "c:plates/plastic"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:energycellempty"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:energycellempty"
+    }
+  ]
+}

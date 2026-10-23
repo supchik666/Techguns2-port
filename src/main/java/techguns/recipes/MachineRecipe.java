@@ -47,6 +47,7 @@ public record MachineRecipe(Kind kind, List<SizedIngredient> inputs, Optional<Si
 	public static final Kind BLAST_FURNACE = new Kind("blast_furnace");
 	public static final Kind CHARGING_STATION = new Kind("charging_station");
 	public static final Kind CHEM_LAB = new Kind("chem_lab");
+	public static final Kind FABRICATOR = new Kind("fabricator");
 
 	/** A machine's recipe type and serializer, both named after it. */
 	public static final class Kind {

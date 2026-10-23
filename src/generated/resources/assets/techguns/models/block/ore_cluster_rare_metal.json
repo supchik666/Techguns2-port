@@ -1,6 +1,7 @@
 {
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-		"all": "techguns:block/ore_cluster_rare_metal"
-    }
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "techguns:block/ore_cluster_rare_metal"
+  },
+  "render_type": "minecraft:cutout"
 }

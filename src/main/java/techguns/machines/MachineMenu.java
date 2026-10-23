@@ -59,7 +59,7 @@ public class MachineMenu extends AbstractContainerMenu {
 
 	@Override
 	public boolean stillValid(Player player) {
-		return Container.stillValidBlockEntity(be, player);
+		return Container.stillValidBlockEntity(be, player, be.menuRange());
 	}
 
 	@Override

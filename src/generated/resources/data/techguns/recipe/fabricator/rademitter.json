@@ -1,0 +1,39 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "item": "techguns:enricheduranium"
+    },
+    {
+      "tag": "c:circuits/elite",
+      "count": 2
+    },
+    {
+      "item": "techguns:mechanicalpartscarbon",
+      "count": 2
+    },
+    {
+      "tag": "c:plates/lead",
+      "count": 2
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:rademitter"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:enricheduranium"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rademitter"
+    }
+  ]
+}

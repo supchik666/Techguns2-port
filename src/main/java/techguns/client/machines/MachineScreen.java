@@ -27,6 +27,9 @@ import techguns.machines.MachineBlockEntity;
 import techguns.machines.MachineMenu;
 import techguns.machines.MetalPressBlockEntity;
 import techguns.machines.TGBlockEntity;
+import techguns.machines.multiblock.FabricatorBlockEntity;
+import techguns.machines.multiblock.OreDrillBlockEntity;
+import techguns.machines.multiblock.ReactionChamberBlockEntity;
 import techguns.recipes.MachineRecipe;
 
 /**
@@ -55,6 +58,9 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 			case BlastFurnaceBlockEntity be -> new BlastFurnace(menu, inventory, title);
 			case ChargingStationBlockEntity be -> new ChargingStation(menu, inventory, title);
 			case ChemLabBlockEntity be -> new ChemLab(menu, inventory, title, be);
+			case FabricatorBlockEntity be -> new MultiBlockScreens.Fabricator(menu, inventory, title);
+			case ReactionChamberBlockEntity be -> new MultiBlockScreens.ReactionChamber(menu, inventory, title, be);
+			case OreDrillBlockEntity be -> new MultiBlockScreens.OreDrill(menu, inventory, title, be);
 			default -> throw new IllegalStateException("No screen for " + menu.be);
 		};
 	}
@@ -87,8 +93,10 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 		g.blit(COMMON, k + 11, l + 5, 245, on ? 5 : 0, 5, 5);
 		int diff = 48 - menu.energy() * 48 / be.energy.getMaxEnergyStored();
 		g.blit(COMMON, k + 8, l + 17 + diff, 251, 1 + diff, 4, 48 - diff);
-		int[] upgrade = be.slots[be.upgradeSlot()];
-		g.blit(COMMON, k + upgrade[0] - 1, l + upgrade[1] - 1, 119, 59, 20, 20);
+		if (be.upgradeSlot() >= 0) {
+			int[] upgrade = be.slots[be.upgradeSlot()];
+			g.blit(COMMON, k + upgrade[0] - 1, l + upgrade[1] - 1, 119, 59, 20, 20);
+		}
 		if (be.isWorking()) renderProgress(g, k, l);
 	}
 

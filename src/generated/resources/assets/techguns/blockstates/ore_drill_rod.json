@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=north,formed=false": {
+      "model": "techguns:block/oredrill_rod"
+    },
+    "facing=south,formed=false": {
+      "model": "techguns:block/oredrill_rod"
+    },
+    "facing=east,formed=false": {
+      "model": "techguns:block/oredrill_rod"
+    },
+    "facing=west,formed=false": {
+      "model": "techguns:block/oredrill_rod"
+    },
+    "facing=north,formed=true": {
+      "model": "techguns:block/oredrill_rod_c"
+    },
+    "facing=south,formed=true": {
+      "model": "techguns:block/oredrill_rod_c"
+    },
+    "facing=east,formed=true": {
+      "model": "techguns:block/oredrill_rod_c"
+    },
+    "facing=west,formed=true": {
+      "model": "techguns:block/oredrill_rod_c"
+    }
+  }
+}

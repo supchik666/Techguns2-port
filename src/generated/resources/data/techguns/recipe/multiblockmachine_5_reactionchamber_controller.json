@@ -7,7 +7,7 @@
   ],
   "key": {
     "r": {
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:reaction_chamber_housing"
     },
     "c": {
       "tag": "c:circuits/elite"
@@ -17,12 +17,16 @@
     }
   },
   "result": {
-    "id": "techguns:multiblockmachine"
+    "id": "techguns:reaction_chamber_controller"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:reaction_chamber_controller"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:reaction_chamber_housing"
     }
   ]
 }

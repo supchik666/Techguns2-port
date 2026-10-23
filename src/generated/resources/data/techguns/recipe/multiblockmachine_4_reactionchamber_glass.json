@@ -7,20 +7,24 @@
   ],
   "key": {
     "r": {
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:reaction_chamber_housing"
     },
     "g": {
       "tag": "c:glass_blocks"
     }
   },
   "result": {
-    "id": "techguns:multiblockmachine",
+    "id": "techguns:reaction_chamber_glass",
     "count": 6
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:reaction_chamber_glass"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:reaction_chamber_housing"
     }
   ]
 }

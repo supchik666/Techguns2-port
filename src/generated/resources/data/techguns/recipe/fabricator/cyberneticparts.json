@@ -1,0 +1,28 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "tag": "c:wires/gold"
+    },
+    {
+      "tag": "c:dusts/redstone"
+    },
+    {
+      "tag": "c:plates/plastic"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:cyberneticparts"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:cyberneticparts"
+    }
+  ]
+}

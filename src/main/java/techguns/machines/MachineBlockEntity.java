@@ -35,6 +35,7 @@ public abstract class MachineBlockEntity extends TGBlockEntity {
 	public final MachineRecipe.Kind kind;
 	public final int inputs;
 	public final boolean bottle;
+	private final boolean upgrade;
 	public final int outputStart, outputs;
 	/** FE/t of recipes that set none. */
 	public final int defaultPower;
@@ -90,18 +91,25 @@ public abstract class MachineBlockEntity extends TGBlockEntity {
 
 	protected MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, String name, int[][] slots, MachineRecipe.Kind kind,
 			int capacity, int defaultPower, int inputs, boolean bottle) {
+		this(type, pos, state, name, slots, kind, capacity, defaultPower, inputs, bottle, true);
+	}
+
+	/** {@code upgrade}: whether the last slot is the upgrade slot; machines without one get {@link #upgradeSlot()} -1. */
+	protected MachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, String name, int[][] slots, MachineRecipe.Kind kind,
+			int capacity, int defaultPower, int inputs, boolean bottle, boolean upgrade) {
 		super(type, pos, state, name, slots);
 		this.kind = kind;
 		this.energy = new Energy(capacity);
 		this.defaultPower = defaultPower;
 		this.inputs = inputs;
 		this.bottle = bottle;
+		this.upgrade = upgrade;
 		this.outputStart = inputs + (bottle ? 1 : 0);
-		this.outputs = slots.length - 1 - outputStart;
+		this.outputs = slots.length - (upgrade ? 1 : 0) - outputStart;
 	}
 
 	public int upgradeSlot() {
-		return inventory.getSlots() - 1;
+		return upgrade ? inventory.getSlots() - 1 : -1;
 	}
 
 	@Override
@@ -122,6 +130,7 @@ public abstract class MachineBlockEntity extends TGBlockEntity {
 
 	/** 1 + the stack upgrades in the upgrade slot. */
 	public int multiplier() {
+		if (!this.upgrade) return 1;
 		ItemStack upgrade = inventory.getStackInSlot(upgradeSlot());
 		return upgrade.is(TGItems.MACHINE_UPGRADE_STACK) ? 1 + upgrade.getCount() : 1;
 	}
@@ -147,7 +156,7 @@ public abstract class MachineBlockEntity extends TGBlockEntity {
 		powered = false;
 		if (redstoneEnabled()) {
 			if (operation != null) {
-				if (energy.consume(operation.power)) {
+				if (consumePower(operation.power)) {
 					powered = true;
 					if (++progress >= totaltime) {
 						finish(operation);
@@ -162,6 +171,11 @@ public abstract class MachineBlockEntity extends TGBlockEntity {
 			}
 		}
 		if (powered != wasPowered) needUpdate();
+	}
+
+	/** Takes a working tick's {@code amount} FE, all or nothing (the ore drill burns fuel first). */
+	protected boolean consumePower(int amount) {
+		return energy.consume(amount);
 	}
 
 	/** Client side, every working tick: sounds and particles (1.12 playAmbientSound). */

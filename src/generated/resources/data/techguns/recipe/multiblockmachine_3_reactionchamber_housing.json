@@ -23,7 +23,7 @@
     }
   },
   "result": {
-    "id": "techguns:multiblockmachine",
+    "id": "techguns:reaction_chamber_housing",
     "count": 9
   },
   "neoforge:conditions": [
@@ -41,7 +41,7 @@
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:reaction_chamber_housing"
     }
   ]
 }

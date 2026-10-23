@@ -17,9 +17,9 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M3.3 Explosives, charge guns, grenades
   - [x] M3.4 Melee and mining tools
 - [x] M4. Player data, armor and damage
-- [ ] M5. Machines and GUIs
+- [x] M5. Machines and GUIs
   - [x] M5.1 Machine framework and the six single-block machines
-  - [ ] M5.2 Multiblocks: fabricator, reaction chamber (also a radiation source, M4), ore drill; keep the 1.12 master/slave design
+  - [x] M5.2 Multiblocks: fabricator, reaction chamber (also a radiation source, M4), ore drill; keep the 1.12 master/slave design
   - [x] M5.3 Benches and the rest: repair bench (repairs broken armor, M4), camo bench (shield and gun camos), upgrade bench, explosive charges, 3x3 door. Brings back the turret/camo bench/repair bench/armor bench crafting recipes once their blocks have CSV rows. The turret waits for M6 (NPC AI).
 - [ ] M6. NPCs
 - [ ] M7. World generation
@@ -122,7 +122,7 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Sources: the nuke leaves a `RadiationEntity` zone for 60 s (server only); the NDR beam gives radiation V for 2 s. The biogun never irradiated in 1.12. The zone falloff runs from full at the inner radius to the outer strength at the edge; 1.12 had it backwards, fixed on purpose.
 - RadAway and Anti-RAD Pills (`RadConsumable`); in 1.12 they come from the chem lab, so their recipes come with M5.
 - HUD: "N RAD" and "+[n RAD/s]" at the right edge (`client/RadiationHud`).
-- **Deferred:** the 1.12 config switch (off by default there, WIP), the reaction chamber as a source (M5), mutants' radiation immunity (M6).
+- **Deferred:** the 1.12 config switch (off by default there, WIP), mutants' radiation immunity (M6).
 
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.
@@ -190,6 +190,24 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - CSV rows for the benches, charges, door and turret (item row only, so its recipe stays gated until M6).
 - GameTests in `BenchTests` (repair fixes broken armor, camo bench cycles an M4, upgrade bench Protection II, charge breaks a cube, door opens on redstone).
 - **Deferred:** hangar and nether 3x3 doors; upgrade bench inputs stay in the block instead of dropping back on close; upgrades check only for TG armor, not the enchantment's item tags (TG armor isn't in the vanilla enchantable tags, so it can't be enchanted at a table either); charge hardness limits aren't configurable (M8); JEI for the benches.
+
+**M5.2 done (multiblocks):**
+- `machines/multiblock/`: `MultiBlockMachine` (the 1.12 master: `check` finds the parts for a click on a face and returns them with their type, `tryForm` links them, `unform` unlinks exactly those; runs only while formed), `MultiBlockController` (click unformed to form, formed or sneaking opens the GUI), `MultiBlockPart` + `MultiBlockSlave` (the 1.12 slave: `formed`/`facing` state, a block entity holding the controller's position and its part type; opens the controller's GUI, buckets into its tank, unforms it when broken), `MultiBlocks` (block entity types, the RC recipe type, capabilities: parts forward to `MultiBlockMachine.partCapability(cap, type)`). Framework hooks: `MachineBlockEntity` constructor flag for machines without an upgrade slot, `consumePower`, `TGBlockEntity.menuRange`.
+- **Fabricator** (`FabricatorBlockEntity`): click the controller's side. Controller and three housings at the bottom (behind the controller, to its left as the player sees it, and behind that), four fabricator glass on top. Housings take items and power. Recipe type `techguns:fabricator`, the M5.1 machine format (four inputs: item, wire, powder, plate; 80 FE/t default, upgrade slot). `MultiBlockRenderers` draws the 1.12 model on the controller.
+- **Reaction chamber** (`ReactionChamberBlockEntity`): click a side of the controller. Behind it a 3x3 floor of housings (the controller is the middle of the front row), two layers of 3x3 glass, a 3x3 ceiling of housings. The bottom center of the back and the sides take items and fluid, the ceiling center takes power. The GUI sets the liquid level (buckets the tank fills to; it drains only what's above it) and the beam intensity; a reaction starts when input, focus, fluid, level, exact amount and intensity match a recipe. Every 60 ticks it takes `power` FE and counts a completion if the focus, intensity and level still match; the wanted intensity drifts (the marker beside the intensity bar). A missed reaction tick irradiates entities within 6 blocks (`TGRadiation.applyRadToEntities`, strength ceil(intensity / 2) - 1). Out of time: the input is lost, `explosion_low` blows out the middle of the chamber, `explosion_medium` the whole glass box, `break_item` stops it. Recipes `data/techguns/recipe/reaction_chamber/` from `RC_RECIPES`:
+  ```json
+  {"type": "techguns:reaction_chamber",
+   "input": {"item": "minecraft:wheat_seeds"}, "focus": "techguns:rcuvemitter",
+   "fluid": {"fluid": "minecraft:water"},
+   "results": [{"id": "minecraft:wheat"}, {"id": "minecraft:wheat_seeds", "count": 2}],
+   "ticks": 10, "required_completion": 5, "intensity": 3, "margin": 1,
+   "liquid_level": 1, "liquid_consumption": 1000, "instability": 0.5,
+   "risk": "explosion_low", "power": 50000}
+  ```
+  `ticks` is in reaction ticks (60 game ticks); `power` is FE per reaction tick; `margin` (default 0), `liquid_consumption` (0), `instability` (0, chance per reaction tick) and `risk` (`none`, `break_item`, `explosion_low`, `explosion_medium`) are optional. KubeJS: `event.custom({type: 'techguns:reaction_chamber', ...})`, `event.remove({type: 'techguns:reaction_chamber'})`; the same for `techguns:fabricator`.
+- **Ore drill** (`OreDrillBlockEntity`): click the controller anywhere. Smallest: controller, one drill rod, an ore cluster behind it. Bigger: from the controller a line of engines then rods (at most 16) ending at a cluster, a square of engines `radius` (0-3) wide around the engine line, then a frame around everything: frame blocks on the edges and the first and last ring, scaffolds on the faces, air inside the rod part. Rods at least 2r+1 and at least the engines, more engines than r. Every part but the rods takes items, power and lava. The head must fit the size (small for the mini drill, medium for engine radius 0-1, large for 2-3); speed and power follow 1.12 (cluster size up to the drill length, head level + drill radius - cluster level). Fuel slot burns furnace fuel, the tank burns lava (20 per mB), at 1000 FE per fuel point, then FE. Clusters (`ore_cluster_*`, unbreakable, creative only for now) and their ores are the 1.12 defaults in `OreDrillBlockEntity.clusters()`.
+- GameTests in `MultiBlockTests` (fabricator forms through and crafts through a housing, breaking a part unforms, an RC reaction run while following the intensity, the mini drill mines on coal, a drill with frame and scaffolds forms); template `empty8` (8x8x8 air).
+- **Deferred:** RC beam/item renderer and the ore drill head renderer (1.12 hid the last scaffold row behind it), connected textures; the fabricator's item on the plate; ore cluster worldgen (M7); the oil cluster (1.12 pumped oil into an output tank; now it mines cobblestone) and fuel fluids for the drill; liquid redstone and liquid ender (RC recipes use lava instead); the ore drill GUI's fuel bar only syncs when a run starts or ends; a JEI category for the RC and ore drill; `oreDrillMultiplier*` config (M8).
 
 ### M6. NPCs
 - 27 mob types. `EntityAIBase` → `Goal`.

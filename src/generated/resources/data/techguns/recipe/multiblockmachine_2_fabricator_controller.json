@@ -10,19 +10,23 @@
       "tag": "c:circuits/elite"
     },
     "f": {
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:fabricator_housing"
     },
     "g": {
       "tag": "c:glass_blocks"
     }
   },
   "result": {
-    "id": "techguns:multiblockmachine"
+    "id": "techguns:fabricator_controller"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:fabricator_controller"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:fabricator_housing"
     }
   ]
 }

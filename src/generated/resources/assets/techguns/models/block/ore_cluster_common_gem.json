@@ -1,6 +1,7 @@
 {
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-		"all": "techguns:block/ore_cluster_common_gem"
-    }
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "techguns:block/ore_cluster_common_gem"
+  },
+  "render_type": "minecraft:cutout"
 }
