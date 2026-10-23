@@ -8,6 +8,8 @@ import techguns.items.guns.GenericGun.Crosshair;
 import techguns.items.guns.GenericGun.GunHandType;
 import techguns.items.guns.GenericGun.RangeTooltipType;
 import techguns.items.guns.GenericGunCharge;
+import techguns.items.guns.GenericGunMeleeCharge;
+import techguns.items.guns.GenericGunMeleeCharge.RightClick;
 import techguns.items.guns.GuidedMissileLauncher;
 import techguns.items.guns.SonicShotgun;
 import techguns.items.guns.ammo.AmmoTypes;
@@ -394,6 +396,71 @@ public class TGuns {
 					.setForwardOffset(0.40f)
 					.setCrossHair(Crosshair.TRI_INV)
 					.setNoMuzzleLight());
+
+	// Powered melee tools (M3.4). Their upgrade heads live here as they only matter to them.
+
+	public static final DeferredItem<GenericGun> POWERHAMMER = TGItems.ITEMS.register("powerhammer",
+			() -> new GenericGunMeleeCharge(AmmoTypes.COMPRESSED_AIR_TANK, false, 4, 300, 45, 3.5f, TGSounds.POWERHAMMER_FIRE, TGSounds.POWERHAMMER_RELOAD, 3, 0.0f, 20f, 5)
+					.setMeleeDmg(6, 2)
+					.setTool("pickaxe", 2)
+					.setTool("shovel", 2)
+					.setDigSpeed(12)
+					.setMiningHeads(2.0f, TGItems.POWERHAMMERHEAD_OBSIDIAN, TGItems.POWERHAMMERHEAD_CARBON)
+					.setChargedDamagePerHead(0.5f)
+					.setMeleeSounds(TGSounds.POWERHAMMER_SWING, TGSounds.POWERHAMMER_IMPACT, TGSounds.POWERHAMMER_IMPACT, true)
+					.setChargedProjectile(PowerHammerProjectile::charged)
+					.setChargeSound(TGSounds.POWERHAMMER_CHARGE)
+					.setBulletSpeed(1.0f)
+					.setTexture("textures/guns/powerhammer")
+					.setRecoiltime(12)
+					.setDamageDrop(3, 3, 2.5f));
+	public static final DeferredItem<GenericGun> CHAINSAW = TGItems.ITEMS.register("chainsaw",
+			() -> new GenericGunMeleeCharge(AmmoTypes.FUEL_TANK, false, 3, 300, 45, 10.0f, TGSounds.CHAINSAW_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f, 1f, 1)
+					.setMeleeDmg(12, 2)
+					.setTool("axe", 3)
+					.setDigSpeed(14)
+					.setMiningHeads(3.0f, TGItems.CHAINSAWBLADES_OBSIDIAN, TGItems.CHAINSAWBLADES_CARBON)
+					.setRightClick(RightClick.FIRE)
+					.setMeleeSounds(TGSounds.CHAINSAW_LOOP, TGSounds.CHAINSAW_HIT, TGSounds.CHAINSAW_HIT, false)
+					.setChargedProjectile(PowerHammerProjectile::charged)
+					.setTexture("textures/guns/chainsaw")
+					.setRecoiltime(5)
+					.setFiresoundStart(TGSounds.CHAINSAW_LOOP_START)
+					.setMaxLoopDelay(10)
+					.setPenetration(PENETRATION_MED));
+	public static final DeferredItem<GenericGun> MININGDRILL = TGItems.ITEMS.register("miningdrill",
+			() -> new GenericGunMeleeCharge(AmmoTypes.FUEL_TANK, false, 3, 300, 45, 10.0f, TGSounds.DRILLER_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f, 1f, 1)
+					.setMeleeDmg(12, 2)
+					.setTool("pickaxe", 3)
+					.setTool("shovel", 3)
+					.setDigSpeed(14)
+					.setMiningRadius(1)
+					.setSwingSoundDelay(10)
+					.setMiningHeads(2.0f, TGItems.MININGDRILLHEAD_CARBON)
+					.setRightClick(RightClick.FIRE)
+					.setMeleeSounds(TGSounds.DRILLER_SWING, TGSounds.DRILLER_BREAK, TGSounds.DRILLER_HIT, true)
+					.setChargedProjectile(PowerHammerProjectile::charged)
+					.setTexture("textures/guns/miningdrill_obsidian")
+					.setRecoiltime(5)
+					.setFiresoundStart(TGSounds.DRILLER_SWING)
+					.setMaxLoopDelay(10)
+					.setPenetration(PENETRATION_MED));
+	public static final DeferredItem<GenericGun> SHISHKEBAP = TGItems.ITEMS.register("shishkebap",
+			() -> new GenericGunMeleeCharge(AmmoTypes.FUEL_TANK, false, 3, 300, 50, 12.0f, TGSounds.SHISHKEBAP_SWING, TGSounds.SHISHKEBAP_RELOAD, 2, 0.0f, 1f, 1)
+					.setMeleeDmg(14, 2)
+					.setTool("sword", 3)
+					.setDigSpeed(4)
+					.setHasCustomAnim(false)
+					.setRightClick(RightClick.NONE)
+					.setMeleeSounds(TGSounds.SHISHKEBAP_SWING, null, null, true)
+					.setFireOnHit(3)
+					.setChargedProjectile(PowerHammerProjectile::charged)
+					.setTextures("textures/guns/shishkebab_texture", 3)
+					.setRecoiltime(5)
+					.setPenetration(PENETRATION_MED)
+					.setHandType(GunHandType.ONE_HANDED)
+					.setNoBowAnim()
+					.setAmbientFX("ScreenTestFX"));
 
 	public static final DeferredItem<GenericGrenade> STIELGRANATE = TGItems.ITEMS.register("stielgranate",
 			() -> new GenericGrenade()

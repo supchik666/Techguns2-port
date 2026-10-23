@@ -1,0 +1,24 @@
+{
+  "type": "techguns:miningtool_upgrade",
+  "ingredients": [
+    {
+      "item": "techguns:miningdrill"
+    },
+    {
+      "item": "techguns:miningdrillhead_carbon"
+    }
+  ],
+  "result": {
+    "id": "techguns:miningdrill"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:miningdrill"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:miningdrillhead_carbon"
+    }
+  ]
+}

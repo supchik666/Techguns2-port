@@ -83,6 +83,7 @@ BEWLR_ITEMS = [
     "lasergun", "laserpistol", "teslagun", "alienblaster", "mibgun", "netherblaster", "blasterrifle", "scatterbeamrifle",
     "nucleardeathray", "gaussrifle", "sonicshotgun", "flamethrower",
     "rocketlauncher", "grenadelauncher", "guidedmissilelauncher", "grimreaper", "tfg", "biogun", "stielgranate", "fraggrenade",
+    "powerhammer", "chainsaw", "miningdrill", "shishkebap",
 ]
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
@@ -277,6 +278,8 @@ def convert_ingredient(ing, consts, used):
             c = convert_ingredient(i, consts, used)
             out.extend(c if isinstance(c, list) else [c])
         return out
+    if ing.get("type") == "itemstackHasNBTInt":
+        ing = {"item": ing["item"]}  # the tool; MiningToolUpgradeRecipe checks its head
     if "type" in ing:
         raise Skip("custom ingredient " + ing["type"])
     item, data = ing["item"], ing.get("data")
@@ -331,8 +334,10 @@ def convert_recipes():
             if r["type"] in ("forge:ore_shaped", "minecraft:crafting_shaped"):
                 out = {"type": "minecraft:crafting_shaped", "pattern": r["pattern"],
                        "key": {k: convert_ingredient(v, consts, used) for k, v in r["key"].items()}}
-            elif r["type"] in ("forge:ore_shapeless", "minecraft:crafting_shapeless", "techguns:ammo_change_crafting"):
-                kind = "techguns:ammo_change" if r["type"] == "techguns:ammo_change_crafting" else "minecraft:crafting_shapeless"
+            elif r["type"] in ("forge:ore_shapeless", "minecraft:crafting_shapeless", "techguns:ammo_change_crafting",
+                               "techguns:miningtool_upgrade"):
+                kind = {"techguns:ammo_change_crafting": "techguns:ammo_change",
+                        "techguns:miningtool_upgrade": "techguns:miningtool_upgrade"}.get(r["type"], "minecraft:crafting_shapeless")
                 out = {"type": kind,
                        "ingredients": [convert_ingredient(i, consts, used) for i in r["ingredients"]]}
             else:
@@ -341,7 +346,7 @@ def convert_recipes():
         except Skip as e:
             skipped[str(e)].append(src.stem)
             continue
-        name = re.sub(r"^itemshared_\d+_", "", src.stem.lower())
+        name = re.sub(r"^itemshared_\d+_", "", src.stem.lower()).replace(".techguns.itemshared", "")
         if name in names:
             name = src.stem.lower()
         names.add(name)

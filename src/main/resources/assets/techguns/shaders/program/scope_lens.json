@@ -1,0 +1,14 @@
+{
+    "vertex": "blit",
+    "fragment": "techguns:scope_lens",
+    "attributes": [ "Position" ],
+    "samplers": [
+        { "name": "DiffuseSampler" }
+    ],
+    "uniforms": [
+        { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+        { "name": "OutSize", "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "Window",  "type": "float",     "count": 3,  "values": [ 1.0, 1.0, 2.0 ] },
+        { "name": "Blur",    "type": "float",     "count": 1,  "values": [ 0.0 ] }
+    ]
+}

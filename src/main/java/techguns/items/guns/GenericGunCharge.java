@@ -103,6 +103,11 @@ public class GenericGunCharge extends GenericGun {
 		return entity instanceof LivingEntity living && living.isAlive() && living.getUseItem().getItem() instanceof GenericGunCharge;
 	}
 
+	/** Added to the charged shot's damage and minimum damage (the power hammer's upgrade heads). */
+	protected float extraChargedDamage(ItemStack stack) {
+		return 0;
+	}
+
 	/** Called on both sides when charging starts. */
 	protected void startCharge(ItemStack stack, Level level, Player player) {}
 
@@ -134,8 +139,9 @@ public class GenericGunCharge extends GenericGun {
 			// The charged shot always comes from the main arm's side, as in 1.12.
 			float side = player.getMainArm() == HumanoidArm.RIGHT ? GenericProjectile.RIGHT : GenericProjectile.LEFT;
 			GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
-			GenericProjectile proj = chargedProjectile.create(level, player, kind, damage, speed, getScaledTTL(), accuracy, damageDropStart,
-					damageDropEnd, damageMin, side, gravity, charge, ammoConsumed);
+			float extra = extraChargedDamage(stack);
+			GenericProjectile proj = chargedProjectile.create(level, player, kind, damage + extra, speed, getScaledTTL(), accuracy, damageDropStart,
+					damageDropEnd, damageMin + extra, side, gravity, charge, ammoConsumed);
 			if (proj != null) level.addFreshEntity(proj);
 			if (hasChargedFireAnim) PacketDistributor.sendToPlayersTrackingEntity(player, new GunAnimation(player.getId(), hand, false));
 		} else if (hasChargedFireAnim) {

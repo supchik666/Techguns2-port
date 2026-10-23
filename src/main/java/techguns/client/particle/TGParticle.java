@@ -3,9 +3,11 @@ package techguns.client.particle;
 import java.awt.Color;
 import java.util.List;
 
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Camera;
@@ -174,6 +176,26 @@ public class TGParticle {
 			vertex(consumer, center, rotation, -s, s, 0, uv[0], uv[1]);
 			vertex(consumer, center, rotation, -s, -s, 0, uv[0], uv[3]);
 		}
+	}
+
+	/** An item-attached particle, in the gun model's frame: a quad in its x-y plane. */
+	void renderAttached(PoseStack pose, MultiBufferSource buffers, float partialTick) {
+		prepare(partialTick);
+		float[] uv = uv(partialTick);
+		Vec3 c = prevPos.lerp(pos, partialTick);
+		Matrix4f m = new Matrix4f(pose.last().pose()).translate((float) c.x, (float) c.y, (float) c.z)
+				.rotateZ((angle + partialTick * angleRate) * Mth.DEG_TO_RAD);
+		float s = 0.1f * renderSize;
+		VertexConsumer consumer = buffers.getBuffer(renderType());
+		vertex(consumer, m, s, -s, uv[2], uv[3]);
+		vertex(consumer, m, s, s, uv[2], uv[1]);
+		vertex(consumer, m, -s, s, uv[0], uv[1]);
+		vertex(consumer, m, -s, -s, uv[0], uv[3]);
+	}
+
+	private void vertex(VertexConsumer consumer, Matrix4f m, float x, float y, float u, float v) {
+		Vector3f p = m.transformPosition(x, y, 0, new Vector3f());
+		vertex(consumer, p.x, p.y, p.z, u, v, r, g, b, alpha);
 	}
 
 	private void vertex(VertexConsumer consumer, Vec3 center, Quaternionf rotation, float x, float y, float z, float u, float v) {

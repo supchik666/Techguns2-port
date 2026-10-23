@@ -34,7 +34,7 @@ import techguns.network.TGPackets.GunAnimation;
 /**
  * A gun that fires {@link GenericProjectile}s and reloads magazines (or loose rounds) from the player's inventory.
  * Firing runs on both sides: the client predicts sound, ammo and animation, the server spawns the bullets.
- * ponytail: 1.12 also had melee, mining, NPC/turret use, silencers, muzzle lights and armor accuracy bonuses;
+ * Melee and mining are in {@link GenericGunMeleeCharge}. ponytail: 1.12 also had NPC/turret use, silencers, muzzle lights and armor accuracy bonuses;
  * they come back with the guns or systems that need them.
  */
 public class GenericGun extends Item {
@@ -98,6 +98,12 @@ public class GenericGun extends Item {
 	boolean checkRecoil;
 	boolean checkMuzzleFlash;
 	RangeTooltipType rangeTooltipType = RangeTooltipType.DROP;
+	/** Melee tools attack and mine with left click instead of firing. */
+	boolean shootWithLeftClick = true;
+	/** Held aimed (the bow pose); off for the one-handed shishkebap. */
+	boolean bowAnim = true;
+	/** TGFX played on the holder while the gun has ammo, or null (1.12 setHasAmbient + the renderer's ambient FX). */
+	String ambientFX;
 
 	public GenericGun(AmmoType ammoType, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage,
 			Supplier<SoundEvent> fireSound, Supplier<SoundEvent> reloadSound, int ttl, float accuracy) {
@@ -228,6 +234,21 @@ public class GenericGun extends Item {
 		return this;
 	}
 
+	public GenericGun setShootWithLeftClick(boolean shoot) {
+		this.shootWithLeftClick = shoot;
+		return this;
+	}
+
+	public GenericGun setNoBowAnim() {
+		this.bowAnim = false;
+		return this;
+	}
+
+	public GenericGun setAmbientFX(String fx) {
+		this.ambientFX = fx;
+		return this;
+	}
+
 	public GenericGun setCrossHair(Crosshair crosshair) {
 		this.crosshair = crosshair;
 		return this;
@@ -246,6 +267,18 @@ public class GenericGun extends Item {
 	public ResourceLocation getTexture(ItemStack stack) {
 		int camo = stack.getOrDefault(TGComponents.CAMO, 0);
 		return textures.get(camo < textures.size() ? camo : 0);
+	}
+
+	public boolean isShootWithLeftClick() {
+		return shootWithLeftClick;
+	}
+
+	public boolean hasBowAnim() {
+		return bowAnim;
+	}
+
+	public String getAmbientFX() {
+		return ambientFX;
 	}
 
 	public boolean isSemiAuto() {

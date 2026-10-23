@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import techguns.client.ShooterValues;
 import techguns.client.TGClient;
 import techguns.client.models.ModelMultipart;
+import techguns.client.particle.TGParticleManager;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGunCharge;
 
@@ -26,8 +27,8 @@ public class GunRenderer extends ItemModelRenderer {
 	private float[] recoilParams = {0.15f, 5.0f};
 	private GunAnimation reloadAnim = GunAnimation.genericReload;
 	private float[] reloadParams = {1.0f, 40.0f};
-	private GunAnimation scopeRecoilAnim;
-	private float[] scopeRecoilParams;
+	/** Degrees the view kicks up per shot through the scope, see {@link ScopeLens}. */
+	private float scopeKick;
 	private GunAnimation recoilAnim3p = GunAnimation.genericRecoil;
 	private float[] recoilParams3p = {0f, 5.0f};
 	private GunAnimation reloadAnim3p = GunAnimation.genericReload;
@@ -45,6 +46,8 @@ public class GunRenderer extends ItemModelRenderer {
 	private float lensRadius;
 	private boolean lensesAlongX;
 	private float lensRoll;
+	/** Holder of the gun being drawn in hand, whose item-attached particles go on the model; null elsewhere. */
+	private LivingEntity holder;
 
 	public GunRenderer(ModelMultipart model, int parts) {
 		super(model, parts, null);
@@ -69,9 +72,8 @@ public class GunRenderer extends ItemModelRenderer {
 		return this;
 	}
 
-	public GunRenderer setScopeRecoilAnim(GunAnimation anim, float... params) {
-		scopeRecoilAnim = anim;
-		scopeRecoilParams = params;
+	public GunRenderer setScopeKick(float degrees) {
+		scopeKick = degrees;
 		return this;
 	}
 
@@ -138,6 +140,24 @@ public class GunRenderer extends ItemModelRenderer {
 		return scope != null;
 	}
 
+	/** The scope overlay, or null. */
+	ScreenEffect getScope() {
+		return scope;
+	}
+
+	float getScopeScale() {
+		return scopescale;
+	}
+
+	float getScopeKick() {
+		return scopeKick;
+	}
+
+	/** Degrees of camera shake per unscoped shot. ponytail: read off the recoil animation's tilt; add a per-gun setter if one feels off. */
+	float getShake() {
+		return 0.25f + (recoilParams.length > 1 ? recoilParams[1] : 0) * 0.04f;
+	}
+
 	// Covariant overrides so the 1.12 setter chains compile in any order.
 	@Override
 	public GunRenderer setBaseRotation(BaseRotation rotation) {
@@ -186,6 +206,12 @@ public class GunRenderer extends ItemModelRenderer {
 			ScreenEffect.scopeLens.render(pose, buffers, 0, 0, 0, 0, lensRadius * 2 * SCALE, false);
 			pose.popPose();
 		}
+		if (holder != null) {
+			pose.pushPose();
+			pose.mulPose(Axis.XP.rotationDegrees(180f)); // model up is -y
+			TGParticleManager.renderAttached(holder, pose, buffers, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			pose.popPose();
+		}
 	}
 
 	@Override
@@ -215,7 +241,6 @@ public class GunRenderer extends ItemModelRenderer {
 		pose.pushPose();
 		pose.translate(0.5f, 0.5f, 0.5f); // ItemRenderer shifts custom renderers by -0.5; 1.12 drew from the origin
 		if (firstPerson && !offhand && scope != null && TGClient.isZooming(gun)) {
-			if (scopeRecoilAnim != null && fireProgress > 0) scopeRecoilAnim.play(pose, fireProgress, leftHand, scopeRecoilParams);
 			scope.render(pose, buffers, fireProgress, leftHand ? 0.56f : -0.56f, 0.52f, 0f, scopescale, false);
 			pose.popPose();
 			return;
@@ -243,7 +268,9 @@ public class GunRenderer extends ItemModelRenderer {
 		} else if (context == ItemDisplayContext.FIXED) {
 			pose.mulPose(Axis.YP.rotationDegrees(-90.0f));
 		}
+		holder = offhand ? null : entity;
 		renderModel(stack, context, pose, buffers, light, overlay, gun.getAmmo(stack), reloadProgress, fireProgress, chargeProgress);
+		holder = null;
 		pose.popPose();
 
 		if (muzzleProgress > 0 && muzzleFX != null) {

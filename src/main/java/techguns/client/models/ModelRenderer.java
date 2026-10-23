@@ -89,7 +89,7 @@ public class ModelRenderer {
 			for (ModelRenderer child : childModels) child.render(scale);
 		}
 		pose.scale(scale * 16, scale * 16, scale * 16); // cubes are in pixels and ModelPart divides by 16
-		part.render(pose, LegacyGl.consumer, LegacyGl.light, LegacyGl.overlay);
+		part.render(pose, LegacyGl.consumer, LegacyGl.light, LegacyGl.overlay, LegacyGl.color);
 		pose.popPose();
 	}
 }

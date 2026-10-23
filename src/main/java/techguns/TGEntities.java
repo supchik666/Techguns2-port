@@ -20,6 +20,7 @@ import techguns.entities.projectiles.GrenadeProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.LaserProjectile;
 import techguns.entities.projectiles.NDRProjectile;
+import techguns.entities.projectiles.PowerHammerProjectile;
 import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.SonicShotgunProjectile;
 import techguns.entities.projectiles.TFGProjectile;
@@ -44,6 +45,8 @@ public class TGEntities {
 			SonicShotgunProjectile::new);
 	public static final DeferredHolder<EntityType<?>, EntityType<FlamethrowerProjectile>> FLAMETHROWER_PROJECTILE = projectile("flamethrower_projectile",
 			FlamethrowerProjectile::new);
+	public static final DeferredHolder<EntityType<?>, EntityType<PowerHammerProjectile>> POWERHAMMER_PROJECTILE = projectile("powerhammer_projectile",
+			PowerHammerProjectile::new);
 	public static final DeferredHolder<EntityType<?>, EntityType<RocketProjectile>> ROCKET_PROJECTILE = projectile("rocket_projectile", RocketProjectile::new);
 	public static final DeferredHolder<EntityType<?>, EntityType<GuidedMissileProjectile>> GUIDED_MISSILE_PROJECTILE = projectile("guided_missile_projectile",
 			GuidedMissileProjectile::new);

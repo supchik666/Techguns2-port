@@ -11,6 +11,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import techguns.recipes.AmmoChangeRecipe;
@@ -38,6 +39,7 @@ public class Techguns {
 		TGEntities.ENTITIES.register(modEventBus);
 		CREATIVE_TABS.register(modEventBus);
 		AmmoChangeRecipe.SERIALIZERS.register(modEventBus);
+		modContainer.registerConfig(ModConfig.Type.CLIENT, TGConfig.CLIENT_SPEC);
 	}
 
 	public static ResourceLocation id(String path) {

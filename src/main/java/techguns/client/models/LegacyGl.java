@@ -30,6 +30,8 @@ public final class LegacyGl {
 	static VertexConsumer consumer;
 	static int light;
 	static int overlay;
+	/** ARGB tint (1.12 GlStateManager.color), white unless set after {@link #begin}. */
+	static int color = -1;
 	private static int savedLight;
 	private static MultiBufferSource buffers;
 	private static ResourceLocation texture;
@@ -50,6 +52,7 @@ public final class LegacyGl {
 		LegacyGl.consumer = consumer;
 		LegacyGl.light = light;
 		LegacyGl.overlay = overlay;
+		color = -1;
 		buffers = null;
 	}
 
@@ -61,7 +64,12 @@ public final class LegacyGl {
 		LegacyGl.overlay = overlay;
 		layer = CUTOUT;
 		glowing = false;
+		color = -1;
 		updateConsumer();
+	}
+
+	public static void color(int argb) {
+		color = argb;
 	}
 
 	private static void updateConsumer() {

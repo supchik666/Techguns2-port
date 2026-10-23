@@ -15,7 +15,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M3.1 Bullet guns (20), ammo variants, zoom and scopes, crosshairs, magazine/rocket renderers
   - [x] M3.2 Energy guns and TGFX particles
   - [x] M3.3 Explosives, charge guns, grenades
-  - [ ] M3.4 Melee and mining tools
+  - [x] M3.4 Melee and mining tools
 - [ ] M4. Player data, armor and damage
 - [ ] M5. Machines and GUIs
 - [ ] M6. NPCs
@@ -106,6 +106,12 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Bloom (not in 1.12): `client/render/Bloom` draws glowing render types a second time into a mask, blurs it and adds it on top before the GUI. `ScreenEffect.additive(texture[, bloom])` glows, explosions in TGFX glow the most. Turns itself off with Iris/Oculus or on any GL error.
 - **Deferred:** radiation (nuke, biogun; M4), bioblob blocks, explosion, bloom and light config (M8), the layered TFG/biogun muzzle flashes with fades.
 - Since then: glowing model parts and scope lenses bloom (`LegacyGl` glowing render types, `GunRenderer.setScopeLenses`). Light pulses: `client/LightPulses` raises block light around muzzle flashes and explosions (mixins into `LevelRenderer.getLightColor` and entity light), and `client/render/LightTint` adds their color as a screen pass over the depth buffer. Only bullet guns and explosions light up; the flamethrower and minigun hold one steady light. Projectiles fly twice as fast with the same range (`GenericProjectile.SPEED_FACTOR`; beams and thrown grenades excluded), and the spawn packet carries the exact velocity so fast shots stay straight. `runClient` also loads JEI and some sound mods (`clientMods` in `build.gradle`).
+
+**M3.4 done:**
+- Power hammer, chainsaw, mining drill and shishkebap (`GenericGunMeleeCharge`): melee damage, tool types and dig speed by fitted head, 3x3 drill mining (not while sneaking), ammo used by mining and hits, charged hammer blow (`PowerHammerProjectile`), shishkebap flame. `techguns:miningtool_upgrade` fits obsidian then carbon heads. No muzzle light.
+- Combat knife and crowbar on the 1.12 steel tier (`items/tools`); they're in the vanilla `swords`/`pickaxes` tags for enchanting.
+- Shots leave from the gun muzzle (`GenericProjectile.aim`): beside, below and in front of the eyes, aimed at the crosshair point; from the eyes when a block is in the way.
+- **Deferred:** damage types, gore, penetration (M4), drill sneak silk touch, per-tool-type harvest levels, the shishkebap flame on the held model.
 
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.

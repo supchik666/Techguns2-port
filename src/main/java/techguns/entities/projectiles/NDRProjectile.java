@@ -1,7 +1,6 @@
 package techguns.entities.projectiles;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -33,10 +32,7 @@ public class NDRProjectile extends AbstractBeamProjectile {
 	@Override
 	public void tick() {
 		if (getOwner() instanceof LivingEntity shooter) {
-			float yaw = shooter.getYHeadRot() * Mth.DEG_TO_RAD;
-			setPos(shooter.getX() - Mth.cos(yaw) * 0.16, shooter.getEyeY() - 0.1, shooter.getZ() - Mth.sin(yaw) * 0.16);
-			Vec3 look = Vec3.directionFromRotation(shooter.getXRot(), shooter.getYHeadRot());
-			shoot(look.x, look.y, look.z, range, 0);
+			aim(shooter, Vec3.directionFromRotation(shooter.getXRot(), shooter.getYHeadRot()), range, range);
 			trace();
 		}
 		super.tick();

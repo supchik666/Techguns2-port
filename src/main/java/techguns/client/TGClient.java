@@ -1,5 +1,8 @@
 package techguns.client;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -15,12 +18,16 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -45,6 +52,7 @@ import techguns.TGItems;
 import techguns.TGEntities;
 import techguns.TGuns;
 import techguns.Techguns;
+import techguns.client.models.ModelMultipart;
 import techguns.client.models.ModelObj;
 import techguns.client.models.guns.*;
 import techguns.client.models.items.ModelARMagazine;
@@ -54,11 +62,13 @@ import techguns.client.models.projectiles.ModelRocket;
 import techguns.client.render.GenericProjectileRenderer;
 import techguns.client.render.GunAnimation;
 import techguns.client.render.GrenadeRenderer;
+import techguns.client.particle.TGParticleManager;
 import techguns.client.render.GunRenderer;
 import techguns.client.render.ItemModelRenderer;
 import techguns.client.render.ScreenEffect;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGun.Crosshair;
+import techguns.items.guns.GenericGunMeleeCharge;
 import techguns.items.guns.GuidedMissileLauncher;
 import techguns.items.guns.ammo.AmmoType;
 import techguns.network.TGPackets.GunAction;
@@ -74,11 +84,18 @@ public class TGClient {
 	public static LivingEntity renderedEntity;
 	/** Attack was clicked; kept until the gun is ready so semi-auto clicks during the fire delay aren't lost. */
 	private static boolean firePressed;
+	/** Players whose ambient effect is running. */
+	private static final Set<Entity> AMBIENT = Collections.newSetFromMap(new WeakHashMap<>());
+	/** Where the shishkebap's flames start on its blade, in its model frame (blocks at model scale). */
+	private static final Vec3 AMBIENT_FX_OFFSET = new Vec3(0, 0.75, 0);
 	/** Holding attack on a block re-sends the click event every tick; only the first one is a semi-auto shot. */
 	private static boolean attackHeld;
 	private static boolean useHeld;
-	/** FOV multiplier of the local player's zoom; 1 when not zoomed. */
-	private static float playerZoom = 1.0f;
+	/** 0 not zoomed, 1 zoomed, 2 zoomed in further (scoped guns, as in CS2), with {@link #zoomedGun}. */
+	private static int zoomLevel;
+	private static GenericGun zoomedGun;
+	/** FOV of the second zoom, relative to the first. */
+	private static final float SECOND_ZOOM = 0.4f;
 
 	@SubscribeEvent
 	static void registerKeys(RegisterKeyMappingsEvent event) {
@@ -161,7 +178,7 @@ public class TGClient {
 				.setScope(ScreenEffect.sniperScope)
 				.setTransformTranslations(new float[][]{{0f, -0.02f, -0.09f}, {0f, -0.04f, -0.11f}, {0.1f, -0.08f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.025f}})
 				.setMuzzleFXPos3P(0.12f, -1.13f)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.20f, 2.0f)
+				.setScopeKick(3f)
 				.setScopeLenses(true, 0f, 1.2f, 6.1f, -4.5f, 0.5f, -7.1f, -4.5f, 0.5f)), TGuns.BOLTACTION.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelM4(), 1)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.1f, 0)
@@ -178,7 +195,7 @@ public class TGClient {
 				.setTransformTranslations(new float[][]{{0f, 0f, -0.05f}, {0f, 0.01f, -0.1f}, {0f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
 				.setMuzzleFXPos3P(0.14f, -1.15f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f)
+				.setScopeKick(1.25f)
 				.setScopeLenses(false, 45f, 1.4f, -0.5f, -10.17f, -6.1f, -0.5f, -9.88f, 7.1f)), TGuns.M4_INFILTRATOR.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelCombatShotgun(), 2)
 				.setBaseRotation(ItemModelRenderer.GUN90)
@@ -225,7 +242,7 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.17f, -1.29f)
 				.setScope(ScreenEffect.sniperScope)
 				.setRecoilAnim(GunAnimation.genericRecoil, 0.25f, 5.0f)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.2f, 2.0f)
+				.setScopeKick(3f)
 				.setScopeLenses(false, 45f, 1.8f, -0.5f, -15.46f, -18.1f, -0.5f, -15.42f, 13.1f)), TGuns.AS50.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelVector(), 1)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.57f, -0.2f)
@@ -245,7 +262,7 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.14f, -1.04f)
 				.setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 2.0f)
+				.setScopeKick(2.25f)
 				.setScopeLenses(false, 45f, 1.1f, -0.5f, -10.2f, -3.1f, -0.5f, -10.2f, 11.1f)), TGuns.SCAR.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelAUG(), 2)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.1f, 0.1f)
@@ -256,7 +273,7 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.12f, -0.87f)
 				.setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.075f, 1.0f)
+				.setScopeKick(1.38f)
 				.setScopeLenses(false, 45f, 1.0f, -0.5f, -9.59f, -8.1f, -0.5f, -9.38f, 11.1f)), TGuns.AUG.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelPDW(), 1)
 				.setBaseRotation(ItemModelRenderer.GUN90)
@@ -275,7 +292,7 @@ public class TGClient {
 				.setTransformTranslations(new float[][]{{0f, 0.16f, 0.01f}, {0f, 0.05f, 0.08f}, {0.05f, 0f, 0f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
 				.setMuzzleFXPos3P(0.1f, -0.50f)
 				.setScope(ScreenEffect.techScope, 2.125f)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.10f, 1.5f)
+				.setScopeKick(2f)
 				.setRecoilAnim(GunAnimation.pulseRifleRecoil, 0.25f, 10.0f)
 				.setScopeLenses(true, 0f, 1.0f, 4.6f, -3.5f, 0f, -5.1f, -3.5f, 0f)), TGuns.PULSERIFLE.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelPistol(), 2)
@@ -340,7 +357,7 @@ public class TGClient {
 				.setTransformTranslations(new float[][]{{0f, 0.11f, -0.20f}, {0f, 0.0f, -0.04f}, {0f, 0f, 0.03f}, {0f, 0f, 0f}, {0f, 0f, -0.05f}})
 				.setMuzzleFXPos3P(0.09f, -0.57f)
 				.setScope(ScreenEffect.sniperScope)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f)
+				.setScopeKick(1.25f)
 				.setScopeLenses(false, 0f, 1.0f, -0.5f, -7.0f, 0.9f, -0.5f, -8.0f, 16.1f)), TGuns.BLASTERRIFLE.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelSonicShotgun(), 1)
 				.setBaseRotation(ItemModelRenderer.GUN90)
@@ -386,7 +403,7 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.09f, -1.26f)
 				.setRecoilAnim(GunAnimation.genericRecoil, 0.25f, 7.5f)
 				.setScope(ScreenEffect.techScope, 2.125f)
-				.setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.15f, 1.0f)
+				.setScopeKick(1.75f)
 				.setScopeLenses(true, 0f, 1.2f, -14.6f, 6.5f, 1f, 0.6f, 6.5f, 1f)), TGuns.GAUSSRIFLE.get());
 		event.registerItem(gun(() -> new GunRenderer(new ModelLaserPistol(), 1)
 				.setBaseTranslation(ItemModelRenderer.SCALE*0.5f, -0.3f, -0.4f)
@@ -460,6 +477,49 @@ public class TGClient {
 				.setMuzzleFXPos3P(0.09f, -1.14f)
 				.setChargeTranslationAmount(0.05f)
 				.setFirstPersonScale(0.45f)), TGuns.TFG.get());
+
+		// Powered melee tools (M3.4)
+		event.registerItem(gun(() -> miningTool(new ModelPowerHammer(), "powerhammer", "powerhammer_obsidian", "powerhammer_carbon")
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0.15f, -0.2f, ItemModelRenderer.SCALE-0.09f)
+				.setBaseScale(1.25f)
+				.setGUIScale(0.45f)
+				.setTransformTranslations(new float[][]{{0f, 0.18f, 0.09f}, {0f, 0.04f, 0.04f}, {0.03f, 0.01f, 0f}, {0f, 0f, 0f}, {-0.07f, -0.03f, -0.05f}})
+				.setMuzzleFXPos3P(0.12f, -0.65f)
+				.setChargeTranslationAmount(0.125f)), TGuns.POWERHAMMER.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelChainsaw(), 2) {
+					// 1.12 RenderGunChainsaw: the blades take the upgrade head's color.
+					@Override
+					protected int getColor(ItemStack stack, int part) {
+						if (part != 1) return -1;
+						return switch (((GenericGunMeleeCharge) stack.getItem()).getMiningHead(stack)) {
+							case 1 -> FastColor.ARGB32.colorFromFloat(1.0f, 0.9f, 0.55f, 1.0f);
+							case 2 -> FastColor.ARGB32.colorFromFloat(1.0f, 0.4f, 0.4f, 0.4f);
+							default -> -1;
+						};
+					}
+				}
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(-0.4f, -0.2f, ItemModelRenderer.SCALE-0.09f)
+				.setBaseScale(0.95f)
+				.setGUIScale(0.45f)
+				.setTransformTranslations(new float[][]{{0f, -0.08f, 0.15f}, {0f, -0.5f, 0.04f}, {0.03f, 0.01f, 0f}, {0f, 0f, 0f}, {-0.07f, -0.03f, -0.11f}})),
+				TGuns.CHAINSAW.get());
+		event.registerItem(gun(() -> miningTool(new ModelMiningDrill(), "miningdrill_obsidian", "miningdrill_carbon")
+				.setBaseRotation(ItemModelRenderer.GUN90)
+				.setBaseTranslation(0, -0.2f, -ItemModelRenderer.SCALE*0.5f)
+				.setBaseScale(2.0f)
+				.setGUIScale(0.35f)
+				.setTransformTranslations(new float[][]{{0f, -0.03f, 0.0f}, {0f, -0.57f, 0.08f}, {0.01f, -0.01f, 0f}, {0f, 0f, 0f}, {0f, -0.08f, -0.05f}})
+				.setRecoilAnim(GunAnimation.genericRecoil, 0.05f, 1.0f)), TGuns.MININGDRILL.get());
+		event.registerItem(gun(() -> new GunRenderer(new ModelShishkebap(), 1)
+				.setBaseTranslation(0, 0, 0)
+				.setBaseScale(1.0f)
+				.setGUIScale(0.3f)
+				.setTransformTranslations(new float[][]{{0f, 0f, 0f}, {0f, 0f, 0f}, {0f, -0.25f, 0f}, {0f, 0f, 0f}, {0f, 0f, 0f}})
+				.setReloadAnim(GunAnimation.breechReload, -0.15f, 55.0f)
+				.setReloadAnim3p(GunAnimation.breechReload, 0f, 55.0f)), TGuns.SHISHKEBAP.get());
+
 		event.registerItem(gun(() -> new GrenadeRenderer(new ModelStielgranate(), Techguns.id("textures/guns/stielgranate.png"), 180f)
 				.setBaseScale(1f)
 				.setGUIScale(0.8f)
@@ -515,6 +575,17 @@ public class TGClient {
 				.setBaseRotation(ItemModelRenderer.ROCKET).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setFirstPersonScale(0.35f);
 	}
 
+	/** 1.12 RenderMiningToolMultiTexture: part 1, the head, shows the upgrade head fitted (textures/guns/{name}.png by head level). */
+	private static GunRenderer miningTool(ModelMultipart model, String... headTextures) {
+		return new GunRenderer(model, 2) {
+			@Override
+			protected ResourceLocation getTexture(ItemStack stack, int part) {
+				int head = ((GenericGunMeleeCharge) stack.getItem()).getMiningHead(stack);
+				return part == 1 && head < headTextures.length ? Techguns.id("textures/guns/" + headTextures[head] + ".png") : getTexture(stack);
+			}
+		};
+	}
+
 	/** Renderer is built on first use: the BEWLR constructor needs Minecraft's renderers to exist. Guns are held aimed. */
 	private static IClientItemExtensions gun(Supplier<? extends BlockEntityWithoutLevelRenderer> factory) {
 		return new IClientItemExtensions() {
@@ -528,13 +599,13 @@ public class TGClient {
 
 			@Override
 			public HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
-				return hand == InteractionHand.MAIN_HAND && stack.getItem() instanceof GenericGun ? HumanoidModel.ArmPose.BOW_AND_ARROW : null;
+				return hand == InteractionHand.MAIN_HAND && stack.getItem() instanceof GenericGun gun && gun.hasBowAnim() ? HumanoidModel.ArmPose.BOW_AND_ARROW : null;
 			}
 		};
 	}
 
 	public static boolean isZooming(GenericGun gun) {
-		return gun.canZoom() && playerZoom == gun.getZoomMult();
+		return gun.canZoom() && zoomLevel > 0 && zoomedGun == gun;
 	}
 
 	/** 1.12 TGGuiEvents lock-on reticle: four corners close in as the lock builds, then a blinking frame. */
@@ -563,26 +634,30 @@ public class TGClient {
 		return ShooterValues.progress(time.reloadEnd, time.reloadTotal) > 0;
 	}
 
-	/** Left click with a gun shoots instead of attacking or mining. */
+	/** Left click with a gun shoots instead of attacking or mining; melee tools attack and mine. */
 	@SubscribeEvent
 	static void onClickInput(InputEvent.InteractionKeyMappingTriggered event) {
 		LocalPlayer player = Minecraft.getInstance().player;
-		if (event.isAttack() && player != null && player.getMainHandItem().getItem() instanceof GenericGun) {
+		if (event.isAttack() && player != null && player.getMainHandItem().getItem() instanceof GenericGun gun && gun.isShootWithLeftClick()) {
 			event.setCanceled(true);
 			event.setSwingHand(false);
 			if (!attackHeld) firePressed = true;
 			attackHeld = true;
 		} else if (event.isUseItem() && event.getHand() == InteractionHand.MAIN_HAND && player != null
 				&& player.getMainHandItem().getItem() instanceof GenericGun gun && gun.canZoom()) {
-			// Right click toggles zoom; the click still goes on to blocks and the off hand (shield) as in 1.12.
-			if (!useHeld && !isReloading(player)) playerZoom = isZooming(gun) ? 1.0f : gun.getZoomMult();
+			// Right click zooms in, with a scope once more, then out; the click still goes on to blocks and the off hand (shield) as in 1.12.
+			if (!useHeld && !isReloading(player)) {
+				boolean scoped = IClientItemExtensions.of(player.getMainHandItem()).getCustomRenderer() instanceof GunRenderer r && r.hasScopeTexture();
+				zoomLevel = isZooming(gun) ? (zoomLevel + 1) % (scoped ? 3 : 2) : 1;
+				zoomedGun = gun;
+			}
 			useHeld = true;
 		}
 	}
 
 	@SubscribeEvent
 	static void onComputeFov(ComputeFovModifierEvent event) {
-		event.setNewFovModifier(event.getNewFovModifier() * playerZoom);
+		if (zoomLevel > 0) event.setNewFovModifier(event.getNewFovModifier() * zoomedGun.getZoomMult() * (zoomLevel == 2 ? SECOND_ZOOM : 1));
 	}
 
 	@SubscribeEvent
@@ -593,18 +668,18 @@ public class TGClient {
 		if (!mc.options.keyUse.isDown()) useHeld = false;
 		if (player == null || !(player.getMainHandItem().getItem() instanceof GenericGun gun)) {
 			firePressed = false;
-			playerZoom = 1.0f;
+			zoomLevel = 0;
 			while (FORCE_RELOAD.consumeClick()) {}
 			return;
 		}
 		ItemStack stack = player.getMainHandItem();
-		if (!isZooming(gun) || isReloading(player)) playerZoom = 1.0f;
+		if (!isZooming(gun) || isReloading(player)) zoomLevel = 0;
 		// Vanilla swallows attack clicks while an item is in use; the guided missile launcher fires while locking on.
-		if (player.isUsingItem() && mc.screen == null && mc.options.keyAttack.isDown() && !attackHeld) {
+		if (player.isUsingItem() && gun.isShootWithLeftClick() && mc.screen == null && mc.options.keyAttack.isDown() && !attackHeld) {
 			firePressed = true;
 			attackHeld = true;
 		}
-		boolean holding = !gun.isSemiAuto() && mc.screen == null && mc.options.keyAttack.isDown();
+		boolean holding = !gun.isSemiAuto() && gun.isShootWithLeftClick() && mc.screen == null && mc.options.keyAttack.isDown();
 		if ((firePressed || holding) && GenericGun.isReady(player, InteractionHand.MAIN_HAND)) {
 			firePressed = false;
 			boolean zooming = isZooming(gun);
@@ -616,6 +691,30 @@ public class TGClient {
 			PacketDistributor.sendToServer(new GunAction(InteractionHand.MAIN_HAND, true, false));
 			gun.tryForcedReload(stack, player.level(), player, InteractionHand.MAIN_HAND);
 		}
+	}
+
+	/**
+	 * 1.12 ambient effects (the shishkebap's flames): started on each player holding such a gun with ammo, ending when
+	 * that stops. Drawn on the held model by its {@link GunRenderer}.
+	 */
+	@SubscribeEvent
+	static void startAmbientFX(ClientTickEvent.Post event) {
+		ClientLevel level = Minecraft.getInstance().level;
+		if (level == null) return;
+		for (Player player : level.players()) {
+			if (AMBIENT.contains(player) || !hasAmbientFX(player)) continue;
+			AMBIENT.add(player);
+			TGParticleManager.createItemAttached(player, ((GenericGun) player.getMainHandItem().getItem()).getAmbientFX(), 1.2f, AMBIENT_FX_OFFSET, entity -> {
+				if (hasAmbientFX(entity)) return true;
+				AMBIENT.remove(entity);
+				return false;
+			});
+		}
+	}
+
+	private static boolean hasAmbientFX(Entity entity) {
+		return entity.isAlive() && entity instanceof Player player && player.getMainHandItem().getItem() instanceof GenericGun gun
+				&& gun.getAmbientFX() != null && gun.getAmmo(player.getMainHandItem()) > 0;
 	}
 
 	@SubscribeEvent

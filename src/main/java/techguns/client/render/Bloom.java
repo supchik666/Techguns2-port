@@ -30,6 +30,7 @@ import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import techguns.TGConfig;
 import techguns.Techguns;
 
 /**
@@ -41,9 +42,7 @@ import techguns.Techguns;
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class Bloom {
-	/** ponytail: constants until the M8 config. */
-	static final boolean ENABLED = true;
-	/** Overall glow strength. */
+	/** Overall glow strength. ponytail: constant until the M8 config. */
 	static final float INTENSITY = 1.25f;
 	/** The 8-bit mask holds bloom strength / this, so strong glows (explosions) don't clip. */
 	private static final float MASK_SCALE = 4;
@@ -62,7 +61,7 @@ public final class Bloom {
 
 	/** {@code base}, also drawn into the bloom mask {@code bloom} times as bright; {@code base} itself for no bloom. */
 	public static RenderType wrap(RenderType base, float bloom) {
-		return ENABLED && bloom > 0 ? new Glowing(base, bloom) : base;
+		return bloom > 0 ? new Glowing(base, bloom) : base;
 	}
 
 	private static final class Glowing extends RenderType {
@@ -84,7 +83,7 @@ public final class Bloom {
 	}
 
 	private static boolean ready() {
-		return !broken && blur != null && add != null && mask != null;
+		return !broken && blur != null && add != null && mask != null && TGConfig.BLOOM.getAsBoolean();
 	}
 
 	/** Draws the immediate vertex buffer of {@code format} (just uploaded and drawn) again into the mask. */
@@ -111,7 +110,7 @@ public final class Bloom {
 			if (blur != null) blur.close();
 			if (add != null) add.close();
 			blur = add = null;
-			if (!ENABLED || ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus")) return;
+			if (ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus")) return;
 			try {
 				blur = new EffectInstance(manager, "box_blur");
 				add = new EffectInstance(manager, Techguns.id("bloom_add").toString());

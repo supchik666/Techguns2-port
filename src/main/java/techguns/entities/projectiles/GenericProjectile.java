@@ -17,6 +17,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -52,9 +53,15 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	}
 
 	/** Side offset of the muzzle from the eyes, by the hand the gun is in; CENTER for scoped shots. */
-	public static final float LEFT = 0.16f, RIGHT = -0.16f, CENTER = 0f;
+	public static final float LEFT = 0.25f, RIGHT = -0.25f, CENTER = 0f;
+	/** How far the muzzle sits below and in front of the eyes, in blocks. */
+	private static final double MUZZLE_DOWN = 0.2, MUZZLE_FORWARD = 0.5;
+	/** Shots converge on the crosshair point at most this far away. */
+	private static final double MAX_AIM_DISTANCE = 256;
 	/** Shots fly this many times faster than in 1.12, living as much shorter so ranges stay the same. */
 	public static final float SPEED_FACTOR = 2.0f;
+	/** Shots fired from guns (speedFactor != 1) live this many times longer than in 1.12, so they fly that much farther. */
+	public static final float RANGE_FACTOR = 4.0f;
 	/** Players this close see block impacts (1.12 bulletTrackRange). */
 	private static final double IMPACT_FX_RANGE = 128;
 
@@ -73,7 +80,7 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		super(type, level);
 	}
 
-	/** Fired from the shooter's eyes, {@code side} to the side, with up to ±spread*40 degrees of random spread. */
+	/** Fired from the shooter's gun muzzle (see {@link #aim}), with up to ±spread*40 degrees of random spread. */
 	public GenericProjectile(Level level, LivingEntity shooter, Kind kind, float damage, float speed, int ticksToLive, float spread,
 			float damageDropStart, float damageDropEnd, float damageMin, float side, double gravity) {
 		this(TGEntities.GENERIC_PROJECTILE.get(), level, shooter, kind, damage, speed, ticksToLive, spread, damageDropStart, damageDropEnd,
@@ -94,13 +101,32 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		this.damageDropEnd = damageDropEnd;
 		float factor = speedFactor();
 		speed *= factor;
-		this.ticksToLive = (int) Math.ceil(ticksToLive / factor);
+		this.ticksToLive = (int) Math.ceil(ticksToLive / factor * (factor != 1 ? RANGE_FACTOR : 1));
 
 		float yaw = shooter.getYHeadRot() + (float) (spread - 2 * Math.random() * spread) * 40.0f;
 		float pitch = shooter.getXRot() + (float) (spread - 2 * Math.random() * spread) * 40.0f;
-		setPos(shooter.getX() + Mth.cos(yaw * Mth.DEG_TO_RAD) * side, shooter.getEyeY() - 0.1, shooter.getZ() + Mth.sin(yaw * Mth.DEG_TO_RAD) * side);
-		Vec3 direction = Vec3.directionFromRotation(pitch, yaw);
-		shoot(direction.x, direction.y, direction.z, speed, 1.0f);
+		aim(shooter, Vec3.directionFromRotation(pitch, yaw), speed, speed * this.ticksToLive);
+	}
+
+	/**
+	 * Places the projectile at the shooter's gun muzzle ({@link #side} to the side, a bit below and in front of the eyes,
+	 * or at the eyes if a block is in between) and sends it at {@code speed} toward the point the eyes see along
+	 * {@code direction}, so it leaves the barrel and still hits the crosshair.
+	 */
+	protected void aim(LivingEntity shooter, Vec3 direction, float speed, double range) {
+		Vec3 eye = shooter.getEyePosition();
+		Vec3 look = Vec3.directionFromRotation(shooter.getXRot(), shooter.getYHeadRot());
+		Vec3 up = Vec3.directionFromRotation(shooter.getXRot() - 90, shooter.getYHeadRot());
+		Vec3 muzzle = eye.add(look.cross(up).scale(-side)).add(look.scale(MUZZLE_FORWARD)).add(up.scale(side == CENTER ? 0 : -MUZZLE_DOWN));
+		if (level().clip(new ClipContext(eye, muzzle, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, shooter)).getType() != HitResult.Type.MISS) {
+			muzzle = eye;
+		}
+		Vec3 target = level().clip(new ClipContext(eye, eye.add(direction.scale(Math.min(range, MAX_AIM_DISTANCE))), ClipContext.Block.COLLIDER,
+				ClipContext.Fluid.NONE, shooter)).getLocation();
+		Vec3 toTarget = target.subtract(muzzle);
+		if (toTarget.lengthSqr() > 1) direction = toTarget;
+		setPos(muzzle);
+		shoot(direction.x, direction.y, direction.z, speed, 0); // no vanilla jitter: spread is the gun's
 		start = position();
 	}
 
@@ -201,6 +227,7 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	}
 
 	private void explode(Vec3 pos) {
+		if (level() instanceof ServerLevel server) TGEffects.sendFX(server, "MiningChargeBlockExplosion", pos.x, pos.y, pos.z, 1.0f, 100);
 		level().explode(this, pos.x, pos.y, pos.z, 1.5f, Level.ExplosionInteraction.NONE); // ponytail: no block damage until the M4 safemode config
 	}
 

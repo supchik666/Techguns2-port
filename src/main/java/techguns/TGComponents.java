@@ -30,6 +30,10 @@ public class TGComponents {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CAMO = COMPONENTS.registerComponentType("camo",
 			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
+	/** A mining tool's head: 0 (missing) is the default, n is the tool's n-th upgrade head (1.12 "miningHead" NBT). */
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MINING_HEAD = COMPONENTS.registerComponentType("mining_head",
+			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+
 	/** Game time from which each hand (indexed by InteractionHand ordinal) may fire again. Not saved, like the 1.12 fire delay. */
 	public static final Supplier<AttachmentType<long[]>> NEXT_FIRE = ATTACHMENTS.register("next_fire", () -> AttachmentType.builder(() -> new long[2]).build());
 }

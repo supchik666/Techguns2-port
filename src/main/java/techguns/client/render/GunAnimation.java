@@ -26,8 +26,6 @@ public class GunAnimation {
 			.addSegment(0, 0.25f, FAST, 0f, 1f).addSegment(0.25f, 1f, SMOOTH, 1f, 0f);
 	public static final GunAnimation swayRecoil = new GunAnimation().addTranslate(1.0f, 0.75f, 0.50f).addRotate(1.0f, 1.0f, -0.75f, 0.25f)
 			.addSegment(0, 1.0f, SINUS, 0.0f, 1.0f);
-	public static final GunAnimation scopeRecoil = new GunAnimation().addTranslate(0.25f, 1.0f, 0.75f).addRotate(1.0f, 1.0f, 0, 0)
-			.addSegment(0, 0.25f, FAST, 0f, 1f).addSegment(0.25f, 1f, SMOOTH, 1f, 0f);
 	public static final GunAnimation pulseRifleRecoil = new GunAnimation().addTranslate(0, 0, 1.0f).addRotate(1.0f, 1.0f, 0, 0)
 			.addSegment(0, 0.1f, FAST, 0f, 0.4f).addSegment(0.1f, 0.2f, SMOOTH, 0.4f, 0.3f).addSegment(0.2f, 0.40f, FAST, 0.3f, 1f)
 			.addSegment(0.40f, 1f, SMOOTH, 1f, 0f);

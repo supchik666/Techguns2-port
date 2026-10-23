@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "client.EntityRendererMixin",
+    "client.ItemInHandRendererMixin",
     "client.LevelRendererMixin"
   ],
   "injectors": {

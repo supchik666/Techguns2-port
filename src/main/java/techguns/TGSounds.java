@@ -100,6 +100,22 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> TFG_EXPLOSION_ECHO = register("effects.tfgexplosionecho");
 	public static final DeferredHolder<SoundEvent, SoundEvent> BIOGUN_IMPACT = register("effects.biogunimpact");
 
+	// Powered melee tools (M3.4)
+	public static final DeferredHolder<SoundEvent, SoundEvent> POWERHAMMER_FIRE = register("guns.powerhammerfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> POWERHAMMER_RELOAD = register("guns.powerhammerreload");
+	public static final DeferredHolder<SoundEvent, SoundEvent> POWERHAMMER_SWING = register("guns.powerhammerswing");
+	public static final DeferredHolder<SoundEvent, SoundEvent> POWERHAMMER_IMPACT = register("guns.powerhammerimpactground");
+	public static final DeferredHolder<SoundEvent, SoundEvent> POWERHAMMER_CHARGE = register("guns.powerhammercharge");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CHAINSAW_LOOP = register("guns.chainsawloop");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CHAINSAW_LOOP_START = register("guns.chainsawloopstart");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CHAINSAW_HIT = register("guns.chainsawhit");
+	public static final DeferredHolder<SoundEvent, SoundEvent> DRILLER_LOOP = register("guns.drillerloop");
+	public static final DeferredHolder<SoundEvent, SoundEvent> DRILLER_HIT = register("guns.drillerhit");
+	public static final DeferredHolder<SoundEvent, SoundEvent> DRILLER_SWING = register("guns.drillerswing");
+	public static final DeferredHolder<SoundEvent, SoundEvent> DRILLER_BREAK = register("guns.drillerbreak");
+	public static final DeferredHolder<SoundEvent, SoundEvent> SHISHKEBAP_SWING = register("guns.shishkebabfire");
+	public static final DeferredHolder<SoundEvent, SoundEvent> SHISHKEBAP_RELOAD = register("guns.shishkebabreload");
+
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);
 	}

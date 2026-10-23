@@ -1,5 +1,7 @@
 package techguns.recipes;
 
+import java.util.function.Function;
+
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.HolderLookup;
@@ -24,21 +26,26 @@ import techguns.items.guns.ammo.AmmoType;
 public class AmmoChangeRecipe extends ShapelessRecipe {
 	public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, Techguns.MODID);
 	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<AmmoChangeRecipe>> SERIALIZER = SERIALIZERS.register("ammo_change",
-			() -> new RecipeSerializer<>() {
-				private final MapCodec<AmmoChangeRecipe> codec = RecipeSerializer.SHAPELESS_RECIPE.codec().xmap(AmmoChangeRecipe::new, r -> r);
-				private final StreamCodec<RegistryFriendlyByteBuf, AmmoChangeRecipe> streamCodec = RecipeSerializer.SHAPELESS_RECIPE.streamCodec()
-						.map(AmmoChangeRecipe::new, r -> r);
+			() -> shapeless(AmmoChangeRecipe::new));
+	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MiningToolUpgradeRecipe>> MININGTOOL_UPGRADE = SERIALIZERS.register(
+			"miningtool_upgrade", () -> shapeless(MiningToolUpgradeRecipe::new));
 
-				@Override
-				public MapCodec<AmmoChangeRecipe> codec() {
-					return codec;
-				}
+	/** A serializer reading a plain shapeless recipe json into a subclass that only changes matching or the result. */
+	static <T extends ShapelessRecipe> RecipeSerializer<T> shapeless(Function<ShapelessRecipe, T> factory) {
+		MapCodec<T> codec = RecipeSerializer.SHAPELESS_RECIPE.codec().xmap(factory, r -> r);
+		StreamCodec<RegistryFriendlyByteBuf, T> streamCodec = RecipeSerializer.SHAPELESS_RECIPE.streamCodec().map(factory, r -> r);
+		return new RecipeSerializer<>() {
+			@Override
+			public MapCodec<T> codec() {
+				return codec;
+			}
 
-				@Override
-				public StreamCodec<RegistryFriendlyByteBuf, AmmoChangeRecipe> streamCodec() {
-					return streamCodec;
-				}
-			});
+			@Override
+			public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+				return streamCodec;
+			}
+		};
+	}
 
 	AmmoChangeRecipe(ShapelessRecipe recipe) {
 		super(recipe.getGroup(), recipe.category(), recipe.getResultItem(null), recipe.getIngredients());

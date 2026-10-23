@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -27,14 +29,15 @@ import techguns.Techguns;
 
 /**
  * Ticks and draws all TGFX systems and particles, and is the client's {@link TGEffects.Handler}. Particles are drawn
- * after vanilla's, back to front; streaks after them in spawn order. ponytail: light pulses (1.12 LightPulse), DeathEffect
- * and the effects attached to held guns (1.12 only used one on a test gun) aren't ported.
+ * after vanilla's, back to front; streaks after them in spawn order; those attached to a held gun by its renderer.
+ * ponytail: DeathEffect isn't ported.
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class TGParticleManager implements TGEffects.Handler {
 	private static final List<TGParticleSystem> systems = new ArrayList<>();
 	private static final List<TGParticle> particles = new ArrayList<>();
 	private static final List<TGParticle> streaks = new ArrayList<>();
+	private static final List<TGParticle> attached = new ArrayList<>();
 	private static ClientLevel level;
 
 	static void add(TGParticleSystem system) {
@@ -42,7 +45,7 @@ public final class TGParticleManager implements TGEffects.Handler {
 	}
 
 	static void add(TGParticle particle) {
-		(particle instanceof TGParticleStreak ? streaks : particles).add(particle);
+		(particle.system.itemAttached ? attached : particle instanceof TGParticleStreak ? streaks : particles).add(particle);
 	}
 
 	@Override
@@ -68,6 +71,24 @@ public final class TGParticleManager implements TGEffects.Handler {
 		}
 	}
 
+	/** {@code name} on the gun {@code entity} holds, while {@code condition} holds; see {@link #renderAttached}. */
+	public static void createItemAttached(Entity entity, String name, float scale, Vec3 offset, Predicate<Entity> condition) {
+		for (TGParticleSystem system : TGFX.create(name, type -> new TGParticleSystem(type, entity))) {
+			system.scale = scale;
+			system.entityOffset = offset;
+			system.itemAttached = true;
+			system.condition = condition;
+			add(system);
+		}
+	}
+
+	/** Draws {@code entity}'s item-attached particles in {@code pose}, the frame of its held gun model. */
+	public static void renderAttached(Entity entity, PoseStack pose, MultiBufferSource buffers, float partialTick) {
+		for (TGParticle particle : attached) {
+			if (particle.system.entity == entity) particle.renderAttached(pose, buffers, partialTick);
+		}
+	}
+
 	@SubscribeEvent
 	static void setup(FMLClientSetupEvent event) {
 		TGEffects.client = new TGParticleManager();
@@ -86,6 +107,7 @@ public final class TGParticleManager implements TGEffects.Handler {
 			systems.clear();
 			particles.clear();
 			streaks.clear();
+			attached.clear();
 		}
 		if (level == null || mc.isPaused()) return;
 		for (int i = 0; i < systems.size(); i++) systems.get(i).tick(); // index loop: attached systems get added while ticking
@@ -94,6 +116,8 @@ public final class TGParticleManager implements TGEffects.Handler {
 		particles.removeIf(particle -> particle.dead);
 		streaks.forEach(TGParticle::tick);
 		streaks.removeIf(particle -> particle.dead);
+		attached.forEach(TGParticle::tick);
+		attached.removeIf(particle -> particle.dead);
 	}
 
 	@SubscribeEvent

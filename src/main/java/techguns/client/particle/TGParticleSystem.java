@@ -19,9 +19,11 @@ public class TGParticleSystem {
 	Predicate<Entity> condition = Entity::isAlive;
 	/** Followed while alive (AttachedSystem). */
 	final TGParticle parent;
-	/** On an entity: offset in its rotated frame, from its eyes if attachToHead. */
+	/** On an entity: offset in its rotated frame, from its eyes if attachToHead; in the held gun's model frame if itemAttached. */
 	Vec3 entityOffset = Vec3.ZERO;
 	boolean attachToHead;
+	/** Lives in the frame of the entity's held gun model, drawn by its renderer (1.12 createFXOnEntityItemAttached). */
+	boolean itemAttached;
 
 	Vec3 pos;
 	Vec3 motion;
@@ -73,17 +75,21 @@ public class TGParticleSystem {
 				return;
 			}
 			Vec3 offset = type.offset.add(entityOffset);
-			Vec3 base = new Vec3(entity.xo, entity.yo, entity.zo);
-			if (attachToHead && entity instanceof LivingEntity living) {
-				pitch = living.getXRot();
-				yaw = living.getYHeadRot();
-				base = base.add(0, living.getEyeHeight(), 0);
+			if (itemAttached) {
+				pos = offset;
 			} else {
-				pitch = entity.getXRot();
-				yaw = entity.getYRot();
+				Vec3 base = new Vec3(entity.xo, entity.yo, entity.zo);
+				if (attachToHead && entity instanceof LivingEntity living) {
+					pitch = living.getXRot();
+					yaw = living.getYHeadRot();
+					base = base.add(0, living.getEyeHeight(), 0);
+				} else {
+					pitch = entity.getXRot();
+					yaw = entity.getYRot();
+				}
+				pos = base.add(offset.xRot(-pitch * Mth.DEG_TO_RAD).yRot(-yaw * Mth.DEG_TO_RAD));
+				motion = entity.getDeltaMovement();
 			}
-			pos = base.add(offset.xRot(-pitch * Mth.DEG_TO_RAD).yRot(-yaw * Mth.DEG_TO_RAD));
-			motion = entity.getDeltaMovement();
 		} else if (parent != null) {
 			pos = parent.pos.add(type.offset);
 		} else {

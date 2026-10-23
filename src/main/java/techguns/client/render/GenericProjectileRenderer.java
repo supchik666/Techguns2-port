@@ -29,7 +29,6 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 
 	@Override
 	public void render(GenericProjectile entity, float entityYaw, float partialTicks, PoseStack pose, MultiBufferSource buffers, int light) {
-		if (entity.tickCount < 2 && partialTicks <= 0.25f) return; // don't draw it inside the gun
 		pose.pushPose();
 		if (entity.getKind() == GenericProjectile.Kind.STONE) {
 			// 1.12 RenderTextureProjectile: a camera-facing sprite, 0.1 blocks

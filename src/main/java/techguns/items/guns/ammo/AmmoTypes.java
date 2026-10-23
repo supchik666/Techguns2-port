@@ -38,6 +38,7 @@ public class AmmoTypes {
 	public static final AmmoType REDSTONE_BATTERY = new AmmoType(TGItems.REDSTONE_BATTERY, TGItems.REDSTONE_BATTERY_EMPTY, null, 0, BULLET);
 	public static final AmmoType NUCLEAR_POWER_CELL = new AmmoType(TGItems.NUCLEAR_POWERCELL, TGItems.NUCLEAR_POWERCELL_EMPTY, null, 0, BULLET);
 	public static final AmmoType FUEL_TANK = new AmmoType(TGItems.FUEL_TANK, TGItems.FUEL_TANK_EMPTY, null, 0, BULLET);
+	public static final AmmoType COMPRESSED_AIR_TANK = new AmmoType(TGItems.COMPRESSED_AIR_TANK, TGItems.COMPRESSED_AIR_TANK_EMPTY, null, 0, BULLET);
 	public static final AmmoType NETHER_CHARGE = new AmmoType(TGItems.NETHER_CHARGE, BULLET);
 	public static final AmmoType BIO_TANK = new AmmoType(TGItems.BIO_TANK, TGItems.BIO_TANK_EMPTY, null, 0, BULLET);
 

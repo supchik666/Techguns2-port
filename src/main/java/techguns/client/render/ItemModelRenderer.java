@@ -108,6 +108,11 @@ public class ItemModelRenderer extends BlockEntityWithoutLevelRenderer {
 		return texture;
 	}
 
+	/** ARGB tint of one model part (the chainsaw's upgraded blades); white by default. */
+	protected int getColor(ItemStack stack, int part) {
+		return -1;
+	}
+
 	/** The texture for one model part; the rocket launcher's loaded rocket shows the ammo variant. */
 	protected ResourceLocation getTexture(ItemStack stack, int part) {
 		return getTexture(stack);
@@ -137,6 +142,7 @@ public class ItemModelRenderer extends BlockEntityWithoutLevelRenderer {
 		pose.translate(translateBase[0], translateBase[1], translateBase[2]);
 		for (int i = 0; i < parts; i++) {
 			LegacyGl.begin(pose, buffers, getTexture(stack, i), light, overlay);
+			LegacyGl.color(getColor(stack, i));
 			model.render(null, 0, 0, 0, 0, 0, SCALE, ammo, reloadProgress, context, i, fireProgress, chargeProgress);
 		}
 	}

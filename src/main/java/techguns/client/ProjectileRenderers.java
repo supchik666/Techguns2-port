@@ -34,6 +34,7 @@ public final class ProjectileRenderers {
 		event.registerEntityRenderer(TGEntities.DEATOMIZER_PROJECTILE.get(), NoopRenderer::new);
 		event.registerEntityRenderer(TGEntities.CYBERDEMON_BLASTER_PROJECTILE.get(), NoopRenderer::new);
 		event.registerEntityRenderer(TGEntities.FLAMETHROWER_PROJECTILE.get(), NoopRenderer::new);
+		event.registerEntityRenderer(TGEntities.POWERHAMMER_PROJECTILE.get(), NoopRenderer::new);
 		event.registerEntityRenderer(TGEntities.ROCKET_PROJECTILE.get(), ModelProjectileRenderer::rocket);
 		event.registerEntityRenderer(TGEntities.GUIDED_MISSILE_PROJECTILE.get(), ModelProjectileRenderer::rocket);
 		event.registerEntityRenderer(TGEntities.GRENADE_40MM_PROJECTILE.get(), ModelProjectileRenderer::grenade40mm);

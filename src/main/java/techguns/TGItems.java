@@ -1,8 +1,12 @@
 package techguns;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import techguns.items.tools.Crowbar;
+import techguns.items.tools.TGTiers;
 
 /**
  * Plain items, flattened from the 1.12 shared meta-item (techguns:itemshared).
@@ -166,4 +170,9 @@ public class TGItems {
 	public static final DeferredItem<Item> UPGRADE_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_protection_3", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> UPGRADE_PROJECTILE_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_projectile_protection_3", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> UPGRADE_BLAST_PROTECTION_3 = ITEMS.registerSimpleItem("upgrade_blast_protection_3", new Item.Properties().stacksTo(1));
+	// 1.12 ItemSword/ItemPickaxe attribute numbers on the steel tier
+	public static final DeferredItem<SwordItem> COMBAT_KNIFE = ITEMS.registerItem("combatknife",
+			p -> new SwordItem(TGTiers.STEEL, p.attributes(SwordItem.createAttributes(TGTiers.STEEL, 3, -2.4f))));
+	public static final DeferredItem<Crowbar> CROWBAR = ITEMS.registerItem("crowbar",
+			p -> new Crowbar(p.attributes(PickaxeItem.createAttributes(TGTiers.STEEL, 1.0f, -2.8f))));
 }

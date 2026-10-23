@@ -1,0 +1,24 @@
+{
+  "type": "techguns:miningtool_upgrade",
+  "ingredients": [
+    {
+      "item": "techguns:chainsaw"
+    },
+    {
+      "item": "techguns:chainsawblades_obsidian"
+    }
+  ],
+  "result": {
+    "id": "techguns:chainsaw"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:chainsaw"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:chainsawblades_obsidian"
+    }
+  ]
+}

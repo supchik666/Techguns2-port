@@ -1,0 +1,24 @@
+{
+  "type": "techguns:miningtool_upgrade",
+  "ingredients": [
+    {
+      "item": "techguns:powerhammer"
+    },
+    {
+      "item": "techguns:powerhammerhead_carbon"
+    }
+  ],
+  "result": {
+    "id": "techguns:powerhammer"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:powerhammer"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:powerhammerhead_carbon"
+    }
+  ]
+}

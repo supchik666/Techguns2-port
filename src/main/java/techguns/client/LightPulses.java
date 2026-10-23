@@ -90,6 +90,7 @@ public final class LightPulses {
 	public static void fx(String name, Vec3 pos, float scale) {
 		if (name.startsWith("Nuke")) add(pos, 85, MAX_RADIUS, 1, 1, 0.9f, 0.5f);
 		else if (name.equals("AlienExplosion") || name.equals("BlueBlasterExplosion")) return; // energy gun impacts
+		else if (name.equals("MiningChargeBlockExplosion")) add(pos, 15, 5 * scale, 1, 1, 0.9f, 0.5f); // explosive bullets
 		else if (name.contains("Explosion") && !name.startsWith("TFG")) add(pos, 20, 10 * scale, 1, 1, 0.9f, 0.5f);
 		else if (name.equals("Impact_IncendiaryBullet")) add(pos, 15, 3 * scale, 1, 1, 0.5f, 0.1f);
 	}

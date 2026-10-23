@@ -19,6 +19,8 @@ public class ShooterValues {
 		public float jitterX, jitterY, jitterScale;
 		/** How charged the last shot was; a charge gun's recoil eases back from it. */
 		public float recoilCharge;
+		/** Counts every shot, including ones that don't restart a running recoil. */
+		public int shots;
 	}
 
 	private static final Map<Entity, AttackTime[]> TIMES = new WeakHashMap<>();
@@ -31,6 +33,7 @@ public class ShooterValues {
 	public static void fired(Entity entity, InteractionHand hand, GenericGun gun) {
 		AttackTime time = get(entity, hand);
 		long now = System.currentTimeMillis();
+		time.shots++;
 		if (!gun.isCheckRecoil() || now >= time.recoilEnd) {
 			time.recoilTotal = gun.getRecoiltime() * 50;
 			time.recoilEnd = now + time.recoilTotal;
@@ -49,6 +52,16 @@ public class ShooterValues {
 		time.jitterX = 1.0f - random.nextFloat() * 2.0f;
 		time.jitterY = 1.0f - random.nextFloat() * 2.0f;
 		time.jitterScale = 1.0f - random.nextFloat() * 2.0f;
+	}
+
+	/** A powered melee swing: a 250 ms "recoil" drives the tool's animation, unless one is still running. */
+	public static void swung(Entity entity, InteractionHand hand) {
+		AttackTime time = get(entity, hand);
+		long now = System.currentTimeMillis();
+		if (now < time.recoilEnd) return;
+		time.recoilTotal = 250;
+		time.recoilEnd = now + time.recoilTotal;
+		time.recoilCharge = 0.0f;
 	}
 
 	public static void reloaded(Entity entity, InteractionHand hand, int reloadTicks) {
