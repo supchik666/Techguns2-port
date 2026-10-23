@@ -826,5 +826,7 @@
   "death.attack.techguns.radiation": "%s died of radiation",
   "death.attack.techguns.radiation.player": "%s died of radiation whilst fighting %s",
   "death.attack.techguns.radiation_poisoning": "%s died of radiation poisoning",
-  "death.attack.techguns.radiation_poisoning.player": "%s died of radiation poisoning whilst fighting %s"
+  "death.attack.techguns.radiation_poisoning.player": "%s died of radiation poisoning whilst fighting %s",
+  "techguns.extendedinventory": "Techguns Inventory",
+  "techguns.key.openTGInventory": "Open Techguns Inventory"
 }

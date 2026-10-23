@@ -17,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 LEGACY = ROOT / "legacy/src/main/resources/assets/techguns"
+LEGACY_TGITEMS = ROOT / "legacy/src/main/java/techguns/TGItems.java"
 OUT = ROOT / "src/generated/resources"
 ASSETS = OUT / "assets/techguns"
 DATA = OUT / "data"
@@ -99,6 +100,8 @@ EXTRA_LANG = {
     "death.attack.techguns.radiation.player": "%s died of radiation whilst fighting %s",
     "death.attack.techguns.radiation_poisoning": "%s died of radiation poisoning",
     "death.attack.techguns.radiation_poisoning.player": "%s died of radiation poisoning whilst fighting %s",
+    "techguns.extendedinventory": "Techguns Inventory",
+    "techguns.key.openTGInventory": "Open Techguns Inventory",
 }
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
@@ -279,6 +282,8 @@ def convert_lang():
         write_json(ASSETS / "lang" / (src.stem.lower() + ".json"), out)
 
 
+
+
 class Skip(Exception):
     pass
 
@@ -411,6 +416,9 @@ def write_tags_and_loot():
             "type": "minecraft:block", "random_sequence": "techguns:blocks/" + name,
             "pools": [{"rolls": 1, "bonus_rolls": 0, "entries": [{"type": "minecraft:item", "name": rid}],
                        "conditions": [{"condition": "minecraft:survives_explosion"}]}]})
+    # Shared items 1.12 let into the ammo slots of the TG inventory.
+    item_tags["techguns:ammo_slot"] = sorted(ns(m) for m in re.findall(
+        r'addsharedVariant\("(\w+)"[^;]*TGSlotType\.AMMOSLOT', LEGACY_TGITEMS.read_text()))
     for kind, tags in (("item", item_tags), ("block", block_tags)):
         for tag, values in tags.items():
             tag_ns, path = tag.split(":")

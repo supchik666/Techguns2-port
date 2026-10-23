@@ -53,6 +53,7 @@ import techguns.TGEntities;
 import techguns.TGuns;
 import techguns.Techguns;
 import techguns.client.models.ModelMultipart;
+import techguns.capabilities.TGExtendedPlayer;
 import techguns.client.models.ModelObj;
 import techguns.client.models.guns.*;
 import techguns.client.models.items.ModelARMagazine;
@@ -809,7 +810,7 @@ public class TGClient {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.options.hideGui || mc.player == null || !(mc.player.getMainHandItem().getItem() instanceof GenericGun gun)) return;
 		ItemStack stack = mc.player.getMainHandItem();
-		int mags = mc.player.getInventory().countItem(gun.getAmmoVariant(stack).ammo().get());
+		int mags = TGExtendedPlayer.countAmmo(mc.player, gun.getAmmoVariant(stack).ammo().get());
 		String text = gun.getAmmo(stack) + "/" + gun.getClipsize() + ChatFormatting.YELLOW + "x" + mags;
 		graphics.drawString(mc.font, text, graphics.guiWidth() - 1 - mc.font.width(text), graphics.guiHeight() - mc.font.lineHeight - 2, 0xFFFFFFFF, false);
 	}

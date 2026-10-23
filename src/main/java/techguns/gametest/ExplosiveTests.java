@@ -3,6 +3,8 @@ package techguns.gametest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
@@ -46,6 +48,7 @@ public class ExplosiveTests {
 	@GameTest(template = "empty", timeoutTicks = 200)
 	public static void grenadeExplodesAfterBounces(GameTestHelper helper) {
 		Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, new Vec3(1.5, 1, 2.5));
+		zombie.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 400)); // daylight would burn it, hurting it early
 		helper.getLevel().addFreshEntity(new GrenadeProjectile(helper.getLevel(), shooter(helper, 90), GenericProjectile.Kind.BULLET, 10, 0.75f, 200, 0,
 				3, 5, 5, GenericProjectile.CENTER, 0, 1.0f, 1));
 		helper.runAfterDelay(2, () -> helper.assertTrue(zombie.getHealth() == zombie.getMaxHealth(), "exploded on the first bounce"));

@@ -41,6 +41,7 @@ public class Techguns {
 		TGRadiation.EFFECTS.register(modEventBus);
 		TGRadiation.POTIONS.register(modEventBus);
 		TGEntities.ENTITIES.register(modEventBus);
+		TGMenus.MENUS.register(modEventBus);
 		CREATIVE_TABS.register(modEventBus);
 		AmmoChangeRecipe.SERIALIZERS.register(modEventBus);
 		modContainer.registerConfig(ModConfig.Type.CLIENT, TGConfig.CLIENT_SPEC);

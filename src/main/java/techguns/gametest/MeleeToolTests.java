@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import techguns.TGComponents;
@@ -48,7 +49,8 @@ public class MeleeToolTests {
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) helper.setBlock(x, y, 3, Blocks.STONE);
 		}
-		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		// a FakePlayer drops packets; the mock player can't take the extended player attachment's sync
+		ServerPlayer player = FakePlayerFactory.getMinecraft(helper.getLevel());
 		player.setGameMode(GameType.SURVIVAL);
 		Vec3 pos = helper.absoluteVec(new Vec3(1.5, 0, 0.5));
 		player.moveTo(pos.x, pos.y, pos.z, 0, 0); // eyes at y 1.62, looking along +z at the wall's middle

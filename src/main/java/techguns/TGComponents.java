@@ -12,6 +12,7 @@ import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import techguns.capabilities.TGExtendedPlayer;
 
 /** Item data components (the 1.12 stack NBT) and entity data attachments (the 1.12 capabilities). */
 public class TGComponents {
@@ -39,5 +40,9 @@ public class TGComponents {
 			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 
 	/** Game time from which each hand (indexed by InteractionHand ordinal) may fire again. Not saved, like the 1.12 fire delay. */
+	/** The extra slots and keybind toggles (1.12 TGExtendedPlayer capability). */
+	public static final Supplier<AttachmentType<TGExtendedPlayer>> EXTENDED_PLAYER = ATTACHMENTS.register("extended_player",
+			() -> AttachmentType.serializable(TGExtendedPlayer::new).copyOnDeath().sync(TGExtendedPlayer.SYNC).build());
+
 	public static final Supplier<AttachmentType<long[]>> NEXT_FIRE = ATTACHMENTS.register("next_fire", () -> AttachmentType.builder(() -> new long[2]).build());
 }

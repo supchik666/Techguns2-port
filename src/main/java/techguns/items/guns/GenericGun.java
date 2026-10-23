@@ -25,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 import techguns.TGComponents;
+import techguns.capabilities.TGExtendedPlayer;
 import techguns.Techguns;
 import techguns.client.ShooterValues;
 import techguns.entities.projectiles.GenericProjectile;
@@ -435,22 +436,22 @@ public class GenericGun extends Item {
 	void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {
 		AmmoType.Variant variant = getAmmoVariant(stack);
 		Item extra = ammoType.extraAmmo() == null ? null : ammoType.extraAmmo().get();
-		if (extra != null && !player.getInventory().contains(new ItemStack(extra))) return;
-		if (!consume(player, variant.ammo().get())) return;
+		if (extra != null && TGExtendedPlayer.countAmmo(player, extra) == 0) return;
+		if (!TGExtendedPlayer.consumeAmmo(player, variant.ammo().get())) return;
 		if (extra != null) {
-			consume(player, extra);
-			give(player, new ItemStack(ammoType.extraEmpty().get()));
+			TGExtendedPlayer.consumeAmmo(player, extra);
+			TGExtendedPlayer.giveAmmo(player, new ItemStack(ammoType.extraEmpty().get()));
 		}
 		int newAmmo;
 		if (ammoCount > 1) {
 			int loaded = 1;
-			while (loaded < ammoCount - oldAmmo && consume(player, variant.ammo().get())) loaded++;
+			while (loaded < ammoCount - oldAmmo && TGExtendedPlayer.consumeAmmo(player, variant.ammo().get())) loaded++;
 			newAmmo = oldAmmo + loaded;
 		} else {
 			if (ammoType.emptyMag() != null) {
-				give(player, new ItemStack(ammoType.emptyMag().get()));
+				TGExtendedPlayer.giveAmmo(player, new ItemStack(ammoType.emptyMag().get()));
 				int bulletsBack = oldAmmo > 0 ? (int) (oldAmmo / ammoType.getShotsPerBullet(clipsize, oldAmmo)) : 0;
-				if (bulletsBack > 0 && variant.bullet() != null) give(player, new ItemStack(variant.bullet().get(), bulletsBack));
+				if (bulletsBack > 0 && variant.bullet() != null) TGExtendedPlayer.giveAmmo(player, new ItemStack(variant.bullet().get(), bulletsBack));
 			}
 			newAmmo = clipsize; // loose rounds left in the gun are lost, as in 1.12
 		}
