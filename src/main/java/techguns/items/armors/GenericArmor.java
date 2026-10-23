@@ -169,7 +169,7 @@ public class GenericArmor extends ArmorItem {
 			return;
 		}
 		if (tgMaterial.toughness > 0) tooltip.add(line("toughness", tgMaterial.toughness).withStyle(ChatFormatting.GRAY));
-		resistances(tooltip, this::armorValue, "");
+		resistances(tooltip, type -> (float) techguns.damagesystem.DamageSystem.protectionPercent(armorValue(type)), "%");
 		bonusLine(tooltip, TGArmorBonus.EXTRA_HEART, "healthbonus", v -> "+" + (int) v + " ", "hearts");
 		bonusLine(tooltip, TGArmorBonus.SPEED, "movespeed", v -> "+" + v * 100 + "%", null);
 		bonusLine(tooltip, TGArmorBonus.JUMP, "jumpheight", v -> "+" + v, null);
@@ -203,14 +203,21 @@ public class GenericArmor extends ArmorItem {
 
 	/** The AR/PR/EX... lines, shared with the shield tooltip. */
 	public static void resistances(List<Component> tooltip, Function<TGDamageType, Float> value, String unit) {
-		tooltip.add(Component.translatable("techguns.armorTooltip.resistances").append(":").withStyle(ChatFormatting.BLUE));
+		resistances(tooltip, Component.translatable("techguns.armorTooltip.resistances"), value, unit);
+	}
+
+	/** As above under {@code header}; types whose value is null are left out. */
+	public static void resistances(List<Component> tooltip, MutableComponent header, Function<TGDamageType, Float> value, String unit) {
+		tooltip.add(header.append(":").withStyle(ChatFormatting.BLUE));
 		Object[][] rows = {{ChatFormatting.DARK_GRAY, "AR", TGDamageType.PHYSICAL}, {ChatFormatting.GRAY, "PR", TGDamageType.PROJECTILE},
 				{ChatFormatting.DARK_RED, "EX", TGDamageType.EXPLOSION}, {ChatFormatting.DARK_AQUA, "E", TGDamageType.ENERGY},
 				{ChatFormatting.RED, "F", TGDamageType.FIRE}, {ChatFormatting.AQUA, "I", TGDamageType.ICE}, {ChatFormatting.YELLOW, "L", TGDamageType.LIGHTNING},
 				{ChatFormatting.DARK_GREEN, "P", TGDamageType.POISON}, {ChatFormatting.DARK_GRAY, "D", TGDamageType.DARK},
 				{ChatFormatting.GREEN, "RAD", TGDamageType.RADIATION}};
 		for (Object[] row : rows) {
-			tooltip.add(Component.literal(" " + row[1] + ": " + String.format(Locale.ROOT, "%.2f", value.apply((TGDamageType) row[2])).replaceAll("\\.?0+$", "") + unit)
+			Float v = value.apply((TGDamageType) row[2]);
+			if (v == null) continue;
+			tooltip.add(Component.literal(" " + row[1] + ": " + String.format(Locale.ROOT, "%.2f", v).replaceAll("\\.?0+$", "") + unit)
 					.withStyle((ChatFormatting) row[0]));
 		}
 	}

@@ -85,6 +85,8 @@ public class TGClient {
 	public static LivingEntity renderedEntity;
 	/** Attack was clicked; kept until the gun is ready so semi-auto clicks during the fire delay aren't lost. */
 	private static boolean firePressed;
+	/** Use was clicked while dual-wielding: the off-hand gun's {@link #firePressed}. */
+	private static boolean offFirePressed;
 	/** Players whose ambient effect is running. */
 	private static final Set<Entity> AMBIENT = Collections.newSetFromMap(new WeakHashMap<>());
 	/** Where the shishkebap's flames start on its blade, in its model frame (blocks at model scale). */
@@ -645,6 +647,11 @@ public class TGClient {
 			event.setSwingHand(false);
 			if (!attackHeld) firePressed = true;
 			attackHeld = true;
+		} else if (event.isUseItem() && player != null && GenericGun.isDualWielding(player)) {
+			event.setCanceled(true);
+			event.setSwingHand(false);
+			if (!useHeld) offFirePressed = true;
+			useHeld = true;
 		} else if (event.isUseItem() && event.getHand() == InteractionHand.MAIN_HAND && player != null
 				&& player.getMainHandItem().getItem() instanceof GenericGun gun && gun.canZoom()) {
 			// Right click zooms in, with a scope once more, then out; the click still goes on to blocks and the off hand (shield) as in 1.12.
@@ -669,13 +676,14 @@ public class TGClient {
 		if (!mc.options.keyAttack.isDown()) attackHeld = false;
 		if (!mc.options.keyUse.isDown()) useHeld = false;
 		if (player == null || !(player.getMainHandItem().getItem() instanceof GenericGun gun)) {
-			firePressed = false;
+			firePressed = offFirePressed = false;
 			zoomLevel = 0;
 			while (FORCE_RELOAD.consumeClick()) {}
 			return;
 		}
 		ItemStack stack = player.getMainHandItem();
-		if (!isZooming(gun) || isReloading(player)) zoomLevel = 0;
+		boolean dual = GenericGun.isDualWielding(player);
+		if (!isZooming(gun) || isReloading(player) || dual) zoomLevel = 0;
 		// Vanilla swallows attack clicks while an item is in use; the guided missile launcher fires while locking on.
 		if (player.isUsingItem() && gun.isShootWithLeftClick() && mc.screen == null && mc.options.keyAttack.isDown() && !attackHeld) {
 			firePressed = true;
@@ -689,9 +697,21 @@ public class TGClient {
 			PacketDistributor.sendToServer(new GunAction(InteractionHand.MAIN_HAND, false, zooming, target == null ? -1 : target.getId()));
 			gun.shootGunPrimary(stack, player.level(), player, InteractionHand.MAIN_HAND, zooming, target);
 		}
+		ItemStack offStack = player.getOffhandItem();
+		if (!dual) offFirePressed = false;
+		else if ((offFirePressed || !((GenericGun) offStack.getItem()).isSemiAuto() && mc.screen == null && mc.options.keyUse.isDown())
+				&& GenericGun.isReady(player, InteractionHand.OFF_HAND)) {
+			offFirePressed = false;
+			PacketDistributor.sendToServer(new GunAction(InteractionHand.OFF_HAND, false, false));
+			((GenericGun) offStack.getItem()).shootGunPrimary(offStack, player.level(), player, InteractionHand.OFF_HAND, false);
+		}
 		while (FORCE_RELOAD.consumeClick()) {
 			PacketDistributor.sendToServer(new GunAction(InteractionHand.MAIN_HAND, true, false));
 			gun.tryForcedReload(stack, player.level(), player, InteractionHand.MAIN_HAND);
+			if (dual) {
+				PacketDistributor.sendToServer(new GunAction(InteractionHand.OFF_HAND, true, false));
+				((GenericGun) offStack.getItem()).tryForcedReload(offStack, player.level(), player, InteractionHand.OFF_HAND);
+			}
 		}
 	}
 

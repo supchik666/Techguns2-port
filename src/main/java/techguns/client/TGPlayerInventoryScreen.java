@@ -60,7 +60,7 @@ public class TGPlayerInventoryScreen extends AbstractContainerScreen<TGPlayerInv
 	private List<Component> armorTooltip() {
 		List<Component> tooltip = new ArrayList<>();
 		tooltip.add(Component.translatable("techguns.tgguitooltip.totalarmorvalues").withStyle(ChatFormatting.UNDERLINE));
-		GenericArmor.resistances(tooltip, type -> DamageSystem.armorValue(minecraft.player, type), "");
+		GenericArmor.resistances(tooltip, type -> (float) DamageSystem.protectionPercent(DamageSystem.armorValue(minecraft.player, type)), "%");
 		return tooltip;
 	}
 

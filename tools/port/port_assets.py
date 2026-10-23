@@ -318,6 +318,8 @@ CUTOUT_MODELS += ["fabricator_glass", "fabricator_glass_formed", "reactionchambe
                                                   "shiny_gem", "nether_crystal", "oil"))]
 EXTRA_LANG |= {"block.techguns.ore_cluster_oil": "Ore Cluster (Oil)"}
 EXTRA_LANG |= {"block.techguns.creative_energy": "Creative Energy Source"}  # not in 1.12; its models are hand-written
+# tooltips show percents (DamageSystem.protectionPercent/penetrationPercent) instead of 1.12's raw points
+EXTRA_LANG |= {"techguns.armorTooltip.resistances": "Protection", "techguns.gun.tooltip.armorPen": "Ignores armor"}
 
 
 def write_reaction_chamber_recipes():

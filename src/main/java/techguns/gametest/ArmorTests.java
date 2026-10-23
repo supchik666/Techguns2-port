@@ -77,4 +77,14 @@ public class ArmorTests {
 		helper.assertTrue(resistance == 5, "resistance " + resistance);
 		helper.succeed();
 	}
+
+	/** The tooltip percents match the real damage math: 10 armor stops 40%, a penetration-1 gun ignores 16% of it. */
+	@GameTest(template = "empty")
+	public static void tooltipPercentsMatchDamage(GameTestHelper helper) {
+		float plain = techguns.damagesystem.DamageSystem.damageAfterArmor(100, 10, 0, 0);
+		float pierced = techguns.damagesystem.DamageSystem.damageAfterArmor(100, 10, 0, techguns.damagesystem.DamageSystem.PENETRATION_POINTS);
+		helper.assertTrue(Math.abs(plain - (100 - techguns.damagesystem.DamageSystem.protectionPercent(10))) < 0.01f, "protection % off: " + plain);
+		helper.assertTrue(Math.abs(pierced - (plain + techguns.damagesystem.DamageSystem.penetrationPercent(1))) < 0.01f, "armor pen % off: " + pierced);
+		helper.succeed();
+	}
 }

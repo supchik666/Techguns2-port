@@ -31,6 +31,19 @@ public class DamageSystem {
 		return damage * (1 - Mth.clamp(armor - Math.max(penetration - toughness, 0), 0, 24) / 25);
 	}
 
+	/** Armor points one point of gun penetration removes. */
+	public static final float PENETRATION_POINTS = 4;
+
+	/** Tooltip percent of damage {@code armor} points stop, on {@link #damageAfterArmor}'s scale (max 96). */
+	public static int protectionPercent(float armor) {
+		return Math.round(Mth.clamp(armor, 0, 24) * 4);
+	}
+
+	/** Tooltip percent of armor protection a gun's {@code penetration} ignores (before the target's toughness). */
+	public static int penetrationPercent(float penetration) {
+		return Math.round(penetration * PENETRATION_POINTS * 4);
+	}
+
 	/** Armor points against {@code type}: TG pieces by their per-type value, everything else by the armor attribute. */
 	public static float armorValue(LivingEntity entity, TGDamageType type) {
 		float armor = entity.getArmorValue();
@@ -73,7 +86,7 @@ public class DamageSystem {
 		else if (source instanceof TGDamageSource || wearsTGArmor(entity)) armor = armorValue(entity, TGDamageType.of(source));
 		else return;
 		float toughness = (float) entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
-		float penetration = source instanceof TGDamageSource tg ? Math.max(tg.penetration - resistance, 0) * 4 : 0;
+		float penetration = source instanceof TGDamageSource tg ? Math.max(tg.penetration - resistance, 0) * PENETRATION_POINTS : 0;
 		event.getContainer().addModifier(DamageContainer.Reduction.ARMOR,
 				(container, reduction) -> container.getNewDamage() - damageAfterArmor(container.getNewDamage(), armor, toughness, penetration));
 	}

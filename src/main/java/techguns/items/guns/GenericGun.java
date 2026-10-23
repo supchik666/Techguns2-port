@@ -33,6 +33,7 @@ import techguns.capabilities.TGExtendedPlayer;
 import techguns.Techguns;
 import techguns.client.ShooterValues;
 import techguns.entities.npcs.RangedGunAttackGoal;
+import techguns.damagesystem.TGDamageType;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.items.armors.GenericArmor;
 import techguns.items.armors.TGArmorBonus;
@@ -345,6 +346,15 @@ public class GenericGun extends Item {
 		return handType;
 	}
 
+	/** Two one- or 1.5-handed guns (not the shishkebap): left click fires the main hand, right click the off hand, and neither aims. */
+	public static boolean isDualWielding(Player player) {
+		return isDualGun(player.getMainHandItem()) && isDualGun(player.getOffhandItem());
+	}
+
+	private static boolean isDualGun(ItemStack stack) {
+		return stack.getItem() instanceof GenericGun gun && gun.handType != GunHandType.TWO_HANDED && !(gun instanceof GenericGunCharge);
+	}
+
 	public Crosshair getCrosshair() {
 		return crosshair;
 	}
@@ -422,6 +432,7 @@ public class GenericGun extends Item {
 	/** As above; {@code target} is the guided missile launcher's lock-on target, null for other guns. */
 	public void shootGunPrimary(ItemStack stack, Level level, Player player, InteractionHand hand, boolean zooming, Entity target) {
 		if (!isReady(player, hand)) return;
+		if (isDualWielding(player)) zooming = false;
 		int ammo = getAmmo(stack);
 		if (ammo <= 0) {
 			reload(stack, level, player, hand, 0);
@@ -615,6 +626,8 @@ public class GenericGun extends Item {
 			tooltip.add(stat("spread", accuracy));
 			tooltip.add(stat("clipsize", clipsize));
 			tooltip.add(stat("reloadTime", reloadtime * 0.05f + "s"));
+			float pen = techguns.damagesystem.DamageSystem.penetrationPercent(penetration);
+			techguns.items.armors.GenericArmor.resistances(tooltip, Component.translatable("techguns.gun.tooltip.armorPen"), t -> t == TGDamageType.RADIATION ? null : pen, "%");
 		} else {
 			tooltip.add(Component.translatable("techguns.gun.tooltip.shift1").append(" ")
 					.append(Component.translatable("techguns.gun.tooltip.shift2").withStyle(ChatFormatting.GREEN)).append(" ")

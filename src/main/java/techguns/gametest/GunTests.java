@@ -149,4 +149,26 @@ public class GunTests {
 		helper.assertTrue(helper.getLevel().getEntitiesOfClass(GenericProjectile.class, player.getBoundingBox().inflate(5)).size() == 1, "expected one shot");
 		helper.succeed();
 	}
+
+	/** Only one- and 1.5-handed guns dual-wield; the off-hand gun fires from its own ammo and fire delay. */
+	@GameTest(template = "empty")
+	public static void oneHandedGunsDualWield(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(TGuns.PISTOL.get()));
+		player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(TGuns.M4.get()));
+		helper.assertFalse(GenericGun.isDualWielding(player), "rifle in the off hand");
+		player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(TGuns.SHISHKEBAP.get()));
+		helper.assertFalse(GenericGun.isDualWielding(player), "shishkebap in the off hand");
+		ItemStack off = new ItemStack(TGuns.REVOLVER.get());
+		off.set(TGComponents.AMMO, 2);
+		player.setItemInHand(InteractionHand.OFF_HAND, off);
+		helper.assertTrue(GenericGun.isDualWielding(player), "pistol and revolver should dual-wield");
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(TGuns.MAC10.get()));
+		helper.assertTrue(GenericGun.isDualWielding(player), "1.5-handed MAC-10 should dual-wield");
+
+		TGuns.REVOLVER.get().shootGunPrimary(off, helper.getLevel(), player, InteractionHand.OFF_HAND, true);
+		helper.assertTrue(TGuns.REVOLVER.get().getAmmo(off) == 1, "off hand didn't fire");
+		helper.assertTrue(GenericGun.isReady(player, InteractionHand.MAIN_HAND), "off-hand shot delayed the main hand");
+		helper.succeed();
+	}
 }
