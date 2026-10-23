@@ -30,7 +30,8 @@ public record ScreenEffect(ResourceLocation texture, int cols, int rows, int num
 	public static final ScreenEffect muzzleFlash_blue = new ScreenEffect(fx("bluemuzzleflash"), 4, 4, 8, true, true, true);
 	public static final ScreenEffect sniperScope = new ScreenEffect(fx("testscope"), 1, 1, 1, false, false, false);
 	public static final ScreenEffect techScope = new ScreenEffect(fx("techscope"), 1, 1, 1, false, false, true);
-	public static final ScreenEffect muzzleFlashLaser = additive("laserflare02", 4, 4, 7);
+	/** Tinted deep red. */
+	public static final ScreenEffect muzzleFlashLaser = new ScreenEffect(fx("laserflare02"), 4, 4, 7, true, false, false, 0xFFFF1A10);
 	public static final ScreenEffect muzzleFlashFireball_alpha = new ScreenEffect(fx("fireball_4x4_alpha"), 4, 4, 16, false, false, false);
 	public static final ScreenEffect muzzleFlashAlienBlaster = additive("alienflare", 4, 4, 14);
 	public static final ScreenEffect muzzleFlashLightning = additive("teslaflare01", 4, 4, 14);
@@ -38,8 +39,8 @@ public record ScreenEffect(ResourceLocation texture, int cols, int rows, int num
 	public static final ScreenEffect FlamethrowerMuzzleFlash = new ScreenEffect(fx("flamethrower"), 4, 4, 16, true, false, true);
 	public static final ScreenEffect muzzleFlashSonic = additive("sonicwave4x4", 4, 4, 16);
 	public static final ScreenEffect muzzleFlashNukeBeam = additive("nukebeamflare", 4, 4, 16);
-	/** 1.12 color (0.15686, 1.0, 0.549). */
-	public static final ScreenEffect muzzleFlashMibGun = new ScreenEffect(fx("alienflare"), 4, 4, 14, true, false, false, 0xFF28FF8C);
+	/** Orange, to match its light (1.12 was green 0xFF28FF8C). */
+	public static final ScreenEffect muzzleFlashMibGun = new ScreenEffect(fx("alienflare"), 4, 4, 14, true, false, false, 0xFFFF8010);
 	/** ponytail: 1.12 layered a green glow and flash over this with fades; just the main flare until ScreenEffect can stack. */
 	public static final ScreenEffect muzzleFlashTFG = new ScreenEffect(fx("tfg_flare"), 4, 4, 16, true, false, false, -1, 1.0f);
 	/** 1.12 color (0.5, 1.0, 0.25); its smooth fade is skipped. */

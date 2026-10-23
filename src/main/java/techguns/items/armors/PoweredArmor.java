@@ -43,6 +43,12 @@ public class PoweredArmor extends GenericArmor {
 		return this;
 	}
 
+	/** The battery item that recharges it, or null. */
+	@Nullable
+	public Item batteryItem() {
+		return battery == null ? null : battery.get();
+	}
+
 	public static int getPower(ItemStack stack) {
 		return stack.getOrDefault(TGComponents.POWER, 0);
 	}

@@ -43,6 +43,8 @@ import techguns.items.additionalslots.ItemJetpack;
 import techguns.items.additionalslots.ItemJumpPack;
 import techguns.items.additionalslots.ItemNightVisionGoggles;
 import techguns.items.additionalslots.ItemTGSpecialSlot;
+import techguns.items.armors.GenericArmor;
+import techguns.items.armors.TGArmorBonus;
 
 /**
  * What the extra slots do (1.12 TGTickHandler and TGEventHandler, slot parts) and the toggle keys' packet.
@@ -223,8 +225,8 @@ public class TGPlayerEvents {
 				tg.enableNightVision = !tg.enableNightVision;
 				if (!tg.enableNightVision) {
 					if (player.removeEffect(MobEffects.NIGHT_VISION)) playSound(player, TGSounds.NIGHTVISION_OFF.get());
-				} else if (ItemNightVisionGoggles.givesNightVision(tg.getSlot(TGExtendedPlayer.SLOT_FACE))) {
-					// ponytail: night vision armor doesn't play it until the armor port checks here
+				} else if (ItemNightVisionGoggles.givesNightVision(tg.getSlot(TGExtendedPlayer.SLOT_FACE))
+						|| GenericArmor.bonus(player, TGArmorBonus.NIGHTVISION, false) > 0) {
 					playSound(player, TGSounds.NIGHTVISION_ON.get());
 				}
 				confirm(player, p, "techguns.armorTooltip.nightvision", tg.enableNightVision);

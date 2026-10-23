@@ -42,9 +42,9 @@ public class GenericArmor extends ArmorItem {
 	private final EnumMap<TGArmorBonus, Float> bonuses = new EnumMap<>(TGArmorBonus.class);
 	/** Camo names are techguns.item.[first texture].[suffix]camoname.[i]; the suffix ends in a dot. */
 	private String camoSuffix = "";
-	/** ponytail: stored for C's radiation system, unused here. */
+	/** Added to the wearer's radiation resistance, see {@link ArmorBonuses}. */
 	public float radResistance;
-	/** Which of B's slot items this piece hides. ponytail: stored for B's slot rendering, unused here. */
+	/** Which extra slot items this piece hides on the player model (helmet: face; chestplate: back and gloves). */
 	public boolean hideFace, hideBack, hideGloves;
 	/** Client armor model key (see TGClient), or null for the flat vanilla layer. */
 	@Nullable
@@ -192,7 +192,7 @@ public class GenericArmor extends ArmorItem {
 	}
 
 	/** The AR/PR/EX... lines, shared with the shield tooltip. */
-	static void resistances(List<Component> tooltip, Function<TGDamageType, Float> value, String unit) {
+	public static void resistances(List<Component> tooltip, Function<TGDamageType, Float> value, String unit) {
 		tooltip.add(Component.translatable("techguns.armorTooltip.resistances").append(":").withStyle(ChatFormatting.BLUE));
 		Object[][] rows = {{ChatFormatting.DARK_GRAY, "AR", TGDamageType.PHYSICAL}, {ChatFormatting.GRAY, "PR", TGDamageType.PROJECTILE},
 				{ChatFormatting.DARK_RED, "EX", TGDamageType.EXPLOSION}, {ChatFormatting.DARK_AQUA, "E", TGDamageType.ENERGY},

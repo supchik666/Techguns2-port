@@ -7,7 +7,7 @@ import techguns.capabilities.TGExtendedPlayer;
 
 /** Filters out poison and wither, one charge each time. */
 public class ItemGasMask extends ItemTGSpecialSlot {
-	/** ponytail: stored for the radiation system, which reads nothing yet; 1.12 added it as a face-slot rad resistance modifier. */
+	/** Radiation resistance while worn in the face slot, see {@link techguns.items.armors.ArmorBonuses}. */
 	public float radresist;
 
 	public ItemGasMask(int camoCount, int durability) {

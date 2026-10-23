@@ -3,15 +3,22 @@ package techguns.gametest;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import techguns.TGAttributes;
+import techguns.TGItems;
 import techguns.Techguns;
+import techguns.capabilities.TGExtendedPlayer;
 import techguns.damagesystem.TGDamageSource;
 import techguns.damagesystem.TGDamageSource.DeathType;
 import techguns.damagesystem.TGDamageType;
@@ -55,5 +62,19 @@ public class ArmorTests {
 	@GameTest(template = "empty")
 	public static void armorResistsPerType(GameTestHelper helper) {
 		hit(helper, TGDamageType.FIRE, 0, 2.8f);
+	}
+
+	/** A full hazmat suit (1 a piece) plus a gas mask in the face slot (1) give 5 radiation resistance. */
+	@GameTest(template = "empty")
+	public static void hazmatAndGasMaskResistRadiation(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		String[] pieces = {"helmet", "chestplate", "leggings", "boots"};
+		EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+		for (int i = 0; i < 4; i++) player.setItemSlot(slots[i], new ItemStack(BuiltInRegistries.ITEM.get(Techguns.id("hazmat_" + pieces[i]))));
+		TGExtendedPlayer.get(player).inventory.setItem(TGExtendedPlayer.SLOT_FACE, new ItemStack(TGItems.GAS_MASK.get()));
+		NeoForge.EVENT_BUS.post(new PlayerTickEvent.Post(player));
+		double resistance = player.getAttributeValue(TGAttributes.RADIATION_RESISTANCE);
+		helper.assertTrue(resistance == 5, "resistance " + resistance);
+		helper.succeed();
 	}
 }

@@ -16,7 +16,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M3.2 Energy guns and TGFX particles
   - [x] M3.3 Explosives, charge guns, grenades
   - [x] M3.4 Melee and mining tools
-- [ ] M4. Player data, armor and damage
+- [x] M4. Player data, armor and damage
 - [ ] M5. Machines and GUIs
 - [ ] M6. NPCs
 - [ ] M7. World generation
@@ -119,7 +119,7 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Sources: the nuke leaves a `RadiationEntity` zone for 60 s (server only); the NDR beam gives radiation V for 2 s. The biogun never irradiated in 1.12. The zone falloff runs from full at the inner radius to the outer strength at the edge; 1.12 had it backwards, fixed on purpose.
 - RadAway and Anti-RAD Pills (`RadConsumable`); in 1.12 they come from the chem lab, so their recipes come with M5.
 - HUD: "N RAD" and "+[n RAD/s]" at the right edge (`client/RadiationHud`).
-- **Deferred:** the 1.12 config switch (off by default there, WIP), the radiation resistance of armor and the gas mask (attribute modifiers, from the armor and extra slot work), the TG damage type mapping of the two damage types, the radiation line in the TG inventory GUI, the reaction chamber as a source (M5), mutants' radiation immunity (M6).
+- **Deferred:** the 1.12 config switch (off by default there, WIP), the reaction chamber as a source (M5), mutants' radiation immunity (M6).
 
 ### M4. Player data, armor and damage
 - Player capabilities (extra slots, shooter values, death type) → Data Attachments, synced with payloads.
@@ -131,14 +131,15 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - `damagesystem/`: `TGDamageSource` (type, death type, penetration) over the `data/techguns/damage_type` JSON and tags; `DamageSystem` replaces the vanilla armor reduction in `LivingIncomingDamageEvent` with the 1.12 formula (4% a point, cap 24, penetration ×4 minus toughness removes points) for TG damage and for anyone in TG armor. `ShieldStats` lets TG damage through shields by type. Guns pass their penetration to projectiles and explosions; each projectile sets its 1.12 damage type and knockback.
 - `TGArmors`: all 1.12 armor sets with their materials (`TGArmorMaterial`, registered `ArmorMaterial`s plus per-type values), bonuses (`TGArmorBonus`, applied in `ArmorBonuses`), steam/RF powered armor (`PoweredArmor`, charged from batteries in the inventory), camo cycling on sneak-use, the beret, and riot, ballistic and advanced shields.
 - 3D armor models and shields are ported with `port_models.py` over a `ModelBiped` shim, drawn by `client/ArmorRenderers` (worn model, render-hack items, shield BEWLR with the blocking model).
-- **Deferred:** broken pieces still show their vanilla armor points; repair and camo benches (shield camos); PvP/NPC damage factors (M8); NPC per-type resistances and penetration resistance (M6); gore (M6); radiation resistance is stored only; the night vision, oxygen and toggle bonuses, hide flags and slot items wait for the player data work; `ModelHeavyShield` has no item; no baby scaling on armor models.
+- **Deferred:** broken pieces still show their vanilla armor points; repair and camo benches (shield camos); PvP/NPC damage factors (M8); NPC per-type resistances and penetration resistance (M6); gore (M6); `ModelHeavyShield` has no item; no baby scaling on armor models.
 **M4 player data and extra slots done:**
 - `capabilities/TGExtendedPlayer` is the `techguns:extended_player` attachment (15 slots, toggles, autofeed leftovers), copied on death and synced to everyone by `TGExtendedPlayer.SYNC` (item or toggle changes at once, component-only changes once a second). Transient state (jump key, gliding) syncs to other players only.
 - Techguns inventory tab (`gui/TGPlayerInventoryMenu`, `client/TGPlayerInventoryScreen`): face/back/hand, 3 food, heal and 8 ammo slots, the five toggle buttons. Tabs above the vanilla and TG inventory screens. Keys: I (open), N, B, V, J (night vision, safe mode, step assist, jetpack).
 - Slot items (`items/additionalslots/`): gas mask, oxygen mask, tactical mask, night vision goggles, glider, jetpack, jump pack, scuba tanks, anti grav pack, working gloves. Effects live in `events/TGPlayerEvents` (night vision, creative flight, jump boost, fall damage, break speed, autofeed, drops on death); the client part (keys, HUD icons, worn models with glowing parts, jetpack flames, loop sounds, fly speed) is in `client/TGPlayerClient`.
 - Guns reload from the ammo slots first and empties go back there (`TGExtendedPlayer.consumeAmmo/giveAmmo/countAmmo`); `techguns:ammo_slot` item tag says what fits. Safe mode stops TG explosions breaking blocks.
 - GameTests in `PlayerSlotTests` (save/load, gas mask, autofeed, reload from ammo slots).
-- **Deferred:** heal slot items (none accept anything yet), the safe mode permission, gas mask rad resistance (radiation), hover mode, armor hiding slots and armor night vision/step assist in the HUD (armor), the RAD line and inventory radiation bar, sending food/ammo slots only to their owner.
+- **Deferred:** heal slot items (none accept anything yet), the safe mode permission, hover mode, sending food/ammo slots only to their owner.
+**M4 wiring done:** armor and gas mask radiation resistance (`ArmorBonuses`, an attribute modifier), armor night vision and step assist follow the toggles, armor oxygen gear counts for the scuba tanks, helmet/chest hide flags hide the face/back/hand slot models, HUD lines for power armor, step assist and radiation, and the TG inventory's armor values and radiation bar tooltips. GameTest `hazmatAndGasMaskResistRadiation`.
 
 ### M5. Machines and GUIs
 - `TileEntity` → `BlockEntity`, `ITickable` → `BlockEntityTicker`.

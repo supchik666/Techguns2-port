@@ -46,10 +46,10 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import techguns.TGComponents;
+import techguns.TGEffects;
 import techguns.TGItems;
 import techguns.TGMenus;
 import techguns.TGSounds;
-import techguns.TGEffects;
 import techguns.Techguns;
 import techguns.capabilities.TGExtendedPlayer;
 import techguns.client.models.LegacyGl;
@@ -63,6 +63,9 @@ import techguns.items.additionalslots.ItemJumpPack;
 import techguns.items.additionalslots.ItemNightVisionGoggles;
 import techguns.items.additionalslots.ItemTGSpecialSlot;
 import techguns.items.additionalslots.ItemTGSpecialSlotAmmo;
+import techguns.items.armors.GenericArmor;
+import techguns.items.armors.PoweredArmor;
+import techguns.items.armors.TGArmorBonus;
 import techguns.items.guns.GenericGun;
 
 /** Client side of the extra slots: keys, inventory tabs, HUD icons, the worn models, jetpack flames and loop sounds. */
@@ -264,7 +267,15 @@ public class TGPlayerClient {
 			g.blit(tex, x, y, 242 + (tg.enableSafemode ? 7 : 0), 14, 7, 7);
 		}
 		y -= 10;
-		// ponytail: the powered armor charge line (1.12 v=35) comes with the armor port
+		ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
+		if (chest.getItem() instanceof PoweredArmor powered) {
+			g.blit(tex, x, y, 249, 35, 7, 7);
+			Item battery = powered.batteryItem();
+			String text = ChatFormatting.YELLOW + "" + (battery == null ? 0 : TGExtendedPlayer.countAmmo(player, battery)) + "x" + ChatFormatting.WHITE
+					+ (int) (100f * PoweredArmor.getPower(chest) / powered.maxPower) + "%";
+			g.drawString(mc.font, text, x - 1 - mc.font.width(text), y, 0xFFFFFFFF, false);
+			y -= 10;
+		}
 		ItemStack back = tg.getSlot(TGExtendedPlayer.SLOT_BACK);
 		if (back.getItem() instanceof ItemJetpack || back.getItem() instanceof ItemJumpPack || back.getItem() instanceof ItemAntiGravPack) {
 			g.blit(tex, x, y, 242 + (tg.enableJetpack ? 7 : 0), 42, 7, 7);
@@ -274,9 +285,12 @@ public class TGPlayerClient {
 			g.drawString(mc.font, text, x - 1 - mc.font.width(text), y, 0xFFFFFFFF, false);
 			y -= 10;
 		}
-		// ponytail: night vision and step assist from armor show once the armor port reports them here
-		if (ItemNightVisionGoggles.givesNightVision(tg.getSlot(TGExtendedPlayer.SLOT_FACE))) {
+		if (ItemNightVisionGoggles.givesNightVision(tg.getSlot(TGExtendedPlayer.SLOT_FACE)) || GenericArmor.bonus(player, TGArmorBonus.NIGHTVISION, false) > 0) {
 			g.blit(tex, x, y, 242 + (tg.enableNightVision ? 7 : 0), 7, 7, 7);
+			y -= 10;
+		}
+		if (GenericArmor.bonus(player, TGArmorBonus.STEPASSIST, false) > 0) {
+			g.blit(tex, x, y, 242 + (tg.enableStepAssist ? 7 : 0), 21, 7, 7);
 			y -= 10;
 		}
 		int armorWarning = 0;
@@ -290,7 +304,7 @@ public class TGPlayerClient {
 			g.blit(tex, x, y, 242 + (armorWarning == 2 ? 7 : 0), 28, 7, 7);
 			y -= 10;
 		}
-		// ponytail: the RAD line goes here with the radiation port
+		RadiationHud.render(g, y);
 	}
 
 	/** Draws the face, back and hand slot items on the player (1.12 TGLayerRendererer and RenderAdditionalSlotItem). */
@@ -322,8 +336,8 @@ public class TGPlayerClient {
 				float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 			if (player.isInvisible()) return;
 			TGExtendedPlayer tg = TGExtendedPlayer.get(player);
-			// ponytail: armor that hides a slot (1.12 GenericArmor.isHideFaceslot/Backslot/Gloveslot) comes with the armor port
 			for (int i = TGExtendedPlayer.SLOT_FACE; i <= TGExtendedPlayer.SLOT_HAND; i++) {
+				if (hidden(player, i)) continue;
 				ItemStack stack = tg.getSlot(i);
 				Look look = looks.get(stack.getItem());
 				if (look == null) continue;
@@ -335,6 +349,13 @@ public class TGPlayerClient {
 				LegacyGl.begin(pose, buffers, texture, light, OverlayTexture.NO_OVERLAY);
 				model.render(player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, 0.0625f);
 			}
+		}
+
+		/** 1.12 TGLayerRendererer.isSlotVisible: the helmet can cover the face slot, the chestplate the back and hand slots. */
+		private static boolean hidden(Player player, int slot) {
+			ItemStack armor = player.getItemBySlot(slot == TGExtendedPlayer.SLOT_FACE ? EquipmentSlot.HEAD : EquipmentSlot.CHEST);
+			if (!(armor.getItem() instanceof GenericArmor a)) return false;
+			return slot == TGExtendedPlayer.SLOT_FACE ? a.hideFace : slot == TGExtendedPlayer.SLOT_BACK ? a.hideBack : a.hideGloves;
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package techguns.client;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientMobEffectExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -27,11 +25,6 @@ public final class RadiationHud {
 	private static final ResourceLocation ICONS = Techguns.id("textures/gui/tgplayerinventory.png");
 
 	private RadiationHud() {}
-
-	@SubscribeEvent
-	static void registerGuiLayers(RegisterGuiLayersEvent event) {
-		event.registerAboveAll(Techguns.id("radiation"), RadiationHud::render);
-	}
 
 	@SubscribeEvent
 	static void registerEffectIcons(RegisterClientExtensionsEvent event) {
@@ -51,19 +44,15 @@ public final class RadiationHud {
 	}
 
 	/**
-	 * "N RAD" at the right edge, colored by poisoning stage, and above it what the radiation effect adds each second.
-	 * ponytail: at the 1.12 height of the first right side indicator; the other indicators (safe mode, jetpack, night
-	 * vision...) should stack with it when they are ported.
+	 * "N RAD" at the right edge at {@code y}, colored by poisoning stage, and above it what the radiation effect adds each
+	 * second. Drawn on top of the other Techguns HUD icons by {@link TGPlayerClient}.
 	 */
-	private static void render(GuiGraphics graphics, DeltaTracker delta) {
-		Minecraft mc = Minecraft.getInstance();
-		Player player = mc.player;
-		if (mc.options.hideGui || player == null || player.isSpectator()) return;
+	static void render(GuiGraphics graphics, int y) {
+		Player player = Minecraft.getInstance().player;
 		int rad = TGRadiation.getRadiation(player);
 		if (rad <= 0) return;
 		ChatFormatting color = rad >= TGRadiation.LETHAL_POISONING ? ChatFormatting.RED
 				: rad >= TGRadiation.SEVERE_POISONING ? ChatFormatting.GOLD : rad >= TGRadiation.MINOR_POISONING ? ChatFormatting.YELLOW : ChatFormatting.WHITE;
-		int y = graphics.guiHeight() - 32;
 		drawRight(graphics, Component.literal(rad + " RAD").withStyle(color), y);
 		MobEffectInstance effect = player.getEffect(TGRadiation.RADIATION);
 		if (effect != null) drawRight(graphics, Component.literal("+[" + TGRadiation.radPerSecond(player, effect.getAmplifier()) + " RAD/s]"), y - 10);
