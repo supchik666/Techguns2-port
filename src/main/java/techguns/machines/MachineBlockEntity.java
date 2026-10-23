@@ -33,11 +33,11 @@ import techguns.recipes.MachineRecipe;
 public abstract class MachineBlockEntity extends TGBlockEntity {
 	public final Energy energy;
 	public final MachineRecipe.Kind kind;
-	protected final int inputs;
-	protected final boolean bottle;
-	protected final int outputStart, outputs;
+	public final int inputs;
+	public final boolean bottle;
+	public final int outputStart, outputs;
 	/** FE/t of recipes that set none. */
-	protected final int defaultPower;
+	public final int defaultPower;
 	@Nullable
 	public Operation operation;
 	public int progress, totaltime;

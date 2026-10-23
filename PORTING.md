@@ -173,6 +173,13 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - GameTests in `MachineTests` (metal press, chem lab RadAway and fluid check, charging station, no power, recipes load).
 - **Deferred:** JEI categories; grinder recipes for armor (1.12 gave back their crafting ingredients); slot background icons; acid hurting what's in it; per-side slot config; the `machinesNeedNoPower` config (M8); team security levels 1/2; the KubeJS recipe schema plugin; a translucent render layer for creeper acid.
 
+**JEI (`plugins/jei/`):**
+- A category per machine type: the 1.12 GUI texture cut at (7, 15, 162, 63) as in 1.12, the progress drawn as `MachineScreen` draws it and looping over the recipe's time, the power bar (tooltip: FE/t and total FE) and a "FE/t ... Duration" line under it. Slots sit where the machine's block entity has them; grinder outputs show their chance, the chem lab shows its bottle slot and both tanks. The machine block is the catalyst; clicking the 1.12 click areas on a `MachineScreen` opens its category.
+- `techguns:ammo_change` and `techguns:miningtool_upgrade` show in the crafting category with their real result (variant and ammo set, head fitted); the upgrade's input tool has the previous head.
+- Done since M5.1 (its "JEI categories" deferral). 1.12's plugin had no info pages, so there are none. JEI is `compileOnly`; only JEI loads `TGJeiPlugin`, so the mod runs without it.
+- **Adding a category:** a machine running `MachineRecipe`s (a new `Kind`) is one line in `TGJeiPlugin.categories`: `new MachineCategory(gui, TGBlocks.X.get(), new Rect2i(clickX, clickY, w, h), (g, texture, p) -> g.blit(...))`, the lambda drawing its progress at `p` in GUI coordinates; subclass `MachineCategory` for extra slots (see `MachineCategory.ChemLab`). Another recipe class gets a small `TGCategory<T>` subclass (`recipes`, `power`, `time`, `setRecipe`, `drawGui`) and the same one line. The GUI texture must be `textures/gui/<block id>_gui.png`; the block's screen must be a `MachineScreen` for the click area.
+- **Deferred:** the ammo press's "Building: X" plan text, the metal press autosplit hint, recipe transfer (+ button).
+
 ### M6. NPCs
 - 27 mob types. `EntityAIBase` → `Goal`.
 - Attributes via `EntityAttributeCreationEvent`; spawning via biome modifiers + `RegisterSpawnPlacementsEvent`; spawn eggs via `DeferredSpawnEggItem`.
