@@ -29,8 +29,9 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M7.1 Ores, the 18 scanned structures (buildings, ore clusters, aircraft carrier, nether ruins), TG spawners, military crates, bunker door, structure loot
   - [x] M7.2 Procedural structures: maze dungeons (castle, tech fortress, nether dungeon), military base, city
   - [x] M7.3 Alien bug nest
-- [ ] M8. Config and integrations
+- [x] M8. Config and integrations
   - [x] M8.1 Config (`TGConfig` client and server specs, NeoForge config screen) and the unsafe-mode permission
+  - [x] M8.2 Integrations: JEI for the ore drill and benches, the Patchouli manual, CraftTweaker via its generic recipe managers
 
 Each milestone ends with the game launching and something testable in game.
 
@@ -187,7 +188,7 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - The fabricator is a `MachineCategory`; the reaction chamber has `ReactionChamberCategory` (input, focus, fluid at the recipe's level with its consumption, results, wanted intensity, completion/progress bars, risk icon, 1.12's tooltips; FE/t is the per-reaction-tick power / 60). Category textures drop `_controller` from the block id.
 - `techguns:ammo_change` and `techguns:miningtool_upgrade` show in the crafting category with their real result (variant and ammo set, head fitted); the upgrade's input tool has the previous head.
 - Done since M5.1 (its "JEI categories" deferral). 1.12's plugin had no info pages, so there are none. JEI is `compileOnly`; only JEI loads `TGJeiPlugin`, so the mod runs without it.
-- **Adding a category:** a machine running `MachineRecipe`s (a new `Kind`) is one line in `TGJeiPlugin.categories`: `new MachineCategory(gui, TGBlocks.X.get(), new Rect2i(clickX, clickY, w, h), (g, texture, p) -> g.blit(...))`, the lambda drawing its progress at `p` in GUI coordinates; subclass `MachineCategory` for extra slots (see `MachineCategory.ChemLab`). Another recipe class gets a small `TGCategory<T>` subclass (`recipes`, `power`, `time`, `setRecipe`, `drawGui`) and the same one line. The GUI texture must be `textures/gui/<block id>_gui.png`; the block's screen must be a `MachineScreen` for the click area.
+- **Adding a category:** a machine running `MachineRecipe`s (a new `Kind`) is one line in `TGJeiPlugin.categories`: `new MachineCategory(gui, TGBlocks.X.get(), new Rect2i(clickX, clickY, w, h), (g, texture, p) -> g.blit(...))`, the lambda drawing its progress at `p` in GUI coordinates; subclass `MachineCategory` for extra slots (see `MachineCategory.ChemLab`). Another recipe class gets a small `TGCategory<T>` subclass (`recipes`, `power`, `time`, `setRecipe`, `drawGui`) and the same one line. The GUI texture must be `textures/gui/<block id>_gui.png`; the block's screen must use a `MachineMenu` for the click area.
 - **Deferred:** the ammo press's "Building: X" plan text, the metal press autosplit hint, recipe transfer (+ button).
 
 **M5.3 done (benches, charges, 3x3 door):**
@@ -273,6 +274,12 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - `TGConfig` → `ModConfigSpec`; NeoForge's `ConfigurationScreen` provides the in-game screen.
 - Keybinds via `RegisterKeyMappingsEvent`.
 - Integrations in order: JEI, Patchouli (book moves to `data/`), CraftTweaker, permissions via NeoForge's permission API (replaces FTBLib).
+**M8.2 done (integrations):**
+- JEI (`plugins/jei/`): `OreDrillCategory` (one recipe per cluster ore with its chance; heads, furnace fuels, lava; power and duration of a one-rod drill at 1.12's JEI baseline of 4.5 ores/hour times the cluster amount), `BenchCategories.Camo` (each block group the camo bench cycles, both lookup directions) and `BenchCategories.Upgrade` (every TG armor + the upgrade item → the enchanted armor, focus-linked, with the XP cost from no enchantment). The click-area handler now covers any `MachineMenu` screen, so the upgrade bench gets 1.12's click area. Ammo switching and the mining tool upgrade were already in. 1.12 had no transfer handlers and no camo bench/ore drill click areas, so there are none.
+- Patchouli: `tools/port/port_patchouli.py` (run by `port_assets.py`) converts the 1.12 book: `book.json` to `data/techguns/patchouli_books/techguns_manual/` with `use_resource_pack` and the `techguns:techguns` tab, contents to `assets/techguns/patchouli_books/` with ids through `flattening.csv` (items, multiblock states), namespaced categories and 1.21 armor stand NBT. It asserts every item, block, recipe and image it refers to exists. The book recipes (iron + glass pane + stone bullets/pistol rounds) only load with Patchouli (`neoforge:mod_loaded`). Patchouli is a `localRuntime` dev mod; no Java code uses it, and the mod and GameTests run without it. The hangar door page icon shows the metal door (hangar doors aren't ported).
+- CraftTweaker: nothing to port for recipes. CraftTweaker 1.21 gives every datapack recipe type a manager, so `<recipetype:techguns:metal_press>.addJsonRecipe("name", {...})` (the JSON format above) and `.removeByName("techguns:metal_press/plateiron")` work for all machines, the reaction chamber and the upgrade bench. Not tested in game (CraftTweaker isn't a dev mod).
+- **Deferred:** CraftTweaker gun/armor stat tweakers (need `@ZenRegister` Java classes over `GenericGun`/`GenericArmor` stats, plus re-syncing them to clients; KubeJS or a datapack format would serve too) and ore cluster tweaking (the clusters are hard-coded in `OreDrillBlockEntity`; a datapack format would cover both). 1.12's death effect tweaker was already disabled. The upgrade bench's color-cycling glow in JEI.
+- **Dropped:** Chisel and Thermal Expansion plugins (no 1.21.1 NeoForge targets worth porting).
 - Done early: Sable (Create Aeronautics ships), `plugins/sable/SableCompat`. Sable's patched `Level.clip` returns ship hits in plot coordinates; projectile hits, gun aim and missile lock map them back to the world. `TGExplosion` rays also sample ship blocks, break them and push the ship (impulse 5 per block, as Sable gives vanilla explosions). Sable and its companion API are `compileOnly`; Sable types stay in `SableCompat.Ships`, which only loads with Sable (the verifier would otherwise load them).
 
 **M8.1 done:**

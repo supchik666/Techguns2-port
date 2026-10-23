@@ -20,6 +20,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -29,14 +30,14 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import techguns.TGBlocks;
 import techguns.TGComponents;
 import techguns.Techguns;
-import techguns.client.machines.MachineScreen;
 import techguns.items.guns.GenericGunMeleeCharge;
+import techguns.machines.MachineMenu;
 import techguns.recipes.AmmoChangeRecipe;
 import techguns.recipes.MiningToolUpgradeRecipe;
 
 /**
- * 1.12 TGJeiPlugin: a category per machine (see {@link #categories}), the machines as catalysts, recipe-click areas on
- * their screens, and the ammo change and mining tool upgrade crafting recipes with their real results. Only JEI loads
+ * 1.12 TGJeiPlugin: a category per machine and bench (see {@link #categories}), the blocks as catalysts, recipe-click areas
+ * on their screens, and the ammo change and mining tool upgrade crafting recipes with their real results. Only JEI loads
  * this class, so the mod runs without it.
  */
 @JeiPlugin
@@ -48,7 +49,7 @@ public class TGJeiPlugin implements IModPlugin {
 		return Techguns.id("jei");
 	}
 
-	/** Every TG category; a new machine adds one line here. Click areas are the 1.12 ones, in GUI coordinates. */
+	/** Every TG category; a new machine adds one line here. Click areas are the 1.12 ones, in GUI coordinates (null: none). */
 	private static List<TGCategory<?>> categories(IGuiHelper gui) {
 		MachineCategory.Progress press = (g, t, p) -> g.blit(t, 119, 36, 176, 0, 19, (int) (p * 21) + 1);
 		return List.of(
@@ -66,6 +67,9 @@ public class TGJeiPlugin implements IModPlugin {
 				new MachineCategory(gui, TGBlocks.FABRICATOR_CONTROLLER.get(), new Rect2i(20, 52, 96, 12),
 						(g, t, p) -> g.blit(t, 21, 53, 0, 167, (int) (p * 90) + 1, 11)),
 				new ReactionChamberCategory(gui, TGBlocks.REACTION_CHAMBER_CONTROLLER.get(), new Rect2i(66, 60, 102, 14)),
+				new OreDrillCategory(gui, TGBlocks.ORE_DRILL_CONTROLLER.get()),
+				new BenchCategories.Camo(gui, TGBlocks.CAMO_BENCH.get()),
+				new BenchCategories.Upgrade(gui, TGBlocks.UPGRADE_BENCH.get(), new Rect2i(73, 40, 38, 30)),
 				new MachineCategory.ChemLab(gui, TGBlocks.CHEM_LAB.get(), new Rect2i(80, 15, 52, 30), (g, t, p) -> {
 					g.blit(t, 81, 19, 178, 5, 8, (int) (Math.min(p * 5, 1) * 25));
 					if (p >= 0.2f) g.blit(t, 88, 39, 186, 25, (int) (Math.min((p - 0.2f) * 5, 1) * 9), 1);
@@ -98,12 +102,17 @@ public class TGJeiPlugin implements IModPlugin {
 		categories.forEach(c -> registration.addRecipeCatalyst(c.block, c.getRecipeType()));
 	}
 
+	/** Machine and bench screens: both are container screens of a {@link MachineMenu}. */
+	@SuppressWarnings("unchecked")
+	private static final Class<AbstractContainerScreen<?>> SCREEN = (Class<AbstractContainerScreen<?>>) (Class<?>) AbstractContainerScreen.class;
+
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-		registration.addGuiContainerHandler(MachineScreen.class, new IGuiContainerHandler<>() {
+		registration.addGuiContainerHandler(SCREEN, new IGuiContainerHandler<>() {
 			@Override
-			public Collection<IGuiClickableArea> getGuiClickableAreas(MachineScreen screen, double mouseX, double mouseY) {
-				return categories.stream().filter(c -> screen.getMenu().be.getBlockState().is(c.block)).map(c -> IGuiClickableArea.createBasic(
+			public Collection<IGuiClickableArea> getGuiClickableAreas(AbstractContainerScreen<?> screen, double mouseX, double mouseY) {
+				if (!(screen.getMenu() instanceof MachineMenu menu)) return List.of();
+				return categories.stream().filter(c -> c.clickArea != null && menu.be.getBlockState().is(c.block)).map(c -> IGuiClickableArea.createBasic(
 						c.clickArea.getX(), c.clickArea.getY(), c.clickArea.getWidth(), c.clickArea.getHeight(), c.getRecipeType())).toList();
 			}
 		});

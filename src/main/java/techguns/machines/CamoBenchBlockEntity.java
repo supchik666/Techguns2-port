@@ -36,7 +36,7 @@ public class CamoBenchBlockEntity extends TGBlockEntity {
 	public static final int BUTTON_NEXT = 3, BUTTON_PREV = 4, BUTTON_ARMOR = 5;
 
 	/** Blocks the bench cycles between. ponytail: the vanilla groups are 1.12's metadata blocks (wool, glass...) by color. */
-	private static final List<List<Supplier<? extends ItemLike>>> GROUPS = new ArrayList<>();
+	public static final List<List<Supplier<? extends ItemLike>>> GROUPS = new ArrayList<>();
 
 	static {
 		for (String name : new String[] {"wool", "concrete", "concrete_powder", "terracotta", "stained_glass", "stained_glass_pane", "banner", "carpet"}) {
