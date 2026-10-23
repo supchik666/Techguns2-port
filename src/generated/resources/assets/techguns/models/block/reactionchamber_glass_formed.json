@@ -1,6 +1,7 @@
 {
-	"parent": "block/block",
-	"textures": {
-        "particle": "techguns:block/reactionchamber_glass"
-    }
+  "parent": "block/block",
+  "textures": {
+    "particle": "techguns:block/reactionchamber_glass"
+  },
+  "render_type": "minecraft:cutout"
 }

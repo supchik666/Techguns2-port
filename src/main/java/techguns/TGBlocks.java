@@ -20,6 +20,9 @@ import techguns.blocks.SandbagsBlock;
 import techguns.blocks.WallLanternBlock;
 import techguns.machines.MachineBlock;
 import techguns.machines.TGBlockEntity;
+import techguns.machines.multiblock.MultiBlockController;
+import techguns.machines.multiblock.MultiBlockPart;
+import techguns.machines.multiblock.MultiBlocks;
 
 /**
  * Simple blocks, flattened from the 1.12 meta blocks. Ids match tools/port/flattening.csv.
@@ -113,6 +116,42 @@ public class TGBlocks {
 	public static final DeferredBlock<MachineBlock> CHARGING_STATION = machine("charging_station", () -> TGBlockEntities.CHARGING_STATION.get());
 	public static final DeferredBlock<MachineBlock> BLAST_FURNACE = machine("blast_furnace", () -> TGBlockEntities.BLAST_FURNACE.get());
 	public static final DeferredBlock<MachineBlock> GRINDER = machine("grinder", () -> TGBlockEntities.GRINDER.get());
+
+	//Multiblock machines (M5.2): controllers, parts and the ore clusters the ore drill mines
+	public static final DeferredBlock<MultiBlockController> FABRICATOR_CONTROLLER = withItem("fabricator_controller",
+			p -> new MultiBlockController(() -> MultiBlocks.FABRICATOR.get(), p), multiBlock());
+	public static final DeferredBlock<MultiBlockPart> FABRICATOR_HOUSING = withItem("fabricator_housing", MultiBlockPart::new, multiBlock());
+	public static final DeferredBlock<MultiBlockPart> FABRICATOR_GLASS = withItem("fabricator_glass", MultiBlockPart::new, multiBlock().sound(SoundType.GLASS));
+	public static final DeferredBlock<MultiBlockController> REACTION_CHAMBER_CONTROLLER = withItem("reaction_chamber_controller",
+			p -> new MultiBlockController(() -> MultiBlocks.REACTION_CHAMBER.get(), p), multiBlock());
+	public static final DeferredBlock<MultiBlockPart> REACTION_CHAMBER_HOUSING = withItem("reaction_chamber_housing", MultiBlockPart::new, multiBlock());
+	public static final DeferredBlock<MultiBlockPart> REACTION_CHAMBER_GLASS = withItem("reaction_chamber_glass", MultiBlockPart::new,
+			multiBlock().sound(SoundType.GLASS));
+	public static final DeferredBlock<MultiBlockController> ORE_DRILL_CONTROLLER = withItem("ore_drill_controller",
+			p -> new MultiBlockController(() -> MultiBlocks.ORE_DRILL.get(), p), multiBlock());
+	public static final DeferredBlock<MultiBlockPart> ORE_DRILL_FRAME = withItem("ore_drill_frame", MultiBlockPart::new, multiBlock());
+	public static final DeferredBlock<MultiBlockPart> ORE_DRILL_SCAFFOLD = withItem("ore_drill_scaffold", MultiBlockPart::new, multiBlock());
+	public static final DeferredBlock<MultiBlockPart> ORE_DRILL_ROD = withItem("ore_drill_rod", MultiBlockPart::new, multiBlock());
+	public static final DeferredBlock<MultiBlockPart> ORE_DRILL_ENGINE = withItem("ore_drill_engine", MultiBlockPart::new, multiBlock());
+	public static final DeferredBlock<Block> ORE_CLUSTER_COAL = block("ore_cluster_coal", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_COMMON_METAL = block("ore_cluster_common_metal", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_RARE_METAL = block("ore_cluster_rare_metal", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_SHINY_METAL = block("ore_cluster_shiny_metal", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_URANIUM = block("ore_cluster_uranium", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_COMMON_GEM = block("ore_cluster_common_gem", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_SHINY_GEM = block("ore_cluster_shiny_gem", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_NETHER_CRYSTAL = block("ore_cluster_nether_crystal", oreCluster());
+	public static final DeferredBlock<Block> ORE_CLUSTER_OIL = block("ore_cluster_oil", oreCluster());
+
+	private static Properties multiBlock() {
+		return Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion()
+				.pushReaction(PushReaction.BLOCK);
+	}
+
+	/** Unbreakable, drops nothing (1.12 BlockOreCluster). */
+	private static Properties oreCluster() {
+		return Properties.of().mapColor(MapColor.STONE).strength(-1.0f, 3600000.0f).noLootTable().noOcclusion();
+	}
 
 	private static Properties ore(float hardness) {
 		return Properties.of().mapColor(MapColor.STONE).strength(hardness, 3.0f).requiresCorrectToolForDrops();

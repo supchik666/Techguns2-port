@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=north,formed=false": {
+      "model": "techguns:block/fabricator_housing"
+    },
+    "facing=south,formed=false": {
+      "model": "techguns:block/fabricator_housing"
+    },
+    "facing=west,formed=false": {
+      "model": "techguns:block/fabricator_housing"
+    },
+    "facing=east,formed=false": {
+      "model": "techguns:block/fabricator_housing"
+    },
+    "facing=north,formed=true": {
+      "model": "techguns:block/fabricator_housing_formed"
+    },
+    "facing=south,formed=true": {
+      "model": "techguns:block/fabricator_housing_formed"
+    },
+    "facing=west,formed=true": {
+      "model": "techguns:block/fabricator_housing_formed"
+    },
+    "facing=east,formed=true": {
+      "model": "techguns:block/fabricator_housing_formed"
+    }
+  }
+}

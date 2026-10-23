@@ -23,7 +23,7 @@
     }
   },
   "result": {
-    "id": "techguns:multiblockmachine",
+    "id": "techguns:fabricator_housing",
     "count": 4
   },
   "neoforge:conditions": [
@@ -37,11 +37,11 @@
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:mechanicalpartscarbon"
+      "item": "techguns:fabricator_housing"
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:multiblockmachine"
+      "item": "techguns:mechanicalpartscarbon"
     }
   ]
 }

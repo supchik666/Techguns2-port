@@ -1,0 +1,34 @@
+{
+  "type": "techguns:reaction_chamber",
+  "input": {
+    "item": "minecraft:nether_star"
+  },
+  "focus": "techguns:rcheatray",
+  "fluid": {
+    "fluid": "minecraft:lava"
+  },
+  "results": [
+    {
+      "id": "techguns:antigravcore"
+    }
+  ],
+  "ticks": 10,
+  "required_completion": 7,
+  "intensity": 8,
+  "margin": 2,
+  "liquid_level": 4,
+  "liquid_consumption": 4000,
+  "instability": 1,
+  "risk": "explosion_low",
+  "power": 500000,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:antigravcore"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rcheatray"
+    }
+  ]
+}

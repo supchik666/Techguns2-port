@@ -1,0 +1,37 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "item": "techguns:coil"
+    },
+    {
+      "tag": "c:circuits/elite",
+      "count": 2
+    },
+    {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "tag": "c:plates/titanium"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:sonicemitter"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:coil"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sonicemitter"
+    }
+  ]
+}

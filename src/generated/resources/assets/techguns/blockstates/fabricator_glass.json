@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=north,formed=false": {
+      "model": "techguns:block/fabricator_glass"
+    },
+    "facing=south,formed=false": {
+      "model": "techguns:block/fabricator_glass"
+    },
+    "facing=west,formed=false": {
+      "model": "techguns:block/fabricator_glass"
+    },
+    "facing=east,formed=false": {
+      "model": "techguns:block/fabricator_glass"
+    },
+    "facing=north,formed=true": {
+      "model": "techguns:block/fabricator_glass_formed"
+    },
+    "facing=south,formed=true": {
+      "model": "techguns:block/fabricator_glass_formed"
+    },
+    "facing=west,formed=true": {
+      "model": "techguns:block/fabricator_glass_formed"
+    },
+    "facing=east,formed=true": {
+      "model": "techguns:block/fabricator_glass_formed"
+    }
+  }
+}

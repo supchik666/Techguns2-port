@@ -272,6 +272,47 @@ MACHINE_RECIPES = {
 }
 
 
+# Multiblock machines (M5.2). Fabricator: input, wire, powder, plate (TGMachineRecipes.addFabricatorRecipes)
+MACHINE_RECIPES["fabricator"] = {result.partition("*")[0]: {"inputs": inputs, "results": [result]} for inputs, result in (
+    (["#c:ingots/gold", "#c:wires/copper", "#c:dusts/redstone*3", "#c:plates/plastic"], "energycellempty"),
+    (["minecraft:soul_sand", "#c:wires/gold", "#c:dusts/redstone", "#c:plates/plastic"], "cyberneticparts"),
+    (["#c:ingots/titanium*2", "#c:circuits/basic*4", "mechanicalpartscarbon", "#c:plates/carbon*4"], "powerplating*2"),
+    (["coil", "#c:circuits/elite*2", "mechanicalpartscarbon", "#c:plates/titanium"], "sonicemitter"),
+    (["enricheduranium", "#c:circuits/elite*2", "mechanicalpartscarbon*2", "#c:plates/lead*2"], "rademitter"),
+    (["#c:ingots/steel", "#c:circuits/basic", "#c:dusts/redstone*4", "#c:plates/lead*2"], "nuclearpowercelldepleted"))}
+# Reaction chamber (ReactionChamberRecipe.java): input, focus, fluid, results, then ticks, required_completion, intensity,
+# margin, liquid_level, liquid_consumption, instability, risk, power. ponytail: no liquid redstone/ender yet, lava instead
+RC_RECIPES = {
+    "uv_wheat": ("minecraft:wheat_seeds", "rcuvemitter", "water", ["minecraft:wheat", "minecraft:wheat_seeds*2"],
+                 10, 5, 3, 1, 1, 1000, 0.5, "explosion_low", 50000),
+    "laser_focus": ("#c:gems/diamond", "rcheatray", "lava", ["laserfocus"], 10, 5, 3, 1, 4, 4000, 0.5, "break_item", 100000),
+    "titanium": ("ore_titanium", "rcheatray", "acid", ["oretitanium*2", "minecraft:iron_ore"], 2, 1, 5, 0, 3, 100, 0, "break_item", 25000),
+    "blazerod": ("quartzrod", "rcheatray", "lava", ["minecraft:blaze_rod"], 5, 3, 7, 2, 4, 1000, 0.5, "break_item", 250000),
+    "glowstone": ("#c:storage_blocks/redstone", "rcheatray", "lava", ["minecraft:glowstone"], 5, 3, 7, 2, 4, 1000, 0.5,
+                  "explosion_medium", 250000),
+    "antigrav": ("minecraft:nether_star", "rcheatray", "lava", ["antigravcore"], 10, 7, 8, 2, 4, 4000, 1, "explosion_low", 500000),
+    "uranium": ("#c:dusts/uranium", "rcheatray", "water", ["enricheduranium"], 5, 4, 7, 0, 3, 1000, 0, "break_item", 250000),
+}
+RC_FIELDS = ("ticks", "required_completion", "intensity", "margin", "liquid_level", "liquid_consumption", "instability", "risk", "power")
+CUTOUT_MODELS += ["fabricator_glass", "fabricator_glass_formed", "reactionchamber_glass", "reactionchamber_glass_formed",
+                  "reactionchamber_controller", "oredrill_scaffold", "oredrill_scaffold_c",
+                  *(f"ore_cluster_{t}" for t in ("coal", "common_metal", "rare_metal", "shiny_metal", "uranium", "common_gem",
+                                                  "shiny_gem", "nether_crystal", "oil"))]
+EXTRA_LANG |= {"block.techguns.ore_cluster_oil": "Ore Cluster (Oil)"}
+
+
+def write_reaction_chamber_recipes():
+    for name, (inp, focus, fluid, results, *values) in RC_RECIPES.items():
+        used = {ns(focus)}
+        out = {"type": "techguns:reaction_chamber", "input": machine_ingredient(inp, used), "focus": ns(focus), "fluid": FLUIDS[fluid],
+               "results": [convert_result({"item": ns(i), "count": int(n or 1)}, used)
+                           for i, _, n in (res.partition("*") for res in results)]}
+        out |= dict(zip(RC_FIELDS, values))
+        out["neoforge:conditions"] = conditions(used)
+        write_json(DATA / "techguns/recipe/reaction_chamber" / (name + ".json"), out)
+    return len(RC_RECIPES)
+
+
 def write_json(path, obj):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -639,6 +680,7 @@ def main():
     convert_lang()
     count, skipped = convert_recipes()
     count += write_machine_recipes()
+    count += write_reaction_chamber_recipes()
     write_tags_and_loot()
     print(f"{len(ITEMS)} items, {len(BLOCKS)} blocks, {count} recipes written")
     for reason, files in sorted(skipped.items(), key=lambda kv: -len(kv[1])):

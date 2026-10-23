@@ -1,0 +1,42 @@
+{
+  "type": "techguns:reaction_chamber",
+  "input": {
+    "item": "techguns:ore_titanium"
+  },
+  "focus": "techguns:rcheatray",
+  "fluid": {
+    "fluid": "techguns:creeper_acid"
+  },
+  "results": [
+    {
+      "id": "techguns:oretitanium",
+      "count": 2
+    },
+    {
+      "id": "minecraft:iron_ore"
+    }
+  ],
+  "ticks": 2,
+  "required_completion": 1,
+  "intensity": 5,
+  "margin": 0,
+  "liquid_level": 3,
+  "liquid_consumption": 100,
+  "instability": 0,
+  "risk": "break_item",
+  "power": 25000,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ore_titanium"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:oretitanium"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rcheatray"
+    }
+  ]
+}

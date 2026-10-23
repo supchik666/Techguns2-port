@@ -1,0 +1,30 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "tag": "c:ingots/steel"
+    },
+    {
+      "tag": "c:circuits/basic"
+    },
+    {
+      "tag": "c:dusts/redstone",
+      "count": 4
+    },
+    {
+      "tag": "c:plates/lead",
+      "count": 2
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:nuclearpowercelldepleted"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuclearpowercelldepleted"
+    }
+  ]
+}

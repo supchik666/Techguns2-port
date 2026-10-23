@@ -139,6 +139,11 @@ public abstract class TGBlockEntity extends BlockEntity implements MenuProvider 
 		needUpdate();
 	}
 
+	/** How far past the player's reach the GUI stays open, in blocks from this block. */
+	public float menuRange() {
+		return 4.0f;
+	}
+
 	/** Values the menu syncs every tick (ints sent as shorts). */
 	public ContainerData menuData() {
 		return new SimpleContainerData(0);

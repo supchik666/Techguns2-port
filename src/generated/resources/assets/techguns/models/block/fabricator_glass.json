@@ -1,6 +1,7 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "techguns:block/fabricator_glass"
-    }
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "techguns:block/fabricator_glass"
+  },
+  "render_type": "minecraft:cutout"
 }

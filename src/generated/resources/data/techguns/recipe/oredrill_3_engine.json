@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "id": "techguns:oredrill",
+    "id": "techguns:ore_drill_engine",
     "count": 4
   },
   "neoforge:conditions": [
@@ -24,7 +24,7 @@
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:oredrill"
+      "item": "techguns:ore_drill_engine"
     }
   ]
 }

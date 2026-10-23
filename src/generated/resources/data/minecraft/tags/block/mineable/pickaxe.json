@@ -51,6 +51,26 @@
     "techguns:chem_lab",
     "techguns:charging_station",
     "techguns:blast_furnace",
-    "techguns:grinder"
+    "techguns:grinder",
+    "techguns:fabricator_housing",
+    "techguns:fabricator_glass",
+    "techguns:fabricator_controller",
+    "techguns:reaction_chamber_housing",
+    "techguns:reaction_chamber_glass",
+    "techguns:reaction_chamber_controller",
+    "techguns:ore_drill_frame",
+    "techguns:ore_drill_scaffold",
+    "techguns:ore_drill_rod",
+    "techguns:ore_drill_engine",
+    "techguns:ore_drill_controller",
+    "techguns:ore_cluster_coal",
+    "techguns:ore_cluster_common_metal",
+    "techguns:ore_cluster_rare_metal",
+    "techguns:ore_cluster_shiny_metal",
+    "techguns:ore_cluster_uranium",
+    "techguns:ore_cluster_common_gem",
+    "techguns:ore_cluster_shiny_gem",
+    "techguns:ore_cluster_nether_crystal",
+    "techguns:ore_cluster_oil"
   ]
 }

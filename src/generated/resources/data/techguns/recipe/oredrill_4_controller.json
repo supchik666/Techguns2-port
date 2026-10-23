@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "id": "techguns:oredrill"
+    "id": "techguns:ore_drill_controller"
   },
   "neoforge:conditions": [
     {
@@ -26,7 +26,7 @@
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:oredrill"
+      "item": "techguns:ore_drill_controller"
     }
   ]
 }
