@@ -275,6 +275,11 @@ public class GenericGun extends Item {
 		return this;
 	}
 
+	/** Camos the camo bench cycles through. */
+	public int camoCount() {
+		return textures.size();
+	}
+
 	public ResourceLocation getTexture(ItemStack stack) {
 		int camo = stack.getOrDefault(TGComponents.CAMO, 0);
 		return textures.get(camo < textures.size() ? camo : 0);

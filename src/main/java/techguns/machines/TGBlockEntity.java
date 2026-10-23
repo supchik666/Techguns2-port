@@ -147,6 +147,14 @@ public abstract class TGBlockEntity extends BlockEntity implements MenuProvider 
 	/** Called every tick on both sides. */
 	public void tick() {}
 
+	/** Whether the menu shows the player inventory below the block's slots. */
+	public boolean playerInventory() {
+		return true;
+	}
+
+	/** Adds slots past the block's and the player inventory's, e.g. the player's armor; both sides. */
+	public void addMenuSlots(MachineMenu menu, Inventory inventory) {}
+
 	/** What the block drops when broken, besides itself. */
 	public List<ItemStack> drops() {
 		List<ItemStack> drops = new ArrayList<>();

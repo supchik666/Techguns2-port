@@ -109,10 +109,13 @@ EXTRA_LANG = {
     "techguns.extendedinventory": "Techguns Inventory",
     "techguns.key.openTGInventory": "Open Techguns Inventory",
     "item.techguns.creeper_acid_bucket": "Creeper Acid Bucket",
+    "block.techguns.door3x3": "Techdoor",
+    "techguns.container.explosivecharge": "Mining Charge",
 }
 # Block items whose 1.12 item model wasn't the block's
 ITEM_MODELS = {"ammo_press": "techguns:item/basicmachine", "metal_press": "techguns:item/basicmachine",
-               "chem_lab": "techguns:item/basicmachine", "grinder": "techguns:item/simplemachine2_grinder_inv"}
+               "chem_lab": "techguns:item/basicmachine", "grinder": "techguns:item/simplemachine2_grinder_inv",
+               "door3x3": "techguns:item/item_door3x3"}
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
 # 1.12 vanilla (id, meta) -> 1.21 ingredient, for the few with metadata used in recipes

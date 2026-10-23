@@ -15,6 +15,8 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import techguns.blocks.CamoNetBlock;
+import techguns.blocks.Door3x3Block;
+import techguns.blocks.ExplosiveChargeBlock;
 import techguns.blocks.LampBlock;
 import techguns.blocks.SandbagsBlock;
 import techguns.blocks.WallLanternBlock;
@@ -113,6 +115,19 @@ public class TGBlocks {
 	public static final DeferredBlock<MachineBlock> CHARGING_STATION = machine("charging_station", () -> TGBlockEntities.CHARGING_STATION.get());
 	public static final DeferredBlock<MachineBlock> BLAST_FURNACE = machine("blast_furnace", () -> TGBlockEntities.BLAST_FURNACE.get());
 	public static final DeferredBlock<MachineBlock> GRINDER = machine("grinder", () -> TGBlockEntities.GRINDER.get());
+
+	//Benches, charges, doors (M5.3)
+	public static final DeferredBlock<MachineBlock> CAMO_BENCH = machine("camo_bench", () -> TGBlockEntities.CAMO_BENCH.get());
+	public static final DeferredBlock<MachineBlock> REPAIR_BENCH = machine("repair_bench", () -> TGBlockEntities.REPAIR_BENCH.get());
+	public static final DeferredBlock<MachineBlock> UPGRADE_BENCH = machine("upgrade_bench", () -> TGBlockEntities.UPGRADE_BENCH.get());
+	public static final DeferredBlock<ExplosiveChargeBlock> TNT_CHARGE = withItem("tnt_charge", p -> new ExplosiveChargeBlock(false, p),
+			Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).noOcclusion().pushReaction(PushReaction.DESTROY));
+	public static final DeferredBlock<ExplosiveChargeBlock> C4_CHARGE = withItem("c4_charge", p -> new ExplosiveChargeBlock(true, p),
+			Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).noOcclusion().pushReaction(PushReaction.DESTROY));
+	public static final DeferredBlock<Door3x3Block> DOOR3X3 = BLOCKS.registerBlock("door3x3", Door3x3Block::new,
+			Properties.of().mapColor(MapColor.METAL).strength(6.0f).sound(SoundType.METAL).noOcclusion().pushReaction(PushReaction.BLOCK));
+	public static final net.neoforged.neoforge.registries.DeferredItem<Door3x3Block.Placer> DOOR3X3_ITEM = TGItems.ITEMS.register("door3x3",
+			() -> new Door3x3Block.Placer(DOOR3X3.get(), new net.minecraft.world.item.Item.Properties()));
 
 	private static Properties ore(float hardness) {
 		return Properties.of().mapColor(MapColor.STONE).strength(hardness, 3.0f).requiresCorrectToolForDrops();

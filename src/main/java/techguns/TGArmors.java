@@ -95,11 +95,11 @@ public class TGArmors {
 				.model("power_armor_mk2_" + (int) of(t, 2, 0, 1, 0), false, true))));
 	}
 
-	public static final DeferredItem<GenericShield> RIOT_SHIELD = TGItems.ITEMS.register("riot_shield", () -> new GenericShield(1200, ShieldStats.RIOT, TGItems.INGOT_STEEL));
+	public static final DeferredItem<GenericShield> RIOT_SHIELD = TGItems.ITEMS.register("riot_shield", () -> new GenericShield(1200, ShieldStats.RIOT, TGItems.INGOT_STEEL, 4));
 	public static final DeferredItem<GenericShield> BALLISTIC_SHIELD = TGItems.ITEMS.register("ballistic_shield",
-			() -> new GenericShield(2400, ShieldStats.BALLISTIC, TGItems.PLATE_OBSIDIAN_STEEL));
+			() -> new GenericShield(2400, ShieldStats.BALLISTIC, TGItems.PLATE_OBSIDIAN_STEEL, 4));
 	public static final DeferredItem<GenericShield> ADVANCED_SHIELD = TGItems.ITEMS.register("advanced_shield",
-			() -> new GenericShield(3200, ShieldStats.ADVANCED, TGItems.PLATE_CARBON));
+			() -> new GenericShield(3200, ShieldStats.ADVANCED, TGItems.PLATE_CARBON, 3));
 
 	public static void init(IEventBus modEventBus) {
 		TGArmorMaterial.MATERIALS.register(modEventBus);

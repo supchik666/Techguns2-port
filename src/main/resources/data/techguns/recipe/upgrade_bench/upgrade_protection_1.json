@@ -1,0 +1,6 @@
+{
+  "type": "techguns:upgrade_bench",
+  "upgrade": {"item": "techguns:upgrade_protection_1"},
+  "enchantment": "minecraft:protection",
+  "level": 1
+}

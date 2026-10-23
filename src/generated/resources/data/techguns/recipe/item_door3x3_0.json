@@ -14,13 +14,13 @@
     }
   },
   "result": {
-    "id": "techguns:item_door3x3",
+    "id": "techguns:door3x3",
     "count": 2
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:item_door3x3"
+      "item": "techguns:door3x3"
     }
   ]
 }
