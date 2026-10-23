@@ -52,6 +52,7 @@ public final class Bloom {
 	/** Per level: the horizontal blur, then the vertical one that holds the level's result. Level i is 1/2^(i+1) size. */
 	private static final TextureTarget[] targets = new TextureTarget[LEVELS * 2];
 	private static EffectInstance blur, add;
+	/** The depth texture attached to the mask. */
 	private static int depthId = -1;
 	/** The mask was drawn into this frame. */
 	private static boolean drawn;
@@ -112,6 +113,12 @@ public final class Bloom {
 		if (!ready() || !RenderSystem.isOnRenderThread()) return;
 		int previous = GlStateManager.getBoundFramebuffer();
 		GlStateManager._glBindFramebuffer(GL30.GL_FRAMEBUFFER, mask.frameBufferId);
+		// main's depth, checked per draw: Veil (Sable) swaps in a first-person target with its own depth for the hand pass
+		int depth = Minecraft.getInstance().getMainRenderTarget().getDepthTextureId();
+		if (depth != depthId) {
+			depthId = depth;
+			GlStateManager._glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL11.GL_TEXTURE_2D, depth, 0);
+		}
 		if (!drawn) {
 			drawn = true;
 			GL30.glClearBufferfv(GL11.GL_COLOR, 0, new float[4]); // not glClear: that would change vanilla's clear color
@@ -141,13 +148,13 @@ public final class Bloom {
 		});
 	}
 
-	/** Starts a frame: the mask gets cleared by its first draw; targets follow the main target's size and depth buffer. */
+	/** Starts a frame: the mask gets cleared by its first draw; targets follow the main target's size. */
 	@SubscribeEvent
 	static void frame(RenderFrameEvent.Pre event) {
 		drawn = false;
 		if (broken || blur == null) return;
 		RenderTarget main = Minecraft.getInstance().getMainRenderTarget();
-		if (mask != null && mask.width == main.width && mask.height == main.height && depthId == main.getDepthTextureId()) return;
+		if (mask != null && mask.width == main.width && mask.height == main.height) return;
 		int previous = GlStateManager.getBoundFramebuffer();
 		try {
 			if (mask != null) mask.destroyBuffers(); // the mask has no depth of its own, so this leaves main's alone
@@ -158,10 +165,7 @@ public final class Bloom {
 				targets[2 * i] = target(w, h);
 				targets[2 * i + 1] = target(w, h);
 			}
-			depthId = main.getDepthTextureId();
-			GlStateManager._glBindFramebuffer(GL30.GL_FRAMEBUFFER, mask.frameBufferId);
-			GlStateManager._glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL11.GL_TEXTURE_2D, depthId, 0);
-			mask.checkStatus();
+			depthId = -1; // attached by the first draw
 		} catch (RuntimeException e) {
 			fail("creating its framebuffers", e);
 		}

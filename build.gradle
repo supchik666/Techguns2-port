@@ -35,6 +35,10 @@ repositories {
         url = "https://cursemaven.com"
         content { includeGroup "curse.maven" }
     }
+    maven {
+        url = "https://maven.ryanhcode.dev/releases"
+        content { includeGroup "dev.ryanhcode.sable-companion" }
+    }
 }
 
 base {
@@ -128,7 +132,7 @@ configurations {
     clientMods
 }
 // Mods that only load from a mods folder: Sodium 0.8 is a wrapper jar with the mod inside its jarjar, which FML skips
-// when the wrapper is on the classpath.
+// when the wrapper is on the classpath. Jars bundling other mods (Create, Aeronautics) go here too.
 configurations {
     clientModsFolder { transitive = false }
 }
@@ -158,6 +162,8 @@ dependencies {
     // Dev-only mods (not published as dependencies)
     localRuntime "maven.modrinth:jei:rsnYBmN3" // 19.69.0.457 neoforge; JEI shares version numbers across loaders, so pin the version id
     compileOnly "maven.modrinth:jei:rsnYBmN3" // for techguns.plugins.jei, which only JEI loads; the mod runs without it
+    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:1.6.0" // techguns.plugins.sable; Sable bundles it at runtime
+    compileOnly "maven.modrinth:sable:fg9dTRz9" // 2.0.6, techguns.plugins.sable pushes ships with its physics API
     localRuntime "maven.modrinth:kubejs:F2nzeC19" // 2101.7.2-build.368, for testing machine recipe scripts
     localRuntime "maven.modrinth:rhino:SqkDvOLG" // 2101.2.8-build.91, KubeJS's script engine
     clientMods "maven.modrinth:ambientsounds:6.3.11"
@@ -166,6 +172,9 @@ dependencies {
     clientMods "maven.modrinth:pf-neoforge:1.21.1-1.12.0-beta.1"
     clientMods "maven.modrinth:sound-physics-remastered:neoforge-1.21.1-1.5.2"
     clientModsFolder "maven.modrinth:sodium:uMOpc5uV" // mc1.21.1-0.8.13-neoforge
+    clientModsFolder "maven.modrinth:create:UjX6dr61" // 6.0.10+mc1.21.1, bundles Flywheel and Ponder
+    clientModsFolder "maven.modrinth:sable:fg9dTRz9" // 2.0.6+mc1.21.1, for Create Aeronautics
+    clientModsFolder "maven.modrinth:create-aeronautics:44pLdPGg" // 1.3.2+mc1.21.1 (bundled jar)
     clientMods "maven.modrinth:iris:KduFYu4t" // 1.8.14-beta.1, the one that runs on Sodium 0.8
     clientMods "curse.maven:opencomputers-rebooted-1634364:8858759" // 1.9.4-5
     clientMods "maven.modrinth:markdownmanual:1UL3EMjx" // MC1.21.1-neoforge-1.2.8

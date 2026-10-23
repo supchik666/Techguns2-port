@@ -18,6 +18,7 @@ import techguns.TGSounds;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.items.guns.ammo.AmmoType;
+import techguns.plugins.sable.SableCompat;
 
 /**
  * Hold right click to lock on to what the crosshair stays on; left click then fires a missile that homes in on it
@@ -110,7 +111,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 	private void traceTarget(LivingEntity shooter) {
 		Vec3 start = shooter.getEyePosition();
 		Vec3 end = start.add(shooter.getLookAngle().scale(LOCK_RANGE));
-		end = shooter.level().clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, shooter)).getLocation();
+		end = SableCompat.toWorld(shooter.level(), shooter.level().clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, shooter)).getLocation());
 		Entity hit = findEntityOnPath(shooter, start, end);
 		if (hit instanceof Player target && shooter instanceof Player player && !player.canHarmPlayer(target)) hit = null;
 		if (hit != null) {

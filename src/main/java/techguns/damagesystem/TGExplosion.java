@@ -1,8 +1,10 @@
 package techguns.damagesystem;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -25,12 +27,14 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.capabilities.TGExtendedPlayer;
+import techguns.plugins.sable.SableCompat;
 
 /**
  * The 1.12 TG explosion: full damage within {@code primaryRadius}, falling to {@code secondaryDamage} at
  * {@code secondaryRadius}, nothing beyond; blocks give way along rays while their resistance is below the remaining
  * power times {@code blockDamageFactor}. A vanilla {@link Explosion} stands in for resistance, events and block breaking.
- * Hurts with TG explosion damage carrying the projectile's penetration. ponytail: no friendly-fire factor until the M8 config.
+ * Hurts with TG explosion damage carrying the projectile's penetration. Rays also reach Sable ships: they push every ship
+ * block they touch and break them like world blocks. ponytail: no friendly-fire factor until the M8 config.
  */
 public class TGExplosion {
 	/** 1.12 config ExplosiveBlockDamage. ponytail: constant until the M8 config. */
@@ -88,7 +92,8 @@ public class TGExplosion {
 					(1.0f + (level.random.nextFloat() - level.random.nextFloat()) * 0.2f) * 0.7f);
 		}
 
-		Map<BlockPos, Double> blocks = damagesTerrain ? traceBlocks(explosion, totalRadius) : Map.of();
+		SableCompat.Ships ships = SableCompat.ships(level, center, totalRadius);
+		Map<BlockPos, Double> blocks = damagesTerrain || ships != null ? traceBlocks(explosion, totalRadius, damagesTerrain, ships) : Map.of();
 		explosion.getToBlow().addAll(blocks.keySet());
 		List<Entity> entities = level.getEntities(projectile, new AABB(center, center).inflate(totalRadius + 1));
 		EventHooks.onExplosionDetonate(level, explosion, entities, totalRadius);
@@ -114,8 +119,12 @@ public class TGExplosion {
 		}
 	}
 
-	/** 1.12 ray march from the center to every cell of the bounding cube's shell; returns the hit blocks and their distances. */
-	private Map<BlockPos, Double> traceBlocks(Explosion explosion, double totalRadius) {
+	/**
+	 * 1.12 ray march from the center to every cell of the bounding cube's shell; returns the blocks to break (none unless
+	 * {@code damagesTerrain}) and their distances. Each step looks at the world block, then at each ship's block there.
+	 */
+	private Map<BlockPos, Double> traceBlocks(Explosion explosion, double totalRadius, boolean damagesTerrain, @Nullable SableCompat.Ships ships) {
+		int shipCount = ships == null ? 0 : ships.size();
 		Map<BlockPos, Double> set = new HashMap<>();
 		int radius = (int) Math.ceil(totalRadius);
 		double stepOffset = 0.3;
@@ -128,23 +137,25 @@ public class TGExplosion {
 					Vec3 p = center;
 					double damping = 0.0;
 					double power = primaryDamage;
-					BlockPos prevPos = null;
+					Set<BlockPos> damped = new HashSet<>();
 					for (int i = 0; i < steps && power > 0.0; i++, p = p.add(dir)) {
 						BlockPos pos = BlockPos.containing(p);
 						if (!level.isInWorldBounds(pos)) break;
-						BlockState state = level.getBlockState(pos);
 						double distance = center.distanceTo(pos.getCenter());
 						power = power(distance);
-						if (!state.isAir()) {
-							float resistance = state.getExplosionResistance(level, pos, explosion);
+						for (int s = -1; s < shipCount && power > 0.0; s++) {
+							BlockPos at = s < 0 ? pos : ships.blockAt(s, p);
+							BlockState state = level.getBlockState(at);
+							if (state.isAir()) continue;
+							if (s >= 0) ships.push(s, at);
+							float resistance = state.getExplosionResistance(level, at, explosion);
 							if (power - damping > 0 && resistance < (power - damping) * blockDamageFactor) {
-								set.put(pos, distance);
-								if (!pos.equals(prevPos)) damping += resistance;
+								if (damagesTerrain) set.put(at, distance);
+								if (damped.add(at)) damping += resistance;
 							} else {
 								power = 0.0;
 							}
 						}
-						prevPos = pos;
 					}
 				}
 			}

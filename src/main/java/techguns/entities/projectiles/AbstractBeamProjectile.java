@@ -10,6 +10,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
+import techguns.plugins.sable.SableCompat;
 
 /**
  * A hitscan beam: {@link #trace} hits along the whole range (the motion vector) at once, then the entity stays put for
@@ -38,7 +39,7 @@ public abstract class AbstractBeamProjectile extends GenericProjectile {
 	/** Hits the first block or entity along the motion vector and sets {@link #distance} to it. */
 	protected void trace() {
 		Vec3 from = position(), to = from.add(getDeltaMovement());
-		HitResult hit = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
+		HitResult hit = SableCompat.toWorld(level(), ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity));
 		Vec3 end = hit instanceof EntityHitResult e ? e.getEntity().getBoundingBox().inflate(0.3).clip(from, to).orElse(to) : hit.getLocation();
 		distance = from.distanceTo(end);
 		if (hit.getType() != HitResult.Type.MISS) {

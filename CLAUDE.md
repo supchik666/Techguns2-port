@@ -17,7 +17,7 @@ Requires JDK 21 (the system default `java` may be a different version; set `JAVA
 - `./gradlew runClient` / `./gradlew runServer` — dev runs in `run/` (`run/eula.txt` must say `eula=true` for the server)
 - `python3 tools/port/port_assets.py` — regenerates all of `src/generated/resources/` from `legacy/` (see below). Don't run `./gradlew runData`; nothing uses Java datagen and it writes to the same folder.
 - `./gradlew runGameTestServer` — runs the GameTests in `techguns.gametest`; `data/techguns/structure/empty.nbt` is their air template
-- Dev mods: JEI, KubeJS and Rhino load in every run (`localRuntime`). Client-only mods (sounds, Iris, OpenComputers: Rebooted, Markdown Manual) are `clientMods`, on `runClient`'s classpath only. Sodium is `clientModsFolder`: its wrapper jar only loads from a mods folder, so `runClient` syncs it into `run/mods`, and `runServer`/`runGameTestServer` empty `run/mods` first because it crashes the server.
+- Dev mods: JEI, KubeJS and Rhino load in every run (`localRuntime`). Client-only mods (sounds, Iris, OpenComputers: Rebooted, Markdown Manual) are `clientMods`, on `runClient`'s classpath only. Sodium, Create, Sable and Create Aeronautics are `clientModsFolder`: jars that only load from a mods folder (Sodium's wrapper, Aeronautics' bundle), so `runClient` syncs them into `run/mods`, and `runServer`/`runGameTestServer` empty `run/mods` first because Sodium crashes the server.
 
 ## Workflow
 

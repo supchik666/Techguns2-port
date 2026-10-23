@@ -222,6 +222,7 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - `TGConfig` → `ModConfigSpec`; NeoForge's `ConfigurationScreen` provides the in-game screen.
 - Keybinds via `RegisterKeyMappingsEvent`.
 - Integrations in order: JEI, Patchouli (book moves to `data/`), CraftTweaker, permissions via NeoForge's permission API (replaces FTBLib).
+- Done early: Sable (Create Aeronautics ships), `plugins/sable/SableCompat`. Sable's patched `Level.clip` returns ship hits in plot coordinates; projectile hits, gun aim and missile lock map them back to the world. `TGExplosion` rays also sample ship blocks, break them and push the ship (impulse 5 per block, as Sable gives vanilla explosions). Sable and its companion API are `compileOnly`; Sable types stay in `SableCompat.Ships`, which only loads with Sable (the verifier would otherwise load them).
 
 ## Effort split
 Rendering (M2–M3) ~35–40%, machines and GUIs ~20%, world generation ~15%, the rest mostly mechanical.

@@ -30,6 +30,7 @@ import techguns.Techguns;
 import techguns.damagesystem.TGDamageSource;
 import techguns.damagesystem.TGDamageSource.DeathType;
 import techguns.damagesystem.TGDamageType;
+import techguns.plugins.sable.SableCompat;
 
 /**
  * A bullet; its {@link Kind} stands in for the 1.12 subclasses (incendiary, explosive, stone, advanced). Hits are only
@@ -120,8 +121,8 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		if (level().clip(new ClipContext(eye, muzzle, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, shooter)).getType() != HitResult.Type.MISS) {
 			muzzle = eye;
 		}
-		Vec3 target = level().clip(new ClipContext(eye, eye.add(direction.scale(Math.min(range, MAX_AIM_DISTANCE))), ClipContext.Block.COLLIDER,
-				ClipContext.Fluid.NONE, shooter)).getLocation();
+		Vec3 target = SableCompat.toWorld(level(), level().clip(new ClipContext(eye, eye.add(direction.scale(Math.min(range, MAX_AIM_DISTANCE))), ClipContext.Block.COLLIDER,
+				ClipContext.Fluid.NONE, shooter)).getLocation());
 		Vec3 toTarget = target.subtract(muzzle);
 		if (toTarget.lengthSqr() > 1) direction = toTarget;
 		setPos(muzzle);
@@ -188,7 +189,7 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 	@Override
 	public void tick() {
 		super.tick();
-		HitResult hit = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
+		HitResult hit = SableCompat.toWorld(level(), ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity));
 		if (hit.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hit)) {
 			onHit(hit);
 			discard();
