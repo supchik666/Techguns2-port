@@ -17,13 +17,13 @@
     }
   },
   "result": {
-    "id": "techguns:explosive_charge",
+    "id": "techguns:c4_charge",
     "count": 4
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:explosive_charge"
+      "item": "techguns:c4_charge"
     },
     {
       "type": "neoforge:item_exists",

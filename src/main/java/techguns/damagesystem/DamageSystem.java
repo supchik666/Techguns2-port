@@ -34,7 +34,8 @@ public class DamageSystem {
 	public static float armorValue(LivingEntity entity, TGDamageType type) {
 		float armor = entity.getArmorValue();
 		for (ItemStack stack : entity.getArmorSlots()) {
-			if (stack.getItem() instanceof GenericArmor piece) armor += piece.armorValue(type) - piece.getDefense();
+			// broken pieces aren't in the armor attribute but still absorb
+			if (stack.getItem() instanceof GenericArmor piece) armor += piece.armorValue(type) - (GenericArmor.isBroken(stack) ? 0 : piece.getDefense());
 		}
 		return armor;
 	}

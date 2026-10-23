@@ -17,13 +17,13 @@
     }
   },
   "result": {
-    "id": "techguns:explosive_charge",
+    "id": "techguns:tnt_charge",
     "count": 8
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:explosive_charge"
+      "item": "techguns:tnt_charge"
     }
   ]
 }

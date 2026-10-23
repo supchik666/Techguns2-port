@@ -36,11 +36,19 @@ public class MachineMenu extends AbstractContainerMenu {
 		this.data = data != null ? data : new SimpleContainerData(be.menuData().getCount());
 		this.size = be.slots.length;
 		for (int i = 0; i < size; i++) addSlot(new SlotItemHandler(be.inventory, i, be.slots[i][0], be.slots[i][1]));
-		for (int row = 0; row < 3; row++) {
-			for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+		if (be.playerInventory()) {
+			for (int row = 0; row < 3; row++) {
+				for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+			}
+			for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col, 8 + col * 18, 142));
 		}
-		for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col, 8 + col * 18, 142));
+		be.addMenuSlots(this, inventory);
 		addDataSlots(this.data);
+	}
+
+	/** For {@link TGBlockEntity#addMenuSlots}. */
+	public Slot addMenuSlot(Slot slot) {
+		return addSlot(slot);
 	}
 
 	@Override

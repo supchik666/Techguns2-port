@@ -19,12 +19,14 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import techguns.TGComponents;
 import techguns.Techguns;
@@ -33,7 +35,7 @@ import techguns.damagesystem.TGDamageType;
 /**
  * 1.12 GenericArmor and GenericArmorMultiCamo: per-damage-type armor values (see {@link techguns.damagesystem.DamageSystem}),
  * bonuses summed over the worn pieces, and camos picked by sneak-use. Broken pieces (1 durability left) still absorb
- * but give no bonuses. ponytail: the armor bar still shows broken pieces, 1.12 showed 0.
+ * but give no bonuses, and the armor bar doesn't count them.
  */
 public class GenericArmor extends ArmorItem {
 	public final TGArmorMaterial tgMaterial;
@@ -99,6 +101,14 @@ public class GenericArmor extends ArmorItem {
 
 	public static boolean isBroken(ItemStack stack) {
 		return stack.getDamageValue() >= stack.getMaxDamage() - 1;
+	}
+
+	/** 1.12 getArmorDisplay: broken pieces show no armor points; {@link techguns.damagesystem.DamageSystem#armorValue} still counts them. */
+	@Override
+	public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+		ItemAttributeModifiers modifiers = super.getDefaultAttributeModifiers(stack);
+		if (!isBroken(stack)) return modifiers;
+		return new ItemAttributeModifiers(modifiers.modifiers().stream().filter(e -> !e.attribute().is(Attributes.ARMOR)).toList(), modifiers.showInTooltip());
 	}
 
 	/** The bonus this piece gives right now; powered armor only gives it with power, spending some if {@code consume}. */

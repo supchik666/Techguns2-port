@@ -45,7 +45,9 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 		this.be = (MachineBlockEntity) menu.be;
 	}
 
-	public static MachineScreen create(MachineMenu menu, Inventory inventory, Component title) {
+	public static AbstractContainerScreen<MachineMenu> create(MachineMenu menu, Inventory inventory, Component title) {
+		var bench = BenchScreens.create(menu, inventory, title);
+		if (bench != null) return bench;
 		return switch (menu.be) {
 			case AmmoPressBlockEntity be -> new AmmoPress(menu, inventory, title, be);
 			case MetalPressBlockEntity be -> new MetalPress(menu, inventory, title, be);

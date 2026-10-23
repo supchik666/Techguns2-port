@@ -27,7 +27,7 @@ public class TGComponents {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> AMMO_VARIANT = COMPONENTS.registerComponentType("ammo_variant",
 			builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
-	/** Index into a gun's or armor's textures. ponytail: guns get it from the camo bench, not ported yet; armor cycles it by sneak-use. */
+	/** Index into the textures of a gun, armor, shield or face/back/hand item; set by the camo bench, armor also cycles it by sneak-use. */
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CAMO = COMPONENTS.registerComponentType("camo",
 			builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
 

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " c ",
+    "oeo",
+    "sos"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:obsidians"
+    },
+    "c": {
+      "tag": "c:player_workstations/crafting_tables"
+    },
+    "e": {
+      "tag": "c:gems/emerald"
+    },
+    "o": {
+      "tag": "c:plates/obsidian_steel"
+    }
+  },
+  "result": {
+    "id": "techguns:upgrade_bench"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:upgrade_bench"
+    }
+  ]
+}

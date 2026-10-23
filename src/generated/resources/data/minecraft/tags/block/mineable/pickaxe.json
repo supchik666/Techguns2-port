@@ -51,6 +51,12 @@
     "techguns:chem_lab",
     "techguns:charging_station",
     "techguns:blast_furnace",
-    "techguns:grinder"
+    "techguns:grinder",
+    "techguns:camo_bench",
+    "techguns:repair_bench",
+    "techguns:upgrade_bench",
+    "techguns:tnt_charge",
+    "techguns:c4_charge",
+    "techguns:door3x3"
   ]
 }

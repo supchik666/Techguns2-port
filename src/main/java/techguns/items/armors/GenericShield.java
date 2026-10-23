@@ -12,17 +12,23 @@ import net.minecraft.world.item.TooltipFlag;
 import techguns.damagesystem.ShieldStats;
 
 /**
- * 1.12 GenericShield: a shield that stops TG damage by its {@link ShieldStats}, drawn by the client shield renderer.
- * ponytail: camos (the CAMO component, drawn by the renderer) are only set by the camo bench, not ported yet.
+ * 1.12 GenericShield: a shield that stops TG damage by its {@link ShieldStats}, drawn by the client shield renderer with
+ * the camo the camo bench set (the CAMO component). The repair bench fixes it with its repair item.
  */
 public class GenericShield extends ShieldItem {
 	public final ShieldStats stats;
 	private final Supplier<? extends Item> repair;
+	public final int camoCount;
 
-	public GenericShield(int durability, ShieldStats stats, Supplier<? extends Item> repair) {
+	public GenericShield(int durability, ShieldStats stats, Supplier<? extends Item> repair, int camoCount) {
 		super(new Item.Properties().durability(durability));
 		this.stats = stats;
 		this.repair = repair;
+		this.camoCount = camoCount;
+	}
+
+	public Item repairItem() {
+		return repair.get();
 	}
 
 	@Override

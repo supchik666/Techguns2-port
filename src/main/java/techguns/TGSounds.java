@@ -139,6 +139,14 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> GRINDER_START = register("machines.grinder.start");
 	public static final DeferredHolder<SoundEvent, SoundEvent> GRINDER_WORK = register("machines.grinder.work");
 
+	public static final DeferredHolder<SoundEvent, SoundEvent> TNT_TICK = register("tntcharge.tick");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TNT_INIT = register("tntcharge.init");
+	public static final DeferredHolder<SoundEvent, SoundEvent> C4_TICK = register("c4charge.tick");
+	public static final DeferredHolder<SoundEvent, SoundEvent> C4_INIT = register("c4charge.init");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_OPEN = register("blocks.techdoor.open");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_CLOSE = register("blocks.techdoor.close");
+	public static final DeferredHolder<SoundEvent, SoundEvent> TECHDOOR_STATE_FINISHED = register("blocks.techdoor.statefinished");
+
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);
 	}

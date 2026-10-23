@@ -17,6 +17,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import techguns.recipes.AmmoChangeRecipe;
 import techguns.recipes.MachineRecipe;
+import techguns.recipes.UpgradeBenchRecipe;
 
 @Mod(Techguns.MODID)
 public class Techguns {
@@ -48,6 +49,8 @@ public class Techguns {
 		AmmoChangeRecipe.SERIALIZERS.register(modEventBus);
 		MachineRecipe.TYPES.register(modEventBus);
 		TGBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+		TGBlockEntities.BENCHES.register(modEventBus);
+		UpgradeBenchRecipe.init();
 		TGFluids.FLUID_TYPES.register(modEventBus);
 		TGFluids.FLUIDS.register(modEventBus);
 		modEventBus.addListener(TGBlockEntities::registerCapabilities);
