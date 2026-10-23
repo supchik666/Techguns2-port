@@ -62,6 +62,23 @@ public class TGEntities {
 	public static final DeferredHolder<EntityType<?>, EntityType<RadiationEntity>> RADIATION = ENTITIES.register("radiation",
 			() -> EntityType.Builder.<RadiationEntity>of(RadiationEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(0).build("radiation"));
 
+	// Special mobs (M6.2)
+	public static final DeferredHolder<EntityType<?>, EntityType<techguns.entities.npcs.AlienBug>> ALIENBUG = ENTITIES.register("alienbug",
+			() -> EntityType.Builder.of(techguns.entities.npcs.AlienBug::new, MobCategory.MONSTER).sized(1.1f, 1.2f).eyeHeight(0.65f).build("alienbug"));
+	public static final DeferredHolder<EntityType<?>, EntityType<techguns.entities.npcs.Ghastling>> GHASTLING = ENTITIES.register("ghastling",
+			() -> EntityType.Builder.of(techguns.entities.npcs.Ghastling::new, MobCategory.MONSTER).sized(1.0f, 2.1f).eyeHeight(1.5f).fireImmune()
+					.build("ghastling"));
+	public static final DeferredHolder<EntityType<?>, EntityType<techguns.entities.npcs.AttackHelicopter>> ATTACK_HELICOPTER = ENTITIES.register(
+			"attackhelicopter", () -> EntityType.Builder.of(techguns.entities.npcs.AttackHelicopter::new, MobCategory.MONSTER).sized(4.0f, 4.0f)
+					.eyeHeight(0.5f).fireImmune().clientTrackingRange(13).build("attackhelicopter"));
+
+	/** Mod bus listener (see {@link Techguns}). */
+	public static void registerAttributes(net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent event) {
+		event.put(ALIENBUG.get(), techguns.entities.npcs.AlienBug.createAttributes().build());
+		event.put(GHASTLING.get(), techguns.entities.npcs.Ghastling.createAttributes().build());
+		event.put(ATTACK_HELICOPTER.get(), techguns.entities.npcs.AttackHelicopter.createAttributes().build());
+	}
+
 	private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory) {
 		return ENTITIES.register(name, () -> EntityType.Builder.of(factory, MobCategory.MISC).sized(0.25f, 0.25f)
 				.clientTrackingRange(4).updateInterval(20).build(name));

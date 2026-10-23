@@ -316,6 +316,45 @@ def write_reaction_chamber_recipes():
     return len(RC_RECIPES)
 
 
+# Special mobs (M6.2): entity names, spawn eggs, entity loot tables.
+SPECIAL_MOBS = {"AlienBug": "Alien Bug", "Ghastling": "Ghastling", "AttackHelicopter": "Attack Helicopter"}
+LANG_RENAMES |= {f"entity.techguns.{m}.name": f"entity.techguns.{m.lower()}" for m in SPECIAL_MOBS}
+EXTRA_LANG |= {f"item.techguns.{m.lower()}_spawn_egg": f"{name} Spawn Egg" for m, name in SPECIAL_MOBS.items()}
+# 1.12 entity loot tables to convert (the alien bug had none).
+ENTITY_LOOT = ["attackhelicopter", "ghastling"]
+
+
+def write_entity_loot():
+    def uniform(c):
+        return {"type": "minecraft:uniform", "min": c["min"], "max": c["max"]}
+
+    for name in ENTITY_LOOT:
+        legacy = json.loads((LEGACY / "loot_tables/entities" / (name + ".json")).read_text())
+        pools = []
+        for pool in legacy["pools"]:
+            entries = []
+            for e in pool["entries"]:
+                data = next((f["data"] for f in e.get("functions", []) if f["function"] == "set_data"), 0)
+                row = BY_LEGACY.get((e["name"], data))
+                out = {"type": "minecraft:item", "name": row["new_id"] if row else e["name"], "weight": e.get("weight", 1), "functions": []}
+                for f in e.get("functions", []):
+                    if f["function"] == "set_count":
+                        out["functions"].append({"function": "minecraft:set_count", "count": uniform(f["count"])})
+                    elif f["function"] == "looting_enchant":
+                        out["functions"].append({"function": "minecraft:enchanted_count_increase", "enchantment": "minecraft:looting",
+                                                 "count": uniform(f["count"])})
+                for c in e.get("conditions", []):  # random_chance_with_looting
+                    out.setdefault("conditions", []).append({
+                        "condition": "minecraft:random_chance_with_enchanted_bonus", "enchantment": "minecraft:looting",
+                        "unenchanted_chance": c["chance"],
+                        "enchanted_chance": {"type": "minecraft:linear", "base": c["chance"] + c["looting_multiplier"],
+                                             "per_level_above_first": c["looting_multiplier"]}})
+                entries.append(out)
+            pools.append({"rolls": pool["rolls"], "bonus_rolls": 0, "entries": entries})
+        write_json(DATA / "techguns/loot_table/entities" / (name + ".json"),
+                   {"type": "minecraft:entity", "random_sequence": "techguns:entities/" + name, "pools": pools})
+
+
 def write_json(path, obj):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -685,6 +724,7 @@ def main():
     count += write_machine_recipes()
     count += write_reaction_chamber_recipes()
     write_tags_and_loot()
+    write_entity_loot()
     print(f"{len(ITEMS)} items, {len(BLOCKS)} blocks, {count} recipes written")
     for reason, files in sorted(skipped.items(), key=lambda kv: -len(kv[1])):
         print(f"  skipped {len(files):3} recipes: {reason}")

@@ -213,6 +213,13 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - 27 mob types. `EntityAIBase` → `Goal`.
 - Attributes via `EntityAttributeCreationEvent`; spawning via biome modifiers + `RegisterSpawnPlacementsEvent`; spawn eggs via `DeferredSpawnEggItem`.
 
+**M6.2 done (special mobs):**
+- `entities/npcs/`: `AlienBug` (a `Spider`: 20 HP, 4 damage, speed 1.0, hunts players and iron golems day and night, screeches on aggro, jaw animation on a bite; arthropod via `data/minecraft/tags/entity_type/arthropod.json`; no loot, as in 1.12), `Ghastling` (a walking `Monster`, 20 HP, armor 10, fire immune; melee within 2 blocks, else a 1.5 s wind-up and three alien blaster bolts, 6 damage, then 2.5 s pause; ghast sounds and textures), `GenericFlyingMob` (hostile `FlyingMob`, gone in peaceful; the 1.12 look-around, random-fly at a height over the heightmap and ghast-style move control as `Goal`s/`MoveControl`) and `AttackHelicopter` (100 HP, armor 16, toughness 5; flies 24 blocks up, faces players within 96 and, within 64 and in sight, fires a 5 bullet burst then a rocket from a random pod, 12 damage each; rotor sound; a 5 s spinning crash, then `HelicopterDeathExplosion`).
+- Entity ids `alienbug`, `ghastling`, `attackhelicopter`; attributes via `TGEntities.registerAttributes`; spawn eggs with the 1.12 colors; 1.12 names (all languages) and loot (`write_entity_loot` in `port_assets.py`, `ENTITY_LOOT` lists the tables to convert: set_count, set_data, looting_enchant, random_chance_with_looting).
+- Renderers in `client/SpecialMobRenderers` (1.12 models through `port_models.py`; the helicopter's three OBJ parts with spinning rotor and pitching gun).
+- GameTests in `SpecialMobTests` (stats, eggs and loot, the bug bites, the ghastling and the helicopter shoot a pig).
+- **Deferred:** no natural spawns; 1.12 only spawned them from structure spawners (alien bug nest, nether soul platform, aircraft carrier, military camp), which come with M7 and the NPC spawn system. Spawner linking (`ITGSpawnerNPC`), the bug's HOSTILE faction and gore deaths wait for the shared NPC code; per-type armor (`armorAgainst`) is kept but unused until the NPC damage hook, so the vanilla armor attribute applies. The helicopter is immune to its own rockets (1.12 let them hurt it) until a friendly-fire config (M8). Death smoke/fire particles (commented out in 1.12 too).
+
 ### M7. World generation
 - Ores → configured/placed feature JSON + `neoforge:add_features` biome modifier.
 - Fixed structures: script converting the text format to vanilla `.nbt` templates using the M1 flattening table; register as single-piece or jigsaw structures with structure sets.

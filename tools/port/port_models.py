@@ -64,6 +64,13 @@ REPLACE = [
     ("TransformType", "ItemDisplayContext"),
     ("GlStateManager.", "LegacyGl."),
     ("TGRenderHelper.", "LegacyGl."),
+    # ModelAlienBug, ModelGhastling (M6.2)
+    ("import net.minecraft.util.math.MathHelper;", "import net.minecraft.util.Mth;"),
+    ("MathHelper.", "Mth."),
+    ("import net.minecraft.client.model.ModelGhast;\n", ""),
+    ("import net.minecraftforge.fml.relauncher.Side;\n", ""),
+    ("import net.minecraftforge.fml.relauncher.SideOnly;\n", ""),
+    ("@SideOnly(Side.CLIENT)\n", ""),
 ]
 
 
