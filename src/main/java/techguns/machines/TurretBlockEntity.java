@@ -7,8 +7,12 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
@@ -18,6 +22,7 @@ import techguns.TGBlockEntities;
 import techguns.TGComponents;
 import techguns.TGItems;
 import techguns.TGEntities;
+import techguns.Techguns;
 import techguns.entities.npcs.NPCTurret;
 import techguns.items.guns.GenericGun;
 
@@ -30,6 +35,9 @@ public class TurretBlockEntity extends MachineBlockEntity implements GenericGun.
 	public static final int SLOT_WEAPON = 18, SLOT_ARMOR = 19;
 	public static final int BUTTON_TARGET_ANIMALS = 3, BUTTON_PVP = 4;
 	public static final int REPAIR_TIME = 200, POWER = 5, REPAIR_POWER = 50, HEAL_POWER = 500, HEAL_DELAY = 60;
+	/** Max health each armor tier adds (not in 1.12, where plates only gave armor). */
+	public static final int HEALTH_PER_TIER = 20;
+	private static final ResourceLocation ARMOR_HEALTH = Techguns.id("turret_armor_health");
 	/** Ticks a saved turret may take to load with its chunk before it counts as lost. */
 	private static final int LINK_TIMEOUT = 100;
 
@@ -78,6 +86,11 @@ public class TurretBlockEntity extends MachineBlockEntity implements GenericGun.
 		return slot < 9;
 	}
 
+	@Override
+	public int slotLimit(int slot) {
+		return slot == SLOT_ARMOR ? 1 : super.slotLimit(slot);
+	}
+
 	/** 1-4 for the turret armor plates, else 0. Picks the base texture. */
 	public static int armorTier(ItemStack stack) {
 		if (stack.is(TGItems.TURRET_ARMOR_IRON)) return 1;
@@ -88,6 +101,17 @@ public class TurretBlockEntity extends MachineBlockEntity implements GenericGun.
 
 	public int tier() {
 		return armorTier(inventory.getStackInSlot(SLOT_ARMOR));
+	}
+
+	/** Sets the turret's bonus max health from the plate; a gain heals by as much, a loss clamps its health. */
+	private void armorHealth(NPCTurret turret, boolean healGain) {
+		AttributeInstance max = turret.getAttribute(Attributes.MAX_HEALTH);
+		double bonus = HEALTH_PER_TIER * tier();
+		AttributeModifier old = max.getModifier(ARMOR_HEALTH);
+		double gain = bonus - (old == null ? 0 : old.amount());
+		if (gain == 0) return;
+		max.addOrReplacePermanentModifier(new AttributeModifier(ARMOR_HEALTH, bonus, AttributeModifier.Operation.ADD_VALUE));
+		if (gain > 0 && healGain) turret.heal((float) gain);
 	}
 
 	/** The turret's armor: 5 per tier. */
@@ -121,6 +145,8 @@ public class TurretBlockEntity extends MachineBlockEntity implements GenericGun.
 			return;
 		}
 		unlinked = 0;
+		if (!turret.basePos().equals(worldPosition)) turret.link(worldPosition, hanging()); // the base moved, e.g. onto or off a Sable ship
+		armorHealth(turret, true);
 		boolean on = redstoneEnabled() && energy.consume(POWER);
 		turret.setNoAi(!on);
 		if (!on) return;
@@ -137,7 +163,8 @@ public class TurretBlockEntity extends MachineBlockEntity implements GenericGun.
 		NPCTurret turret = TGEntities.TURRET.get().create(level);
 		if (turret == null) return;
 		turret.link(worldPosition, hanging());
-		if (health > 0) turret.setHealth(health);
+		armorHealth(turret, false);
+		turret.setHealth(health > 0 ? health : turret.getMaxHealth());
 		level.addFreshEntity(turret);
 		turretId = turret.getUUID();
 		turretDeath = false;

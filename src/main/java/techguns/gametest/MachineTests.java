@@ -99,6 +99,15 @@ public class MachineTests {
 		});
 	}
 
+	/** The creative energy source fills the machine next to it. */
+	@GameTest(template = "empty")
+	public static void creativeEnergyFillsNeighbors(GameTestHelper helper) {
+		MachineBlockEntity be = machine(helper, TGBlocks.METAL_PRESS);
+		be.energy.set(0);
+		helper.setBlock(POS.above(), TGBlocks.CREATIVE_ENERGY.get());
+		helper.succeedWhen(() -> helper.assertTrue(be.energy.getEnergyStored() == be.energy.getMaxEnergyStored(), "not full: " + be.energy.getEnergyStored()));
+	}
+
 	/** The json recipes load as their machine's recipe type, with their fields. */
 	@GameTest(template = "empty")
 	public static void machineRecipesLoadFromJson(GameTestHelper helper) {

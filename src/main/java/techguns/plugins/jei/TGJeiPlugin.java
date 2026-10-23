@@ -63,6 +63,9 @@ public class TGJeiPlugin implements IModPlugin {
 						(g, t, p) -> g.blit(t, 19, 53, 0, 167, (int) (p * 90) + 1, 11)),
 				new MachineCategory(gui, TGBlocks.CHARGING_STATION.get(), new Rect2i(38, 18, 28, 12),
 						(g, t, p) -> g.blit(t, 39, 19, 0, 167, (int) (p * 26) + 1, 10)),
+				new MachineCategory(gui, TGBlocks.FABRICATOR_CONTROLLER.get(), new Rect2i(20, 52, 96, 12),
+						(g, t, p) -> g.blit(t, 21, 53, 0, 167, (int) (p * 90) + 1, 11)),
+				new ReactionChamberCategory(gui, TGBlocks.REACTION_CHAMBER_CONTROLLER.get(), new Rect2i(66, 60, 102, 14)),
 				new MachineCategory.ChemLab(gui, TGBlocks.CHEM_LAB.get(), new Rect2i(80, 15, 52, 30), (g, t, p) -> {
 					g.blit(t, 81, 19, 178, 5, 8, (int) (Math.min(p * 5, 1) * 25));
 					if (p >= 0.2f) g.blit(t, 88, 39, 186, 25, (int) (Math.min((p - 0.2f) * 5, 1) * 9), 1);

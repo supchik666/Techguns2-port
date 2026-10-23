@@ -25,7 +25,6 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -39,11 +38,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import techguns.damagesystem.DamageSystem;
 import techguns.damagesystem.INpcTGDamageSystem;
 import techguns.damagesystem.TGDamageType;
 import techguns.entities.projectiles.GenericProjectile;
+import techguns.plugins.sable.SableCompat;
 import techguns.items.guns.GenericGun;
 import techguns.machines.TurretBlockEntity;
 
@@ -67,7 +68,7 @@ public class NPCTurret extends PathfinderMob implements RangedAttackMob, INpcTGD
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30).add(Attributes.MOVEMENT_SPEED, 0)
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 60).add(Attributes.MOVEMENT_SPEED, 0) // 1.12 had 30 health
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1).add(Attributes.FOLLOW_RANGE, 20);
 	}
 
@@ -86,6 +87,10 @@ public class NPCTurret extends PathfinderMob implements RangedAttackMob, INpcTGD
 		pin();
 	}
 
+	public BlockPos basePos() {
+		return entityData.get(BASE);
+	}
+
 	public boolean isHanging() {
 		return entityData.get(HANGING);
 	}
@@ -97,7 +102,6 @@ public class NPCTurret extends PathfinderMob implements RangedAttackMob, INpcTGD
 
 	@Override
 	protected void registerGoals() {
-		goalSelector.addGoal(2, new LookAtPlayerGoal(this, LivingEntity.class, 8.0f));
 		goalSelector.addGoal(3, new RandomLookAroundGoal(this));
 		targetSelector.addGoal(1, new FactionHurtByTargetGoal(this) {
 			@Override
@@ -172,10 +176,10 @@ public class NPCTurret extends PathfinderMob implements RangedAttackMob, INpcTGD
 		super.tick();
 	}
 
-	/** Sits on the base, or hangs below it. */
+	/** Sits on the base, or hangs below it; on a Sable ship, where the ship is in the world. ponytail: doesn't tilt with the ship */
 	private void pin() {
 		BlockPos base = entityData.get(BASE);
-		setPos(base.getX() + 0.5, isHanging() ? base.getY() - getBbHeight() : base.getY() + 1.0, base.getZ() + 0.5);
+		setPos(SableCompat.toWorld(level(), new Vec3(base.getX() + 0.5, isHanging() ? base.getY() - getBbHeight() : base.getY() + 1.0, base.getZ() + 0.5)));
 		setDeltaMovement(0, 0, 0);
 	}
 

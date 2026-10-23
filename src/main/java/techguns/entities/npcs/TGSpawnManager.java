@@ -21,15 +21,16 @@ import techguns.Techguns;
  * 1.12 TGSpawnManager: the biome modifiers in data/techguns/neoforge/biome_modifier spawn {@link Dummy}s like any monster;
  * each is replaced on joining the world by an NPC picked by weight from the entries up to the spot's danger level:
  * distance from world spawn (0 within 500 blocks, 1 within 1000, 2 within 2500, else 3; half that in the nether) plus 1-2 for harsh biomes.
+ * Unlike 1.12, gun soldiers spawn at any danger and twice as often, so guns show up near spawn too.
  * ponytail: weights, distances and the biome blacklist were 1.12 config; they come back with the M8 config.
  */
 @EventBusSubscriber(modid = Techguns.MODID)
 public class TGSpawnManager {
 	record Spawn(Supplier<? extends EntityType<? extends GenericNPC>> type, int weight, int danger) {}
 
-	static final List<Spawn> OVERWORLD = List.of(new Spawn(TGNpcs.ZOMBIE_SOLDIER, 100, 1), new Spawn(TGNpcs.ZOMBIE_FARMER, 200, 0),
-			new Spawn(TGNpcs.ZOMBIE_MINER, 200, 0), new Spawn(TGNpcs.SKELETON_SOLDIER, 100, 1), new Spawn(TGNpcs.PSYCHO_STEVE, 3, 1),
-			new Spawn(TGNpcs.BANDIT, 50, 2));
+	static final List<Spawn> OVERWORLD = List.of(new Spawn(TGNpcs.ZOMBIE_SOLDIER, 200, 0), new Spawn(TGNpcs.ZOMBIE_FARMER, 200, 0),
+			new Spawn(TGNpcs.ZOMBIE_MINER, 200, 0), new Spawn(TGNpcs.SKELETON_SOLDIER, 200, 0), new Spawn(TGNpcs.PSYCHO_STEVE, 3, 1),
+			new Spawn(TGNpcs.BANDIT, 100, 2));
 	static final List<Spawn> NETHER = List.of(new Spawn(TGNpcs.ZOMBIE_PIGMAN_SOLDIER, 100, 0), new Spawn(TGNpcs.CYBER_DEMON, 30, 0));
 
 	/** The placeholder the biome modifiers spawn. */

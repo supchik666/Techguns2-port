@@ -13,7 +13,7 @@
       "tag": "c:wires/copper"
     },
     "i": {
-      "tag": "c:ingots/iron"
+      "tag": "c:plates/steel"
     },
     "m": {
       "item": "techguns:mechanicalpartsiron"

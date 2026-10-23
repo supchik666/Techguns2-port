@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -58,6 +59,7 @@ public class TGBlockEntities {
 			event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, machine, (be, side) -> be.energy);
 		}
 		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, CHEM_LAB.get(), (be, side) -> be.fluids);
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, CREATIVE_ENERGY.get(), (be, side) -> techguns.blocks.CreativeEnergyBlock.INFINITE);
 		for (var item : TGItems.ITEMS.getEntries()) {
 			if (item.get() instanceof PoweredArmor armor && armor.powerType == PoweredArmor.PowerType.RF) {
 				event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> new ComponentEnergyStorage(stack, TGComponents.POWER.get(), armor.maxPower), armor);
@@ -77,6 +79,9 @@ public class TGBlockEntities {
 			ExplosiveChargeBlockEntity::new, TGBlocks.TNT_CHARGE, TGBlocks.C4_CHARGE);
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<Door3x3BlockEntity>> DOOR3X3 = bench("door3x3",
 			Door3x3BlockEntity::new, TGBlocks.DOOR3X3);
+	@SuppressWarnings("DataFlowIssue")
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntity>> CREATIVE_ENERGY = BENCHES.register("creative_energy",
+			() -> BlockEntityType.Builder.of((pos, state) -> TGBlocks.CREATIVE_ENERGY.get().newBlockEntity(pos, state), TGBlocks.CREATIVE_ENERGY.get()).build(null));
 
 	@SafeVarargs
 	@SuppressWarnings("DataFlowIssue")

@@ -1,0 +1,31 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "tag": "c:circuits/basic",
+      "count": 2
+    },
+    {
+      "tag": "c:wires/gold",
+      "count": 2
+    },
+    {
+      "tag": "c:dusts/glowstone",
+      "count": 2
+    },
+    {
+      "tag": "c:plates/plastic"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:circuitboardelite"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:circuitboardelite"
+    }
+  ]
+}

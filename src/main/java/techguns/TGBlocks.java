@@ -160,6 +160,9 @@ public class TGBlocks {
 	public static final DeferredBlock<techguns.machines.TurretBlock> TURRET = withItem("turret", techguns.machines.TurretBlock::new,
 			Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion());
 
+	public static final DeferredBlock<techguns.blocks.CreativeEnergyBlock> CREATIVE_ENERGY = withItem("creative_energy",
+			techguns.blocks.CreativeEnergyBlock::new, Properties.of().mapColor(MapColor.METAL).strength(-1.0f, 3600000.0f).noLootTable());
+
 	private static Properties multiBlock() {
 		return Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion()
 				.pushReaction(PushReaction.BLOCK);

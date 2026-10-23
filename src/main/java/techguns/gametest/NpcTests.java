@@ -75,8 +75,9 @@ public class NpcTests {
 	/** The biome modifiers add the placeholder spawn, which turns into an armed NPC on joining the world. */
 	@GameTest(template = "empty")
 	public static void naturalSpawnsBecomeNpcs(GameTestHelper helper) {
-		assertDummySpawn(helper, Biomes.PLAINS, 600);
-		assertDummySpawn(helper, Biomes.NETHER_WASTES, 300);
+		assertDummySpawn(helper, Biomes.PLAINS, 1000);
+		helper.assertTrue(net.minecraft.world.entity.MobCategory.MONSTER.getMaxInstancesPerChunk() == 105, "monster cap isn't raised");
+		assertDummySpawn(helper, Biomes.NETHER_WASTES, 500);
 		helper.spawn(TGNpcs.DUMMY_SPAWN.get(), new Vec3(1.5, 1, 1.5));
 		helper.assertEntityNotPresent(TGNpcs.DUMMY_SPAWN.get());
 		var npcs = helper.getLevel().getEntitiesOfClass(GenericNPC.class, helper.getBounds());

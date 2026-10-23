@@ -1,0 +1,30 @@
+{
+  "type": "techguns:fabricator",
+  "inputs": [
+    {
+      "tag": "c:ingots/iron",
+      "count": 2
+    },
+    {
+      "tag": "c:wires/copper",
+      "count": 4
+    },
+    {
+      "tag": "c:dusts/redstone"
+    },
+    {
+      "tag": "c:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:coil"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:coil"
+    }
+  ]
+}

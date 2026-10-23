@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -61,6 +62,11 @@ public abstract class TGBlockEntity extends BlockEntity implements MenuProvider 
 			@Override
 			public boolean isItemValid(int slot, ItemStack stack) {
 				return canInsert(slot, stack);
+			}
+
+			@Override
+			public int getSlotLimit(int slot) {
+				return slotLimit(slot);
 			}
 		};
 	}
@@ -105,6 +111,11 @@ public abstract class TGBlockEntity extends BlockEntity implements MenuProvider 
 	/** Whether players and automation may put {@code stack} into {@code slot}. */
 	public boolean canInsert(int slot, ItemStack stack) {
 		return !isOutput(slot);
+	}
+
+	/** The most items {@code slot} holds. */
+	public int slotLimit(int slot) {
+		return Item.ABSOLUTE_MAX_STACK_SIZE;
 	}
 
 	public boolean isOutput(int slot) {

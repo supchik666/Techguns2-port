@@ -139,6 +139,7 @@ configurations {
 def copyClientMods = tasks.register('copyClientMods', Sync) {
     from configurations.clientModsFolder
     into 'run/mods'
+    outputs.upToDateWhen { false } // the server runs delete run/mods, and Gradle once skipped refilling it
 }
 tasks.named('runClient') {
     classpathProvider.from(configurations.clientMods)

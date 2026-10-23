@@ -31,14 +31,14 @@ public abstract class TGCategory<T> extends AbstractRecipeCategory<T> {
 	public final Block block;
 	/** The recipe-click area on the block's screen, in GUI coordinates. */
 	public final Rect2i clickArea;
-	/** The machine's GUI texture, textures/gui/(block id)_gui.png. */
+	/** The machine's GUI texture, textures/gui/(block id without "_controller")_gui.png. */
 	protected final ResourceLocation texture;
 
 	protected TGCategory(IGuiHelper gui, RecipeType<T> type, Component title, Block block, Rect2i clickArea) {
 		super(type, title, gui.createDrawableItemLike(block), W, H + 10);
 		this.block = block;
 		this.clickArea = clickArea;
-		this.texture = Techguns.id("textures/gui/" + BuiltInRegistries.BLOCK.getKey(block).getPath() + "_gui.png");
+		this.texture = Techguns.id("textures/gui/" + BuiltInRegistries.BLOCK.getKey(block).getPath().replace("_controller", "") + "_gui.png");
 	}
 
 	public abstract List<T> recipes(RecipeManager recipes);

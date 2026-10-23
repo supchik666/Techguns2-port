@@ -126,16 +126,25 @@ VANILLA = {
     ("minecraft:wool", 0): {"item": "minecraft:white_wool"},
 }
 # GameRegistry.addSmelting calls from TGMachineRecipes: (input, output, count, xp)
+# Unlike 1.12, plates don't smelt back into ingots.
 SMELTING = [
     ("ore_tin", "ingottin", 1, 0.5), ("ore_lead", "ingotlead", 1, 1.0),
     ("turretarmoriron", "minecraft:iron_ingot", 5, 0), ("turretarmorsteel", "ingotsteel", 5, 0),
     ("turretarmorobsidiansteel", "ingotobsidiansteel", 5, 0), ("ironbarrel", "minecraft:iron_ingot", 6, 0),
-    ("obsidiansteelbarrel", "ingotobsidiansteel", 6, 0), ("platebronze", "ingotbronze", 1, 0),
-    ("platecopper", "minecraft:copper_ingot", 1, 0), ("platetin", "ingottin", 1, 0), ("platelead", "ingotlead", 1, 0),
-    ("plateiron", "minecraft:iron_ingot", 1, 0), ("plateobsidiansteel", "ingotobsidiansteel", 1, 0),
-    ("platetitanium", "ingottitanium", 1, 0), ("platesteel", "ingotsteel", 1, 0), ("rawrubber", "rubberbar", 1, 0),
+    ("obsidiansteelbarrel", "ingotobsidiansteel", 6, 0), ("rawrubber", "rubberbar", 1, 0),
     ("rawplastic", "plasticsheet", 1, 0), ("oretitanium", "ingottitanium", 1, 0),
 ]
+# Crafting results changed from 1.12, by recipe name: circuit boards cost twice as much (1.12 made 4).
+RESULT_COUNT = {"circuitboard": 2}
+# Tech ladder (not 1.12): elite circuits and coils only come from the fabricator, so its own parts take basic circuits;
+# the housing's cybernetic parts (fabricator-only, which made it uncraftable in 1.12) become obsidian steel parts.
+REMOVED_RECIPES = {"circuitboardelite", "coil"}
+KEY_SWAP = {
+    "multiblockmachine_0_fabricator_housing": {"c": {"tag": "c:circuits/basic"}, "p": {"item": "techguns:mechanicalpartsobsidiansteel"}},
+    "multiblockmachine_2_fabricator_controller": {"c": {"tag": "c:circuits/basic"}},
+    "electricengine": {"i": {"tag": "c:plates/steel"}},
+    "tacticalnukewarhead": {"c": {"tag": "c:circuits/elite"}},
+}
 # TGMachineRecipes as machine recipe json (MachineRecipe.java). Item specs: "id*count", "#tag", "a|b" for either;
 # ids without a namespace are ours. Fluids: (key of FLUIDS, mB).
 FLUIDS = {"water": {"fluid": "minecraft:water"}, "lava": {"fluid": "minecraft:lava"}, "milk": {"tag": "c:milk"},
@@ -204,7 +213,7 @@ MACHINE_RECIPES = {
         (["#c:ingots/steel", "#c:ingots/steel"], "platesteel*2"), (["#c:ingots/lead", "#c:ingots/lead"], "platelead*2"),
         (["#c:plates/iron", "minecraft:flint"], "mechanicalpartsiron"),
         (["#c:plates/obsidian_steel", "#c:gems/quartz"], "mechanicalpartsobsidiansteel"),
-        (["#c:plates/carbon", "minecraft:blaze_rod"], "mechanicalpartscarbon*2"),
+        (["#c:plates/carbon", "minecraft:blaze_rod"], "mechanicalpartscarbon"),  # 1.12 made 2
         (["#c:plates/copper", "#c:plates/copper"], "copperwire*8"), (["#c:fibers/carbon", "#c:fibers/carbon"], "platecarbon*2"),
         (["#c:plates/obsidian_steel", "tgx"], "advancedrounds*16"),
         (["#c:ingots/obsidian_steel", "#c:ingots/obsidian_steel"], "plateobsidiansteel*2"),
@@ -282,7 +291,10 @@ MACHINE_RECIPES["fabricator"] = {result.partition("*")[0]: {"inputs": inputs, "r
     (["#c:ingots/titanium*2", "#c:circuits/basic*4", "mechanicalpartscarbon", "#c:plates/carbon*4"], "powerplating*2"),
     (["coil", "#c:circuits/elite*2", "mechanicalpartscarbon", "#c:plates/titanium"], "sonicemitter"),
     (["enricheduranium", "#c:circuits/elite*2", "mechanicalpartscarbon*2", "#c:plates/lead*2"], "rademitter"),
-    (["#c:ingots/steel", "#c:circuits/basic", "#c:dusts/redstone*4", "#c:plates/lead*2"], "nuclearpowercelldepleted"))}
+    (["#c:ingots/steel", "#c:circuits/basic", "#c:dusts/redstone*4", "#c:plates/lead*2"], "nuclearpowercelldepleted"),
+    # not in 1.12: crafted there (see REMOVED_RECIPES)
+    (["#c:circuits/basic*2", "#c:wires/gold*2", "#c:dusts/glowstone*2", "#c:plates/plastic"], "circuitboardelite"),
+    (["#c:ingots/iron*2", "#c:wires/copper*4", "#c:dusts/redstone", "#c:plates/iron"], "coil"))}
 # Reaction chamber (ReactionChamberRecipe.java): input, focus, fluid, results, then ticks, required_completion, intensity,
 # margin, liquid_level, liquid_consumption, instability, risk, power. ponytail: no liquid redstone/ender yet, lava instead
 RC_RECIPES = {
@@ -302,6 +314,7 @@ CUTOUT_MODELS += ["fabricator_glass", "fabricator_glass_formed", "reactionchambe
                   *(f"ore_cluster_{t}" for t in ("coal", "common_metal", "rare_metal", "shiny_metal", "uranium", "common_gem",
                                                   "shiny_gem", "nether_crystal", "oil"))]
 EXTRA_LANG |= {"block.techguns.ore_cluster_oil": "Ore Cluster (Oil)"}
+EXTRA_LANG |= {"block.techguns.creative_energy": "Creative Energy Source"}  # not in 1.12; its models are hand-written
 
 
 def write_reaction_chamber_recipes():
@@ -599,6 +612,13 @@ def convert_recipes():
         if name in names:
             name = src.stem.lower()
         names.add(name)
+        if name in REMOVED_RECIPES:
+            continue
+        for key, ing in KEY_SWAP.get(name, {}).items():
+            out["key"][key] = ing
+            used |= {ing["item"]} if "item" in ing else set()
+        if name in RESULT_COUNT:
+            out["result"]["count"] = RESULT_COUNT[name]
         if used:
             out["neoforge:conditions"] = conditions(used)
         write_json(DATA / "techguns/recipe" / (name + ".json"), out)

@@ -7,13 +7,13 @@
   ],
   "key": {
     "p": {
-      "item": "techguns:cyberneticparts"
+      "item": "techguns:mechanicalpartsobsidiansteel"
     },
     "s": {
       "tag": "c:plates/steel"
     },
     "c": {
-      "tag": "c:circuits/elite"
+      "tag": "c:circuits/basic"
     },
     "e": {
       "item": "techguns:electricengine"
@@ -42,6 +42,10 @@
     {
       "type": "neoforge:item_exists",
       "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:mechanicalpartsobsidiansteel"
     }
   ]
 }

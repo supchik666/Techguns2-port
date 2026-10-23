@@ -77,15 +77,32 @@ public class TurretTests {
 		});
 	}
 
-	/** Breaking the base drops its gun, ammo and armor, and takes the turret with it. */
+	/** A turret whose base moved (assembled onto a Sable ship) is linked to the base again, not left to waste away. */
+	@GameTest(template = "empty8")
+	public static void movedBaseRelinksTurret(GameTestHelper helper) {
+		TurretBlockEntity be = turret(helper);
+		helper.runAfterDelay(2, () -> {
+			NPCTurret turret = be.turret();
+			helper.assertTrue(turret != null, "no turret");
+			turret.link(be.getBlockPos().above(3), false);
+			helper.runAfterDelay(2, () -> {
+				helper.assertTrue(turret.isAlive() && turret.base() == be && turret.getHealth() == turret.getMaxHealth(), "not relinked");
+				helper.succeed();
+			});
+		});
+	}
+
+	/** A steel plate gives 10 armor and +40 max health; breaking the base drops its gun, ammo and armor, and takes the turret with it. */
 	@GameTest(template = "empty8")
 	public static void breakingBaseDropsContentsAndRemovesTurret(GameTestHelper helper) {
 		TurretBlockEntity be = turret(helper);
-		be.inventory.setStackInSlot(TurretBlockEntity.SLOT_ARMOR, new ItemStack(TGItems.TURRET_ARMOR_STEEL.get()));
+		ItemStack left = be.inventory.insertItem(TurretBlockEntity.SLOT_ARMOR, new ItemStack(TGItems.TURRET_ARMOR_STEEL.get(), 5), false);
+		helper.assertTrue(left.getCount() == 4, "plate slot took " + (5 - left.getCount()));
 		helper.runAfterDelay(2, () -> {
 			NPCTurret turret = be.turret();
 			helper.assertTrue(turret != null && turret.isAlive(), "no turret");
 			helper.assertTrue(turret.getTotalArmorAgainstType(techguns.damagesystem.TGDamageType.PROJECTILE) == 10, "steel plate isn't 10 armor");
+			helper.assertTrue(turret.getMaxHealth() == 100 && turret.getHealth() == 100, "steel plate health: " + turret.getHealth() + "/" + turret.getMaxHealth());
 			helper.destroyBlock(POS);
 			helper.assertTrue(turret.isRemoved(), "turret outlived its base");
 			helper.assertItemEntityPresent(TGuns.PISTOL.get(), POS, 2);
