@@ -1,0 +1,45 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:gaussrifle"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:carbonfibers",
+      "count": 9
+    },
+    {
+      "id": "techguns:ingottitanium"
+    },
+    {
+      "id": "techguns:plasticsheet"
+    },
+    {
+      "id": "techguns:circuitboardelite"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonfibers"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:circuitboardelite"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gaussrifle"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingottitanium"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

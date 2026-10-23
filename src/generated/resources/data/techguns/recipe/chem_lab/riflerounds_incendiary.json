@@ -1,0 +1,32 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:riflerounds",
+      "count": 1
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:lava",
+    "amount": 250
+  },
+  "results": [
+    {
+      "id": "techguns:riflerounds_incendiary"
+    }
+  ],
+  "power": 25,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds_incendiary"
+    }
+  ]
+}

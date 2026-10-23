@@ -1,12 +1,14 @@
 package techguns;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -16,6 +18,8 @@ import techguns.blocks.CamoNetBlock;
 import techguns.blocks.LampBlock;
 import techguns.blocks.SandbagsBlock;
 import techguns.blocks.WallLanternBlock;
+import techguns.machines.MachineBlock;
+import techguns.machines.TGBlockEntity;
 
 /**
  * Simple blocks, flattened from the 1.12 meta blocks. Ids match tools/port/flattening.csv.
@@ -102,6 +106,14 @@ public class TGBlocks {
 	public static final DeferredBlock<LadderBlock> SLIMYLADDER = withItem("slimyladder", LadderBlock::new,
 			Properties.ofFullCopy(Blocks.LADDER).sound(SoundType.SLIME_BLOCK));
 
+	//Machines
+	public static final DeferredBlock<MachineBlock> AMMO_PRESS = machine("ammo_press", () -> TGBlockEntities.AMMO_PRESS.get());
+	public static final DeferredBlock<MachineBlock> METAL_PRESS = machine("metal_press", () -> TGBlockEntities.METAL_PRESS.get());
+	public static final DeferredBlock<MachineBlock> CHEM_LAB = machine("chem_lab", () -> TGBlockEntities.CHEM_LAB.get());
+	public static final DeferredBlock<MachineBlock> CHARGING_STATION = machine("charging_station", () -> TGBlockEntities.CHARGING_STATION.get());
+	public static final DeferredBlock<MachineBlock> BLAST_FURNACE = machine("blast_furnace", () -> TGBlockEntities.BLAST_FURNACE.get());
+	public static final DeferredBlock<MachineBlock> GRINDER = machine("grinder", () -> TGBlockEntities.GRINDER.get());
+
 	private static Properties ore(float hardness) {
 		return Properties.of().mapColor(MapColor.STONE).strength(hardness, 3.0f).requiresCorrectToolForDrops();
 	}
@@ -124,6 +136,11 @@ public class TGBlocks {
 
 	private static DeferredBlock<CamoNetBlock> camonet(String name, boolean top) {
 		return withItem(name, p -> new CamoNetBlock(top, p), Properties.of().mapColor(MapColor.COLOR_GREEN).sound(SoundType.WOOL).noOcclusion());
+	}
+
+	private static DeferredBlock<MachineBlock> machine(String name, Supplier<BlockEntityType<? extends TGBlockEntity>> type) {
+		return withItem(name, p -> new MachineBlock(type, p),
+				Properties.of().mapColor(MapColor.METAL).strength(4.0f).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion());
 	}
 
 	private static DeferredBlock<Block> block(String name, Properties props) {

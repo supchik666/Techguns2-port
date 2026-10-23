@@ -131,6 +131,14 @@ public class TGSounds {
 	public static final DeferredHolder<SoundEvent, SoundEvent> JETPACK_LOOP = register("jetpack.loop");
 	public static final DeferredHolder<SoundEvent, SoundEvent> GLIDER_LOOP = register("glider.loop");
 
+	public static final DeferredHolder<SoundEvent, SoundEvent> AMMO_PRESS_WORK1 = register("machines.ammopresswork1");
+	public static final DeferredHolder<SoundEvent, SoundEvent> AMMO_PRESS_WORK2 = register("machines.ammopresswork2");
+	public static final DeferredHolder<SoundEvent, SoundEvent> METAL_PRESS_WORK = register("machines.metalpresswork");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CHEM_LAB_WORK = register("machines.chemlabwork");
+	public static final DeferredHolder<SoundEvent, SoundEvent> CHARGING_STATION_WORK = register("machines.chargingstationwork");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GRINDER_START = register("machines.grinder.start");
+	public static final DeferredHolder<SoundEvent, SoundEvent> GRINDER_WORK = register("machines.grinder.work");
+
 	private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
 		return SOUNDS.register(name, SoundEvent::createVariableRangeEvent);
 	}

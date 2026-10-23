@@ -1,0 +1,24 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "tag": "minecraft:logs"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "results": [
+    {
+      "id": "techguns:rawrubber"
+    }
+  ],
+  "power": 20,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rawrubber"
+    }
+  ]
+}

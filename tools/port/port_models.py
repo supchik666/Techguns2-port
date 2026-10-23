@@ -32,6 +32,12 @@ REPLACE = [
      "\t\t\t\t\tif (tge.lockOnTicks >= gun.getLockOnTicks()) {\n\t\t\t\t\t\tlocked = true;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n",
      "\t\t\tlocked = entityIn instanceof net.minecraft.world.entity.player.Player player\n"
      "\t\t\t\t\t&& player.getUseItem().getItem() instanceof GuidedMissileLauncher gun && gun.isLockedOn();\n"),
+    # ModelChemLab: the glass parts draw on the translucent layer.
+    ("import net.minecraft.client.renderer.GlStateManager.DestFactor;\nimport net.minecraft.client.renderer.GlStateManager.SourceFactor;\n",
+     "import techguns.client.models.LegacyGl.RenderType;\n"),
+    ("GlStateManager.enableBlend();\n\t    GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);",
+     "LegacyGl.enableBlendMode(RenderType.ALPHA);"),
+    ("GlStateManager.disableBlend();", "LegacyGl.disableBlendMode(RenderType.ALPHA);"),
     ("import net.minecraft.client.model.ModelRenderer;", "import techguns.client.models.ModelRenderer;"),
     ("import net.minecraft.client.renderer.GlStateManager;", "import techguns.client.models.LegacyGl;"),
     ("import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;", "import net.minecraft.world.item.ItemDisplayContext;"),

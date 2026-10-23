@@ -211,3 +211,9 @@ techguns:camonet_top,1,techguns:camonet_top_desert,camonet,type=desert
 techguns:camonet_top,2,techguns:camonet_top_snow,camonet,type=snow
 techguns:sandbags,0,techguns:sandbags,copy,
 techguns:slimyladder,2,techguns:slimyladder,copy,
+techguns:basicmachine,0,techguns:ammo_press,cube,machinetype=ammo_press
+techguns:basicmachine,1,techguns:metal_press,cube,machinetype=metal_press
+techguns:basicmachine,2,techguns:chem_lab,cube,machinetype=chem_lab
+techguns:simplemachine,10,techguns:charging_station,cube,machinetype=charging_station
+techguns:simplemachine,11,techguns:blast_furnace,cube,machinetype=blast_furnace
+techguns:simplemachine2,8,techguns:grinder,cube,machinetype=grinder

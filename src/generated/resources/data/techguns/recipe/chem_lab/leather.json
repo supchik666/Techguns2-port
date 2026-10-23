@@ -1,0 +1,18 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "minecraft:rotten_flesh"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 500
+  },
+  "results": [
+    {
+      "id": "minecraft:leather"
+    }
+  ],
+  "power": 15
+}

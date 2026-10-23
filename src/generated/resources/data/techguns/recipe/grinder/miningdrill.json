@@ -1,0 +1,32 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:miningdrill"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 6
+    },
+    {
+      "id": "techguns:plasticsheet",
+      "count": 2
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:miningdrill"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

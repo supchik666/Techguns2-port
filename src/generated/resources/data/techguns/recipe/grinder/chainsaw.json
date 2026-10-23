@@ -1,0 +1,27 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:chainsaw"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 5
+    },
+    {
+      "id": "techguns:plasticsheet"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:chainsaw"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:plasticsheet"
+    }
+  ]
+}

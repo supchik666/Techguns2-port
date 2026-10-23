@@ -20,16 +20,16 @@
     }
   },
   "result": {
-    "id": "techguns:basicmachine"
+    "id": "techguns:metal_press"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:basicmachine"
+      "item": "techguns:electricengine"
     },
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:electricengine"
+      "item": "techguns:metal_press"
     }
   ]
 }

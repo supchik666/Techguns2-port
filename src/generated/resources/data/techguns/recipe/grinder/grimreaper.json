@@ -1,0 +1,38 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:grimreaper"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 32
+    },
+    {
+      "id": "techguns:circuitboardelite"
+    },
+    {
+      "id": "techguns:carbonfibers"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonfibers"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:circuitboardelite"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:grimreaper"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    }
+  ]
+}

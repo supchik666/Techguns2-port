@@ -1,0 +1,24 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:plates/iron"
+    },
+    {
+      "item": "minecraft:tnt"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:40mmgrenade",
+      "count": 16
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:40mmgrenade"
+    }
+  ]
+}

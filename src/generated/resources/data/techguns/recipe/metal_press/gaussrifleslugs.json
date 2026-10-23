@@ -1,0 +1,24 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:plates/obsidian_steel"
+    },
+    {
+      "tag": "c:plates/titanium"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:gaussrifleslugs",
+      "count": 4
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:gaussrifleslugs"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:sniperrounds",
+      "count": 1
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:lava",
+    "amount": 250
+  },
+  "results": [
+    {
+      "id": "techguns:sniperrounds_incendiary"
+    }
+  ],
+  "power": 25,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds_incendiary"
+    }
+  ]
+}

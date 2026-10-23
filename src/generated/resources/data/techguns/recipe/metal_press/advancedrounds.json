@@ -1,0 +1,28 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:plates/obsidian_steel"
+    },
+    {
+      "item": "techguns:tgx"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:advancedrounds",
+      "count": 16
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:advancedrounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:tgx"
+    }
+  ]
+}

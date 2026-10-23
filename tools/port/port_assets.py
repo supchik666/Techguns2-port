@@ -108,7 +108,11 @@ EXTRA_LANG = {
     "death.attack.techguns.radiation_poisoning.player": "%s died of radiation poisoning whilst fighting %s",
     "techguns.extendedinventory": "Techguns Inventory",
     "techguns.key.openTGInventory": "Open Techguns Inventory",
+    "item.techguns.creeper_acid_bucket": "Creeper Acid Bucket",
 }
+# Block items whose 1.12 item model wasn't the block's
+ITEM_MODELS = {"ammo_press": "techguns:item/basicmachine", "metal_press": "techguns:item/basicmachine",
+               "chem_lab": "techguns:item/basicmachine", "grinder": "techguns:item/simplemachine2_grinder_inv"}
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
 # 1.12 vanilla (id, meta) -> 1.21 ingredient, for the few with metadata used in recipes
@@ -129,6 +133,143 @@ SMELTING = [
     ("platetitanium", "ingottitanium", 1, 0), ("platesteel", "ingotsteel", 1, 0), ("rawrubber", "rubberbar", 1, 0),
     ("rawplastic", "plasticsheet", 1, 0), ("oretitanium", "ingottitanium", 1, 0),
 ]
+# TGMachineRecipes as machine recipe json (MachineRecipe.java). Item specs: "id*count", "#tag", "a|b" for either;
+# ids without a namespace are ours. Fluids: (key of FLUIDS, mB).
+FLUIDS = {"water": {"fluid": "minecraft:water"}, "lava": {"fluid": "minecraft:lava"}, "milk": {"tag": "c:milk"},
+          "acid": {"fluid": "techguns:creeper_acid"}}
+
+
+def stacks(*pairs):
+    return [f"{s}*{n}" for s, n in pairs if n]
+
+
+# TGMachineRecipes' grinder helpers; "nuggets" of steelAndPlastic were steel ingots there too
+def iron_wood(iron, wood, nuggets):
+    return stacks(("minecraft:iron_ingot", iron), ("minecraft:oak_log", wood), ("minecraft:iron_nugget", nuggets))
+
+
+def steel_plastic(steel, plastic, nuggets):
+    return stacks(("ingotsteel", steel), ("plasticsheet", plastic), ("ingotsteel", nuggets))
+
+
+def obsi_plastic(obsi, plastic):
+    return stacks(("ingotobsidiansteel", obsi), ("plasticsheet", plastic))
+
+
+def carbon_plastic_redstone(carbon, plastic, redstone):
+    return stacks(("carbonfibers", carbon), ("plasticsheet", plastic), ("minecraft:redstone", redstone))
+
+
+OBSI_BARREL = "ingotobsidiansteel*3"
+GRINDER_GUNS = {
+    "handcannon": ["minecraft:cobblestone*3", *iron_wood(0, 1, 4)], "sawedoff": [*iron_wood(4, 1, 0), "minecraft:flint"],
+    "revolver": iron_wood(3, 1, 0), "goldenrevolver": [*iron_wood(3, 1, 0), "minecraft:gold_ingot*4"],
+    "thompson": iron_wood(4, 1, 0), "ak47": [OBSI_BARREL, *iron_wood(4, 1, 0)], "boltaction": [OBSI_BARREL, *iron_wood(4, 1, 0)],
+    "m4": [OBSI_BARREL, *steel_plastic(2, 2, 0)], "m4_infiltrator": [OBSI_BARREL, *steel_plastic(3, 2, 0), "minecraft:redstone"],
+    "pistol": [OBSI_BARREL, *steel_plastic(0, 1, 0), *iron_wood(2, 0, 0)], "combatshotgun": [OBSI_BARREL, *steel_plastic(2, 2, 0)],
+    "mac10": [OBSI_BARREL, *steel_plastic(1, 0, 5), *iron_wood(1, 0, 0)], "flamethrower": [*steel_plastic(0, 2, 0), *iron_wood(2, 0, 0)],
+    "rocketlauncher": ["ingotobsidiansteel*6", *steel_plastic(1, 0, 5)],
+    "grimreaper": ["ingotobsidiansteel*32", "circuitboardelite", "carbonfibers"],
+    "grenadelauncher": [OBSI_BARREL, *steel_plastic(2, 2, 0)], "aug": [OBSI_BARREL, *steel_plastic(2, 2, 0)],
+    "netherblaster": ["ingotobsidiansteel*4", "cyberneticparts*2"], "biogun": [*steel_plastic(2, 2, 0), "minecraft:glass*2"],
+    "teslagun": carbon_plastic_redstone(3, 2, 2), "lmg": ["ingotobsidiansteel*6", "ingotsteel*4", "plasticsheet*2"],
+    "minigun": ["ingotobsidiansteel*20", "ingotsteel*2", "electricengine"],
+    "as50": ["ingotobsidiansteel*9", "plasticsheet*2", "minecraft:diamond"], "vector": obsi_plastic(5, 2),
+    "scar": obsi_plastic(5, 2), "lasergun": [*obsi_plastic(2, 2), "minecraft:redstone*20", "minecraft:gold_ingot*3"],
+    "blasterrifle": [*carbon_plastic_redstone(3, 1, 20), "minecraft:gold_ingot*3"],
+    "sonicshotgun": [*carbon_plastic_redstone(3, 2, 2), "ingottitanium"],
+    "pdw": [*carbon_plastic_redstone(6, 1, 0), *obsi_plastic(1, 0)],
+    "pulserifle": [*carbon_plastic_redstone(6, 1, 0), *obsi_plastic(1, 0)],
+    "mibgun": ["minecraft:gold_ingot*3", "ingottitanium", "minecraft:redstone*20"],
+    "powerhammer": [*iron_wood(4, 0, 0), "minecraft:flint"], "chainsaw": [*iron_wood(5, 0, 0), "plasticsheet"],
+    "nucleardeathray": ["carbonfibers*6", "ingotlead*3", "mechanicalpartscarbon", "circuitboardelite"],
+    "gaussrifle": ["carbonfibers*9", "ingottitanium", "plasticsheet", "circuitboardelite"],
+    "guidedmissilelauncher": ["ingotobsidiansteel*8", "copperwire"], "miningdrill": obsi_plastic(6, 2),
+    "tfg": ["ingottitanium*5", "ingotlead*4", "carbonfibers*4"],
+}
+# ammo -> lead nuggets, copper nuggets, chances of the lead, copper and gunpowder
+AMMO_CRUSH = {"riflerounds": (1, 2, [1, 1, 0.125]), "pistolrounds": (1, 1, [0.75, 1.5, 1 / 12]),
+              "sniperrounds": (2, 4, [1, 1, 0.25]), "shotgunrounds": (1, 1, [0.5, 1, 0.0625])}
+METAL1, METAL2 = "#c:ingots/steel|#c:ingots/lead", "#c:ingots/copper|#c:ingots/tin|#c:ingots/iron|#c:ingots/bronze"
+# machine -> name -> MachineRecipe fields (inputs, bottle, fluid, results, chances, fluid_result, power, time, swap)
+MACHINE_RECIPES = {
+    "ammo_press": {name: {"inputs": [METAL1, METAL2 + "*2", "#c:gunpowders"], "results": [f"{name}*{n}"]}
+                   for name, n in (("pistolrounds", 12), ("shotgunrounds", 16), ("riflerounds", 8), ("sniperrounds", 4))},
+    "metal_press": {result.partition("*")[0]: {"inputs": inputs, "results": [result], "swap": True} for inputs, result in (
+        (["#c:ingots/tin", "#c:ingots/tin"], "platetin*2"), (["#c:ingots/copper", "#c:ingots/copper"], "platecopper*2"),
+        (["#c:ingots/bronze", "#c:ingots/bronze"], "platebronze*2"), (["#c:ingots/iron", "#c:ingots/iron"], "plateiron*2"),
+        (["#c:ingots/steel", "#c:ingots/steel"], "platesteel*2"), (["#c:ingots/lead", "#c:ingots/lead"], "platelead*2"),
+        (["#c:plates/iron", "minecraft:flint"], "mechanicalpartsiron"),
+        (["#c:plates/obsidian_steel", "#c:gems/quartz"], "mechanicalpartsobsidiansteel"),
+        (["#c:plates/carbon", "minecraft:blaze_rod"], "mechanicalpartscarbon*2"),
+        (["#c:plates/copper", "#c:plates/copper"], "copperwire*8"), (["#c:fibers/carbon", "#c:fibers/carbon"], "platecarbon*2"),
+        (["#c:plates/obsidian_steel", "tgx"], "advancedrounds*16"),
+        (["#c:ingots/obsidian_steel", "#c:ingots/obsidian_steel"], "plateobsidiansteel*2"),
+        (["#c:plates/steel", "#c:plates/bronze"], "steamarmorplate"), (["#c:ingots/gold", "#c:ingots/gold"], "goldwire*2"),
+        (["#c:plates/iron", "minecraft:tnt"], "40mmgrenade*16"), (["#c:ingots/titanium", "#c:ingots/titanium"], "platetitanium*2"),
+        (["#c:plates/obsidian_steel", "#c:plates/titanium"], "gaussrifleslugs*4"),
+        (["sniperrounds_incendiary", "tgx"], "sniperrounds_explosive"))},
+    # 1.12 branches taken: no coal dust, oil or fuel fluids, so the coal and lava variants
+    "chem_lab": {
+        "gunpowder": {"inputs": ["#c:dusts/redstone", "minecraft:coal"], "fluid": ("water", 250),
+                      "results": ["minecraft:gunpowder"], "swap": True, "power": 5},
+        "rawplastic": {"inputs": ["#c:raw_materials/rubber", "minecraft:coal"], "fluid": ("water", 1000),
+                       "results": ["rawplastic"], "swap": True, "power": 25},
+        "creeper_acid": {"inputs": ["biomass", "minecraft:gunpowder"], "fluid": ("water", 1000),
+                         "fluid_result": ("techguns:creeper_acid", 1000), "swap": True, "power": 20},
+        "tgx": {"inputs": ["#c:gunpowders", "#c:gems/lapis"], "fluid": ("lava", 500), "results": ["tgx"], "swap": True, "power": 20},
+        "fueltank": {"inputs": ["fueltankempty"], "fluid": ("lava", 500), "results": ["fueltank"], "power": 1},
+        "rocket_high_velocity": {"inputs": ["rocket"], "fluid": ("lava", 250), "results": ["rocket_high_velocity"], "power": 5},
+        "carbonfibers": {"inputs": ["#c:gems/diamond", "minecraft:blaze_powder"], "fluid": ("lava", 1000),
+                         "results": ["carbonfibers*2"], "swap": True, "power": 25},
+        "rawrubber": {"inputs": ["#minecraft:logs"], "fluid": ("water", 1000), "results": ["rawrubber"], "power": 20},
+        "biotank": {"inputs": ["biomass"], "bottle": "biotankempty", "fluid": ("water", 500), "results": ["biotank"], "power": 1},
+        "compressedairtank": {"inputs": ["minecraft:coal"], "bottle": "compressedairtankempty", "fluid": ("water", 250),
+                              "results": ["compressedairtank"], "swap": True, "power": 5},
+        "nethercharge": {"inputs": ["minecraft:netherrack", "minecraft:soul_sand"], "fluid": ("lava", 1000),
+                         "results": ["nethercharge*4"], "swap": True, "power": 20},
+        "yellowcake": {"inputs": ["#c:ores/uranium"], "fluid": ("acid", 250), "results": ["yellowcake*3"], "power": 20},
+        "nuclearpowercell": {"inputs": ["enricheduranium"], "bottle": "nuclearpowercelldepleted", "fluid": ("water", 1000),
+                             "results": ["nuclearpowercell"], "swap": True, "power": 40},
+        "slime_ball": {"inputs": ["minecraft:green_dye", "#c:raw_materials/rubber"], "fluid": ("milk", 500),
+                       "results": ["minecraft:slime_ball"], "swap": True, "power": 25},
+        "treatedleather": {"inputs": ["minecraft:leather*2", "#c:slime_balls"], "fluid": ("acid", 500),
+                           "results": ["treatedleather*2"], "swap": True, "power": 20},
+        "leather": {"inputs": ["minecraft:rotten_flesh"], "fluid": ("water", 500), "results": ["minecraft:leather"], "power": 15},
+        "light_gray_concrete": {"inputs": ["minecraft:gravel", "minecraft:sand"], "fluid": ("water", 250),
+                                "results": ["minecraft:light_gray_concrete*2"], "power": 5},
+        "clay": {"inputs": ["minecraft:gravel", "minecraft:dirt"], "fluid": ("water", 250), "results": ["minecraft:clay*2"], "power": 5},
+        **{ammo + "_incendiary": {"inputs": [f"{ammo}*{n}", "minecraft:blaze_powder"], "fluid": ("lava", 250),
+                                  "results": [f"{ammo}_incendiary*{n}"], "power": 25}
+           for ammo, n in (("riflerounds", 1), ("pistolrounds", 2), ("sniperrounds", 1), ("shotgunrounds", 8))},
+        "radpills": {"inputs": ["minecraft:sugar*4", "minecraft:glistering_melon_slice"], "bottle": "minecraft:glass_bottle",
+                     "fluid": ("milk", 1000), "results": ["radpills*4"], "swap": True, "power": 20},
+        "radaway": {"inputs": ["minecraft:nether_wart", "minecraft:glistering_melon_slice"], "bottle": "infusionbag",
+                    "fluid": ("acid", 250), "results": ["radaway"], "swap": True, "power": 25},
+    },
+    "blast_furnace": {
+        "ingotsteel": {"inputs": ["minecraft:iron_ingot*4", "minecraft:coal"], "results": ["ingotsteel*4"], "power": 10, "time": 800},
+        "ingotsteel_charcoal": {"inputs": ["minecraft:iron_ingot*4", "minecraft:charcoal"], "results": ["ingotsteel*4"],
+                                "power": 10, "time": 800},
+        "ingotobsidiansteel": {"inputs": ["#c:ingots/steel", "minecraft:obsidian"], "results": ["ingotobsidiansteel"],
+                               "power": 10, "time": 200},
+        "ingotbronze": {"inputs": ["#c:ingots/copper*3", "#c:ingots/tin"], "results": ["ingotbronze*4"], "power": 10, "time": 100},
+    },
+    # time: 1.12's charge amount / 800 FE/t
+    "charging_station": {"energycell": {"inputs": ["energycellempty"], "results": ["energycell"], "time": 62},
+                         "redstone_battery": {"inputs": ["redstone_battery_empty"], "results": ["redstone_battery"], "time": 25}},
+    # ponytail: 1.12's generic armor recipes (its crafting ingredients back) aren't ported
+    "grinder": {
+        **{gun: {"inputs": [gun], "results": results} for gun, results in GRINDER_GUNS.items()},
+        "platecarbon": {"inputs": ["platecarbon"], "results": ["carbonfibers"]},
+        **{ammo + v: {"inputs": [ammo + v], "results": [f"nuggetlead*{lead}", f"nuggetcopper*{copper}", "minecraft:gunpowder",
+                                                        *(["minecraft:blaze_powder"] if v else [])],
+                      "chances": chances + ([0.125] if v else [])}
+           for ammo, (lead, copper, chances) in AMMO_CRUSH.items() for v in ("", "_incendiary")},
+        "sniperrounds_explosive": {"inputs": ["sniperrounds_explosive"], "chances": [1, 1, 0.25, 0.125, 0.5], "results": [
+            "nuggetlead*2", "nuggetcopper*4", "minecraft:gunpowder", "minecraft:blaze_powder", "tgx"]},
+    },
+}
 
 
 def write_json(path, obj):
@@ -164,8 +305,10 @@ def copy_textures_and_models():
         if src.is_file():
             dst = ASSETS / "models" / src.relative_to(LEGACY / "models")
             dst.parent.mkdir(parents=True, exist_ok=True)
-            if src.suffix in (".json", ".mtl"):
+            if src.suffix == ".json":
                 dst.write_text(fix_paths(src.read_text(encoding="utf-8")), encoding="utf-8")
+            elif src.suffix == ".mtl":
+                dst.write_text(src.read_text(encoding="utf-8").replace("techguns:blocks/", "techguns:block/"), encoding="utf-8")
             else:
                 shutil.copy2(src, dst)
     shutil.copytree(LEGACY / "sounds", ASSETS / "sounds")
@@ -187,6 +330,11 @@ def copy_textures_and_models():
     for name in CUTOUT_MODELS:
         path = ASSETS / "models/block" / (name + ".json")
         write_json(path, json.loads(path.read_text()) | {"render_type": "minecraft:cutout"})
+    # creeper acid (TGFluids): the fluid block only needs a particle, the bucket shows the fluid
+    write_json(ASSETS / "blockstates/block_creeper_acid.json", {"variants": {"": {"model": "techguns:block/block_creeper_acid"}}})
+    write_json(ASSETS / "models/block/block_creeper_acid.json", {"textures": {"particle": "techguns:block/acid_still"}})
+    write_json(ASSETS / "models/item/creeper_acid_bucket.json",
+               {"parent": "neoforge:item/bucket", "loader": "neoforge:fluid_container", "fluid": "techguns:creeper_acid"})
 
 
 def rotate_y(y):
@@ -251,9 +399,19 @@ def write_blockstates():
             props = key.split(",")
             if r["legacy_variant"] in props:
                 variants[",".join(p for p in props if p != r["legacy_variant"])] = model
+        for variant in variants.values():
+            if variant["model"].endswith(".obj"):  # Forge v1 OBJ variant -> a NeoForge obj loader model
+                obj = short(variant.pop("model")).removeprefix("block/")
+                variant.pop("transform", None)
+                variant["model"] = f"techguns:block/{name}"
+                write_json(ASSETS / "models/block" / (name + ".json"), {
+                    "parent": "minecraft:block/block", "loader": "neoforge:obj", "model": f"techguns:models/block/{obj}",
+                    "flip_v": True, "textures": {"particle": f"techguns:block/{name}"}})
         write_json(ASSETS / "blockstates" / (short(r["new_id"]) + ".json"), {"variants": variants})
         model = next(iter(variants.values()))["model"]
-        if r["kind"] == "ladder":
+        if name in ITEM_MODELS:
+            item_model = {"parent": ITEM_MODELS[name]}
+        elif r["kind"] == "ladder":
             texture = json.loads((ASSETS / "models" / (short(model) + ".json")).read_text())["textures"]["texture"]
             item_model = {"parent": "minecraft:item/generated", "textures": {"layer0": texture}}
         else:
@@ -404,6 +562,43 @@ def convert_recipes():
     return count, skipped
 
 
+def machine_ingredient(spec, used):
+    spec, _, count = spec.partition("*")
+    options = []
+    for option in spec.split("|"):
+        if option.startswith("#"):
+            options.append({"tag": option[1:]})
+        else:
+            if ":" not in option:
+                used.add(ns(option))
+            options.append({"item": ns(option)})
+    ing = options[0] if len(options) == 1 else {"type": "neoforge:compound", "children": options}
+    return ing | ({"count": int(count)} if count else {})
+
+
+def write_machine_recipes():
+    count = 0
+    for machine, recipes in MACHINE_RECIPES.items():
+        for name, r in recipes.items():
+            used = set()
+            out = {"type": "techguns:" + machine, "inputs": [machine_ingredient(i, used) for i in r["inputs"]]}
+            if "bottle" in r:
+                out["bottle"] = machine_ingredient(r["bottle"], used)
+            if "fluid" in r:
+                out["fluid"] = FLUIDS[r["fluid"][0]] | {"amount": r["fluid"][1]}
+            if "results" in r:
+                out["results"] = [convert_result({"item": ns(i), "count": int(n or 1)}, used)
+                                  for i, _, n in (res.partition("*") for res in r["results"])]
+            if "fluid_result" in r:
+                out["fluid_result"] = {"id": r["fluid_result"][0], "amount": r["fluid_result"][1]}
+            out |= {k: r[k] for k in ("chances", "power", "time", "swap") if k in r}
+            if used:
+                out["neoforge:conditions"] = conditions(used)
+            write_json(DATA / "techguns/recipe" / machine / (name + ".json"), out)
+            count += 1
+    return count
+
+
 def write_tags_and_loot():
     item_tags, block_tags = defaultdict(list), defaultdict(list)
     for ore, item in ITEM_ORE_DICT.items():
@@ -443,6 +638,7 @@ def main():
     write_blockstates()
     convert_lang()
     count, skipped = convert_recipes()
+    count += write_machine_recipes()
     write_tags_and_loot()
     print(f"{len(ITEMS)} items, {len(BLOCKS)} blocks, {count} recipes written")
     for reason, files in sorted(skipped.items(), key=lambda kv: -len(kv[1])):

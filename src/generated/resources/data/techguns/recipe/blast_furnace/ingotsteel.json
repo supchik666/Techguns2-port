@@ -1,0 +1,26 @@
+{
+  "type": "techguns:blast_furnace",
+  "inputs": [
+    {
+      "item": "minecraft:iron_ingot",
+      "count": 4
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotsteel",
+      "count": 4
+    }
+  ],
+  "power": 10,
+  "time": 800,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotsteel"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "minecraft:leather",
+      "count": 2
+    },
+    {
+      "tag": "c:slime_balls"
+    }
+  ],
+  "fluid": {
+    "fluid": "techguns:creeper_acid",
+    "amount": 500
+  },
+  "results": [
+    {
+      "id": "techguns:treatedleather",
+      "count": 2
+    }
+  ],
+  "power": 20,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:treatedleather"
+    }
+  ]
+}

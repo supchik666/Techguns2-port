@@ -1,0 +1,49 @@
+{
+  "type": "techguns:ammo_press",
+  "inputs": [
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "tag": "c:ingots/steel"
+        },
+        {
+          "tag": "c:ingots/lead"
+        }
+      ]
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "tag": "c:ingots/copper"
+        },
+        {
+          "tag": "c:ingots/tin"
+        },
+        {
+          "tag": "c:ingots/iron"
+        },
+        {
+          "tag": "c:ingots/bronze"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "tag": "c:gunpowders"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:riflerounds",
+      "count": 8
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds"
+    }
+  ]
+}

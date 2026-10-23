@@ -20,12 +20,12 @@
     }
   },
   "result": {
-    "id": "techguns:basicmachine"
+    "id": "techguns:chem_lab"
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:item_exists",
-      "item": "techguns:basicmachine"
+      "item": "techguns:chem_lab"
     },
     {
       "type": "neoforge:item_exists",

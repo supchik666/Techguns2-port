@@ -157,6 +157,8 @@ dependencies {
 
     // Dev-only mods (not published as dependencies)
     localRuntime "maven.modrinth:jei:rsnYBmN3" // 19.69.0.457 neoforge; JEI shares version numbers across loaders, so pin the version id
+    localRuntime "maven.modrinth:kubejs:F2nzeC19" // 2101.7.2-build.368, for testing machine recipe scripts
+    localRuntime "maven.modrinth:rhino:SqkDvOLG" // 2101.2.8-build.91, KubeJS's script engine
     clientMods "maven.modrinth:ambientsounds:6.3.11"
     clientMods "maven.modrinth:creativecore:2.13.51"
     clientMods "maven.modrinth:extrasoundsforge:1.5.6+1.21.1-neoforge"

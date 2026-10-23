@@ -1,0 +1,24 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:ingots/steel"
+    },
+    {
+      "tag": "c:ingots/steel"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:platesteel",
+      "count": 2
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:platesteel"
+    }
+  ]
+}

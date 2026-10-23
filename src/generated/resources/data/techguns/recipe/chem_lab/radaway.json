@@ -1,0 +1,35 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "minecraft:nether_wart"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    }
+  ],
+  "bottle": {
+    "item": "techguns:infusionbag"
+  },
+  "fluid": {
+    "fluid": "techguns:creeper_acid",
+    "amount": 250
+  },
+  "results": [
+    {
+      "id": "techguns:radaway"
+    }
+  ],
+  "power": 25,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:infusionbag"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:radaway"
+    }
+  ]
+}

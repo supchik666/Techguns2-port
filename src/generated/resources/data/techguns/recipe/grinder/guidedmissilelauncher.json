@@ -1,0 +1,31 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:guidedmissilelauncher"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:ingotobsidiansteel",
+      "count": 8
+    },
+    {
+      "id": "techguns:copperwire"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:copperwire"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:guidedmissilelauncher"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:ingotobsidiansteel"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:goldenrevolver"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecraft:iron_ingot",
+      "count": 3
+    },
+    {
+      "id": "minecraft:oak_log"
+    },
+    {
+      "id": "minecraft:gold_ingot",
+      "count": 4
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:goldenrevolver"
+    }
+  ]
+}

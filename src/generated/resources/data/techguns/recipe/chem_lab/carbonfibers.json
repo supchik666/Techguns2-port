@@ -1,0 +1,29 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "tag": "c:gems/diamond"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:lava",
+    "amount": 1000
+  },
+  "results": [
+    {
+      "id": "techguns:carbonfibers",
+      "count": 2
+    }
+  ],
+  "power": 25,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonfibers"
+    }
+  ]
+}

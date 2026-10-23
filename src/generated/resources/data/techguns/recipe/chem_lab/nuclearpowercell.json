@@ -1,0 +1,36 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "techguns:enricheduranium"
+    }
+  ],
+  "bottle": {
+    "item": "techguns:nuclearpowercelldepleted"
+  },
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "results": [
+    {
+      "id": "techguns:nuclearpowercell"
+    }
+  ],
+  "power": 40,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:enricheduranium"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuclearpowercell"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:nuclearpowercelldepleted"
+    }
+  ]
+}

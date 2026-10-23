@@ -1,0 +1,24 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:plates/copper"
+    },
+    {
+      "tag": "c:plates/copper"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:copperwire",
+      "count": 8
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:copperwire"
+    }
+  ]
+}

@@ -45,6 +45,12 @@
     "techguns:lamp_yellow",
     "techguns:lamp_white",
     "techguns:lantern_yellow",
-    "techguns:lantern_white"
+    "techguns:lantern_white",
+    "techguns:ammo_press",
+    "techguns:metal_press",
+    "techguns:chem_lab",
+    "techguns:charging_station",
+    "techguns:blast_furnace",
+    "techguns:grinder"
   ]
 }

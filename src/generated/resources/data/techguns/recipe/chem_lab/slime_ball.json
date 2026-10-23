@@ -1,0 +1,22 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "item": "minecraft:green_dye"
+    },
+    {
+      "tag": "c:raw_materials/rubber"
+    }
+  ],
+  "fluid": {
+    "tag": "c:milk",
+    "amount": 500
+  },
+  "results": [
+    {
+      "id": "minecraft:slime_ball"
+    }
+  ],
+  "power": 25,
+  "swap": true
+}

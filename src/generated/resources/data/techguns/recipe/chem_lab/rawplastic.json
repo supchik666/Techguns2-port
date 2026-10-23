@@ -1,0 +1,28 @@
+{
+  "type": "techguns:chem_lab",
+  "inputs": [
+    {
+      "tag": "c:raw_materials/rubber"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "results": [
+    {
+      "id": "techguns:rawplastic"
+    }
+  ],
+  "power": 25,
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:rawplastic"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "tag": "c:ingots/titanium"
+    },
+    {
+      "tag": "c:ingots/titanium"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:platetitanium",
+      "count": 2
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:platetitanium"
+    }
+  ]
+}

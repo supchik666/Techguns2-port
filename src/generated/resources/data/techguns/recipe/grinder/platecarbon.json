@@ -1,0 +1,23 @@
+{
+  "type": "techguns:grinder",
+  "inputs": [
+    {
+      "item": "techguns:platecarbon"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:carbonfibers"
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:carbonfibers"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:platecarbon"
+    }
+  ]
+}
