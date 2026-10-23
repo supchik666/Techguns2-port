@@ -61,6 +61,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 			case FabricatorBlockEntity be -> new MultiBlockScreens.Fabricator(menu, inventory, title);
 			case ReactionChamberBlockEntity be -> new MultiBlockScreens.ReactionChamber(menu, inventory, title, be);
 			case OreDrillBlockEntity be -> new MultiBlockScreens.OreDrill(menu, inventory, title, be);
+			case techguns.machines.TurretBlockEntity be -> new TurretClient.Screen(menu, inventory, title, be);
 			default -> throw new IllegalStateException("No screen for " + menu.be);
 		};
 	}

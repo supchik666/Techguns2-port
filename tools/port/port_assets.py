@@ -115,7 +115,7 @@ EXTRA_LANG = {
 # Block items whose 1.12 item model wasn't the block's
 ITEM_MODELS = {"ammo_press": "techguns:item/basicmachine", "metal_press": "techguns:item/basicmachine",
                "chem_lab": "techguns:item/basicmachine", "grinder": "techguns:item/simplemachine2_grinder_inv",
-               "door3x3": "techguns:item/item_door3x3"}
+               "door3x3": "techguns:item/item_door3x3", "turret": "techguns:item/basicmachine"}
 # Models whose 1.12 block had getBlockLayer() == CUTOUT
 CUTOUT_MODELS = ["ladder_base", "slimyladder"]
 # 1.12 vanilla (id, meta) -> 1.21 ingredient, for the few with metadata used in recipes
