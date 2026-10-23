@@ -22,6 +22,7 @@ Branch: `port/1.21.1`. The 1.12.2 code lives in `legacy/` (not compiled) as a re
   - [x] M5.2 Multiblocks: fabricator, reaction chamber (also a radiation source, M4), ore drill; keep the 1.12 master/slave design
   - [x] M5.3 Benches and the rest: repair bench (repairs broken armor, M4), camo bench (shield and gun camos), upgrade bench, explosive charges, 3x3 door. Brings back the turret/camo bench/repair bench/armor bench crafting recipes once their blocks have CSV rows. The turret waits for M6 (NPC AI).
 - [ ] M6. NPCs
+  - [x] M6.1 NPC framework and the 17 GenericNPC mobs (soldiers, zombies, bandits, cyberdemon, super mutants), natural spawning
 - [ ] M7. World generation
 - [ ] M8. Config and integrations
 
@@ -95,7 +96,7 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 - Ammo variants (`techguns:ammo_variant` component) with incendiary and explosive bullets; `techguns:ammo_change` recipe (gun + other ammo). Shotgun pellets and bursts, loose-round reloads, rechamber sounds, gravity, camo textures (`techguns:camo`, no way to change it yet).
 - Right-click zoom with FOV, sniper/tech scope overlays, the 1.12 crosshair styles.
 - GameTests for the shotgun and the ammo change recipe.
-- **Deferred:** AI stats and turret offsets (M6), the M4 Infiltrator silencer, penetration (stored, used in M4), minigun spin-up, camo change recipe, `miningtool_upgrade`/`copy_nbt`/`ammo_sum_recipe` recipes.
+- **Deferred:** turret offsets (M6), the M4 Infiltrator silencer, penetration (stored, used in M4), minigun spin-up, camo change recipe, `miningtool_upgrade`/`copy_nbt`/`ammo_sum_recipe` recipes.
 
 **M3.2 done:**
 - TGFX (`client/particle/`) reads `assets/techguns/particles/*.txt` on resource reload and draws after vanilla particles. `TGEffects` is the common entry point: `createFX`/`createFXOnEntity` on the client, `sendFX` from the server (`techguns:spawn_fx`). Bullet impacts use the 1.12 per-material impact effects.
@@ -212,6 +213,10 @@ If this can't reproduce the gun animations, find out here, not after 35 guns.
 ### M6. NPCs
 - 27 mob types. `EntityAIBase` → `Goal`.
 - Attributes via `EntityAttributeCreationEvent`; spawning via biome modifiers + `RegisterSpawnPlacementsEvent`; spawn eggs via `DeferredSpawnEggItem`.
+- **M6.1 done** (`entities/npcs/`): `GenericNPC` (the 1.12 class: flat TG armor per damage type through `INpcTGDamageSystem`, gear picked in `addRandomArmor(difficulty)`, gun or melee attack goal chosen from the main hand, difficulty scaling of NPC damage and spread, burning in daylight), `RangedGunAttackGoal` (1.12 `EntityAIRangedAttack`: range, attack time and bursts from the gun's `setAIStats` in `TGuns`), `TGNpcFaction` + `FactionHurtByTargetGoal` (NPCs don't retaliate on their own faction), the mobs (ids are lowercased 1.12 names; `SuperMutant` covers basic/heavy/elite by tier), `TGNpcs` (types, attributes, eggs, spawn placements), `TGSpawnManager`. Guns fire for NPCs through `GenericGun.fireWeaponFromNPC(shooter, stack, damageScale, accuracyScale[, side])`: no ammo, sound on the hostile channel, third-person recoil sent to trackers. Renderer `client/render/NpcRenderer` (vanilla humanoid/skeleton/zombified piglin models, gun held like a bow, vanilla armor layer; the cyberdemon and super mutant models are ported 1.12 classes drawn in the vanilla pose). Loot tables, egg names/models and lang renames come from `NPCS` in `port_assets.py`. GameTests in `NpcTests`.
+- Natural spawns: the biome modifiers `data/techguns/neoforge/biome_modifier/npcs_*.json` add a placeholder (`techguns:tgdummyspawn`) to the overworld (weight 600) and nether (300); on joining the world it becomes a mob picked by weight from `TGSpawnManager.OVERWORLD`/`NETHER` among the entries whose danger is at most the spot's (distance from world spawn, harsh biomes). Overworld: zombie soldier, farmer, miner, skeleton soldier, psycho steve (rare), bandits (danger 2); nether: zombie pigman soldier, cyberdemon. The others (army soldier, commando, stormtrooper, outcast, dictator dave, super mutants) come only from eggs until structures spawn them (M7).
+- Adding a mob: a `GenericNPC` subclass (stats in its `TGNpcs` line, gear in `addRandomArmor`), its line in `TGNpcs`, its name in `NPCS` in `port_assets.py` (loot, egg, lang), a line in `NpcRenderer.register`. Adding a natural spawn: an entry in the `TGSpawnManager` tables, or another biome modifier JSON.
+- **Deferred:** 1.12 spawner capability for structure spawners (M7); config for spawn weights, distances, the biome/dimension blacklist and NPC damage factor (M8); the NPC turret (`fireWeaponFromNPC` with side `CENTER`, `getAIAttack`, `TGNpcFaction.TURRET`); per-mob weapon offsets and the cyberdemon's gun scale; NPC gore and death effects; mutants' radiation immunity.
 
 ### M7. World generation
 - Ores → configured/placed feature JSON + `neoforge:add_features` biome modifier.

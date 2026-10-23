@@ -55,6 +55,7 @@ public class Techguns {
 		TGFluids.FLUIDS.register(modEventBus);
 		modEventBus.addListener(TGBlockEntities::registerCapabilities);
 		techguns.machines.multiblock.MultiBlocks.register(modEventBus);
+		techguns.entities.npcs.TGNpcs.init();
 		NeoForgeMod.enableMilkFluid();
 		modContainer.registerConfig(ModConfig.Type.CLIENT, TGConfig.CLIENT_SPEC);
 	}

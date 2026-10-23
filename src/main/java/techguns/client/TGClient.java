@@ -106,6 +106,7 @@ public class TGClient {
 	@SubscribeEvent
 	static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(TGEntities.GENERIC_PROJECTILE.get(), GenericProjectileRenderer::new);
+		techguns.client.render.NpcRenderer.register(event);
 	}
 
 	@SubscribeEvent

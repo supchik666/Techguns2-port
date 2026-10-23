@@ -676,6 +676,59 @@ def write_tags_and_loot():
             write_json(DATA / tag_ns / "tags" / kind / (path + ".json"), {"values": values})
 
 
+# NPCs (entities.npcs.TGNpcs) with a spawn egg and a 1.12 loot table
+NPCS = ["armysoldier", "bandit", "commando", "cyberdemon", "dictatordave", "outcast", "psychosteve", "skeletonsoldier", "stormtrooper",
+        "supermutantbasic", "supermutantelite", "supermutantheavy", "zombiefarmer", "zombieminer", "zombiepigmansoldier",
+        "zombiepoliceman", "zombiesoldier"]
+
+
+def loot_count(count):
+    return {"type": "minecraft:uniform", "min": count["min"], "max": count["max"]}
+
+
+def convert_npc_loot(table, name):
+    """1.12 entity loot table: set_data picks the flattened item, looting_enchant and random_chance_with_looting become their 1.21 forms."""
+    pools = []
+    for pool in table["pools"]:
+        entries = []
+        for e in pool["entries"]:
+            item, functions = e["name"], []
+            for f in e.get("functions", []):
+                if f["function"] == "set_data":
+                    item = BY_LEGACY[(item, f["data"])]["new_id"]
+                elif f["function"] == "set_count":
+                    functions.append({"function": "minecraft:set_count", "count": loot_count(f["count"])})
+                else:  # looting_enchant
+                    functions.append({"function": "minecraft:enchanted_count_increase", "enchantment": "minecraft:looting",
+                                      "count": loot_count(f["count"])})
+            conditions = [{"condition": "minecraft:random_chance_with_enchanted_bonus", "enchantment": "minecraft:looting",
+                           "unenchanted_chance": c["chance"], "enchanted_chance": {
+                               "type": "minecraft:linear", "base": c["chance"] + c["looting_multiplier"],
+                               "per_level_above_first": c["looting_multiplier"]}} for c in e.get("conditions", [])]
+            entries.append({"type": "minecraft:item", "name": item, "weight": e.get("weight", 1), "functions": functions,
+                            "conditions": conditions})
+        pools.append({"rolls": pool["rolls"], "bonus_rolls": 0, "entries": entries})
+    return {"type": "minecraft:entity", "random_sequence": "techguns:entities/" + name, "pools": pools}
+
+
+def write_npcs():
+    """Entity names under their 1.21 keys, spawn egg models and names, NPC loot tables."""
+    for path in (ASSETS / "lang").glob("*.json"):
+        lang = {}
+        for key, value in json.loads(path.read_text(encoding="utf-8")).items():
+            m = re.fullmatch(r"entity\.techguns\.(\w+)\.name", key)
+            lang["entity.techguns." + m[1].lower() if m else key] = value
+        if path.stem == "en_us":
+            for npc in NPCS:
+                lang[f"item.techguns.{npc}_spawn_egg"] = lang["entity.techguns." + npc] + " Spawn Egg"
+        write_json(path, lang)
+    for npc in NPCS:
+        write_json(ASSETS / "models/item" / f"{npc}_spawn_egg.json", {"parent": "minecraft:item/template_spawn_egg"})
+        src = LEGACY / "loot_tables/entities" / f"{npc}.json"
+        if src.exists():  # heavy and elite mutants use the basic one
+            write_json(DATA / "techguns/loot_table/entities" / src.name, convert_npc_loot(json.loads(src.read_text()), npc))
+
+
 def main():
     shutil.rmtree(OUT, ignore_errors=True)
     copy_textures_and_models()
@@ -685,6 +738,7 @@ def main():
     count += write_machine_recipes()
     count += write_reaction_chamber_recipes()
     write_tags_and_loot()
+    write_npcs()
     print(f"{len(ITEMS)} items, {len(BLOCKS)} blocks, {count} recipes written")
     for reason, files in sorted(skipped.items(), key=lambda kv: -len(kv[1])):
         print(f"  skipped {len(files):3} recipes: {reason}")

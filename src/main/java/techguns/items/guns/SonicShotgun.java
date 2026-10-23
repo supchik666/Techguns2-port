@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import techguns.entities.projectiles.GenericProjectile;
@@ -21,8 +21,9 @@ public class SonicShotgun extends GenericGun {
 
 	/** All 16 blasts share one hit set, so an entity is hit once per shot; the center one draws the shockwave. */
 	@Override
-	protected void spawnProjectile(Level level, Player player, GenericProjectile.Kind kind, float spread, float offset, float side, Entity target) {
-		SonicShotgunProjectile main = (SonicShotgunProjectile) createProjectile(level, player, kind, 0f, offset, side);
+	protected void spawnProjectile(Level level, LivingEntity player, GenericProjectile.Kind kind, float spread, float offset, float side,
+			float damageScale, Entity target) {
+		SonicShotgunProjectile main = (SonicShotgunProjectile) createProjectile(level, player, kind, 0f, offset, side, damageScale);
 		main.mainProjectile = true;
 		level.addFreshEntity(main);
 		int count = 5;
@@ -30,7 +31,7 @@ public class SonicShotgun extends GenericGun {
 		for (int j = 1; j <= 2; j++) {
 			float angle = (float) (Math.PI * 2.0 / (count * j));
 			for (int i = 0; i < count * j; i++) {
-				SonicShotgunProjectile ring = (SonicShotgunProjectile) createProjectile(level, player, kind, 0f, 0f, side);
+				SonicShotgunProjectile ring = (SonicShotgunProjectile) createProjectile(level, player, kind, 0f, 0f, side, damageScale);
 				ring.entitiesHit = main.entitiesHit;
 				Vec3 dir = new Vec3(1, 0, 0).yRot(ringSpread * j).xRot(angle * i).zRot(player.getXRot() * Mth.DEG_TO_RAD)
 						.yRot((-player.getYHeadRot() - 90.0f) * Mth.DEG_TO_RAD);

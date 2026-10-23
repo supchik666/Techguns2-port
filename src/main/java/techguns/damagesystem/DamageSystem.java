@@ -21,7 +21,8 @@ import techguns.items.armors.TGArmorBonus;
 /**
  * 1.12 DamageSystem: TG armor resists each damage type separately, and penetration pierces armor past its toughness.
  * Applies to TG damage on anything and to all damage on entities wearing TG armor; vanilla armor counts with its
- * vanilla points. ponytail: no PvP/NPC damage factors until the M8 config, no per-type NPC resistances until NPCs.
+ * vanilla points. NPCs ({@link INpcTGDamageSystem}) use their own per-type armor against everything.
+ * ponytail: no PvP/NPC damage factors until the M8 config.
  */
 @EventBusSubscriber(modid = Techguns.MODID)
 public class DamageSystem {
@@ -40,6 +41,16 @@ public class DamageSystem {
 		return armor;
 	}
 
+	/** 1.12 getArmorAgainstDamageTypeDefault: an NPC's flat armor scaled by how well armor works against {@code type}. */
+	public static float armorAgainstTypeDefault(LivingEntity entity, float armor, TGDamageType type) {
+		return switch (type) {
+			case PHYSICAL, PROJECTILE -> armor;
+			case EXPLOSION, ENERGY, ICE, LIGHTNING, DARK -> armor * 0.5f;
+			case FIRE -> entity.fireImmune() ? armor * 2 : armor * 0.5f;
+			case POISON, RADIATION, UNRESISTABLE -> 0;
+		};
+	}
+
 	@SubscribeEvent
 	static void incoming(LivingIncomingDamageEvent event) {
 		LivingEntity entity = event.getEntity();
@@ -53,8 +64,11 @@ public class DamageSystem {
 			event.setCanceled(true);
 			return;
 		}
-		if (source.is(DamageTypeTags.BYPASSES_ARMOR) || !(source instanceof TGDamageSource || wearsTGArmor(entity))) return;
-		float armor = armorValue(entity, TGDamageType.of(source));
+		if (source.is(DamageTypeTags.BYPASSES_ARMOR)) return;
+		float armor;
+		if (entity instanceof INpcTGDamageSystem npc) armor = npc.getTotalArmorAgainstType(TGDamageType.of(source));
+		else if (source instanceof TGDamageSource || wearsTGArmor(entity)) armor = armorValue(entity, TGDamageType.of(source));
+		else return;
 		float toughness = (float) entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
 		float penetration = source instanceof TGDamageSource tg ? tg.penetration * 4 : 0;
 		event.getContainer().addModifier(DamageContainer.Reduction.ARMOR,
