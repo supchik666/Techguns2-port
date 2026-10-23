@@ -31,6 +31,10 @@ repositories {
         url = "https://api.modrinth.com/maven"
         content { includeGroup "maven.modrinth" }
     }
+    maven {
+        url = "https://cursemaven.com"
+        content { includeGroup "curse.maven" }
+    }
 }
 
 base {
@@ -123,8 +127,18 @@ configurations {
 configurations {
     clientMods
 }
+// Mods that only load from a mods folder: Sodium 0.8 is a wrapper jar with the mod inside its jarjar, which FML skips
+// when the wrapper is on the classpath.
+configurations {
+    clientModsFolder { transitive = false }
+}
+def copyClientMods = tasks.register('copyClientMods', Sync) {
+    from configurations.clientModsFolder
+    into 'run/mods'
+}
 tasks.named('runClient') {
     classpathProvider.from(configurations.clientMods)
+    dependsOn copyClientMods
 }
 
 dependencies {
@@ -142,6 +156,11 @@ dependencies {
     clientMods "maven.modrinth:extrasoundsforge:1.5.6+1.21.1-neoforge"
     clientMods "maven.modrinth:pf-neoforge:1.21.1-1.12.0-beta.1"
     clientMods "maven.modrinth:sound-physics-remastered:neoforge-1.21.1-1.5.2"
+    clientModsFolder "maven.modrinth:sodium:uMOpc5uV" // mc1.21.1-0.8.13-neoforge
+    clientMods "maven.modrinth:iris:KduFYu4t" // 1.8.14-beta.1, the one that runs on Sodium 0.8
+    clientMods "curse.maven:opencomputers-rebooted-1634364:8858759" // 1.9.4-5
+    clientMods "maven.modrinth:markdownmanual:1UL3EMjx" // MC1.21.1-neoforge-1.2.8
+    clientMods "maven.modrinth:architectury-api:1IiqEQGl" // 13.0.11, for Markdown Manual
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar

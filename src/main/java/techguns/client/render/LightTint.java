@@ -15,7 +15,6 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -47,7 +46,6 @@ public final class LightTint {
 			if (tint != null) tint.close();
 			if (add != null) add.close();
 			tint = add = null;
-			if (ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus")) return;
 			try {
 				tint = new EffectInstance(manager, Techguns.id("light_tint").toString());
 				add = new EffectInstance(manager, Techguns.id("bloom_add").toString());
@@ -60,7 +58,7 @@ public final class LightTint {
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	static void afterLevel(RenderLevelStageEvent event) {
-		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL || broken || tint == null) return;
+		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL || broken || tint == null || Bloom.shaderPack()) return;
 		int count = LightPulses.tints(lights, event.getCamera().getPosition(), event.getPartialTick().getGameTimeDeltaPartialTick(false));
 		if (count == 0) return;
 		RenderTarget main = Minecraft.getInstance().getMainRenderTarget();

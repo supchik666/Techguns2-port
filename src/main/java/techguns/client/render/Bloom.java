@@ -38,7 +38,7 @@ import techguns.Techguns;
  * Render types from {@link #wrap} draw a second time into a mask that shares the main depth buffer, so walls hide the
  * glow; it works in the hand pass too. The mask is blurred at 1/2 to 1/16 size and added onto the screen twice a frame:
  * after the world, so the held gun covers world glows (its own trail, a charge flare), and after the hand for muzzle flashes.
- * Off with shader mods (Iris/Oculus); a shader or framebuffer failure turns it off instead of crashing.
+ * Off while an Iris/Oculus shader pack is on; a shader or framebuffer failure turns it off instead of crashing.
  */
 @EventBusSubscriber(modid = Techguns.MODID, value = Dist.CLIENT)
 public final class Bloom {
@@ -82,8 +82,29 @@ public final class Bloom {
 		}
 	}
 
+	private static java.lang.reflect.Method shaderPackInUse;
+	private static Object irisApi;
+
+	/** Iris/Oculus with a shader pack on: their pipeline replaces ours, so the screen passes step aside. Reflection keeps them off the build. */
+	public static boolean shaderPack() {
+		if (irisApi == null) {
+			if (!ModList.get().isLoaded("iris") && !ModList.get().isLoaded("oculus")) return false;
+			try {
+				irisApi = Class.forName("net.irisshaders.iris.api.v0.IrisApi").getMethod("getInstance").invoke(null);
+				shaderPackInUse = irisApi.getClass().getMethod("isShaderPackInUse");
+			} catch (ReflectiveOperationException | LinkageError e) {
+				return true;
+			}
+		}
+		try {
+			return (boolean) shaderPackInUse.invoke(irisApi);
+		} catch (ReflectiveOperationException e) {
+			return true;
+		}
+	}
+
 	private static boolean ready() {
-		return !broken && blur != null && add != null && mask != null && TGConfig.BLOOM.getAsBoolean();
+		return !broken && blur != null && add != null && mask != null && TGConfig.BLOOM.getAsBoolean() && !shaderPack();
 	}
 
 	/** Draws the immediate vertex buffer of {@code format} (just uploaded and drawn) again into the mask. */
@@ -110,7 +131,6 @@ public final class Bloom {
 			if (blur != null) blur.close();
 			if (add != null) add.close();
 			blur = add = null;
-			if (ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus")) return;
 			try {
 				blur = new EffectInstance(manager, "box_blur");
 				add = new EffectInstance(manager, Techguns.id("bloom_add").toString());

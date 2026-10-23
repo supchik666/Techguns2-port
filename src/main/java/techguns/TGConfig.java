@@ -7,11 +7,11 @@ public final class TGConfig {
 	private static final ModConfigSpec.Builder CLIENT = new ModConfigSpec.Builder();
 
 	public static final ModConfigSpec.BooleanValue BLOOM = CLIENT
-			.comment("Glow around muzzle flashes, energy shots, explosions and lit parts of guns and armor. Always off with Iris/Oculus.")
+			.comment("Glow around muzzle flashes, energy shots, explosions and lit parts of guns and armor. Off while an Iris/Oculus shader pack is on.")
 			.define("bloom", true);
 
 	public static final ModConfigSpec.BooleanValue SCOPE_LENS = CLIENT
-			.comment("Lens look through scopes: the view bends and splits into colors toward the rim, which is shaded. Always off with Iris/Oculus.")
+			.comment("Lens look through scopes: the view bends and splits into colors toward the rim, which is shaded. Off while an Iris/Oculus shader pack is on.")
 			.define("scopeLens", true);
 
 	public static final ModConfigSpec.BooleanValue SCREEN_SHAKE = CLIENT

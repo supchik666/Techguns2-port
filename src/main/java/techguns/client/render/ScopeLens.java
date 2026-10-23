@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -50,7 +49,6 @@ public final class ScopeLens {
 			if (lens != null) lens.close();
 			if (copy != null) copy.close();
 			lens = copy = null;
-			if (ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus")) return;
 			try {
 				lens = new EffectInstance(manager, Techguns.id("scope_lens").toString());
 				copy = new EffectInstance(manager, Techguns.id("bloom_add").toString());
@@ -63,7 +61,7 @@ public final class ScopeLens {
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	static void afterLevel(RenderLevelStageEvent event) {
-		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL || broken || lens == null || !TGConfig.SCOPE_LENS.getAsBoolean()) return;
+		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL || broken || lens == null || Bloom.shaderPack() || !TGConfig.SCOPE_LENS.getAsBoolean()) return;
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player == null || !mc.options.getCameraType().isFirstPerson()) return;
 		ItemStack stack = mc.player.getMainHandItem();
