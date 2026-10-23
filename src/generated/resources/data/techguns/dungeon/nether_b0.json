@@ -1,0 +1,749 @@
+{
+ "size_xz": 5,
+ "size_y": 5,
+ "segments": {
+  "CROSS": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "accca"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ]
+   ]
+  },
+  "CURVE": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "bcccc",
+     "acccc",
+     "bcccc",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ]
+   ]
+  },
+  "END": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "bcccc",
+     "acccc",
+     "bcccc",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ]
+   ]
+  },
+  "ENTRANCE": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "bcccc",
+     "acccc",
+     "bcccc",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "ababa"
+    ]
+   ]
+  },
+  "FORK": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "accca"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ]
+   ]
+  },
+  "FOUNDATION": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ]
+   ]
+  },
+  "PILLARS": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbba",
+     "bbbba",
+     "bbbba",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "bbbbb",
+     "abbba",
+     "bbbbb",
+     "ababa"
+    ]
+   ]
+  },
+  "RAMP": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava",
+    "d": "minecraft:nether_bricks",
+    "e": "minecraft:nether_brick_stairs[facing=east,half=bottom]",
+    "f": "techguns:nethermetal_plate_red",
+    "g": "techguns:nethermetal_grate1",
+    "h": "techguns:nethermetal_grate2",
+    "i": "techguns:nethermetal_border_lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "ccccb",
+     "ddcda",
+     "ccccb",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "....b",
+     ".edda",
+     "....b",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "....b",
+     "..eda",
+     "....b",
+     "ababa"
+    ],
+    [
+     "ababa",
+     "....b",
+     "...ea",
+     "....b",
+     "ababa"
+    ],
+    [
+     "daaad",
+     "a...a",
+     "a...e",
+     "a...a",
+     "daaad"
+    ],
+    [
+     "afffa",
+     "f....",
+     "f....",
+     "f....",
+     "afffa"
+    ],
+    [
+     "afffa",
+     "f....",
+     "f....",
+     "f....",
+     "afffa"
+    ],
+    [
+     "aggga",
+     "g....",
+     "g....",
+     "g....",
+     "aggga"
+    ],
+    [
+     "aaaaa",
+     "ahiha",
+     "aiiia",
+     "ahiha",
+     "aaaaa"
+    ]
+   ]
+  },
+  "ROOM_CORNER": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "bcccc",
+     "acccc",
+     "bcccc",
+     "accca"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     "b....",
+     "a....",
+     "b....",
+     "a...a"
+    ]
+   ]
+  },
+  "ROOM_DOOR": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "accca"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER1": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "bcccc",
+     "acccc",
+     "bcccc",
+     "accca"
+    ],
+    [
+     "a...a",
+     "b....",
+     "a....",
+     "b....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     "b....",
+     "a....",
+     "b....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     "b....",
+     "a....",
+     "b....",
+     "a...a"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER2": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "accca"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER_DOUBLE": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "accca"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ]
+   ]
+  },
+  "ROOM_INNER": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "accca"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ]
+   ]
+  },
+  "ROOM_WALL": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "accca"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ]
+   ]
+  },
+  "STRAIGHT": {
+   "palette": {
+    "a": "techguns:nethermetal_plate_black",
+    "b": "minecraft:netherrack",
+    "c": "minecraft:lava"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "ababa",
+     "ccccc",
+     "ccccc",
+     "ccccc",
+     "ababa"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "ababa"
+    ],
+    [
+     "ababa",
+     ".....",
+     ".....",
+     ".....",
+     "ababa"
+    ]
+   ]
+  }
+ }
+}

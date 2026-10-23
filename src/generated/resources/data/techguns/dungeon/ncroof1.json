@@ -1,0 +1,779 @@
+{
+ "size_xz": 5,
+ "size_y": 5,
+ "segments": {
+  "CROSS": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:brick_stairs[facing=north,half=bottom]",
+    "d": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "e": "minecraft:brick_stairs[facing=west,half=bottom]",
+    "f": "minecraft:brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "abbba",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "cbbbc"
+    ],
+    [
+     ".dbe.",
+     "aabaa",
+     "bbbbb",
+     "ccbcc",
+     ".dbe."
+    ],
+    [
+     "..f..",
+     "..f..",
+     "fffff",
+     "..f..",
+     "..f.."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "CURVE": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "c": "minecraft:spruce_planks",
+    "d": "minecraft:brick_stairs[facing=west,half=bottom]",
+    "e": "minecraft:brick_stairs[facing=north,half=bottom]",
+    "f": "minecraft:brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bcccc",
+     "bcccc",
+     "bcccc",
+     "bcccd"
+    ],
+    [
+     ".....",
+     ".aaaa",
+     ".bccc",
+     ".bcee",
+     ".bcd."
+    ],
+    [
+     ".....",
+     ".....",
+     "..fff",
+     "..f..",
+     "..f.."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "END": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "c": "minecraft:spruce_planks",
+    "d": "minecraft:brick_stairs[facing=north,half=bottom]",
+    "e": "minecraft:brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bcccc",
+     "bcccc",
+     "bcccc",
+     "ddddd"
+    ],
+    [
+     ".....",
+     ".aaaa",
+     ".bccc",
+     ".dddd",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     "..eee",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ENTRANCE": {
+   "palette": {},
+   "layers": [
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "FORK": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:brick_stairs[facing=north,half=bottom]",
+    "d": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "e": "minecraft:brick_stairs[facing=west,half=bottom]",
+    "f": "minecraft:brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "cbbbc"
+    ],
+    [
+     ".....",
+     "aaaaa",
+     "bbbbb",
+     "cdbec",
+     ".dbe."
+    ],
+    [
+     ".....",
+     ".....",
+     "fffff",
+     "..f..",
+     "..f.."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "FOUNDATION": {
+   "palette": {},
+   "layers": [
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "PILLARS": {
+   "palette": {},
+   "layers": [
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "RAMP": {
+   "palette": {},
+   "layers": [
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ROOM_CORNER": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "c": "minecraft:stone_bricks",
+    "d": "minecraft:smooth_stone_slab[type=bottom]",
+    "e": "minecraft:stone_brick_slab[type=bottom]",
+    "f": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "g": "minecraft:stone_brick_stairs[facing=south,half=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bcccc",
+     "bcddd",
+     "bcddd",
+     "bcddd"
+    ],
+    [
+     ".....",
+     ".ceef",
+     ".e...",
+     ".e...",
+     ".g..."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ROOM_DOOR": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_bricks",
+    "d": "minecraft:smooth_stone_slab[type=bottom]",
+    "e": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "f": "minecraft:brick_stairs[facing=west,half=bottom]",
+    "g": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "h": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "i": "minecraft:brick_slab[type=bottom]",
+    "j": "minecraft:stone_brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "abbba",
+     "ccccc",
+     "ddddd",
+     "ddddd",
+     "ddddd"
+    ],
+    [
+     ".ebf.",
+     "ghcgh",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "..i..",
+     "..j..",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER1": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "d": "minecraft:stone_bricks",
+    "e": "minecraft:smooth_stone_slab[type=bottom]",
+    "f": "minecraft:brick_stairs[facing=west,half=bottom]",
+    "g": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "h": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "i": "minecraft:stone_brick_slab[type=bottom]",
+    "j": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "k": "minecraft:brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "abbba",
+     "cdddd",
+     "cdeee",
+     "cdeee",
+     "cdeee"
+    ],
+    [
+     ".cbf.",
+     ".gdhg",
+     ".i...",
+     ".i...",
+     ".j..."
+    ],
+    [
+     "..k..",
+     "..i..",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER2": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_bricks",
+    "d": "minecraft:smooth_stone_slab[type=bottom]",
+    "e": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "f": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "g": "minecraft:stone_brick_slab[type=bottom]",
+    "h": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "i": "minecraft:brick_stairs[facing=north,half=bottom]",
+    "j": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "k": "minecraft:brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bcccc",
+     "bcddd",
+     "bcddd",
+     "ecddd"
+    ],
+    [
+     ".....",
+     "afggh",
+     "bc...",
+     "ij...",
+     ".f..."
+    ],
+    [
+     ".....",
+     ".....",
+     "kg...",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER_DOUBLE": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:stone_bricks",
+    "d": "minecraft:smooth_stone_slab[type=bottom]",
+    "e": "minecraft:brick_stairs[facing=east,half=bottom]",
+    "f": "minecraft:brick_stairs[facing=west,half=bottom]",
+    "g": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "h": "minecraft:stone_brick_stairs[facing=east,half=bottom]",
+    "i": "minecraft:brick_stairs[facing=north,half=bottom]",
+    "j": "minecraft:stone_brick_stairs[facing=north,half=bottom]",
+    "k": "minecraft:stone_brick_stairs[facing=south,half=bottom]",
+    "l": "minecraft:brick_slab[type=bottom]",
+    "m": "minecraft:stone_brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "abbba",
+     "bcccc",
+     "bcddd",
+     "bcddd",
+     "ecddd"
+    ],
+    [
+     ".ebf.",
+     "accgh",
+     "bc...",
+     "ij...",
+     ".k..."
+    ],
+    [
+     "..l..",
+     "..m..",
+     "lm...",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ROOM_INNER": {
+   "palette": {
+    "a": "minecraft:smooth_stone_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "ROOM_WALL": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:stone_bricks",
+    "c": "minecraft:smooth_stone_slab[type=bottom]",
+    "d": "minecraft:stone_brick_stairs[facing=west,half=bottom]",
+    "e": "minecraft:stone_brick_slab[type=bottom]",
+    "f": "minecraft:stone_brick_stairs[facing=east,half=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "ccccc",
+     "ccccc",
+     "ccccc"
+    ],
+    [
+     ".....",
+     "debef",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  },
+  "STRAIGHT": {
+   "palette": {
+    "a": "minecraft:brick_stairs[facing=south,half=bottom]",
+    "b": "minecraft:spruce_planks",
+    "c": "minecraft:brick_stairs[facing=north,half=bottom]",
+    "d": "minecraft:brick_slab[type=bottom]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "ccccc"
+    ],
+    [
+     ".....",
+     "aaaaa",
+     "bbbbb",
+     "ccccc",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     "ddddd",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ]
+   ]
+  }
+ }
+}

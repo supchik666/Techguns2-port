@@ -1,0 +1,818 @@
+{
+ "size_xz": 5,
+ "size_y": 5,
+ "segments": {
+  "CROSS": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "d": "minecraft:cobblestone_stairs[facing=east,half=top]",
+    "e": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "f": "minecraft:cobblestone_stairs[facing=south,half=top]"
+   },
+   "layers": [
+    [
+     "abbba",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "ac.da",
+     "e...e",
+     ".....",
+     "f...f",
+     "ac.da"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "CURVE": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:wall_torch[facing=east]",
+    "d": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "e": "minecraft:cobblestone_stairs[facing=south,half=top]",
+    "f": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "g": "minecraft:cobblestone_stairs[facing=east,half=top]",
+    "h": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbba"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "a....",
+     "a....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "a....",
+     "a....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "ac..d",
+     "a....",
+     "a...e",
+     "af.ga"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aahha",
+     "aahaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "END": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:stone_brick_stairs[facing=west,half=top]",
+    "d": "minecraft:stone_bricks",
+    "e": "minecraft:red_carpet",
+    "f": "minecraft:skeleton_skull",
+    "g": "minecraft:chiseled_stone_bricks",
+    "h": "minecraft:wall_torch[facing=east]",
+    "i": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "j": "minecraft:cobblestone_stairs[facing=south,half=top]",
+    "k": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "l": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "ac...",
+     "adee.",
+     "ac...",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "af...",
+     "ag...",
+     "af...",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "ah..i",
+     "ad...",
+     "ah..j",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aakla",
+     "aaaaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "ENTRANCE": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:iron_bars",
+    "d": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "e": "minecraft:wall_torch[facing=south]",
+    "f": "minecraft:cobblestone_stairs[facing=south,half=top]",
+    "g": "minecraft:wall_torch[facing=north]",
+    "h": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "c....",
+     "c....",
+     "c....",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "c....",
+     "c....",
+     "c....",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "cd.ed",
+     "c....",
+     "cf.gf",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aahha",
+     "aaaaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "FORK": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "d": "minecraft:wall_torch[facing=south]",
+    "e": "minecraft:cobblestone_stairs[facing=south,half=top]",
+    "f": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "g": "minecraft:cobblestone_stairs[facing=east,half=top]",
+    "h": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "c.d.c",
+     ".....",
+     "e...e",
+     "af.ga"
+    ],
+    [
+     "aaaaa",
+     "aahaa",
+     "ahhha",
+     "aahaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "FOUNDATION": {
+   "palette": {
+    "a": "minecraft:cobblestone"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "PILLARS": {
+   "palette": {
+    "a": "minecraft:cobblestone_stairs[facing=east,half=bottom]",
+    "b": "minecraft:cobblestone_stairs[facing=south,half=bottom]",
+    "c": "minecraft:cobblestone",
+    "d": "minecraft:cobblestone_stairs[facing=west,half=bottom]",
+    "e": "minecraft:cobblestone_stairs[facing=north,half=bottom]",
+    "f": "minecraft:cobblestone_stairs[facing=east,half=top]",
+    "g": "minecraft:cobblestone_stairs[facing=south,half=top]",
+    "h": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "i": "minecraft:cobblestone_stairs[facing=north,half=top]"
+   },
+   "layers": [
+    [
+     "abcbd",
+     "acccd",
+     "ccccc",
+     "acccd",
+     "aeced"
+    ],
+    [
+     "..c..",
+     ".ccc.",
+     "ccccc",
+     ".ccc.",
+     "..c.."
+    ],
+    [
+     "..c..",
+     ".ccc.",
+     "ccccc",
+     ".ccc.",
+     "..c.."
+    ],
+    [
+     "..c..",
+     ".ccc.",
+     "ccccc",
+     ".ccc.",
+     "..c.."
+    ],
+    [
+     "fgcgg",
+     "fccch",
+     "ccccc",
+     "fccch",
+     "ficii"
+    ]
+   ]
+  },
+  "RAMP": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:cobblestone_stairs[facing=east,half=bottom]",
+    "d": "minecraft:wall_torch[facing=south]",
+    "e": "minecraft:wall_torch[facing=north]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbba",
+     "bbbba",
+     "bbbba",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "cbbba",
+     "cbbba",
+     "cbbba",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     ".cbba",
+     ".cbba",
+     ".cbba",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "..cba",
+     "..cba",
+     "..cba",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "...ca",
+     "...ca",
+     "...ca",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "a.d.c",
+     "a...c",
+     "a.e.c",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aa...",
+     "aa...",
+     "aa...",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaa..",
+     "aaa..",
+     "aaa..",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaa.",
+     "aaaa.",
+     "aaaa.",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ]
+   ]
+  },
+  "ROOM_CORNER": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:gravel",
+    "c": "minecraft:stone",
+    "d": "minecraft:iron_bars",
+    "e": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "f": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "g": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbaa",
+     "abbac"
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "a....",
+     "a..ad",
+     "a..d."
+    ],
+    [
+     "aaaaa",
+     "a....",
+     "a....",
+     "a..ad",
+     "a..d."
+    ],
+    [
+     "aaaaa",
+     "aefff",
+     "ae...",
+     "ae.ad",
+     "ae.d."
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaag"
+    ]
+   ]
+  },
+  "ROOM_DOOR": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:iron_bars",
+    "d": "minecraft:spruce_door[facing=south,half=lower,hinge=right,open=false]",
+    "e": "minecraft:spruce_door[facing=south,half=upper,hinge=right,open=false]",
+    "f": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "g": "minecraft:wall_torch[facing=east]",
+    "h": "minecraft:wall_torch[facing=west]",
+    "i": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbba",
+     "abbba",
+     "abbba",
+     "bbbbb"
+    ],
+    [
+     "aa.aa",
+     "c.d.c",
+     "c...c",
+     "a...a",
+     "....."
+    ],
+    [
+     "aa.aa",
+     "c.e.c",
+     "c...c",
+     "a...a",
+     "....."
+    ],
+    [
+     "aa.aa",
+     "afffa",
+     "c...c",
+     "ag.ha",
+     "....."
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "iiiii"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER1": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:spruce_door[facing=south,half=lower,hinge=right,open=false]",
+    "d": "minecraft:iron_bars",
+    "e": "minecraft:spruce_door[facing=south,half=upper,hinge=right,open=false]",
+    "f": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "g": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "h": "minecraft:wall_torch[facing=west]",
+    "i": "minecraft:wall_torch[facing=north]",
+    "j": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbba",
+     "abbba",
+     "abbbb",
+     "aaabb"
+    ],
+    [
+     "aa.aa",
+     "a.c.d",
+     "a...a",
+     "a....",
+     "ada.."
+    ],
+    [
+     "aa.aa",
+     "a.e.d",
+     "a...a",
+     "a....",
+     "ada.."
+    ],
+    [
+     "aa.aa",
+     "afgga",
+     "af.ha",
+     "afi..",
+     "aaa.."
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaj"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER2": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:iron_bars",
+    "d": "minecraft:spruce_door[facing=east,half=lower,hinge=right,open=false]",
+    "e": "minecraft:spruce_door[facing=east,half=upper,hinge=right,open=false]",
+    "f": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "g": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "h": "minecraft:wall_torch[facing=west]",
+    "i": "minecraft:wall_torch[facing=north]",
+    "j": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbba",
+     "abbba",
+     "abbbb",
+     "aaabb"
+    ],
+    [
+     "aaaaa",
+     "a...c",
+     ".d..a",
+     "a....",
+     "aca.."
+    ],
+    [
+     "aaaaa",
+     "a...c",
+     ".e..a",
+     "a....",
+     "aca.."
+    ],
+    [
+     "aaaaa",
+     "afffa",
+     ".g.ha",
+     "agi..",
+     "aaa.."
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaj"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER_DOUBLE": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:spruce_door[facing=south,half=lower,hinge=left,open=false]",
+    "d": "minecraft:iron_bars",
+    "e": "minecraft:spruce_door[facing=east,half=lower,hinge=left,open=false]",
+    "f": "minecraft:spruce_door[facing=south,half=upper,hinge=left,open=false]",
+    "g": "minecraft:spruce_door[facing=east,half=upper,hinge=left,open=false]",
+    "h": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "i": "minecraft:cobblestone_stairs[facing=west,half=top]",
+    "j": "minecraft:wall_torch[facing=west]",
+    "k": "minecraft:wall_torch[facing=north]",
+    "l": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbba",
+     "abbba",
+     "abbbb",
+     "aaabb"
+    ],
+    [
+     "aa.aa",
+     "a.c.d",
+     ".e..a",
+     "a....",
+     "ada.."
+    ],
+    [
+     "aa.aa",
+     "a.f.d",
+     ".g..a",
+     "a....",
+     "ada.."
+    ],
+    [
+     "aa.aa",
+     "ahhha",
+     ".i.ja",
+     "aik..",
+     "aaa.."
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaal"
+    ]
+   ]
+  },
+  "ROOM_INNER": {
+   "palette": {
+    "a": "minecraft:stone",
+    "b": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb"
+    ]
+   ]
+  },
+  "ROOM_WALL": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:gravel",
+    "c": "minecraft:stone",
+    "d": "minecraft:iron_bars",
+    "e": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "f": "minecraft:wall_torch[facing=south]",
+    "g": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa",
+     "ccccc"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     "addda",
+     "....."
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     "addda",
+     "....."
+    ],
+    [
+     "aaaaa",
+     "eeeee",
+     ".....",
+     "addda",
+     "f...f"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "ggggg"
+    ]
+   ]
+  },
+  "STRAIGHT": {
+   "palette": {
+    "a": "minecraft:cobblestone",
+    "b": "minecraft:stone",
+    "c": "minecraft:cobblestone_stairs[facing=north,half=top]",
+    "d": "minecraft:wall_torch[facing=south]",
+    "e": "minecraft:cobblestone_stairs[facing=south,half=top]",
+    "f": "minecraft:wall_torch[facing=north]",
+    "g": "minecraft:cobblestone_slab[type=top]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     ".....",
+     ".....",
+     ".....",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "c.d.c",
+     ".....",
+     "e.f.e",
+     "aaaaa"
+    ],
+    [
+     "aaaaa",
+     "aaaaa",
+     "aggga",
+     "aaaaa",
+     "aaaaa"
+    ]
+   ]
+  }
+ }
+}

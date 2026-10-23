@@ -1,0 +1,8 @@
+{
+  "type": "techguns:dungeon",
+  "preset": "nether",
+  "biomes": "#techguns:has_structure/nether_dungeon",
+  "spawn_overrides": {},
+  "step": "underground_structures",
+  "terrain_adaptation": "none"
+}

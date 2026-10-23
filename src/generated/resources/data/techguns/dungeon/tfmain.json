@@ -1,0 +1,771 @@
+{
+ "size_xz": 5,
+ "size_y": 5,
+ "segments": {
+  "CROSS": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:lamp_yellow[facing=up]",
+    "d": "techguns:panel_large_border"
+   },
+   "layers": [
+    [
+     "abbba",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "a...a",
+     ".....",
+     "..c..",
+     ".....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "addda",
+     "adada",
+     "addda",
+     "aaaaa"
+    ]
+   ]
+  },
+  "CURVE": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbba"
+    ],
+    [
+     "accca",
+     "c....",
+     "c....",
+     "c....",
+     "a...a"
+    ],
+    [
+     "accca",
+     "c....",
+     "c....",
+     "c....",
+     "a...a"
+    ],
+    [
+     "accca",
+     "c....",
+     "c.d..",
+     "c....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "accca",
+     "acaca",
+     "accca",
+     "aaaaa"
+    ]
+   ]
+  },
+  "END": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "c....",
+     "c....",
+     "c....",
+     "accca"
+    ],
+    [
+     "accca",
+     "c....",
+     "c....",
+     "c....",
+     "accca"
+    ],
+    [
+     "accca",
+     "c....",
+     "c.d..",
+     "c....",
+     "accca"
+    ],
+    [
+     "aaaaa",
+     "accca",
+     "acaca",
+     "accca",
+     "aaaaa"
+    ]
+   ]
+  },
+  "ENTRANCE": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:stairs_metal[facing=south,half=top]",
+    "c": "techguns:steelframe_dark",
+    "d": "techguns:panel_large_border",
+    "e": "techguns:door3x3[master=false,state=closed,zplane=true]",
+    "f": "techguns:door3x3[master=true,state=closed,zplane=true]",
+    "g": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     ".bacc",
+     ".bacc",
+     ".bacc",
+     "aaaaa"
+    ],
+    [
+     "adada",
+     "..e..",
+     "..e..",
+     "..e..",
+     "adada"
+    ],
+    [
+     "adada",
+     "..e..",
+     "..f..",
+     "..e..",
+     "adada"
+    ],
+    [
+     "adada",
+     "g.e..",
+     "g.e..",
+     "g.e..",
+     "adada"
+    ],
+    [
+     "aaaaa",
+     "adada",
+     "adada",
+     "adada",
+     "aaaaa"
+    ]
+   ]
+  },
+  "FORK": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "abbba"
+    ],
+    [
+     "accca",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "accca",
+     ".....",
+     ".....",
+     ".....",
+     "a...a"
+    ],
+    [
+     "accca",
+     ".....",
+     "..d..",
+     ".....",
+     "a...a"
+    ],
+    [
+     "aaaaa",
+     "accca",
+     "acaca",
+     "accca",
+     "aaaaa"
+    ]
+   ]
+  },
+  "FOUNDATION": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:panel_large_border"
+   },
+   "layers": [
+    [
+     "a.a.a",
+     ".bab.",
+     "aaaaa",
+     ".bab.",
+     "a.a.a"
+    ],
+    [
+     "a.a.a",
+     ".bab.",
+     "aaaaa",
+     ".bab.",
+     "a.a.a"
+    ],
+    [
+     "a.a.a",
+     ".bab.",
+     "aaaaa",
+     ".bab.",
+     "a.a.a"
+    ],
+    [
+     "a.a.a",
+     ".bab.",
+     "aaaaa",
+     ".bab.",
+     "a.a.a"
+    ],
+    [
+     "a.a.a",
+     ".bab.",
+     "aabaa",
+     ".bab.",
+     "a.a.a"
+    ]
+   ]
+  },
+  "PILLARS": {
+   "palette": {
+    "a": "techguns:panel_large_border"
+   },
+   "layers": [
+    [
+     ".....",
+     ".a.a.",
+     ".....",
+     ".a.a.",
+     "....."
+    ],
+    [
+     ".....",
+     ".a.a.",
+     ".....",
+     ".a.a.",
+     "....."
+    ],
+    [
+     ".....",
+     ".a.a.",
+     ".....",
+     ".a.a.",
+     "....."
+    ],
+    [
+     ".....",
+     ".a.a.",
+     ".....",
+     ".a.a.",
+     "....."
+    ],
+    [
+     ".....",
+     ".a.a.",
+     ".....",
+     ".a.a.",
+     "....."
+    ]
+   ]
+  },
+  "RAMP": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:stairs_metal[facing=south,half=top]",
+    "e": "techguns:lamp_yellow[facing=west]",
+    "f": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbba",
+     "bbbba",
+     "bbbba",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     "daaac",
+     "daaac",
+     "daaac",
+     "accca"
+    ],
+    [
+     "accca",
+     ".daac",
+     ".daac",
+     ".daac",
+     "accca"
+    ],
+    [
+     "accca",
+     "..dac",
+     "..dac",
+     "..dac",
+     "accca"
+    ],
+    [
+     "accca",
+     "...da",
+     "...da",
+     "...da",
+     "accca"
+    ],
+    [
+     "accca",
+     "a...d",
+     "a...d",
+     "a...d",
+     "accca"
+    ],
+    [
+     "accca",
+     "c....",
+     "c....",
+     "c....",
+     "accca"
+    ],
+    [
+     "accca",
+     "c....",
+     "ae...",
+     "c....",
+     "accca"
+    ],
+    [
+     "accca",
+     "c....",
+     "c.f..",
+     "c....",
+     "accca"
+    ],
+    [
+     "aaaaa",
+     "accca",
+     "acaca",
+     "accca",
+     "aaaaa"
+    ]
+   ]
+  },
+  "ROOM_CORNER": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbbb"
+    ],
+    [
+     "acccc",
+     "c....",
+     "c....",
+     "c....",
+     "c...."
+    ],
+    [
+     "acccc",
+     "c....",
+     "c....",
+     "c....",
+     "c...."
+    ],
+    [
+     "acccc",
+     "c....",
+     "c.d..",
+     "c....",
+     "c...."
+    ],
+    [
+     "aaaaa",
+     "acccc",
+     "acacc",
+     "acccc",
+     "acccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:door3x3",
+    "e": "techguns:door3x3[master=true,state=closed,zplane=false]",
+    "f": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb"
+    ],
+    [
+     "cdddc",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "cdedc",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "cdddc",
+     ".....",
+     "..f..",
+     ".....",
+     "....."
+    ],
+    [
+     "aaaaa",
+     "ccccc",
+     "ccacc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER1": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:door3x3",
+    "e": "techguns:door3x3[master=true,state=closed,zplane=false]",
+    "f": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbbb"
+    ],
+    [
+     "cdddc",
+     "c....",
+     "c....",
+     "c....",
+     "c...."
+    ],
+    [
+     "cdedc",
+     "c....",
+     "c....",
+     "c....",
+     "c...."
+    ],
+    [
+     "cdddc",
+     "c....",
+     "c.f..",
+     "c....",
+     "c...."
+    ],
+    [
+     "aaaaa",
+     "acccc",
+     "acacc",
+     "acccc",
+     "acccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER2": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:door3x3[master=false,state=closed,zplane=true]",
+    "e": "techguns:door3x3[master=true,state=closed,zplane=true]",
+    "f": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbbb"
+    ],
+    [
+     "ccccc",
+     "d....",
+     "d....",
+     "d....",
+     "c...."
+    ],
+    [
+     "ccccc",
+     "d....",
+     "e....",
+     "d....",
+     "c...."
+    ],
+    [
+     "ccccc",
+     "d....",
+     "d.f..",
+     "d....",
+     "c...."
+    ],
+    [
+     "aaaaa",
+     "acccc",
+     "acacc",
+     "acccc",
+     "acccc"
+    ]
+   ]
+  },
+  "ROOM_DOOR_CORNER_DOUBLE": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:door3x3",
+    "e": "techguns:door3x3[master=false,state=closed,zplane=true]",
+    "f": "techguns:door3x3[master=true,state=closed,zplane=false]",
+    "g": "techguns:door3x3[master=true,state=closed,zplane=true]",
+    "h": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "abbbb",
+     "abbbb",
+     "abbbb",
+     "abbbb"
+    ],
+    [
+     "cdddc",
+     "e....",
+     "e....",
+     "e....",
+     "c...."
+    ],
+    [
+     "cdfdc",
+     "e....",
+     "g....",
+     "e....",
+     "c...."
+    ],
+    [
+     "cdddc",
+     "e....",
+     "e.h..",
+     "e....",
+     "c...."
+    ],
+    [
+     "aaaaa",
+     "acccc",
+     "acacc",
+     "acccc",
+     "acccc"
+    ]
+   ]
+  },
+  "ROOM_INNER": {
+   "palette": {
+    "a": "techguns:steelframe_dark",
+    "b": "techguns:lamp_yellow[facing=up]",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:steelframe_scaffold"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa",
+     "aaaaa"
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     ".....",
+     ".....",
+     "..b..",
+     ".....",
+     "....."
+    ],
+    [
+     "ccccc",
+     "ccccc",
+     "ccdcc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "ROOM_WALL": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb"
+    ],
+    [
+     "ccccc",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "ccccc",
+     ".....",
+     ".....",
+     ".....",
+     "....."
+    ],
+    [
+     "ccccc",
+     ".....",
+     "..d..",
+     ".....",
+     "....."
+    ],
+    [
+     "aaaaa",
+     "ccccc",
+     "ccacc",
+     "ccccc",
+     "ccccc"
+    ]
+   ]
+  },
+  "STRAIGHT": {
+   "palette": {
+    "a": "techguns:steelframe_scaffold",
+    "b": "techguns:steelframe_dark",
+    "c": "techguns:panel_large_border",
+    "d": "techguns:lamp_yellow[facing=up]"
+   },
+   "layers": [
+    [
+     "aaaaa",
+     "bbbbb",
+     "bbbbb",
+     "bbbbb",
+     "aaaaa"
+    ],
+    [
+     "accca",
+     ".....",
+     ".....",
+     ".....",
+     "accca"
+    ],
+    [
+     "accca",
+     ".....",
+     ".....",
+     ".....",
+     "accca"
+    ],
+    [
+     "accca",
+     ".....",
+     "..d..",
+     ".....",
+     "accca"
+    ],
+    [
+     "aaaaa",
+     "accca",
+     "acaca",
+     "accca",
+     "aaaaa"
+    ]
+   ]
+  }
+ }
+}

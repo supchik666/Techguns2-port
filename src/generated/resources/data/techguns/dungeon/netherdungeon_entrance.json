@@ -1,0 +1,73 @@
+{
+ "size_xz": 10,
+ "size_y": 6,
+ "segments": {
+  "STRUCTURE": {
+   "palette": {
+    "a": "techguns:nethermetal_panel",
+    "b": "techguns:nethermetal_plate_red",
+    "c": "techguns:nethermetal_border_lava",
+    "d": "techguns:nethermetal_plate_black",
+    "e": "techguns:door3x3[master=false,state=closed,zplane=true]",
+    "f": "techguns:door3x3[master=true,state=closed,zplane=true]",
+    "g": "minecraft:nether_brick_stairs[facing=west,half=bottom]"
+   },
+   "layers": [
+    [
+     "          ",
+     "      ddc ",
+     "      dddg",
+     "      dddg",
+     "      dddg",
+     "      ddc ",
+     "          "
+    ],
+    [
+     " aaaaa    ",
+     "a     aac ",
+     "b     e   ",
+     "b     e   ",
+     "b     e   ",
+     "a     aac ",
+     " aaaaa    "
+    ],
+    [
+     " acbca    ",
+     "a     a c ",
+     "b     e   ",
+     "b     f   ",
+     "b     e   ",
+     "a     a c ",
+     " acbca    "
+    ],
+    [
+     " acbca    ",
+     "a     a   ",
+     "b     e   ",
+     "b     e   ",
+     "b     e   ",
+     "a     a   ",
+     " acbca    "
+    ],
+    [
+     " aaaaa    ",
+     "a     a   ",
+     "a     c   ",
+     "a     c   ",
+     "a     c   ",
+     "a     a   ",
+     " aaaaa    "
+    ],
+    [
+     "          ",
+     "          ",
+     "      a   ",
+     "      a   ",
+     "      a   ",
+     "          ",
+     "          "
+    ]
+   ]
+  }
+ }
+}
