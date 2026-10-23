@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.Block;
 import techguns.Techguns;
 import techguns.items.armors.GenericArmor;
 import techguns.machines.CamoBenchBlockEntity;
-import techguns.machines.UpgradeBenchBlockEntity;
+import techguns.TGConfig;
 import techguns.recipes.UpgradeBenchRecipe;
 
 /** The benches' categories (1.12 CamoBenchJeiRecipeCategory, UpgradeBenchJeiRecipeCategory); no power or duration. */
@@ -98,7 +98,7 @@ final class BenchCategories {
 
 		@Override
 		protected void drawGui(RecipeHolder<UpgradeBenchRecipe> recipe, GuiGraphics g, float p) {
-			int cost = UpgradeBenchBlockEntity.XP_PER_LEVEL * recipe.value().level();
+			int cost = TGConfig.UPGRADE_XP_COST.get() * recipe.value().level();
 			g.drawString(Minecraft.getInstance().font, Component.translatable("techguns.gui.xpcost").append(": " + cost), 95, 17, 8453920);
 		}
 	}
