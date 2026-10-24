@@ -1,0 +1,29 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "item": "techguns:pistolrounds",
+      "count": 8
+    },
+    {
+      "tag": "c:gunpowders"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:pistolrounds_high_velocity",
+      "count": 8
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds_high_velocity"
+    }
+  ]
+}

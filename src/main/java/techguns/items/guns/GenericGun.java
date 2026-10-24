@@ -415,8 +415,12 @@ public class GenericGun extends Item {
 		player.getData(TGComponents.NEXT_FIRE)[hand.ordinal()] = player.level().getGameTime() + ticks;
 	}
 
-	/** Spread multiplier (not in 1.12): aiming while sneaking cuts it to a tenth; otherwise twice the spread unless sneaking, times the zoom bonus. */
+	/**
+	 * Spread multiplier (not in 1.12): aiming while sneaking cuts it to a tenth; otherwise twice the spread unless sneaking,
+	 * times the zoom bonus. Aiming doesn't tighten shotguns.
+	 */
 	public float stanceSpread(Player player, boolean zooming) {
+		if (shotgun) zooming = false;
 		if (!player.isCrouching()) return zooming ? 2.0f * zoombonus : 2.0f;
 		return zooming ? Math.min(zoombonus, 0.1f) : 1.0f;
 	}
@@ -478,10 +482,10 @@ public class GenericGun extends Item {
 	}
 
 	/** Spawns the shot and any shotgun pellets, with spread times {@code bonus}. */
-	void fireProjectiles(Level level, LivingEntity shooter, ItemStack stack, float bonus, float side, float damageScale, Entity target) {
+	public void fireProjectiles(Level level, LivingEntity shooter, ItemStack stack, float bonus, float side, float damageScale, Entity target) {
 		GenericProjectile.Kind kind = getAmmoVariant(stack).kind();
 		spawnProjectile(level, shooter, kind, accuracy * bonus, forwardOffset, side, damageScale, target);
-		if (shotgun) {
+		if (shotgun && kind != GenericProjectile.Kind.SLUG) {
 			float offset = burst ? speed / bulletcount : 0;
 			for (int i = 0; i < bulletcount; i++) {
 				spawnProjectile(level, shooter, kind, spread * bonus, forwardOffset + offset * (i + 1.0f), side, damageScale, target);
@@ -546,6 +550,25 @@ public class GenericGun extends Item {
 		}
 		stack.set(TGComponents.AMMO, newAmmo);
 		return true;
+	}
+
+	/**
+	 * The ammo wheel (not in 1.12, as in Rust): hands back the rounds left in the gun, then reloads with variant {@code key}.
+	 * Nothing happens unless the player has that ammo.
+	 */
+	public void switchAmmo(ItemStack stack, Level level, Player player, InteractionHand hand, String key) {
+		AmmoType.Variant old = getAmmoVariant(stack);
+		if (!isReady(player, hand) || !ammoType.keys().contains(key) || ammoType.get(key) == old
+				|| TGExtendedPlayer.countAmmo(player, ammoType.get(key).ammo().get()) == 0) return;
+		int oldAmmo = getAmmo(stack);
+		if (oldAmmo > 0 && old.bullet() != null) {
+			// magazines come back as their bullets (the reload hands back the empty), loose rounds only whole ones
+			int back = ammoType.emptyMag() != null ? (int) (oldAmmo / ammoType.getShotsPerBullet(clipsize, oldAmmo)) : oldAmmo * ammoCount / clipsize;
+			if (back > 0) TGExtendedPlayer.giveAmmo(player, new ItemStack(old.bullet().get(), back));
+		}
+		stack.set(TGComponents.AMMO_VARIANT, key);
+		stack.set(TGComponents.AMMO, 0);
+		reload(stack, level, player, hand, 0);
 	}
 
 	void reload(ItemStack stack, Level level, Player player, InteractionHand hand, int oldAmmo) {

@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:assaultriflemagazineempty"
+    },
+    {
+      "item": "techguns:riflerounds_high_velocity"
+    },
+    {
+      "item": "techguns:riflerounds_high_velocity"
+    },
+    {
+      "item": "techguns:riflerounds_high_velocity"
+    }
+  ],
+  "result": {
+    "id": "techguns:assaultriflemagazine_high_velocity"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazine_high_velocity"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazineempty"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds_high_velocity"
+    }
+  ]
+}

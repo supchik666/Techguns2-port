@@ -50,6 +50,15 @@
     "techguns:sniperrounds",
     "techguns:sniperrounds_explosive",
     "techguns:sniperrounds_incendiary",
-    "techguns:stonebullets"
+    "techguns:stonebullets",
+    "techguns:pistolrounds_high_velocity",
+    "techguns:riflerounds_high_velocity",
+    "techguns:pistolmagazine_high_velocity",
+    "techguns:smgmagazine_high_velocity",
+    "techguns:assaultriflemagazine_high_velocity",
+    "techguns:sniperrounds_high_velocity",
+    "techguns:lmgmagazine_high_velocity",
+    "techguns:as50magazine_high_velocity",
+    "techguns:shotgunrounds_slug"
   ]
 }

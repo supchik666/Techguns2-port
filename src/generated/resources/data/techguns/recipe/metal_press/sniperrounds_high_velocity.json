@@ -1,0 +1,29 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "item": "techguns:sniperrounds",
+      "count": 4
+    },
+    {
+      "tag": "c:gunpowders"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:sniperrounds_high_velocity",
+      "count": 4
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:sniperrounds_high_velocity"
+    }
+  ]
+}

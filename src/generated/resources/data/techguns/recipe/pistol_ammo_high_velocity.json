@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:pistol"
+    },
+    {
+      "item": "techguns:pistolmagazine_high_velocity"
+    }
+  ],
+  "result": {
+    "id": "techguns:pistol"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistol"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolmagazine_high_velocity"
+    }
+  ]
+}

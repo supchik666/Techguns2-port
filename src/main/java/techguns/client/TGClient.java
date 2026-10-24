@@ -85,6 +85,9 @@ public class TGClient {
 	public static LivingEntity renderedEntity;
 	/** Attack was clicked; kept until the gun is ready so semi-auto clicks during the fire delay aren't lost. */
 	private static boolean firePressed;
+	/** Ticks R has been held on a gun with an ammo wheel; tapping it reloads, holding it this long opens the wheel. */
+	private static int reloadHeld;
+	private static final int WHEEL_TICKS = 5; // about Rust's hold time
 	/** Use was clicked while dual-wielding: the off-hand gun's {@link #firePressed}. */
 	private static boolean offFirePressed;
 	/** Players whose ambient effect is running. */
@@ -547,13 +550,16 @@ public class TGClient {
 		reg.accept(TGItems.ASSAULTRIFLE_MAGAZINE, () -> arMag(false, "ar_mag").setTransformTranslations(arMag));
 		reg.accept(TGItems.ASSAULTRIFLE_MAGAZINE_EMPTY, () -> arMag(true, "ar_mag").setTransformTranslations(arMag));
 		reg.accept(TGItems.ASSAULTRIFLE_MAGAZINE_INCENDIARY, () -> arMag(false, "ar_mag_inc").setTransformTranslations(arMag));
+		reg.accept(TGItems.ASSAULTRIFLE_MAGAZINE_HIGH_VELOCITY, () -> arMag(false, "ar_mag_hv").setTransformTranslations(arMag));
 		reg.accept(TGItems.LMG_MAGAZINE, () -> lmgMag(false, "lmg_mag").setTransformTranslations(lmgMag));
 		reg.accept(TGItems.LMG_MAGAZINE_EMPTY, () -> lmgMag(true, "lmg_mag").setTransformTranslations(lmgMag));
 		reg.accept(TGItems.LMG_MAGAZINE_INCENDIARY, () -> lmgMag(false, "lmg_mag_inc").setTransformTranslations(lmgMag));
+		reg.accept(TGItems.LMG_MAGAZINE_HIGH_VELOCITY, () -> lmgMag(false, "lmg_mag_hv").setTransformTranslations(lmgMag));
 		reg.accept(TGItems.AS50_MAGAZINE, () -> as50Mag(false, "as50_mag").setTransformTranslations(as50Mag));
 		reg.accept(TGItems.AS50_MAGAZINE_EMPTY, () -> as50Mag(true, "as50_mag").setTransformTranslations(as50Mag));
 		reg.accept(TGItems.AS50_MAGAZINE_INCENDIARY, () -> as50Mag(false, "as50_mag_inc").setTransformTranslations(as50Mag));
 		reg.accept(TGItems.AS50_MAGAZINE_EXPLOSIVE, () -> as50Mag(false, "as50_mag_exp").setTransformTranslations(as50Mag));
+		reg.accept(TGItems.AS50_MAGAZINE_HIGH_VELOCITY, () -> as50Mag(false, "as50_mag_hv").setTransformTranslations(as50Mag));
 		reg.accept(TGItems.ROCKET, () -> rocket("rocket").setTransformTranslations(rocket));
 		reg.accept(TGItems.ROCKET_NUKE, () -> rocket("rocket_nuke").setTransformTranslations(rocket));
 		reg.accept(TGItems.ROCKET_HIGH_VELOCITY, () -> rocket("rocket_hv").setTransformTranslations(rocket));
@@ -678,6 +684,7 @@ public class TGClient {
 		if (player == null || !(player.getMainHandItem().getItem() instanceof GenericGun gun)) {
 			firePressed = offFirePressed = false;
 			zoomLevel = 0;
+			reloadHeld = 0;
 			while (FORCE_RELOAD.consumeClick()) {}
 			return;
 		}
@@ -705,7 +712,20 @@ public class TGClient {
 			PacketDistributor.sendToServer(new GunAction(InteractionHand.OFF_HAND, false, false));
 			((GenericGun) offStack.getItem()).shootGunPrimary(offStack, player.level(), player, InteractionHand.OFF_HAND, false);
 		}
-		while (FORCE_RELOAD.consumeClick()) {
+		boolean reload = false;
+		if (dual || gun.getAmmoType().keys().size() < 2) {
+			while (FORCE_RELOAD.consumeClick()) reload = true;
+		} else {
+			// Rust: tap R to reload, hold it for the ammo wheel
+			while (FORCE_RELOAD.consumeClick()) {}
+			if (FORCE_RELOAD.isDown() && mc.screen == null) {
+				if (++reloadHeld == WHEEL_TICKS) mc.setScreen(new AmmoWheelScreen(gun));
+			} else {
+				reload = reloadHeld > 0 && reloadHeld < WHEEL_TICKS;
+				reloadHeld = 0;
+			}
+		}
+		if (reload) {
 			PacketDistributor.sendToServer(new GunAction(InteractionHand.MAIN_HAND, true, false));
 			gun.tryForcedReload(stack, player.level(), player, InteractionHand.MAIN_HAND);
 			if (dual) {

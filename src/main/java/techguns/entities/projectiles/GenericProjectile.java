@@ -39,14 +39,26 @@ import techguns.plugins.sable.SableCompat;
  */
 public class GenericProjectile extends Projectile implements IEntityWithComplexSpawn {
 	public enum Kind {
-		BULLET(1.0f), INCENDIARY_BULLET(1.1f), INCENDIARY_SHELL(1.1f), EXPLOSIVE_BULLET(1.15f), STONE(1.0f), ADVANCED(1.0f),
+		// bullets fly at 3/4 of the gun's speed, incendiary ones at half that (not in 1.12)
+		BULLET(1.0f, 0.75f, 1), INCENDIARY_BULLET(1.1f, 0.375f, 1), INCENDIARY_SHELL(1.1f, 0.375f, 1), EXPLOSIVE_BULLET(1.15f, 0.75f, 1),
+		STONE(1.0f, 0.75f, 1), ADVANCED(1.0f, 0.75f, 1),
 		/** Rocket and missile variants. */
-		NUKE(1.0f), HIGH_VELOCITY(1.0f);
+		NUKE(1.0f), HIGH_VELOCITY(1.0f),
+		/** Not in 1.12: hitscan bullets that keep their damage farther; one shotgun pellet that hits harder and carries far. */
+		HIGH_VELOCITY_BULLET(1.0f, 1, 1.5f), SLUG(4.0f, 0.75f, 3.0f);
 
 		public final float damageMultiplier;
+		/** Times the gun's speed (bullets only, see the constructor), and times its range (flight distance and damage drop). */
+		public final float speedMultiplier, rangeMultiplier;
 
 		Kind(float damageMultiplier) {
+			this(damageMultiplier, 1, 1);
+		}
+
+		Kind(float damageMultiplier, float speedMultiplier, float rangeMultiplier) {
 			this.damageMultiplier = damageMultiplier;
+			this.speedMultiplier = speedMultiplier;
+			this.rangeMultiplier = rangeMultiplier;
 		}
 	}
 
@@ -97,11 +109,17 @@ public class GenericProjectile extends Projectile implements IEntityWithComplexS
 		this.side = side;
 		this.damage = damage * kind.damageMultiplier;
 		this.damageMin = damageMin * kind.damageMultiplier;
-		this.damageDropStart = damageDropStart;
-		this.damageDropEnd = damageDropEnd;
+		this.damageDropStart = damageDropStart * kind.rangeMultiplier;
+		this.damageDropEnd = damageDropEnd * kind.rangeMultiplier;
 		float factor = speedFactor();
-		speed *= factor;
-		this.ticksToLive = (int) Math.ceil(ticksToLive / factor * (factor != 1 ? RANGE_FACTOR : 1));
+		float kindSpeed = type == TGEntities.GENERIC_PROJECTILE.get() ? kind.speedMultiplier : 1; // rockets, blasters... use BULLET too
+		speed *= factor * kindSpeed;
+		this.ticksToLive = (int) Math.ceil(ticksToLive / factor * (factor != 1 ? RANGE_FACTOR : 1) * kind.rangeMultiplier / kindSpeed);
+		if (kind == Kind.HIGH_VELOCITY_BULLET) { // hitscan: the whole range in one tick
+			// ponytail: the one-tick ray can load chunks along a long sniper shot; cap it if that shows up in profiles
+			speed *= this.ticksToLive;
+			this.ticksToLive = 1;
+		}
 
 		float yaw = shooter.getYHeadRot() + (float) (spread - 2 * Math.random() * spread) * 40.0f;
 		float pitch = shooter.getXRot() + (float) (spread - 2 * Math.random() * spread) * 40.0f;

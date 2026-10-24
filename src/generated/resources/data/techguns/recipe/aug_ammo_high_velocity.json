@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:aug"
+    },
+    {
+      "item": "techguns:assaultriflemagazine_high_velocity"
+    }
+  ],
+  "result": {
+    "id": "techguns:aug"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazine_high_velocity"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:aug"
+    }
+  ]
+}

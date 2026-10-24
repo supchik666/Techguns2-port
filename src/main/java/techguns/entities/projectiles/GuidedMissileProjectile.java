@@ -16,7 +16,7 @@ import techguns.damagesystem.TGExplosion;
 
 /**
  * Guided missile: a rocket that turns up to 9 degrees a tick towards its lock-on target (set before spawning, sent to
- * clients so they steer the same way). Kind HIGH_VELOCITY is the 1.12 GuidedMissileProjectileHV.
+ * clients so they steer the same way). Kind HIGH_VELOCITY is the 1.12 GuidedMissileProjectileHV; NUKE is new.
  */
 public class GuidedMissileProjectile extends RocketProjectile {
 	private static final double MAX_TURN_ANGLE = 9.0 * Mth.DEG_TO_RAD;
@@ -45,6 +45,10 @@ public class GuidedMissileProjectile extends RocketProjectile {
 		if (kind == Kind.HIGH_VELOCITY) {
 			return new GuidedMissileProjectile(level, shooter, kind, damage, speed * 2, Math.round(ticksToLive * 0.75f), spread, damageDropStart * 0.75f,
 					damageDropEnd * 0.75f, damageMin, side);
+		}
+		if (kind == Kind.NUKE) { // not in 1.12: RocketProjectile's nuke
+			return new GuidedMissileProjectile(level, shooter, kind, damage * 5, speed, ticksToLive, spread, damageDropStart * 5, damageDropEnd * 5,
+					damageMin * 5, side);
 		}
 		return new GuidedMissileProjectile(level, shooter, kind, damage, speed, ticksToLive, spread, damageDropStart, damageDropEnd, damageMin, side);
 	}

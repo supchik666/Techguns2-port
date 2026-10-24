@@ -176,6 +176,16 @@ public class TGItems {
 	public static final DeferredItem<Item> OREDRILLHEAD_LARGE_CARBON = ITEMS.registerSimpleItem("oredrilllarge_carbon", new Item.Properties().stacksTo(1));
 	public static final DeferredItem<Item> AS50_MAGAZINE_EXPLOSIVE = ITEMS.registerSimpleItem("as50magazine_explosive");
 	public static final DeferredItem<Item> SNIPER_ROUNDS_EXPLOSIVE = ITEMS.registerSimpleItem("sniperrounds_explosive");
+	/** Not in 1.12. */
+	public static final DeferredItem<Item> PISTOL_ROUNDS_HIGH_VELOCITY = ITEMS.registerSimpleItem("pistolrounds_high_velocity");
+	public static final DeferredItem<Item> RIFLE_ROUNDS_HIGH_VELOCITY = ITEMS.registerSimpleItem("riflerounds_high_velocity");
+	public static final DeferredItem<Item> PISTOL_MAGAZINE_HIGH_VELOCITY = ITEMS.registerSimpleItem("pistolmagazine_high_velocity");
+	public static final DeferredItem<Item> SMG_MAGAZINE_HIGH_VELOCITY = ITEMS.registerSimpleItem("smgmagazine_high_velocity");
+	public static final DeferredItem<Item> ASSAULTRIFLE_MAGAZINE_HIGH_VELOCITY = ITEMS.registerSimpleItem("assaultriflemagazine_high_velocity");
+	public static final DeferredItem<Item> SNIPER_ROUNDS_HIGH_VELOCITY = ITEMS.registerSimpleItem("sniperrounds_high_velocity");
+	public static final DeferredItem<Item> LMG_MAGAZINE_HIGH_VELOCITY = ITEMS.registerSimpleItem("lmgmagazine_high_velocity");
+	public static final DeferredItem<Item> AS50_MAGAZINE_HIGH_VELOCITY = ITEMS.registerSimpleItem("as50magazine_high_velocity");
+	public static final DeferredItem<Item> SHOTGUN_ROUNDS_SLUG = ITEMS.registerSimpleItem("shotgunrounds_slug");
 	public static final DeferredItem<Item> ROCKET_HIGH_VELOCITY = ITEMS.registerSimpleItem("rocket_high_velocity");
 	public static final DeferredItem<Item> INFUSION_BAG = ITEMS.registerSimpleItem("infusionbag");
 	public static final DeferredItem<Item> UPGRADE_PROTECTION_1 = ITEMS.registerSimpleItem("upgrade_protection_1", new Item.Properties().stacksTo(1));

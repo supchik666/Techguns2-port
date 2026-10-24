@@ -1,0 +1,29 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "item": "techguns:riflerounds",
+      "count": 8
+    },
+    {
+      "tag": "c:gunpowders"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:riflerounds_high_velocity",
+      "count": 8
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:riflerounds_high_velocity"
+    }
+  ]
+}

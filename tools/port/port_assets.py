@@ -318,6 +318,28 @@ CUTOUT_MODELS += ["fabricator_glass", "fabricator_glass_formed", "reactionchambe
                                                   "shiny_gem", "nether_crystal", "oil"))]
 EXTRA_LANG |= {"block.techguns.ore_cluster_oil": "Ore Cluster (Oil)"}
 EXTRA_LANG |= {"block.techguns.creative_energy": "Creative Energy Source"}  # not in 1.12; its models are hand-written
+EXTRA_LANG |= {"techguns.ammowheel.loaded": "Loaded"}  # the ammo wheel, not in 1.12
+# Not in 1.12: high velocity rounds and mags, shotgun slugs. Textures are hand-written; item -> (name, guns, mag recipe)
+NEW_AMMO = {
+    "pistolrounds_high_velocity": ("§bPistol Rounds (High Velocity)", ["revolver", "goldenrevolver"], None),
+    "riflerounds_high_velocity": ("§bRifle Rounds (High Velocity)", ["boltaction"], None),
+    "pistolmagazine_high_velocity": ("§bPistol Magazine (High Velocity)", ["pistol"], ("pistolmagazineempty", "pistolrounds_high_velocity", 3)),
+    "smgmagazine_high_velocity": ("§bSMG Magazine (High Velocity)", ["thompson", "mac10", "vector"],
+                                  ("smgmagazineempty", "pistolrounds_high_velocity", 2)),
+    "assaultriflemagazine_high_velocity": ("§bAssault Rifle Magazine (High Velocity)", ["ak47", "m4", "m4_infiltrator", "scar", "aug"],
+                                           ("assaultriflemagazineempty", "riflerounds_high_velocity", 3)),
+    "sniperrounds_high_velocity": ("§bSniper Rounds (High Velocity)", [], None),
+    "lmgmagazine_high_velocity": ("§bLMG Magazine (High Velocity)", ["lmg"], ("lmgmagazineempty", "riflerounds_high_velocity", 8)),
+    "as50magazine_high_velocity": ("§bAS50 Magazine (High Velocity)", ["as50"], ("as50magazineempty", "sniperrounds_high_velocity", 2)),
+    "shotgunrounds_slug": ("§7Shotgun Slugs", ["sawedoff", "combatshotgun"], None),
+}
+EXTRA_LANG |= {f"item.techguns.{k}": v[0] for k, v in NEW_AMMO.items()}
+BEWLR_ITEMS += ["assaultriflemagazine_high_velocity", "lmgmagazine_high_velocity", "as50magazine_high_velocity"]
+MACHINE_RECIPES["metal_press"] |= {
+    "pistolrounds_high_velocity": {"inputs": ["pistolrounds*8", "#c:gunpowders"], "results": ["pistolrounds_high_velocity*8"], "swap": True},
+    "riflerounds_high_velocity": {"inputs": ["riflerounds*8", "#c:gunpowders"], "results": ["riflerounds_high_velocity*8"], "swap": True},
+    "sniperrounds_high_velocity": {"inputs": ["sniperrounds*4", "#c:gunpowders"], "results": ["sniperrounds_high_velocity*4"], "swap": True},
+    "shotgunrounds_slug": {"inputs": ["shotgunrounds*4", "#c:ingots/lead"], "results": ["shotgunrounds_slug*4"], "swap": True}}
 # tooltips show percents (DamageSystem.protectionPercent/penetrationPercent) instead of 1.12's raw points
 EXTRA_LANG |= {"techguns.armorTooltip.resistances": "Protection", "techguns.gun.tooltip.armorPen": "Ignores armor"}
 # TGConfig entries in NeoForge's config screen (techguns.configuration.<name>); the spec comments are the tooltips
@@ -404,6 +426,8 @@ def copy_textures_and_models():
     for name in BEWLR_ITEMS:
         write_json(ASSETS / "models/item" / (name + ".json"),
                    {"parent": "minecraft:builtin/entity", "textures": {"particle": "techguns:item/plateiron"}})
+    for name in NEW_AMMO.keys() - set(BEWLR_ITEMS):
+        write_json(ASSETS / "models/item" / (name + ".json"), {"parent": "item/generated", "textures": {"layer0": f"techguns:item/{name}"}})
     for name in ICON_ARMOR:
         write_json(ASSETS / "models/item" / (name + ".json"), {
             "loader": "neoforge:separate_transforms", "gui_light": "front",
@@ -676,6 +700,18 @@ def convert_recipes():
             "neoforge:conditions": conditions(used), "type": "minecraft:smelting",
             "ingredient": {"item": ns(inp)}, "result": result, "experience": xp, "cookingtime": 200})
         count += 1
+    for name, (_, guns, mag) in NEW_AMMO.items():
+        variant = name.rpartition("_")[2] if "slug" in name else "high_velocity"
+        for gun in guns:
+            write_json(DATA / "techguns/recipe" / f"{gun}_ammo_{variant}.json", {
+                "type": "techguns:ammo_change", "ingredients": [{"item": ns(gun)}, {"item": ns(name)}], "result": {"id": ns(gun)},
+                "neoforge:conditions": conditions({ns(gun), ns(name)})})
+        if mag:
+            empty, bullet, n = mag
+            write_json(DATA / "techguns/recipe" / f"{name}.json", {
+                "type": "minecraft:crafting_shapeless", "ingredients": [{"item": ns(empty)}] + [{"item": ns(bullet)}] * n,
+                "result": {"id": ns(name)}, "neoforge:conditions": conditions({ns(name), ns(empty), ns(bullet)})})
+        count += len(guns) + bool(mag)
     return count, skipped
 
 
@@ -752,7 +788,7 @@ def write_tags_and_loot():
                        "conditions": [{"condition": "minecraft:survives_explosion"}] + lower}]})
     # Shared items 1.12 let into the ammo slots of the TG inventory.
     item_tags["techguns:ammo_slot"] = sorted(ns(m) for m in re.findall(
-        r'addsharedVariant\("(\w+)"[^;]*TGSlotType\.AMMOSLOT', LEGACY_TGITEMS.read_text()))
+        r'addsharedVariant\("(\w+)"[^;]*TGSlotType\.AMMOSLOT', LEGACY_TGITEMS.read_text())) + [ns(n) for n in NEW_AMMO]
     for kind, tags in (("item", item_tags), ("block", block_tags)):
         for tag, values in tags.items():
             tag_ns, path = tag.split(":")

@@ -1,0 +1,29 @@
+{
+  "type": "techguns:metal_press",
+  "inputs": [
+    {
+      "item": "techguns:shotgunrounds",
+      "count": 4
+    },
+    {
+      "tag": "c:ingots/lead"
+    }
+  ],
+  "results": [
+    {
+      "id": "techguns:shotgunrounds_slug",
+      "count": 4
+    }
+  ],
+  "swap": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:shotgunrounds_slug"
+    }
+  ]
+}

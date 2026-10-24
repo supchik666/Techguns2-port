@@ -1,0 +1,14 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:grimreaper"
+    },
+    {
+      "item": "techguns:rocket_nuke"
+    }
+  ],
+  "result": {
+    "id": "techguns:grimreaper"
+  }
+}

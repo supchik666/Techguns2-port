@@ -42,6 +42,17 @@ public class TGPackets {
 		}
 	}
 
+	/** Client picked {@code variant} on the ammo wheel for its main-hand gun. */
+	public record SwitchAmmo(String variant) implements CustomPacketPayload {
+		public static final Type<SwitchAmmo> TYPE = new Type<>(Techguns.id("switch_ammo"));
+		static final StreamCodec<ByteBuf, SwitchAmmo> CODEC = ByteBufCodecs.STRING_UTF8.map(SwitchAmmo::new, SwitchAmmo::variant);
+
+		@Override
+		public Type<SwitchAmmo> type() {
+			return TYPE;
+		}
+	}
+
 	/** Tells other players to play a shooter's recoil (or reload) animation. */
 	public record GunAnimation(int entityId, InteractionHand hand, boolean reload) implements CustomPacketPayload {
 		public static final Type<GunAnimation> TYPE = new Type<>(Techguns.id("gun_animation"));
@@ -68,6 +79,11 @@ public class TGPackets {
 				if (target != null && target.distanceTo(player) > GuidedMissileLauncher.LOCK_RANGE + 8) target = null;
 				gun.shootGunPrimary(stack, player.level(), player, payload.hand(), payload.zooming(), target);
 			}
+		});
+		registrar.playToServer(SwitchAmmo.TYPE, SwitchAmmo.CODEC, (payload, context) -> {
+			Player player = context.player();
+			ItemStack stack = player.getMainHandItem();
+			if (stack.getItem() instanceof GenericGun gun) gun.switchAmmo(stack, player.level(), player, InteractionHand.MAIN_HAND, payload.variant());
 		});
 		registrar.playToClient(GunAnimation.TYPE, GunAnimation.CODEC, (payload, context) -> {
 			if (context.player().level().getEntity(payload.entityId()) instanceof LivingEntity shooter

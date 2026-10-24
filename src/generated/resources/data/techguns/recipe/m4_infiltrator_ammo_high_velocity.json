@@ -1,0 +1,24 @@
+{
+  "type": "techguns:ammo_change",
+  "ingredients": [
+    {
+      "item": "techguns:m4_infiltrator"
+    },
+    {
+      "item": "techguns:assaultriflemagazine_high_velocity"
+    }
+  ],
+  "result": {
+    "id": "techguns:m4_infiltrator"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:assaultriflemagazine_high_velocity"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:m4_infiltrator"
+    }
+  ]
+}

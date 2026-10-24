@@ -375,7 +375,7 @@ public class TGuns {
 					.setCrossHair(Crosshair.QUAD_CORNERS_DOT)
 					.setAIStats(RANGE_MEDIUM, 80, 0, 0));
 	public static final DeferredItem<GenericGun> GRIMREAPER = TGItems.ITEMS.register("grimreaper",
-			() -> new GuidedMissileLauncher(AmmoTypes.ROCKETS_NO_NUKES, false, 6, 4, 40, 50.0f, TGSounds.GUIDEDMISSILE_FIRE, TGSounds.ROCKET_RELOAD, 200, 0.05f, 100, 1)
+			() -> new GuidedMissileLauncher(AmmoTypes.ROCKETS, false, 6, 4, 40, 50.0f, TGSounds.GUIDEDMISSILE_FIRE, TGSounds.ROCKET_RELOAD, 200, 0.05f, 100, 1)
 					.setLockOn(20, 80)
 					.setChargedProjectile(GuidedMissileProjectile::create)
 					.setFireWhileCharging(true)
@@ -415,7 +415,7 @@ public class TGuns {
 					.setMuzzleLight(0.2f, 0.9f, 0.5f)
 					.setAIStats(RANGE_SHORT, 30, 0, 0));
 	public static final DeferredItem<GenericGun> GUIDEDMISSILELAUNCHER = TGItems.ITEMS.register("guidedmissilelauncher",
-			() -> new GuidedMissileLauncher(AmmoTypes.ROCKETS_NO_NUKES, true, 10, 1, 40, 50.0f, TGSounds.GUIDEDMISSILE_FIRE, TGSounds.ROCKET_RELOAD, 100, 0.05f, 200, 1)
+			() -> new GuidedMissileLauncher(AmmoTypes.ROCKETS, true, 10, 1, 40, 50.0f, TGSounds.GUIDEDMISSILE_FIRE, TGSounds.ROCKET_RELOAD, 100, 0.05f, 200, 1)
 					.setLockOn(20, 80)
 					.setChargedProjectile(GuidedMissileProjectile::create)
 					.setFireWhileCharging(true)

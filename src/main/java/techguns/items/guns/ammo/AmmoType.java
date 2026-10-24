@@ -19,6 +19,7 @@ public class AmmoType {
 	public static final String EXPLOSIVE = "explosive";
 	public static final String NUKE = "nuke";
 	public static final String HIGH_VELOCITY = "high_velocity";
+	public static final String SLUG = "slug";
 
 	/** {@code bullet} is null for ammo that isn't crafted from bullets (energy cells, tanks). */
 	public record Variant(Supplier<? extends Item> ammo, Supplier<? extends Item> bullet, GenericProjectile.Kind kind) {}

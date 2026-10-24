@@ -79,6 +79,40 @@ public class GunTests {
 		});
 	}
 
+	/** The ammo wheel's switch hands back the 5 loaded shells and fills the tube with slugs, which fire one projectile. */
+	@GameTest(template = "empty")
+	public static void ammoWheelSwitchesToSlugs(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		ItemStack stack = new ItemStack(TGuns.COMBATSHOTGUN.get());
+		stack.set(TGComponents.AMMO, 5);
+		player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+		player.getInventory().add(new ItemStack(TGItems.SHOTGUN_ROUNDS_SLUG.get(), 10));
+		TGuns.COMBATSHOTGUN.get().switchAmmo(stack, helper.getLevel(), player, InteractionHand.MAIN_HAND, AmmoType.SLUG);
+		helper.assertTrue(AmmoType.SLUG.equals(stack.get(TGComponents.AMMO_VARIANT)) && TGuns.COMBATSHOTGUN.get().getAmmo(stack) == 8,
+				"not loaded with slugs: " + stack.getComponents());
+		helper.assertTrue(TGExtendedPlayer.countAmmo(player, TGItems.SHOTGUN_ROUNDS.get()) == 5, "loaded shells not handed back");
+		helper.assertTrue(TGExtendedPlayer.countAmmo(player, TGItems.SHOTGUN_ROUNDS_SLUG.get()) == 2, "should use 8 slugs");
+		TGuns.COMBATSHOTGUN.get().fireProjectiles(helper.getLevel(), player, stack, 1, 0, 1, null);
+		// mock players all stand at the world origin, so count only this one's shots
+		helper.assertTrue(helper.getLevel().getEntitiesOfClass(GenericProjectile.class, player.getBoundingBox().inflate(4), p -> p.getOwner() == player).size() == 1,
+				"a slug should be one projectile");
+		helper.succeed();
+	}
+
+	/** High velocity bullets cross the gun's range in one tick; incendiary ones fly at half the regular speed. */
+	@GameTest(template = "empty")
+	public static void bulletSpeedByKind(GameTestHelper helper) {
+		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		java.util.function.Function<GenericProjectile.Kind, GenericProjectile> shot = kind ->
+				new GenericProjectile(helper.getLevel(), player, kind, 5, 2, 20, 0, 10, 20, 2, GenericProjectile.CENTER, 0);
+		GenericProjectile regular = shot.apply(GenericProjectile.Kind.BULLET), fire = shot.apply(GenericProjectile.Kind.INCENDIARY_BULLET);
+		GenericProjectile hv = shot.apply(GenericProjectile.Kind.HIGH_VELOCITY_BULLET);
+		double v = regular.getDeltaMovement().length();
+		helper.assertTrue(Math.abs(fire.getDeltaMovement().length() - v / 2) < 1e-3, "incendiary should fly at half speed");
+		helper.assertTrue(hv.getDeltaMovement().length() > v * 20, "high velocity should be hitscan");
+		helper.succeed();
+	}
+
 	/** The gauss rifle needs a slug and an energy cell per reload, and hands back the empty cell. */
 	@GameTest(template = "empty")
 	public static void gaussRifleReloadUsesSlugAndCell(GameTestHelper helper) {

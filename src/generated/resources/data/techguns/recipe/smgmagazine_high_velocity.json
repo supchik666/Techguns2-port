@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techguns:smgmagazineempty"
+    },
+    {
+      "item": "techguns:pistolrounds_high_velocity"
+    },
+    {
+      "item": "techguns:pistolrounds_high_velocity"
+    }
+  ],
+  "result": {
+    "id": "techguns:smgmagazine_high_velocity"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:pistolrounds_high_velocity"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazine_high_velocity"
+    },
+    {
+      "type": "neoforge:item_exists",
+      "item": "techguns:smgmagazineempty"
+    }
+  ]
+}
